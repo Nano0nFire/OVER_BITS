@@ -21,41 +21,45 @@ public class CustomLifeAvatar : MonoBehaviour
     [SerializeField] CLAPartsLists modelDataList; // モデルデータ
     public int BaseModelID = 0; // ベースモデルのID
     public List<int> SelectedEquipmentIDs = new(); // 各装備品のID
-
-    GameObject PlayerObj; // プレイヤーキャラクター
-    // GameObject avatarObj; // アバター用のオブジェクト
+    [SerializeField] GameObject PlayerObj; // プレイヤーキャラクター
+    [SerializeField] List<string> partsType = new(); // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
+    [SerializeField] RuntimeAnimatorController animController; //適応させるアニメーションコントローラー
     GameObject baseModel; // ベースとなる素体
     GameObject armatureObj; // ルートボーンの親
-    [SerializeField] List<GameObject> partsList = new(); // 装備するモデルデータ
-    [SerializeField] List<Transform> bonesList = new(); // ベースモデルのボーンと装備するモデルのボーンを足したもの
-    [SerializeField] List<string> bonesNameList = new(); // bonesListのstring版
-    [SerializeField] List<string> partsType = new(); // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
-    [SerializeField] RuntimeAnimatorController animController;
+    List<GameObject> partsList = new(); // 装備するモデルデータ
+    List<Transform> bonesList = new(); // ベースモデルのボーンと装備するモデルのボーンを足したもの
+    List<string> bonesNameList = new(); // bonesListのstring版
 
-    void Start()
+    void Combiner()
     {
-        Combiner();
-    }
+        if (partsList != null) ResetSettings();
 
-    async void Combiner()
-    {
-        await SetModels();
+        SetModels();
         Debug.Log("Completed : SetModels");
-        await SetBones();
+        SetBones();
         Debug.Log("Completed : SetBones");
-        await BoneReset();
+        BoneReset();
         Debug.Log("Completed : BoneReset");
-        await AnimatorSetting();
+        AnimatorSetting();
         Debug.Log("Completed : AnimatorSetting");
-        await ClreanUpObjects();
+        ClreanUpObjects();
         Debug.Log("Completed : ClreanUpObjects");
 
         Debug.Log("ALL Tasks : Successfully executed");
     }
 
-    async Task SetModels()
+    void ResetSettings()
     {
-        PlayerObj = new("PlayerCharacter"); // プレイヤーオブジェクトの生成
+        partsList.Clear();
+        bonesList.Clear();
+        bonesNameList.Clear();
+
+        Destroy(baseModel);
+    }
+
+    void SetModels()
+    {
+        if (PlayerObj == null) PlayerObj = gameObject;
 
         baseModel = PartsInstantiate(PlayerObj, modelDataList.baseBodyList[BaseModelID]);
         baseModel.name = "Avatar";
@@ -65,12 +69,12 @@ public class CustomLifeAvatar : MonoBehaviour
 
         PartsInstantiate(baseModel, modelDataList.hairPartsList[SelectedEquipmentIDs[0]], partsList);
         PartsInstantiate(baseModel, modelDataList.facePartsList[SelectedEquipmentIDs[1]], partsList);
-        PartsInstantiate(baseModel, modelDataList.chestPartsList[SelectedEquipmentIDs[2]], partsList);
-        PartsInstantiate(baseModel, modelDataList.legPartsList[SelectedEquipmentIDs[3]], partsList);
+        PartsInstantiate(baseModel, modelDataList.topsPartsList[SelectedEquipmentIDs[2]], partsList);
+        PartsInstantiate(baseModel, modelDataList.bottomsPartsList[SelectedEquipmentIDs[3]], partsList);
         PartsInstantiate(baseModel, modelDataList.shoesPartsList[SelectedEquipmentIDs[4]], partsList);
     }
 
-    async Task SetBones()
+    void SetBones()
     {
         bonesList.AddRange(baseModel.GetComponentInChildren<SkinnedMeshRenderer>().rootBone.GetComponentsInChildren<Transform>());
         bonesList[0].parent = armatureObj.transform;
@@ -86,7 +90,7 @@ public class CustomLifeAvatar : MonoBehaviour
             bonesNameList.Add(bone.name);
     }
 
-    async Task BoneReset()
+    void BoneReset()
     {
         partsList.Add(baseModel);
 
@@ -156,13 +160,15 @@ public class CustomLifeAvatar : MonoBehaviour
         return null;
     }
 
-    async Task AnimatorSetting()
+    void AnimatorSetting()
     {
+        if (animController == null) return;
+
         Animator anim = baseModel.GetComponent<Animator>();
         anim.runtimeAnimatorController = animController;
     }
 
-    async Task ClreanUpObjects()
+    void ClreanUpObjects()
     {
         foreach (GameObject part in partsList)
         {

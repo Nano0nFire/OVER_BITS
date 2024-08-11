@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class PanelSwitcher : MonoBehaviour
 {
     [SerializeField] List<GameObject> panelList;
+    [SerializeField] int mode;
     int activePanelNum = 0;
     [SerializeField] Image Panel;
     [SerializeField] TextMeshProUGUI Text;
@@ -20,7 +21,7 @@ public class PanelSwitcher : MonoBehaviour
 
     public void OnPushButtonP(GameObject Obj)
     {
-        if (Obj.name.Contains("Inv"))
+        if (mode == 0)
         {
             InvChange(Object, DefTextColor, DefPanelColor);
             Object = Obj;
