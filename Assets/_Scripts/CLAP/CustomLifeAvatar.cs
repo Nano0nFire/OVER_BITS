@@ -18,9 +18,9 @@ using System.Threading.Tasks;
 public class CustomLifeAvatar : MonoBehaviour
 {
     public bool IsFailure{ get; private set; }
-    [SerializeField] CLAPartsLists modelDataList; // モデルデータ
-    public int BaseModelID = 0; // ベースモデルのID
-    public List<int> SelectedEquipmentIDs = new(); // 各装備品のID
+    [SerializeField] ItemDataBase modelDataList; // モデルデータ
+    public List<int> ModelListIndexs = new(); // 各装備品のリストの番号
+    public List<int> ModelIDs = new(); // 各装備品のID
     [SerializeField] GameObject PlayerObj; // プレイヤーキャラクター
     [SerializeField] List<string> partsType = new(); // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
     [SerializeField] RuntimeAnimatorController animController; //適応させるアニメーションコントローラー
@@ -30,7 +30,7 @@ public class CustomLifeAvatar : MonoBehaviour
     List<Transform> bonesList = new(); // ベースモデルのボーンと装備するモデルのボーンを足したもの
     List<string> bonesNameList = new(); // bonesListのstring版
 
-    void Combiner()
+    public void Combiner()
     {
         if (partsList != null) ResetSettings();
 
@@ -61,17 +61,18 @@ public class CustomLifeAvatar : MonoBehaviour
     {
         if (PlayerObj == null) PlayerObj = gameObject;
 
-        baseModel = PartsInstantiate(PlayerObj, modelDataList.baseBodyList[BaseModelID]);
+        baseModel = PartsInstantiate(PlayerObj, modelDataList.GetItem(ModelListIndexs[0], ModelIDs[0]).ItemModel);
         baseModel.name = "Avatar";
 
         foreach (Transform t in baseModel.GetComponentsInChildren<Transform>())
-            if (t.name == "Armature") armatureObj = t.gameObject;
+            if (t.name == "Armature")
+            {
+                armatureObj = t.gameObject;
+                break;
+            }
 
-        PartsInstantiate(baseModel, modelDataList.hairPartsList[SelectedEquipmentIDs[0]], partsList);
-        PartsInstantiate(baseModel, modelDataList.facePartsList[SelectedEquipmentIDs[1]], partsList);
-        PartsInstantiate(baseModel, modelDataList.topsPartsList[SelectedEquipmentIDs[2]], partsList);
-        PartsInstantiate(baseModel, modelDataList.bottomsPartsList[SelectedEquipmentIDs[3]], partsList);
-        PartsInstantiate(baseModel, modelDataList.shoesPartsList[SelectedEquipmentIDs[4]], partsList);
+        for (int i = 1; i < ModelListIndexs.Count; i++)
+            PartsInstantiate(baseModel, modelDataList.GetItem(ModelListIndexs[i], ModelIDs[i]).ItemModel, partsList);
     }
 
     void SetBones()

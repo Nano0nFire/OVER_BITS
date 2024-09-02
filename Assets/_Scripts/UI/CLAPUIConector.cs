@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class CLAPUIConector : MonoBehaviour
 {
-    public int ListType;
-    public int DataListNum;
+    public int listIndex; // ModelIDsのインデックス
+    public int DataListNum; // ModelIDs内のlistIndex番目の値
+    public CustomLifeAvatar cla;
 
-    public void SetCLAP(CustomLifeAvatar clap)
+    public void SetCLAP()
     {
-        clap.SelectedEquipmentIDs[ListType] = DataListNum;
+        cla.ModelIDs[listIndex] = DataListNum;
     }
 }

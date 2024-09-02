@@ -33,7 +33,43 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Escape",
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "93b664ff-c3e0-4591-83e1-4ea8014cada4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "e293d45c-3ddc-4087-a714-2ca69ec7fb2d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "0b21eea8-1dcc-4b7d-ad81-d35c66fdd6d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActionKey",
+                    "type": "Button",
+                    "id": "9128c38e-9242-49ff-a2d2-261566316cda",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MenuEscape",
                     "type": "Button",
                     "id": "1bc780bc-3879-4c25-9e4d-02573cd0049d",
                     "expectedControlType": "Button",
@@ -266,11 +302,55 @@
                 {
                     "name": "",
                     "id": "9645c296-8426-415d-87b8-ea119e305837",
-                    "path": "<Keyboard>/escape",
+                    "path": "<Keyboard>/f1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Escape",
+                    "action": "MenuEscape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e9159a0-67ec-476a-82f8-d46c490a0345",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1835dc0-780f-4854-bcce-4a307bd1e25a",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b083211e-180d-402d-81a1-b71f85d014b1",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ef4f7dc-168f-4838-bb64-f53ad04ee021",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ActionKey",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

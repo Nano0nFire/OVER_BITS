@@ -59,23 +59,33 @@
     <UnityVersion>2022.3.22f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\nakah\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.0.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\nakah\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.0.3\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="D:\application\Unity\Unity Editer\2022.3.22f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="D:\application\Unity\Unity Editer\2022.3.22f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Scripts\CLAP\CLAPartsLists.cs" />
-    <Compile Include="Assets\_Scripts\General\GeneralManager.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLASpringManager.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CustomLifeAvatar.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelSwitcher.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_MovementModule.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CLASpringSystem.cs" />
     <Compile Include="Assets\_Scripts\UI\CLAPUIConector.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_ProceduralAnimationModule.cs" />
+    <Compile Include="Assets\_Scripts\Data\ItemDataBase.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_ProceduralAnimationModule1.cs" />
+    <Compile Include="Assets\_Scripts\General\GeneralManager.cs" />
+    <Compile Include="Assets\_Scripts\UI\SlotGenerator.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\CLASpringManager.cs" />
+    <Compile Include="Assets\_Scripts\UI\UIGeneral.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\CharactorMovement_v2.cs" />
+    <Compile Include="Assets\_Scripts\UI\SubPanelSwitcher.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_AnimationControlModule.cs" />
     <Compile Include="Assets\_Scripts\UI\CLAPSlotGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Mobility_Pro\Demo_Scene_Animation_README.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
@@ -930,6 +940,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+      <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
       <Private>False</Private>
@@ -946,12 +960,28 @@
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UniTask.TextMeshPro">
+      <HintPath>Library\ScriptAssemblies\UniTask.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Animation.Rigging.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Shared.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UniTask.DOTween">
+      <HintPath>Library\ScriptAssemblies\UniTask.DOTween.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UniTask.Addressables">
+      <HintPath>Library\ScriptAssemblies\UniTask.Addressables.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.ShaderGraph.Editor">
@@ -980,6 +1010,10 @@
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UniTask.Linq">
+      <HintPath>Library\ScriptAssemblies\UniTask.Linq.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Config.Runtime">
@@ -1054,12 +1088,24 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UniTask">
+      <HintPath>Library\ScriptAssemblies\UniTask.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Animation.Rigging">
+      <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Editor">

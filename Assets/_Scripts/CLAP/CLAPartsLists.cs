@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CLA Parts Lists", menuName = "CLA", order = 1)]
 public class CLAPartsLists : ScriptableObject
 {
+    [Header("Parts List")]
     [NonReorderable] public List<GameObject> baseBodyList = new();
     [NonReorderable] public List<GameObject> hairPartsList = new();
     [NonReorderable] public List<GameObject> facePartsList = new();

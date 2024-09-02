@@ -8,62 +8,44 @@ using UnityEngine.UI;
 
 public class PanelSwitcher : MonoBehaviour
 {
-    [SerializeField] List<GameObject> panelList;
-    [SerializeField] int mode;
+    [SerializeField] List<RectTransform> panelList;
     int activePanelNum = 0;
-    [SerializeField] Image Panel;
-    [SerializeField] TextMeshProUGUI Text;
-    [SerializeField] GameObject Object;
+    [SerializeField] Button DefObject;
     [SerializeField] Color DefPanelColor;
     [SerializeField] Color DefTextColor;
     [SerializeField] Color ActPanelColor;
     [SerializeField] Color ActTextColor;
-
-    public void OnPushButtonP(GameObject Obj)
+    public void EnableUI() // UIGeneralがCanvas読み込み時に呼び出し
     {
-        if (mode == 0)
-        {
-            InvChange(Object, DefTextColor, DefPanelColor);
-            Object = Obj;
-            InvChange(Object, ActTextColor, ActPanelColor);
-        }
-        else NormalChange(Obj);
-
+        PanelChange(DefObject, ActTextColor, ActPanelColor);
     }
-    public void OnPushButtonS(int num)
+
+    public void OnPushButtonP(Button Obj) // ボタンの視覚的変化
+    {
+        PanelChange(DefObject, DefTextColor, DefPanelColor);
+        DefObject = Obj;
+        PanelChange(DefObject, ActTextColor, ActPanelColor);
+    }
+    public void OnPushButtonS(int num) // 表示させるパネルを変更
     {
         if (num >= panelList.Count) return;
-
-        panelList[activePanelNum].SetActive(false);
+        if(panelList[activePanelNum] == null) Debug.LogWarning(panelList[activePanelNum].name);
+        panelList[activePanelNum].gameObject.SetActive(false);
 
         activePanelNum = num;
 
-        panelList[activePanelNum].SetActive(true);
+        panelList[activePanelNum].gameObject.SetActive(true);
     }
-
-    private void NormalChange(GameObject obj)
+    private void PanelChange(Button obj, Color TextColor, Color PanelColor)
     {
-        if (Panel != null)
+        if (obj == null)
         {
-            Image panel = obj.GetComponentInChildren<Image>();
-            Panel.color = DefPanelColor;
-            Panel = panel;
-            Panel.color = ActPanelColor;
+            Debug.Log(gameObject.name + "missing DefObj");
+            return;
         }
+        RectTransform[] children = obj.GetComponentsInChildren<RectTransform>();
 
-        if (Text != null)
-        {
-            TextMeshProUGUI text = obj.GetComponentInChildren<TextMeshProUGUI>();
-            Text.color = DefTextColor;
-            Text = text;
-            text.color = ActTextColor;
-        }
-    }
-    private void InvChange(GameObject obj, Color TextColor, Color PanelColor)
-    {
-        Transform[] children = obj.GetComponentsInChildren<Transform>();
-
-        foreach (Transform childObj in children)
+        foreach (RectTransform childObj in children)
         {
             switch (childObj.gameObject.name)
             {
