@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Scripts\CLAP\CLAPartsLists.cs" />
+    <Compile Include="Assets\_Scripts\General\CommonEntityStatus.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CustomLifeAvatar.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelSwitcher.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CLAPlus_MovementModule.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Assets\_Scripts\CLAP\CLASpringManager.cs" />
     <Compile Include="Assets\_Scripts\UI\UIGeneral.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CharactorMovement_v2.cs" />
+    <Compile Include="Assets\_Scripts\General\PlayerStatus.cs" />
     <Compile Include="Assets\_Scripts\UI\SubPanelSwitcher.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CLAPlus_AnimationControlModule.cs" />
     <Compile Include="Assets\_Scripts\UI\CLAPSlotGenerator.cs" />

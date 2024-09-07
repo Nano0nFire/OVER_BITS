@@ -12,8 +12,9 @@ public class GeneralManager : MonoBehaviour
     public int FixedUpdateTimeSpan = 20;
     [SerializeField] UIGeneral uiGeneral;
     [SerializeField] CLAPlus_MovementModule clap_m;
+    [SerializeField] CLAPlus_AnimationControlModuel clap_a;
+    [SerializeField] PlayerStatus playerStatus;
     [SerializeField] States KeepState;
-    public States SelectedSubAction = States.dodge;
     public bool IsOpeningUI
     {
         get
@@ -65,6 +66,8 @@ public class GeneralManager : MonoBehaviour
         if (context.performed)
             {
                 uiGeneral.UIexit(MainMenu);
+                clap_m.HzInput = 0;
+                clap_m.VInput = 0;
             }
     }
     public void MoveKeyInput(InputAction.CallbackContext context)
@@ -79,7 +82,10 @@ public class GeneralManager : MonoBehaviour
         if (IsOpeningUI) return;
 
         if (context.performed)
+        {
             clap_m.Jump();
+            clap_a.Jump();
+        }
     }
     public void DashKeyInput(InputAction.CallbackContext context)
     {
@@ -135,9 +141,12 @@ public class GeneralManager : MonoBehaviour
                 else if (clap_m.IsWallRight || clap_m.IsWallLeft)
                 {
                     clap_m.Astate = States.wallRun;
+                    Debug.Log("yobareta");
                     if (ToggleClimb)
-                        clap_m.CheckWall();
-
+                    {
+                        CTSource = new();
+                        clap_m.CheckWall(CTSource.Token);
+                    }
                     break;
                 }
             }
@@ -146,7 +155,6 @@ public class GeneralManager : MonoBehaviour
                 if (clap_m.State != States.slide && clap_m.State != States.dodge && clap_m.CanSlide)
                 {
                     CTSource = new();
-
                     clap_m.Slide(CTSource.Token, clap_m.State == States.rush);
 
                     Debug.Log("Call Slide");
@@ -180,14 +188,16 @@ public class GeneralManager : MonoBehaviour
         {
             CTSource.Cancel();
 
-            switch (SelectedSubAction)
+            switch (playerStatus.SelectedActionSkill)
             {
                 case States.dodge:
                     clap_m.Dodge();
+                    clap_a.Dodge();
                     break;
 
                 case States.rush:
                     clap_m.Rush(clap_m.State == States.slide);
+                    clap_a.Rush();
                     break;
             }
         }

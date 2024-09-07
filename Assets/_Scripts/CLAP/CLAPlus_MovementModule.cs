@@ -1,20 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
-using UnityEngine.InputSystem;
-using System.Data.Common;
 using System;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Unity.Mathematics;
-using System.Xml.Schema;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor.UIElements;
-using System.Security;
+
 
 public class CLAPlus_MovementModule : MonoBehaviour
 {
@@ -23,17 +14,15 @@ public class CLAPlus_MovementModule : MonoBehaviour
     [SerializeField] Transform CameraPos;
     [SerializeField] Transform raycastPos;
     [SerializeField] LayerMask GroundLayer; // 地面のレイヤー
-    [SerializeField] float FixedUpdateTimeSpan = 0.02f;
-
 
     [Header("Movement Speed")]
     [SerializeField] float Speed;
-    [SerializeField] float DefWalkSpeed, DefDashSpeed, DefCrouchSpeed; // デフォルトの移動速度
+    static float DefWalkSpeed = 2, DefDashSpeed = 8, DefCrouchSpeed = 3; // デフォルトの移動速度
     public float ExWalkSpeed, ExDashSpeed, ExCrouchSpeed; // 追加の移動速度
     [SerializeField] float MovePowerLimiter;
-    [SerializeField] float OnGroundMovePowerLimiter, InAirMovePowerLimiter;
+    static float OnGroundMovePowerLimiter = 5, InAirMovePowerLimiter = 2;
     RaycastHit slopeHit;
-    [SerializeField] float maxSlopeAngle;
+    static float maxSlopeAngle = 18;
     float MaxGroundCheckDistance
     {
         get
@@ -83,9 +72,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
     }
     bool _isGrounded;
     bool GroundedCheck;
-    bool _onSlope;
+    [SerializeField] bool _onSlope;
 
-    bool OnSlope
+    public bool OnSlope
     {
         get
         {
@@ -102,9 +91,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
     }
 
     [Header("Jump")]
-    [SerializeField] float DefJumpPower; // デフォルトのジャンプ力
+    static float DefJumpPower = 5; // デフォルトのジャンプ力
     public float ExJumpPower; // 追加のジャンプ力
-    [SerializeField] float jumpCT = 0.5f;
+    static float jumpCT = 0.5f;
     float JumpPower
     {
         get
@@ -114,31 +103,35 @@ public class CLAPlus_MovementModule : MonoBehaviour
     }
 
     [Header("ActionSettings")]
-    public int MaxActioinPoint;
+    public int MaxActioinPoint = 1;
     public float ChargeTimePerPoint;
     public float ChargingPoint {get; private set;}
-    int ActionPoint // 空中で可能な動作の回数
+    public int ActionPoint // 空中で可能な動作の回数
     {
         get
         {
             return _ActionPoint;
         }
-        set
+        private set
         {
-            if (value < 0 || value > MaxActioinPoint)
+            if (value < 0)
                 return;
-
-            if (value == MaxActioinPoint)
+            else if (value == MaxActioinPoint)
+            {
                 IsChargingActionPoint = false;
+                _ActionPoint = value;
+            }
+            else if (value > MaxActioinPoint)
+            {
+                IsChargingActionPoint = false;
+                _ActionPoint = MaxActioinPoint;
+            }
             else ChargeActionPoint();
-
-            _ActionPoint = value;
         }
     }
     int _ActionPoint = 1;
     bool IsChargingActionPoint;
-    float actionCT;
-    public  bool canAction = true;
+    public bool canAction = true;
 
     [Header("WallRun & Climb")]
     RaycastHit rightWallHit, leftWallHit, forwardWallHit;
@@ -176,7 +169,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     [Header("Dodge")]
     [SerializeField] float dodgeCT;
-    [SerializeField] float dodgeSpeed, dodgeActionSpeed; // dodge中の移動速度とカーブの再生速度
+    [SerializeField] float dodgeSpeed = 1, dodgeActionSpeed = 1; // dodge中の移動速度とカーブの再生速度
     [SerializeField] AnimationCurve dodgeCurve;
     float dodgeAnimTime;
     Vector3 dodgeVec;
@@ -259,7 +252,10 @@ public class CLAPlus_MovementModule : MonoBehaviour
             else
             {
                 if (Astate == States.falling)
-                    CheckGround();
+                {
+                    CTSource = new();
+                    CheckGround(CTSource.Token);
+                }
                 return Astate;
             }
         }
@@ -290,6 +286,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
     }
     [SerializeField] States _Astate, _Gstate;
     public States KeepAState, KeepGState;
+    CancellationTokenSource CTSource;
 
 
     public States test;
@@ -317,15 +314,17 @@ public class CLAPlus_MovementModule : MonoBehaviour
         Movement();
     }
 
-    void MoveDirCalculator(Vector3 moveDir)
+    void MoveDirCalculator(Vector3 moveDir, bool UseYLimiter = false)
     {
         xForce = Mathf.Floor(MovePowerLimiter * (moveDir.x - rb.velocity.x) * 1000) / 1000; // 4桁目以降は切り捨て
-        yForce = Mathf.Floor(moveDir.y * 1000) / 1000; // 4桁目以降は切り捨て
+        yForce = UseYLimiter ? Mathf.Floor(MovePowerLimiter * (moveDir.y - rb.velocity.y) * 1000) / 1000 : Mathf.Floor(moveDir.y * 1000) / 1000; // 4桁目以降は切り捨て
         zForce = Mathf.Floor(MovePowerLimiter * (moveDir.z - rb.velocity.z) * 1000) / 1000; // 4桁目以降は切り捨て
     }
 
     void Movement()
     {
+        Transform transformCashed = transform;
+
         switch (State)
         {
             case States.walk:
@@ -338,12 +337,12 @@ public class CLAPlus_MovementModule : MonoBehaviour
                 }
                 else if (Mathf.Abs(SlopeAngle) < 0.5) // 平面に近い面は傾斜による調整を行わない
                 {
-                    moveDir = Speed * (transform.right * HzInput + transform.forward * VInput);
+                    moveDir = Speed * (transformCashed.right * HzInput + transformCashed.forward * VInput);
                     break;
                 }
                 else
                 {
-                    moveDir = Speed * Vector3.ProjectOnPlane(transform.right * HzInput + transform.forward * VInput, slopeHit.normal);
+                    moveDir = Speed * Vector3.ProjectOnPlane(transformCashed.right * HzInput + transformCashed.forward * VInput, slopeHit.normal);
 
                     if (MathF.Abs(rb.velocity.y) < testHZ && (MathF.Abs(xForce) + MathF.Abs(zForce)) / 2 < testHZ)
                     {
@@ -357,7 +356,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
             case States.Jump:
             case States.AirJump:
             case States.slide:
-                moveDir = Speed * (transform.right * HzInput + transform.forward * VInput);
+                moveDir = Speed * (transformCashed.right * HzInput + transformCashed.forward * VInput);
                 break;
 
             case States.wallRun:
@@ -366,11 +365,11 @@ public class CLAPlus_MovementModule : MonoBehaviour
                 break;
 
             case States.rush:
-                moveDir = Speed * (transform.right * HzInput + transform.forward * VInput);
+                moveDir = Speed * (transformCashed.right * HzInput + transformCashed.forward * VInput);
                 break;
         };
 
-        MoveDirCalculator(moveDir);
+        MoveDirCalculator(moveDir, State == States.climb);
         rb.AddForce(xForce, yForce, zForce);
     }
 
@@ -394,7 +393,8 @@ public class CLAPlus_MovementModule : MonoBehaviour
             ActionCoolTime(jumpCT);
         }
 
-        CheckGround();
+        CTSource = new();
+        CheckGround(CTSource.Token);
     }
 
     void ClimbAndWallRun()
@@ -402,11 +402,14 @@ public class CLAPlus_MovementModule : MonoBehaviour
         if (IsWallRight || IsWallLeft)
         {
             Astate = States.wallRun;
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // 上下方向への力をカットする
+
             wallNormal = IsWallRight ? rightWallHit.normal : leftWallHit.normal;
             wallForward = Vector3.Cross(wallNormal, transform.up);
+
             if ((raycastPos.forward - wallForward).magnitude > (raycastPos.forward - -wallForward).magnitude)
-            wallForward = -wallForward;
+                wallForward = -wallForward;
 
             moveDir = Speed * (transform.right * HzInput + wallForward * VInput);
 
@@ -414,6 +417,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
                 rb.AddForce(-wallNormal * 5); //壁への吸いつき
             else
             {
+                Debug.Log(1);
                 Astate = States.falling;
                 IsCheckingWall = false;
             }
@@ -421,27 +425,23 @@ public class CLAPlus_MovementModule : MonoBehaviour
         else if (IsWallForward)
         {
             Astate = States.climb;
+
             wallNormal = forwardWallHit.normal;
             wallForward = Vector3.Cross(wallNormal, transform.up);
 
             moveDir = Speed * (wallForward * HzInput + transform.up * VInput);
 
-            if (InputDir > 150 && InputDir < -150 && IsWallForward)
-            {
-                Astate = States.falling;
-                IsCheckingWall = false;
-            }
-            else
-                rb.AddForce(-wallNormal * 5); //壁への吸いつき
+            rb.AddForce(-wallNormal * 5); //壁への吸いつき
         }
         else
         {
+            Debug.Log(2);
             Astate = States.falling;
             return;
         }
     }
 
-    public async void Dodge() // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    public async void Dodge()
     {
         if (!canAction) return;
 
@@ -457,21 +457,21 @@ public class CLAPlus_MovementModule : MonoBehaviour
         beforeHzInput = HzInput;
         beforeVInput = VInput;
 
-        while (dodgeAnimTime < 1000)
+        while (dodgeAnimTime < 1)
         {
-            dodgeVec = dodgeCurve.Evaluate(dodgeAnimTime / 1000) * Speed * (beforeRightVec * beforeHzInput + beforeForwardVec * beforeVInput);
+            dodgeVec = dodgeCurve.Evaluate(dodgeAnimTime) * Speed * (beforeRightVec * beforeHzInput + beforeForwardVec * beforeVInput);
 
             rb.velocity = new Vector3(dodgeVec.x, rb.velocity.y, dodgeVec.z);
 
             await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
-            dodgeAnimTime += FixedUpdateTimeSpan * dodgeActionSpeed;
+            dodgeAnimTime += Time.deltaTime * dodgeActionSpeed;
         }
 
         Gstate = KeepGState;
         if (!IsGrounded) Astate = States.falling;
     }
 
-    public async void Rush(bool interrupt = false) // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    public async void Rush(bool interrupt = false)
     {
             if (!canAction) return;
 
@@ -492,7 +492,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
             if (!IsGrounded) Astate = States.falling;
     }
 
-    public async void Slide(CancellationToken token, bool interrupt = false) // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    public async void Slide(CancellationToken token, bool interrupt = false)
     {
         try
         {
@@ -520,7 +520,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
         }
     }
 
-    async void StateController(int t = 0) // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    async void StateController(int t = 0)
     {
         if (t != 0) await UniTask.Delay(t);
 
@@ -600,46 +600,40 @@ public class CLAPlus_MovementModule : MonoBehaviour
         CameraPos.localRotation = Quaternion.Euler(VRotation, 0, 0);
     }
 
-    async void CheckGround() // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    async void CheckGround(CancellationToken token)
     {
         if (GroundedCheck) return;
 
         GroundedCheck = true;
 
-        await UniTask.WaitUntil(() => !IsGrounded); // test
-        // do
-        // {
-        //     await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
-        // }while (!IsGrounded);
+        await UniTask.WaitUntil(() => IsGrounded, cancellationToken : token);
 
         GroundedCheck = false;
+        Debug.Log(3);
         if (State != States.rush) Astate = States.falling;
         StateController();
     }
 
-    public async void CheckWall() // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    public async void CheckWall(CancellationToken token)
     {
         if (IsCheckingWall) return;
         IsCheckingWall = true;
 
         while (!IsGrounded && IsCheckingWall)
         {
-            if (IsWallRight || IsWallLeft)
-            {
-                Astate = States.wallRun;
-                await UniTask.Delay(100);
-            }
+            await UniTask.WaitUntil(() => IsWallRight || IsWallLeft, cancellationToken : token);
 
-            await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+            Astate = States.wallRun;
+            await UniTask.Delay(100, cancellationToken : token); // 壁走りのCT
         }
         IsCheckingWall = false;
     }
 
-    async void ChargeActionPoint() // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    async void ChargeActionPoint()
     {
         if (IsChargingActionPoint) return;
 
-        IsChargingActionPoint = true;
+        IsChargingActionPoint = true; // ActionPointが
         while (IsChargingActionPoint)
         {
             await UniTask.Delay(100);
@@ -652,11 +646,11 @@ public class CLAPlus_MovementModule : MonoBehaviour
         }
     }
 
-    async void ActionCoolTime(float t) // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    async void ActionCoolTime(float t)
     {
         if (!canAction) return;
         canAction = false;
-        actionCT = 0;
+        float actionCT = 0;
 
         while (actionCT <= t)
         {
@@ -665,6 +659,10 @@ public class CLAPlus_MovementModule : MonoBehaviour
         }
 
         canAction = true;
+    }
+    void OnDestroy()
+    {
+        CTSource.Cancel();
     }
 }
 public enum States
