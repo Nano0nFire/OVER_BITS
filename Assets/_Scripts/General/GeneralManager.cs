@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using System;
 
 public class GeneralManager : MonoBehaviour
 {
@@ -28,13 +29,15 @@ public class GeneralManager : MonoBehaviour
         }
     }
     public bool ActionLock;
+    CancellationTokenSource clap_mCTSource = new();
     CancellationTokenSource CTSource = new();
+
     bool CrouchPress;
     bool watchCrouchPress;
+    bool IsCheckingWall = false;
     [Header("Movement Settings")]
     public bool ToggleDash = false; //ダッシュ切り替え or 長押しダッシュ
     public bool ToggleCrouch = false; //しゃがみ切り替え or 長押ししゃがみ
-    public bool ToggleClimb = true;
 
     [Header("Aim Settings")]
     public bool InvertAim; //垂直方向の視点操作の反転
@@ -108,85 +111,84 @@ public class GeneralManager : MonoBehaviour
 
         if (context.performed)
         {
-            Debug.Log("Call CrouchKeyInput");
             CrouchPress = true;
-            CrouchAction().Forget();
+            CrouchAction();
         }
         if (context.canceled)
         {
             CrouchPress = false;
             if (clap_m.State == States.slide)
-                CTSource.Cancel();
+                clap_mCTSource.Cancel();
 
             if (!ToggleCrouch && clap_m.State == States.crouch)
                 clap_m.Gstate = KeepState;
         }
     }
 
-    async UniTask CrouchAction()
+    async void CrouchAction()
     {
-        if (watchCrouchPress) return;
+        if (watchCrouchPress) // 処理が重ならないようにする
+            return;
+
         watchCrouchPress = true;
 
-        while (CrouchPress)
+        try
         {
-            Debug.Log("running");
-            if (!clap_m._IsGrounded)
+            while (CrouchPress)
             {
-                if (clap_m.InputDir > -30 && clap_m.InputDir < 30 && clap_m.IsWallForward)
+                if (!clap_m._IsGrounded && clap_m.Astate != States.wallRun && clap_m.Astate != States.climb)
                 {
-                    clap_m.Astate = States.climb;
-                    break;
-                }
-                else if (clap_m.IsWallRight || clap_m.IsWallLeft)
-                {
-                    clap_m.Astate = States.wallRun;
-                    Debug.Log("yobareta");
-                    if (ToggleClimb)
-                    {
-                        CTSource = new();
-                        clap_m.CheckWall(CTSource.Token);
-                    }
-                    break;
-                }
-            }
-            else
-            {
-                if (clap_m.State != States.slide && clap_m.State != States.dodge && clap_m.CanSlide)
-                {
-                    CTSource = new();
-                    clap_m.Slide(CTSource.Token, clap_m.State == States.rush);
+                    clap_mCTSource.Cancel();
+                    CTSource.Cancel();
 
-                    Debug.Log("Call Slide");
-                    break;
-                }
-                else if (ToggleCrouch)
-                {
-                    if (clap_m.Gstate == States.crouch) clap_m.Gstate = States.walk;
-                    else clap_m.Gstate = States.crouch;
+                    clap_mCTSource = new();
+                    clap_m.CheckWall(clap_mCTSource.Token);
 
                     break;
                 }
                 else
                 {
-                    KeepState = clap_m.Gstate;
-                    clap_m.Gstate = States.crouch;
+                    if (clap_m.State != States.slide && clap_m.State != States.dodge && clap_m.CanSlide)
+                    {
+                        clap_mCTSource = new();
+                        clap_m.Slide(clap_mCTSource.Token, clap_m.State == States.rush);
 
-                    break;
+                        break;
+                    }
+                    else if (ToggleCrouch)
+                    {
+                        if (clap_m.Gstate == States.crouch)
+                            clap_m.Gstate = States.walk;
+                        else
+                            clap_m.Gstate = States.crouch;
+
+                        break;
+                    }
+                    else
+                    {
+                        KeepState = clap_m.Gstate;
+                        clap_m.Gstate = States.crouch;
+
+                        break;
+                    }
                 }
+
+                await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
             }
 
-            await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+            watchCrouchPress = false;
         }
-
-        watchCrouchPress = false;
+        catch (OperationCanceledException)
+        {
+            watchCrouchPress = false;
+        }
     }
 
     public void SubAction(InputAction.CallbackContext context)
     {
         if (context.performed && clap_m.canAction)
         {
-            CTSource.Cancel();
+            clap_mCTSource.Cancel();
 
             switch (playerStatus.SelectedActionSkill)
             {
@@ -209,5 +211,33 @@ public class GeneralManager : MonoBehaviour
 
         clap_m.HzRotation = context.ReadValue<Vector2>().x;
         clap_m.VRotation = InvertAim ? context.ReadValue<Vector2>().y : -context.ReadValue<Vector2>().y;
+    }
+
+    void CheckWall(States CurrentState)
+    {
+        switch (CurrentState)
+        {
+            case States.wallRun:
+                clap_a.WallRun(clap_m.IsWallRight); // アニメーションの実行
+                break;
+
+            case States.climb:
+                clap_a.Climb();
+                break;
+        }
+
+        CTSource = new();
+
+
+        if (CurrentState == States.wallRun || CurrentState == States.climb)
+            clap_a.EndWallRunAndClimb();
+
+        IsCheckingWall = false;
+    }
+
+    void OnDestroy()
+    {
+        clap_mCTSource.Cancel();
+        CTSource.Cancel();
     }
 }

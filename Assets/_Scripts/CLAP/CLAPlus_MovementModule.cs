@@ -135,7 +135,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     [Header("WallRun & Climb")]
     RaycastHit rightWallHit, leftWallHit, forwardWallHit;
-    bool IsCheckingWall;
+    public bool IsCheckingWall;
     [SerializeField] float wallrunForce, FrontCheckDistance, SideCheckDistance, wallKickPower;
     Vector3 wallForward, wallNormal;
     float WallAngle
@@ -253,8 +253,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
             {
                 if (Astate == States.falling)
                 {
-                    CTSource = new();
-                    CheckGround(CTSource.Token);
+                    CheckGround();
                 }
                 return Astate;
             }
@@ -286,7 +285,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
     }
     [SerializeField] States _Astate, _Gstate;
     public States KeepAState, KeepGState;
-    CancellationTokenSource CTSource;
+    CancellationTokenSource CTSource = new();
 
 
     public States test;
@@ -393,8 +392,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
             ActionCoolTime(jumpCT);
         }
 
-        CTSource = new();
-        CheckGround(CTSource.Token);
+        CheckGround();
     }
 
     void ClimbAndWallRun()
@@ -417,7 +415,6 @@ public class CLAPlus_MovementModule : MonoBehaviour
                 rb.AddForce(-wallNormal * 5); //壁への吸いつき
             else
             {
-                Debug.Log(1);
                 Astate = States.falling;
                 IsCheckingWall = false;
             }
@@ -435,7 +432,8 @@ public class CLAPlus_MovementModule : MonoBehaviour
         }
         else
         {
-            Debug.Log(2);
+            Debug.Log("A1");
+
             Astate = States.falling;
             return;
         }
@@ -473,23 +471,23 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     public async void Rush(bool interrupt = false)
     {
-            if (!canAction) return;
+        if (!canAction) return;
 
-            if (!interrupt)
-                KeepGState = Gstate;
+        if (!interrupt)
+            KeepGState = Gstate;
 
-            Gstate = States.rush;
-            Astate = States.rush;
+        Gstate = States.rush;
+        Astate = States.rush;
 
-            ActionCoolTime(rushCT);
+        ActionCoolTime(rushCT);
 
-            rb.AddForce((Speed * (transform.right * HzInput + transform.forward * VInput)) + Vector3.up * JumpPower / 2, ForceMode.Impulse);
+        rb.AddForce((Speed * (transform.right * HzInput + transform.forward * VInput)) + Vector3.up * JumpPower / 2, ForceMode.Impulse);
 
-            await UniTask.Delay(TimeSpan.FromSeconds(rushActiveTime));
+        await UniTask.Delay(TimeSpan.FromSeconds(rushActiveTime));
 
-            Gstate = KeepGState;
+        Gstate = KeepGState;
 
-            if (!IsGrounded) Astate = States.falling;
+        if (!IsGrounded) Astate = States.falling;
     }
 
     public async void Slide(CancellationToken token, bool interrupt = false)
@@ -600,33 +598,61 @@ public class CLAPlus_MovementModule : MonoBehaviour
         CameraPos.localRotation = Quaternion.Euler(VRotation, 0, 0);
     }
 
-    async void CheckGround(CancellationToken token)
+    async void CheckGround()
     {
-        if (GroundedCheck) return;
+        try
+        {
+            if (GroundedCheck) return;
+            CTSource = new();
 
-        GroundedCheck = true;
+            GroundedCheck = true;
 
-        await UniTask.WaitUntil(() => IsGrounded, cancellationToken : token);
+            await UniTask.WaitUntil(() => IsGrounded, cancellationToken : CTSource.Token); // このスクリプト内で発行したTokenを使用
 
-        GroundedCheck = false;
-        Debug.Log(3);
-        if (State != States.rush) Astate = States.falling;
-        StateController();
+            GroundedCheck = false;
+
+            if (State != States.rush) Astate = States.falling;
+            StateController();
+        }
+        catch (OperationCanceledException)
+        {
+            GroundedCheck = false;
+
+            if (State != States.rush) Astate = States.falling;
+            StateController();
+        }
     }
 
-    public async void CheckWall(CancellationToken token)
+    public async void CheckWall(CancellationToken token, Action callback = null) // 呼び出し先でTokenを発行
     {
-        if (IsCheckingWall) return;
-        IsCheckingWall = true;
-
-        while (!IsGrounded && IsCheckingWall)
+        try
         {
-            await UniTask.WaitUntil(() => IsWallRight || IsWallLeft, cancellationToken : token);
+            if (IsCheckingWall) return;
+            IsCheckingWall = true;
 
-            Astate = States.wallRun;
-            await UniTask.Delay(100, cancellationToken : token); // 壁走りのCT
+            while (!IsGrounded && IsCheckingWall)
+            {
+                await UniTask.WaitUntil(() => IsWallRight || IsWallLeft || IsWallForward || !IsCheckingWall || IsGrounded, cancellationToken : token);
+
+                if (IsWallRight || IsWallLeft)
+                    Astate = States.wallRun;
+                else
+                    Astate = States.climb;
+
+                callback?.Invoke();
+
+                await UniTask.Delay(100, cancellationToken : token); // 壁走りのCT
+            }
+            IsCheckingWall = false;
+
+            Debug.LogWarning(State);
         }
-        IsCheckingWall = false;
+        catch (OperationCanceledException)
+        {
+            IsCheckingWall = false;
+
+            Debug.LogWarning(State);
+        }
     }
 
     async void ChargeActionPoint()

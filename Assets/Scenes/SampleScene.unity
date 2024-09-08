@@ -13014,7 +13014,6 @@ MonoBehaviour:
   ActionLock: 0
   ToggleDash: 1
   ToggleCrouch: 0
-  ToggleClimb: 1
   InvertAim: 0
 --- !u!114 &1853639584
 MonoBehaviour:
@@ -13364,6 +13363,10 @@ MonoBehaviour:
   triggerName_Jump: Jump
   triggerName_Rush: Rush
   triggerName_Dodge: Dodge
+  triggerName_RWallrun: R_Wallrun
+  triggerName_LWallrun: L_Wallrun
+  triggerName_Climb: Climb
+  triggerName_EndWallrunClimb: EndWallrunAndClimb
   vSpeed: 0
   hzSpeed: 0
   ySpeed: 0

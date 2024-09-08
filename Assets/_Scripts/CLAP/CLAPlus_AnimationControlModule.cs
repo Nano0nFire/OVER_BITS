@@ -21,7 +21,7 @@ public class CLAPlus_AnimationControlModuel : MonoBehaviour
         }
     }
     [SerializeField] string parameterName_vSpeed, parameterName_hzSpeed, parameterName_ySpeed, parameterName_IsGrounded;
-    [SerializeField] string triggerName_Jump, triggerName_Rush, triggerName_Dodge;
+    [SerializeField] string triggerName_Jump, triggerName_Rush, triggerName_Dodge, triggerName_RWallrun, triggerName_LWallrun, triggerName_Climb, triggerName_EndWallrunClimb;
     [SerializeField] float vSpeed, hzSpeed, ySpeed, SpeedAdjust;
 
     public Vector3 MoveDir;
@@ -64,7 +64,21 @@ public class CLAPlus_AnimationControlModuel : MonoBehaviour
     {
         anim.SetTrigger(triggerName_Jump);
     }
-
+    public void WallRun(bool IsWallRight)
+    {
+        if (IsWallRight)
+            anim.SetTrigger(triggerName_RWallrun);
+        else
+            anim.SetTrigger(triggerName_LWallrun);
+    }
+    public void Climb()
+    {
+        anim.SetTrigger(triggerName_Climb);
+    }
+    public void EndWallRunAndClimb()
+    {
+        anim.SetTrigger(triggerName_EndWallrunClimb);
+    }
     void MoveSpeedCalculate()
     {
         vSpeed = Mathf.Round(Vector3.Dot(rb.velocity, transform.forward) * 100) / 100;
