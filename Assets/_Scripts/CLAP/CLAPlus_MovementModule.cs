@@ -399,8 +399,6 @@ public class CLAPlus_MovementModule : MonoBehaviour
     {
         if (IsWallRight || IsWallLeft)
         {
-            Astate = States.wallRun;
-
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // 上下方向への力をカットする
 
             wallNormal = IsWallRight ? rightWallHit.normal : leftWallHit.normal;
@@ -421,8 +419,6 @@ public class CLAPlus_MovementModule : MonoBehaviour
         }
         else if (IsWallForward)
         {
-            Astate = States.climb;
-
             wallNormal = forwardWallHit.normal;
             wallForward = Vector3.Cross(wallNormal, transform.up);
 
@@ -432,8 +428,6 @@ public class CLAPlus_MovementModule : MonoBehaviour
         }
         else
         {
-            Debug.Log("A1");
-
             Astate = States.falling;
             return;
         }
@@ -602,10 +596,12 @@ public class CLAPlus_MovementModule : MonoBehaviour
     {
         try
         {
-            if (GroundedCheck) return;
-            CTSource = new();
+            if (GroundedCheck)
+                return;
 
             GroundedCheck = true;
+
+            CTSource = new();
 
             await UniTask.WaitUntil(() => IsGrounded, cancellationToken : CTSource.Token); // このスクリプト内で発行したTokenを使用
 
@@ -618,40 +614,56 @@ public class CLAPlus_MovementModule : MonoBehaviour
         {
             GroundedCheck = false;
 
-            if (State != States.rush) Astate = States.falling;
+            if (State != States.rush)
+                Astate = States.falling;
+
             StateController();
         }
     }
 
-    public async void CheckWall(CancellationToken token, Action callback = null) // 呼び出し先でTokenを発行
+    public async void CheckWall(CancellationToken token, Action<States> callback = null) // 呼び出し先でTokenを発行
     {
         try
         {
-            if (IsCheckingWall) return;
+            if (IsCheckingWall)
+                return;
+
             IsCheckingWall = true;
+
+            States currentState = States.falling; // 現在の状態を保存
 
             while (!IsGrounded && IsCheckingWall)
             {
-                await UniTask.WaitUntil(() => IsWallRight || IsWallLeft || IsWallForward || !IsCheckingWall || IsGrounded, cancellationToken : token);
+                // await UniTask.WaitUntil(() => IsWallRight || IsWallLeft || IsWallForward || !IsCheckingWall || IsGrounded, cancellationToken : token);
 
                 if (IsWallRight || IsWallLeft)
                     Astate = States.wallRun;
-                else
+                else if (IsWallForward)
                     Astate = States.climb;
 
-                callback?.Invoke();
+                if (currentState == Astate) // 状態に変化がない場合はそのあとの処理をスキップ
+                {
+                    await UniTask.Yield(PlayerLoopTiming.FixedUpdate); // 繰り返し処理が高速で行われないようにFixedUpdate分待つ
+                    continue;
+                }
 
+                currentState = Astate; // 保存しておいた現在の状態を更新
+
+                callback?.Invoke(currentState);
+                Debug.Log("kamikita" + currentState);
                 await UniTask.Delay(100, cancellationToken : token); // 壁走りのCT
             }
             IsCheckingWall = false;
 
             Debug.LogWarning(State);
+            callback?.Invoke(currentState);
         }
         catch (OperationCanceledException)
         {
             IsCheckingWall = false;
 
             Debug.LogWarning(State);
+            callback?.Invoke(State);
         }
     }
 

@@ -142,7 +142,7 @@ public class GeneralManager : MonoBehaviour
                     CTSource.Cancel();
 
                     clap_mCTSource = new();
-                    clap_m.CheckWall(clap_mCTSource.Token);
+                    clap_m.CheckWall(clap_mCTSource.Token, SetWallAnimation);
 
                     break;
                 }
@@ -213,7 +213,7 @@ public class GeneralManager : MonoBehaviour
         clap_m.VRotation = InvertAim ? context.ReadValue<Vector2>().y : -context.ReadValue<Vector2>().y;
     }
 
-    void CheckWall(States CurrentState)
+    void SetWallAnimation(States CurrentState)
     {
         switch (CurrentState)
         {
@@ -224,15 +224,11 @@ public class GeneralManager : MonoBehaviour
             case States.climb:
                 clap_a.Climb();
                 break;
+
+            default:
+                clap_a.EndWallRunAndClimb();
+                break;
         }
-
-        CTSource = new();
-
-
-        if (CurrentState == States.wallRun || CurrentState == States.climb)
-            clap_a.EndWallRunAndClimb();
-
-        IsCheckingWall = false;
     }
 
     void OnDestroy()
