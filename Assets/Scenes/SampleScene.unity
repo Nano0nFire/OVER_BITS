@@ -12951,7 +12951,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1853639581
 Transform:
   m_ObjectHideFlags: 0
@@ -13253,11 +13253,13 @@ MonoBehaviour:
   ExDashSpeed: 0
   ExCrouchSpeed: 0
   MovePowerLimiter: 0
+  PublicGroundCheckDistance: 0
   _onSlope: 0
   ExJumpPower: 0
   MaxActioinPoint: 5
   ChargeTimePerPoint: 1
   canAction: 1
+  IsCheckingWall: 0
   wallrunForce: 1
   FrontCheckDistance: 1
   SideCheckDistance: 0.7
@@ -13301,19 +13303,17 @@ MonoBehaviour:
   rushCT: 5
   rushSpeed: 15
   rushActiveTime: 4
-  canSlideSpeed: 0
-  slideCT: 0
-  slidePower: 30
+  CanSlide: 1
+  isSlide: 0
   HzInput: 0
   VInput: 0
   HzCameraSens: 5
   VCameraSens: 5
   _Astate: 0
   _Gstate: 0
-  KeepAState: 0
-  KeepGState: 0
+  PublicState: 0
   test: 0
-  testHZ: 1
+  testHZ: 1.5
   testV: 15
   tetsveb: {x: 0, y: 0, z: 0}
   testBooool: 0
@@ -13336,10 +13336,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.2
+  m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!114 &1853639588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13366,7 +13366,8 @@ MonoBehaviour:
   triggerName_RWallrun: R_Wallrun
   triggerName_LWallrun: L_Wallrun
   triggerName_Climb: Climb
-  triggerName_EndWallrunClimb: EndWallrunAndClimb
+  triggerName_Slide: Slide
+  triggerName_AnimationCancel: AnimationCancel
   vSpeed: 0
   hzSpeed: 0
   ySpeed: 0
@@ -17492,6 +17493,7 @@ MonoBehaviour:
   heelHight: 0.085
   rayRange: 0.05
   bodyPosLerpSpeed: 1
+  bodyRotLerpSpeed: 1
   UseIKCon: 1
 --- !u!4 &8893178975202588651
 Transform:

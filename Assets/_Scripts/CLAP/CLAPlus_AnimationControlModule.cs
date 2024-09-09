@@ -17,11 +17,11 @@ public class CLAPlus_AnimationControlModuel : MonoBehaviour
     {
         get
         {
-            return clap_m.State;
+            return clap_m.PublicState;
         }
     }
     [SerializeField] string parameterName_vSpeed, parameterName_hzSpeed, parameterName_ySpeed, parameterName_IsGrounded;
-    [SerializeField] string triggerName_Jump, triggerName_Rush, triggerName_Dodge, triggerName_RWallrun, triggerName_LWallrun, triggerName_Climb, triggerName_EndWallrunClimb;
+    [SerializeField] string triggerName_Jump, triggerName_Rush, triggerName_Dodge, triggerName_RWallrun, triggerName_LWallrun, triggerName_Climb, triggerName_Slide, triggerName_AnimationCancel;
     [SerializeField] float vSpeed, hzSpeed, ySpeed, SpeedAdjust;
 
     public Vector3 MoveDir;
@@ -75,9 +75,13 @@ public class CLAPlus_AnimationControlModuel : MonoBehaviour
     {
         anim.SetTrigger(triggerName_Climb);
     }
-    public void EndWallRunAndClimb()
+    public void Slide()
     {
-        anim.SetTrigger(triggerName_EndWallrunClimb);
+        anim.SetTrigger(triggerName_Slide);
+    }
+    public void AnimationCancel()
+    {
+        anim.SetTrigger(triggerName_AnimationCancel);
     }
     void MoveSpeedCalculate()
     {

@@ -34,7 +34,8 @@ public class GeneralManager : MonoBehaviour
 
     bool CrouchPress;
     bool watchCrouchPress;
-    bool IsCheckingWall = false;
+    bool RunningWallAnimation = false;
+
     [Header("Movement Settings")]
     public bool ToggleDash = false; //ダッシュ切り替え or 長押しダッシュ
     public bool ToggleCrouch = false; //しゃがみ切り替え or 長押ししゃがみ
@@ -117,10 +118,11 @@ public class GeneralManager : MonoBehaviour
         if (context.canceled)
         {
             CrouchPress = false;
-            if (clap_m.State == States.slide)
+
+            if (clap_m.PublicState == States.slide)
                 clap_mCTSource.Cancel();
 
-            if (!ToggleCrouch && clap_m.State == States.crouch)
+            if (!ToggleCrouch && clap_m.PublicState == States.crouch)
                 clap_m.Gstate = KeepState;
         }
     }
@@ -134,9 +136,11 @@ public class GeneralManager : MonoBehaviour
 
         try
         {
+            States stateCashed = clap_m.PublicState;
+
             while (CrouchPress)
             {
-                if (!clap_m._IsGrounded && clap_m.Astate != States.wallRun && clap_m.Astate != States.climb)
+                if (!clap_m._IsGrounded && stateCashed != States.wallRun && stateCashed != States.climb)
                 {
                     clap_mCTSource.Cancel();
                     CTSource.Cancel();
@@ -146,12 +150,13 @@ public class GeneralManager : MonoBehaviour
 
                     break;
                 }
-                else
+                else if (clap_m._IsGrounded)
                 {
-                    if (clap_m.State != States.slide && clap_m.State != States.dodge && clap_m.CanSlide)
+                    if (clap_m.CanSlide && stateCashed != States.slide && stateCashed != States.dodge)
                     {
                         clap_mCTSource = new();
-                        clap_m.Slide(clap_mCTSource.Token, clap_m.State == States.rush);
+                        clap_a.Slide();
+                        clap_m.Slide(clap_mCTSource.Token, stateCashed == States.rush, clap_a.AnimationCancel); // 第二引数でRUSH時の挙動に上書きしてスライディングをするか判別する
 
                         break;
                     }
@@ -198,7 +203,7 @@ public class GeneralManager : MonoBehaviour
                     break;
 
                 case States.rush:
-                    clap_m.Rush(clap_m.State == States.slide);
+                    clap_m.Rush(clap_m.PublicState == States.slide);
                     clap_a.Rush();
                     break;
             }
@@ -219,14 +224,22 @@ public class GeneralManager : MonoBehaviour
         {
             case States.wallRun:
                 clap_a.WallRun(clap_m.IsWallRight); // アニメーションの実行
+                RunningWallAnimation = true;
                 break;
 
             case States.climb:
                 clap_a.Climb();
+                RunningWallAnimation = true;
                 break;
 
             default:
-                clap_a.EndWallRunAndClimb();
+                if (!RunningWallAnimation) // 壁走り、壁上り以外のアニメーションを実行中ならなにもしない
+                    return;
+
+                clap_a.AnimationCancel();
+
+                Debug.Log("NANANANA");
+                RunningWallAnimation = false;
                 break;
         }
     }

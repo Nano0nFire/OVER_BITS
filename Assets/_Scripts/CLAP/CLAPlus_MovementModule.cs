@@ -17,12 +17,12 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     [Header("Movement Speed")]
     [SerializeField] float Speed;
-    static float DefWalkSpeed = 2, DefDashSpeed = 8, DefCrouchSpeed = 3; // デフォルトの移動速度
+    static readonly float DefWalkSpeed = 2, DefDashSpeed = 8, DefCrouchSpeed = 1; // デフォルトの移動速度
     public float ExWalkSpeed, ExDashSpeed, ExCrouchSpeed; // 追加の移動速度
     [SerializeField] float MovePowerLimiter;
-    static float OnGroundMovePowerLimiter = 5, InAirMovePowerLimiter = 2;
-    RaycastHit slopeHit;
-    static float maxSlopeAngle = 18;
+    static readonly float OnGroundMovePowerLimiter = 5, InAirMovePowerLimiter = 2;
+    public RaycastHit slopeHit;
+    static readonly float maxSlopeAngle = 18;
     float MaxGroundCheckDistance
     {
         get
@@ -30,15 +30,19 @@ public class CLAPlus_MovementModule : MonoBehaviour
             if (Mathf.Abs(SlopeAngle) > 0.5)
             {
                 OnSlope = true;
-                return Mathf.Abs(col.radius * (1 / Mathf.Cos(SlopeAngle * Mathf.Deg2Rad) - 1));
+                PublicGroundCheckDistance =  Mathf.Abs(col.radius * (1 / Mathf.Cos(SlopeAngle * Mathf.Deg2Rad) - 1));
             }
             else
             {
                 OnSlope = false;
-                return 0.01f;
+                PublicGroundCheckDistance =  0.01f;
             }
+
+            return PublicGroundCheckDistance;
         }
     }
+
+    public float PublicGroundCheckDistance;
     float SlopeAngle
     {
         get
@@ -91,9 +95,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
     }
 
     [Header("Jump")]
-    static float DefJumpPower = 5; // デフォルトのジャンプ力
+    static readonly float DefJumpPower = 5; // デフォルトのジャンプ力
     public float ExJumpPower; // 追加のジャンプ力
-    static float jumpCT = 0.5f;
+    static readonly float jumpCT = 0.5f;
     float JumpPower
     {
         get
@@ -134,11 +138,11 @@ public class CLAPlus_MovementModule : MonoBehaviour
     public bool canAction = true;
 
     [Header("WallRun & Climb")]
-    RaycastHit rightWallHit, leftWallHit, forwardWallHit;
+    public RaycastHit rightWallHit, leftWallHit, forwardWallHit;
     public bool IsCheckingWall;
     [SerializeField] float wallrunForce, FrontCheckDistance, SideCheckDistance, wallKickPower;
     Vector3 wallForward, wallNormal;
-    float WallAngle
+    public float WallAngle
     {
         get
         {
@@ -178,20 +182,20 @@ public class CLAPlus_MovementModule : MonoBehaviour
     [SerializeField] float rushCT;
     [SerializeField] float rushSpeed; // rush時のスピード
     public int rushActiveTime; // rush後の速度制限緩和の効果時間
+    bool isRush;
 
     [Header("Slide")]
-    [SerializeField] float canSlideSpeed;
-    [SerializeField] float slideCT;
-    [SerializeField] float slidePower;
-    public bool CanSlide
+    [HideInInspector] public bool CanSlide = true;
+    [HideInInspector] public bool isSlide;
+    float CanSlideSpeed
     {
         get
         {
-            return NowSpeed > canSlideSpeed;
+            return DefDashSpeed + ExDashSpeed - 1.2f; // ダッシュ時の速度から1.2を引いた速さを目安としてスライディングができるかどうかを判断する
         }
     }
-    bool isSliding = false;
-
+    static readonly float slideCT = 2;
+    static readonly float slidePower = 500;
 
     [Header("Parameter")]
     [HideInInspector] public float HzInput, VInput; // デバイスからの入力(GeneralManagerが常に設定)
@@ -242,8 +246,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
         }
     }
 
-
-    public States State
+    States State
     {
         get
         {
@@ -284,9 +287,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
         }
     }
     [SerializeField] States _Astate, _Gstate;
-    public States KeepAState, KeepGState;
-    CancellationTokenSource CTSource = new();
-
+    States KeepGState;
+    public States PublicState;
+    CancellationToken OnDestroyToken;
 
     public States test;
     public float testHZ, testV;
@@ -299,16 +302,19 @@ public class CLAPlus_MovementModule : MonoBehaviour
         Astate = States.falling;
         StateController();
         ActionPoint = MaxActioinPoint;
+
+        OnDestroyToken = this.GetCancellationTokenOnDestroy();
     }
 
     void FixedUpdate()
     {
-        testHZ = InputDir;
         CameraUpdate();
 
         test = State;
+        testV = NowSpeed;
 
-        if (xForce == 0 && yForce == 0 && zForce == 0 && HzInput == 0 && VInput == 0 && State != States.wallRun || State == States.dodge) return;
+        if (xForce == 0 && yForce == 0 && zForce == 0 && HzInput == 0 && VInput == 0 && State != States.wallRun && State != States.climb || State == States.dodge)
+            return;
 
         Movement();
     }
@@ -470,6 +476,8 @@ public class CLAPlus_MovementModule : MonoBehaviour
         if (!interrupt)
             KeepGState = Gstate;
 
+        isRush = true;
+
         Gstate = States.rush;
         Astate = States.rush;
 
@@ -477,19 +485,24 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
         rb.AddForce((Speed * (transform.right * HzInput + transform.forward * VInput)) + Vector3.up * JumpPower / 2, ForceMode.Impulse);
 
-        await UniTask.Delay(TimeSpan.FromSeconds(rushActiveTime));
+        await UniTask.Delay(TimeSpan.FromSeconds(rushActiveTime), cancellationToken : OnDestroyToken);
 
-        Gstate = KeepGState;
+        isRush = false;
+        Gstate = isSlide ? States.slide : KeepGState;
 
-        if (!IsGrounded) Astate = States.falling;
+        if (!IsGrounded)
+            Astate = States.falling;
     }
 
-    public async void Slide(CancellationToken token, bool interrupt = false)
+    public async void Slide(CancellationToken token, bool interrupt = false, Action callback = null)
     {
         try
         {
-            if (isSliding) return;
-            isSliding = true;
+            if (!CanSlide && NowSpeed > CanSlideSpeed)
+                return;
+
+            CanSlide = false;
+            isSlide = true;
 
             if (!interrupt)
                 KeepGState = Gstate;
@@ -498,22 +511,36 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
             rb.AddForce(slidePower * Vector3.ProjectOnPlane(transform.right * HzInput + transform.forward * VInput, slopeHit.normal));
 
-            await UniTask.WaitUntil(() => rb.velocity.magnitude < canSlideSpeed, cancellationToken : token);
+            await UniTask.WaitUntil(() => NowSpeed < CanSlideSpeed, cancellationToken : token);
 
-            isSliding = false;
+            isSlide = false;
+            callback?.Invoke(); // スライディングが終わったときに指定の関数を呼び出す
 
-            Gstate = interrupt ? States.rush : KeepGState;
+            Gstate = isRush ? States.rush : KeepGState;
+
+            await UniTask.Delay(TimeSpan.FromSeconds(slideCT), cancellationToken : OnDestroyToken);
+            CanSlide = true;
         }
         catch (OperationCanceledException)
         {
-            isSliding = false;
+            callback?.Invoke(); // キャンセルしたときに指定の関数を呼び出す
 
-            Gstate = interrupt ? States.rush : KeepGState;
+            Gstate = isRush ? States.rush : KeepGState;
+
+            await UniTask.Delay(TimeSpan.FromSeconds(slideCT), cancellationToken : OnDestroyToken);
+            CanSlide = true;
         }
+    }
+
+    public void SlideCancell()
+    {
+
     }
 
     async void StateController(int t = 0)
     {
+        PublicState = State;
+
         if (t != 0) await UniTask.Delay(t);
 
         switch (State)
@@ -577,6 +604,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
             case States.slide:
                 rb.useGravity = true;
                 MovePowerLimiter = InAirMovePowerLimiter;
+                Speed = DefDashSpeed + ExDashSpeed;
                 break;
         }
 
@@ -601,9 +629,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
             GroundedCheck = true;
 
-            CTSource = new();
-
-            await UniTask.WaitUntil(() => IsGrounded, cancellationToken : CTSource.Token); // このスクリプト内で発行したTokenを使用
+            await UniTask.WaitUntil(() => IsGrounded, cancellationToken : OnDestroyToken); // このスクリプト内で発行したTokenを使用
 
             GroundedCheck = false;
 
@@ -632,10 +658,8 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
             States currentState = States.falling; // 現在の状態を保存
 
-            while (!IsGrounded && IsCheckingWall)
+            do
             {
-                // await UniTask.WaitUntil(() => IsWallRight || IsWallLeft || IsWallForward || !IsCheckingWall || IsGrounded, cancellationToken : token);
-
                 if (IsWallRight || IsWallLeft)
                     Astate = States.wallRun;
                 else if (IsWallForward)
@@ -650,19 +674,17 @@ public class CLAPlus_MovementModule : MonoBehaviour
                 currentState = Astate; // 保存しておいた現在の状態を更新
 
                 callback?.Invoke(currentState);
-                Debug.Log("kamikita" + currentState);
+
                 await UniTask.Delay(100, cancellationToken : token); // 壁走りのCT
-            }
+            } while (!IsGrounded && IsCheckingWall);
             IsCheckingWall = false;
 
-            Debug.LogWarning(State);
-            callback?.Invoke(currentState);
+            callback?.Invoke(State);
         }
         catch (OperationCanceledException)
         {
             IsCheckingWall = false;
 
-            Debug.LogWarning(State);
             callback?.Invoke(State);
         }
     }
@@ -697,10 +719,6 @@ public class CLAPlus_MovementModule : MonoBehaviour
         }
 
         canAction = true;
-    }
-    void OnDestroy()
-    {
-        CTSource.Cancel();
     }
 }
 public enum States
