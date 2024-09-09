@@ -88,8 +88,8 @@ public class CharactorMovement_v2 : MonoBehaviour
     {
         StateController();
         moveDir = speed * (transform.right * hzInput + transform.forward * vInput);
-        xForce = moveForceLimiter * (moveDir.x - rb.velocity.x);
-        zForce = moveForceLimiter * (moveDir.z - rb.velocity.z);
+        xForce = moveForceLimiter * (moveDir.x - rb.linearVelocity.x);
+        zForce = moveForceLimiter * (moveDir.z - rb.linearVelocity.z);
     }
     void Update()
     {
@@ -127,9 +127,9 @@ public class CharactorMovement_v2 : MonoBehaviour
     #region Movement
     private void Movement()
     {
-        if (OnSlope() && hzInput == 0 && vInput == 0 && ySpeed < 0.3f && rb.velocity.magnitude < 0.4f) 
+        if (OnSlope() && hzInput == 0 && vInput == 0 && ySpeed < 0.3f && rb.linearVelocity.magnitude < 0.4f) 
         {
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
         }
         else rb.useGravity = true;
 
@@ -160,8 +160,8 @@ public class CharactorMovement_v2 : MonoBehaviour
         if ((orientation.forward - wallForward).magnitude > (orientation.forward - -wallForward).magnitude) wallForward = -wallForward;
 
         moveDir = wallrunSpeed * wallForward * wallrunForce;
-        xForce = moveForceLimiter * (moveDir.x - rb.velocity.x);
-        zForce = moveForceLimiter * (moveDir.z - rb.velocity.z);
+        xForce = moveForceLimiter * (moveDir.x - rb.linearVelocity.x);
+        zForce = moveForceLimiter * (moveDir.z - rb.linearVelocity.z);
         rb.AddForce(xForce, 0, zForce);
 
         if (!(isWallLeft && hzInput > 0) && !(isWallRight && hzInput < 0))
@@ -187,9 +187,9 @@ public class CharactorMovement_v2 : MonoBehaviour
         wallAngle = Mathf.Atan2(wallForward.z, wallForward.x) * Mathf.Rad2Deg;
 
         moveDir = climbSpeed * (wallForward * hzInput + transform.up * vInput) ;
-        xForce = climbForceLimiter * (moveDir.x - rb.velocity.x);
-        zForce = climbForceLimiter * (moveDir.z - rb.velocity.z);
-        float yForce = climbForceLimiter * (moveDir.y - rb.velocity.y);
+        xForce = climbForceLimiter * (moveDir.x - rb.linearVelocity.x);
+        zForce = climbForceLimiter * (moveDir.z - rb.linearVelocity.z);
+        float yForce = climbForceLimiter * (moveDir.y - rb.linearVelocity.y);
         rb.AddForce(xForce, yForce, zForce);
     }
     #endregion
@@ -205,7 +205,7 @@ public class CharactorMovement_v2 : MonoBehaviour
                 if (isWallRight) rb.AddForce(-transform.right * wallKickPower, ForceMode.Impulse);
                 else if (isWallLeft) rb.AddForce(transform.right * wallKickPower, ForceMode.Impulse);
                 else if (isWallForward) rb.AddForce(-transform.forward * wallKickPower, ForceMode.Impulse);
-                rb.velocity = new Vector3(rb.velocity.x, jumpPower, rb.velocity.z);
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpPower, rb.linearVelocity.z);
                 anim.SetInteger("JumpNum", 0);
                 anim.SetBool("isWallRunning", false);
             }
@@ -219,7 +219,7 @@ public class CharactorMovement_v2 : MonoBehaviour
             else if (CanDoubleJump && !Dodge)
             {
                 anim.SetInteger("JumpNum", 1);
-                rb.velocity = new Vector3(rb.velocity.x, jumpPower, rb.velocity.z);
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpPower, rb.linearVelocity.z);
                 CanDoubleJump = false;
             }
         }
@@ -235,7 +235,7 @@ public class CharactorMovement_v2 : MonoBehaviour
             anim.SetInteger("Dodge", 1);
             if (vInput == 0 && hzInput == 0)
             {
-                rb.velocity = new Vector3(rb.velocity.x, -jumpPower * 3, rb.velocity.z);
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, -jumpPower * 3, rb.linearVelocity.z);
                 CanDodge = false;
             }
             else
@@ -266,7 +266,7 @@ public class CharactorMovement_v2 : MonoBehaviour
                 float t = dodgeAnimTime / 0.8f;
                 float dodgeSpeed = dodgeCurve.Evaluate(t);
                 Vector3 dodgeVelocity = dodgeSpeed * (transform.forward * v + transform.right * hz) * 20;
-                rb.velocity = dodgeVelocity;
+                rb.linearVelocity = dodgeVelocity;
             }
             else Dodge = false;
         }
@@ -277,7 +277,7 @@ public class CharactorMovement_v2 : MonoBehaviour
                 float t = dodgeAnimTime / 0.5f;
                 float dodgeSpeed = dodgeCurve.Evaluate(t);
                 Vector3 dodgeVelocity = dodgeSpeed * (transform.forward * v + transform.right * hz) * 30;
-                rb.velocity = dodgeVelocity;
+                rb.linearVelocity = dodgeVelocity;
             }
             else Dodge = false;
         }
@@ -360,9 +360,9 @@ public class CharactorMovement_v2 : MonoBehaviour
     }
     private void InputUpdate()
     {
-        vSpeed = MathF.Round(Vector3.Dot(rb.velocity, transform.forward) * 100) / 100;
-        hzSpeed = MathF.Round(Vector3.Dot(rb.velocity, transform.right) * 100) / 100;
-        ySpeed = MathF.Round(Vector3.Dot(rb.velocity, transform.up) * 100) / 100;
+        vSpeed = MathF.Round(Vector3.Dot(rb.linearVelocity, transform.forward) * 100) / 100;
+        hzSpeed = MathF.Round(Vector3.Dot(rb.linearVelocity, transform.right) * 100) / 100;
+        ySpeed = MathF.Round(Vector3.Dot(rb.linearVelocity, transform.up) * 100) / 100;
 
         //視点hz&v更新
         hzAxisState.Update(Time.deltaTime);

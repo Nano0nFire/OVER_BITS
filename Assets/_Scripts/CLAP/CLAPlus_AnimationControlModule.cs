@@ -85,9 +85,9 @@ public class CLAPlus_AnimationControlModuel : MonoBehaviour
     }
     void MoveSpeedCalculate()
     {
-        vSpeed = Mathf.Round(Vector3.Dot(rb.velocity, transform.forward) * 100) / 100;
-        hzSpeed = Mathf.Round(Vector3.Dot(rb.velocity, transform.right) * 100) / 100;
-        ySpeed = Mathf.Round(Vector3.Dot(rb.velocity, transform.up) * 100) / 100;
+        vSpeed = Mathf.Round(Vector3.Dot(rb.linearVelocity, transform.forward) * 100) / 100;
+        hzSpeed = Mathf.Round(Vector3.Dot(rb.linearVelocity, transform.right) * 100) / 100;
+        ySpeed = Mathf.Round(Vector3.Dot(rb.linearVelocity, transform.up) * 100) / 100;
     }
 
     void SetFloat(string name, float value, float damp, bool UseAdjust = false)

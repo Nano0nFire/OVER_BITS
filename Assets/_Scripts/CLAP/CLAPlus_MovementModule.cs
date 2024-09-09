@@ -242,7 +242,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
     {
         get
         {
-            return rb.velocity.magnitude;
+            return rb.linearVelocity.magnitude;
         }
     }
 
@@ -321,9 +321,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     void MoveDirCalculator(Vector3 moveDir, bool UseYLimiter = false)
     {
-        xForce = Mathf.Floor(MovePowerLimiter * (moveDir.x - rb.velocity.x) * 1000) / 1000; // 4桁目以降は切り捨て
-        yForce = UseYLimiter ? Mathf.Floor(MovePowerLimiter * (moveDir.y - rb.velocity.y) * 1000) / 1000 : Mathf.Floor(moveDir.y * 1000) / 1000; // 4桁目以降は切り捨て
-        zForce = Mathf.Floor(MovePowerLimiter * (moveDir.z - rb.velocity.z) * 1000) / 1000; // 4桁目以降は切り捨て
+        xForce = Mathf.Floor(MovePowerLimiter * (moveDir.x - rb.linearVelocity.x) * 1000) / 1000; // 4桁目以降は切り捨て
+        yForce = UseYLimiter ? Mathf.Floor(MovePowerLimiter * (moveDir.y - rb.linearVelocity.y) * 1000) / 1000 : Mathf.Floor(moveDir.y * 1000) / 1000; // 4桁目以降は切り捨て
+        zForce = Mathf.Floor(MovePowerLimiter * (moveDir.z - rb.linearVelocity.z) * 1000) / 1000; // 4桁目以降は切り捨て
     }
 
     void Movement()
@@ -349,7 +349,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
                 {
                     moveDir = Speed * Vector3.ProjectOnPlane(transformCashed.right * HzInput + transformCashed.forward * VInput, slopeHit.normal);
 
-                    if (MathF.Abs(rb.velocity.y) < testHZ && (MathF.Abs(xForce) + MathF.Abs(zForce)) / 2 < testHZ)
+                    if (MathF.Abs(rb.linearVelocity.y) < testHZ && (MathF.Abs(xForce) + MathF.Abs(zForce)) / 2 < testHZ)
                     {
                         rb.AddForce(-testV * Mathf.Sin(SlopeAngle * Mathf.Deg2Rad) * rb.mass * Vector3.ProjectOnPlane(Vector3.down, slopeHit.normal), ForceMode.Force);
                     }
@@ -393,7 +393,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
         else if (ActionPoint != 0 && canAction)
         {
             if (State != States.rush) Astate = States.AirJump;
-            rb.velocity = new Vector3(rb.velocity.x, JumpPower, rb.velocity.z);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, JumpPower, rb.linearVelocity.z);
             ActionPoint --;
             ActionCoolTime(jumpCT);
         }
@@ -405,7 +405,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
     {
         if (IsWallRight || IsWallLeft)
         {
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // 上下方向への力をカットする
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z); // 上下方向への力をカットする
 
             wallNormal = IsWallRight ? rightWallHit.normal : leftWallHit.normal;
             wallForward = Vector3.Cross(wallNormal, transform.up);
@@ -459,7 +459,7 @@ public class CLAPlus_MovementModule : MonoBehaviour
         {
             dodgeVec = dodgeCurve.Evaluate(dodgeAnimTime) * Speed * (beforeRightVec * beforeHzInput + beforeForwardVec * beforeVInput);
 
-            rb.velocity = new Vector3(dodgeVec.x, rb.velocity.y, dodgeVec.z);
+            rb.linearVelocity = new Vector3(dodgeVec.x, rb.linearVelocity.y, dodgeVec.z);
 
             await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
             dodgeAnimTime += Time.deltaTime * dodgeActionSpeed;
