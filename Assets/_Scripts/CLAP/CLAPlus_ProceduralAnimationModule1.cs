@@ -9,15 +9,8 @@ using Unity.Mathematics;
 public class CLAPlus_ProceduralAnimationModuel1 : MonoBehaviour
 {
     [SerializeField] CLAPlus_MovementModule clap_m;
-    [SerializeField] GeneralManager generalManager;
+    [SerializeField] ClientGeneralManager generalManager;
     [SerializeField] Animator anim;
-    [SerializeField] States State;
-    // {
-    //     get
-    //     {
-    //         return clap_m.State;
-    //     }
-    // }
 
     public float HzInput, VInput;
     public Vector3 MoveDir

@@ -1,16 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Threading;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 
 public class CLAPlus_ProceduralAnimationModuel : MonoBehaviour
 {
     [SerializeField] CLAPlus_MovementModule clap_m;
-    [SerializeField] GeneralManager generalManager;
+    [SerializeField] ClientGeneralManager generalManager;
     [SerializeField] Animator anim;
 
     [Header("Bones")]
@@ -100,8 +93,8 @@ public class CLAPlus_ProceduralAnimationModuel : MonoBehaviour
             return;
         }
 
-        IKPosControl(RIKWeight, AvatarIKGoal.RightFoot, rUpperLeg, rFoot);
-        IKPosControl(LIKWeight, AvatarIKGoal.LeftFoot, lUpperLeg, lFoot);
+        FootIKControl(RIKWeight, AvatarIKGoal.RightFoot, rUpperLeg, rFoot);
+        FootIKControl(LIKWeight, AvatarIKGoal.LeftFoot, lUpperLeg, lFoot);
 
         var rootCashed = root.transform;
 
@@ -132,12 +125,12 @@ public class CLAPlus_ProceduralAnimationModuel : MonoBehaviour
     {
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, -clap_m.WallAngle, 0f), bodyRotLerpSpeed * Time.deltaTime);
     }
-    void IKPosControl(float w, AvatarIKGoal avatarIKGoal, Transform UpperLeg, Transform foot)
+    void FootIKControl(float w, AvatarIKGoal avatarIKGoal, Transform UpperLeg, Transform foot)
     {
         anim.SetIKPositionWeight(avatarIKGoal, w);
         anim.SetIKRotationWeight(avatarIKGoal, w);
 
-        if (w < 0.9f) // weightが0.9以上ならIKをスクリプト制御にする
+        if (w < 0.1f) // weightが0.1以上ならIKをスクリプト制御にする
         {
             return;
         }

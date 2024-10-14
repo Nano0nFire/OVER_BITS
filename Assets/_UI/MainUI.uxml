@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/_UI/MainUI.uss?fileID=7433441132597879392&amp;guid=28a2aceefce3ea6478ce0a7bcba57358&amp;type=3#MainUI" />
+    <ui:VisualElement name="VE_Root" style="flex-grow: 1;">
+        <ui:VisualElement name="VE_Header" style="flex-grow: 1; max-height: 83px;">
+            <ui:VisualElement name="VE_Header_Btns" style="flex-grow: 1; max-height: 80px; flex-direction: row;">
+                <ui:VisualElement name="VE_BackBtn" style="flex-grow: 1; flex-direction: row;">
+                    <ui:Button text="Button" name="Btn_Back" class="btn_Header" style="background-image: url(&quot;project://database/Assets/_Images/_BackImages/PanelImageI.png?fileID=21300000&amp;guid=45e166a377165dd49bb451cabec8f6d2&amp;type=3#PanelImageI&quot;); margin-right: 0; margin-left: 0;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="VE_MenuTabs" style="flex-grow: 1; flex-direction: row-reverse;">
+                    <ui:Button text="あああ" name="Btn_GameSettings" class="btn_Header" style="background-image: url(&quot;project://database/Assets/_Images/_BackImages/PanelImageG.png?fileID=21300000&amp;guid=5782165e623bf3445b4ca965b59268d7&amp;type=3#PanelImageG&quot;); margin-right: 0;" />
+                    <ui:Button text="Button" name="Btn_GameSettings" class="btn_Header" />
+                    <ui:Button text="Button" name="Btn_GameSettings" class="btn_Header" />
+                    <ui:Button text="Button" name="Btn_GameSettings" class="btn_Header" />
+                    <ui:Button text="Button" name="Btn_GameSettings" class="btn_Header" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1; height: auto; max-height: 3px; background-image: url(&quot;project://database/Assets/_Images/_BackImages/PanelImageE.png?fileID=21300000&amp;guid=3fea4685ded363a47aae7d27bb3f0bcd&amp;type=3#PanelImageE&quot;);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="VE_Main" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

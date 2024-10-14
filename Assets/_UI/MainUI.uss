@@ -1,0 +1,31 @@
+.btn_Header:hover {
+    -unity-background-image-tint-color: rgba(0, 166, 255, 0.56);
+    transition-duration: 0.2s;
+    -unity-font-definition: url("project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#LegacyRuntime");
+    color: rgb(255, 255, 255);
+}
+
+.btn_Header {
+    height: 70px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    background-image: url("project://database/Assets/_Images/_BackImages/PanelImageH.png?fileID=21300000&guid=a7f5468ac3cf4504e8c2d1ec80655178&type=3#PanelImageH");
+    margin-right: -22px;
+    font-size: 33px;
+    -unity-background-image-tint-color: rgba(63, 63, 63, 0.56);
+    transition-duration: 0.2s;
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#LegacyRuntime");
+}
+
+.btn_Header:focus {
+    -unity-background-image-tint-color: rgba(0, 166, 255, 0.56);
+    transition-duration: 0.2s;
+    color: rgb(0, 0, 0);
+}

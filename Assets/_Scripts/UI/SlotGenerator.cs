@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 public class SlotGenerator : MonoBehaviour
@@ -16,7 +14,7 @@ public class SlotGenerator : MonoBehaviour
     [SerializeField] Sprite DefImage;
     [SerializeField, Tooltip("0 = デフォルト, 1 = CLAモード")]
     int Mode = 0;
-    [SerializeField] CustomLifeAvatar cla;
+    public CustomLifeAvatar cla;
     [SerializeField] int claIndex;
     List<GameObject> Slots = new();
     int i = 0;

@@ -5,9 +5,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Unity.Netcode;
 
 
-public class CLAPlus_MovementModule : MonoBehaviour
+public class CLAPlus_MovementModule : NetworkBehaviour
 {
     [SerializeField] Rigidbody rb;
     [SerializeField] CapsuleCollider col;
@@ -185,8 +186,20 @@ public class CLAPlus_MovementModule : MonoBehaviour
     bool isRush;
 
     [Header("Slide")]
-    [HideInInspector] public bool CanSlide = true;
+
     [HideInInspector] public bool isSlide;
+    public bool CanSlide
+    {
+        get
+        {
+            return _CanSlide && NowSpeed > CanSlideSpeed;
+        }
+        set
+        {
+            _CanSlide = value;
+        }
+    }
+    bool _CanSlide = true;
     float CanSlideSpeed
     {
         get
@@ -308,6 +321,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!IsOwner)
+            return;
+
         CameraUpdate();
 
         test = State;
@@ -380,7 +396,10 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     public void Jump()
     {
-        if (State == States.wallRun)
+        if (!IsOwner)
+            return;
+
+        if (State == States.wallRun || State == States.climb)
         {
             Astate = States.AirJump;
             rb.AddForce(wallNormal * wallKickPower + Vector3.up * wallKickPower / 2, ForceMode.Impulse);
@@ -403,6 +422,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     void ClimbAndWallRun()
     {
+        if (!IsOwner)
+            return;
+
         if (IsWallRight || IsWallLeft)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z); // 上下方向への力をカットする
@@ -441,6 +463,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     public async void Dodge()
     {
+        if (!IsOwner)
+            return;
+
         if (!canAction) return;
 
         KeepGState = Gstate;
@@ -471,6 +496,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     public async void Rush(bool interrupt = false)
     {
+        if (!IsOwner)
+            return;
+
         if (!canAction) return;
 
         if (!interrupt)
@@ -498,8 +526,13 @@ public class CLAPlus_MovementModule : MonoBehaviour
     {
         try
         {
-            if (!CanSlide && NowSpeed > CanSlideSpeed)
+            if (!IsOwner)
                 return;
+
+            if (!CanSlide)
+            {
+                return;
+            }
 
             CanSlide = false;
             isSlide = true;
@@ -624,6 +657,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
     {
         try
         {
+            if (!IsOwner)
+                return;
+
             if (GroundedCheck)
                 return;
 
@@ -651,6 +687,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
     {
         try
         {
+            if (!IsOwner)
+                return;
+
             if (IsCheckingWall)
                 return;
 
@@ -691,6 +730,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     async void ChargeActionPoint()
     {
+        if (!IsOwner)
+            return;
+
         if (IsChargingActionPoint) return;
 
         IsChargingActionPoint = true; // ActionPointが
@@ -708,6 +750,9 @@ public class CLAPlus_MovementModule : MonoBehaviour
 
     async void ActionCoolTime(float t)
     {
+        if (!IsOwner)
+            return;
+
         if (!canAction) return;
         canAction = false;
         float actionCT = 0;
