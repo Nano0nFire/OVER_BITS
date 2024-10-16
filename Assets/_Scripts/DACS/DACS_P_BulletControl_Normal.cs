@@ -13,8 +13,13 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
 {
     [SerializeField] DACS_P_ScriptableObject configsSO; // データベース
     [SerializeField] GameObject bulletPrefab;
+    public Transform PlayerTransform; // ClientGeneralManagerから設定
     NetworkSpawnManager nwSpawnManager;
-    NativeList<ulong> nwIDsList;
+    public NetworkObject nwObject; // ClientまたはHostの時はClientGeneralManagerが設定する(PlayerObjectのnwObjectが設定される)
+    ulong ownID; // ClientOnly
+    [SerializeField] bool hasServerAuthority = false;
+    [SerializeField] bool isHost = false;
+    NativeList<ulong> nwIDsList; // ServerOnly
     [SerializeField] List<Transform> transformsList = new(); // 生成された弾を全て登録
     NativeList<BulletControl_Config> bulletConfigsList; // 弾のデータを格納(データの内容は変更可能)
     NativeList<float> bulletsElapsedList; // 各弾の着弾予想時間を格納
@@ -31,16 +36,21 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
     int currentSpawnedBulletsAmount = 0; // 処理対象の増減を感知する
     float AccessArrayUpdateTiming = 0; // 定期的にAccessArrayの更新をする
 
-    [SerializeField] int testA, testB;
-
-    void Start()
+    public void Setup()
     {
         nwSpawnManager = NetworkManager.Singleton.SpawnManager;
 
-        if (!IsServer)
-            return;
+        if (nwObject == null) // server
+            OnlyServer();
+        else if (nwObject.IsOwnedByServer) // host
+        {
+            OnlyServer();
+            OnlyClient();
+            isHost = true;
+        }
+        else // client
+            OnlyClient();
 
-        nwIDsList = new(Allocator.Persistent);
         bulletConfigsList = new(Allocator.Persistent);
         bulletsElapsedList = new(Allocator.Persistent);
         bulletIDQueue_FirstHalf = new(Allocator.Persistent); // 利用可能な弾(非アクティブな弾)の番号を確保しておく
@@ -57,15 +67,13 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
         {
             var index = bulletsIsActiveList.Length;
             var obj = Instantiate(bulletPrefab);
-            var nwObject = obj.GetComponent<NetworkObject>();
-            nwObject.Spawn();
-            nwIDsList.Add(nwObject.NetworkObjectId);
             transformsList.Add(obj.transform);
             bulletsIsActiveList.Add(false);
             bulletConfigsList.Add(new BulletControl_Config());
             bulletsElapsedList.Add(0);
             bulletIDQueue_SecondHalf.Enqueue(index);
             TargetDistanceList.Add(0);
+            if (hasServerAuthority) nwIDsList.Add(0);
         }
 
         queryParameters = new QueryParameters
@@ -76,19 +84,22 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
             hitBackfaces = false
         };
     }
+    void OnlyServer()
+    {
+        nwIDsList = new(Allocator.Persistent);
+        hasServerAuthority = true;
+    }
+    void OnlyClient()
+    {
+        ownID = nwObject.NetworkObjectId;
+    }
 
     void Update()
     {
-        if (!IsServer)
-            return;
-
         float t = Time.deltaTime;
         AccessArrayUpdateTiming += t;
 
         SetArrays();
-
-        testA = bulletIDQueue_FirstHalf.Count;
-        testB = bulletIDQueue_SecondHalf.Count;
 
         var controlJobHandle = new ControlJob() // 弾を移動させるJobを設定
         {
@@ -140,23 +151,31 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
         DisableBulletIDArray.Dispose();
         DisableBulletIDQueue.Clear();
     }
-
-    public void SetBullet(Vector3 shotPos, Vector3 forward,int id, int amount)
+    public void SetBulletLocal(Vector3 shotPos, Vector3 forward,int id, int amount)
     {
-        if (!IsServer)
-            return;
-
+        int seed = UnityEngine.Random.Range(0, 100);
+        ShotServerRpc(shotPos, forward, seed, id, amount, ownID);
         for (int i = 0; i < amount; i++)
         {
             var index = GetBullet(shotPos);
 
             var config = configsSO.P_ScriptableObject[id];
 
+            var spreadHz = config.ProjectileSpreadHz;
+
+            System.Random randomX = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
+            System.Random randomY = new(seed + i + 1);
+            System.Random randomZ = new(seed + i + 2);
+
+            int rX = randomX.Next(-50, 50);
+            int rY = randomY.Next(-50, 50);
+            int rZ = randomZ.Next(-50, 50);
+
             Vector3 dir = // 弾の進行方向を計算
                 Quaternion.Euler(
-                    UnityEngine.Random.Range(-config.ProjectileSpreadHz, config.ProjectileSpreadHz),
-                    UnityEngine.Random.Range(-config.ProjectileSpreadV, config.ProjectileSpreadV),
-                    UnityEngine.Random.Range(-config.ProjectileSpreadHz, config.ProjectileSpreadHz)) // 拡散率を適応
+                    spreadHz * rX / 50,
+                    spreadHz * rY / 50,
+                    spreadHz * rZ / 50) // 拡散率を適応
                 * forward;
 
             var data = new BulletControl_Config()
@@ -171,9 +190,82 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
         }
     }
 
-    int GetBullet(Vector3 pos)
+    public void SetBulletClient(Vector3 shotPos, Vector3 forward, int seed,DACS_P_Configs config, int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            var index = GetBullet(shotPos);
+
+            var spreadHz = config.ProjectileSpreadHz;
+
+            System.Random randomX = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
+            System.Random randomY = new(seed + i + 1);
+            System.Random randomZ = new(seed + i + 2);
+
+            int rX = randomX.Next(-50, 50);
+            int rY = randomY.Next(-50, 50);
+            int rZ = randomZ.Next(-50, 50);
+
+            Vector3 dir = // 弾の進行方向を計算
+                Quaternion.Euler(
+                    spreadHz * rX / 50,
+                    spreadHz * rY / 50,
+                    spreadHz * rZ / 50) // 拡散率を適応
+                * forward;
+
+            var data = new BulletControl_Config()
+            {
+                Speed = config.ProjectileSpeed, // データベース内の弾速を参照
+                DropForce = config.ProjectileDrop, // 弾の落下を参照
+                Estimate = config.MaxRange / config.ProjectileSpeed, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする)
+                Dir = dir.normalized // 進行方向を設定
+            };
+
+            bulletConfigsList[index] = data; // データを格納
+        }
+    }
+    public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed,int id, int amount, ulong nwID)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            var index = GetBullet(shotPos, nwID);
+
+            var config = configsSO.P_ScriptableObject[id];
+
+            var spreadHz = config.ProjectileSpreadHz;
+
+            System.Random randomX = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
+            System.Random randomY = new(seed + i + 1);
+            System.Random randomZ = new(seed + i + 2);
+
+            int rX = randomX.Next(-50, 50);
+            int rY = randomY.Next(-50, 50);
+            int rZ = randomZ.Next(-50, 50);
+
+            Vector3 dir = // 弾の進行方向を計算
+                Quaternion.Euler(
+                    spreadHz * rX / 50,
+                    spreadHz * rY / 50,
+                    spreadHz * rZ / 50) // 拡散率を適応
+                * forward;
+
+            var data = new BulletControl_Config()
+            {
+                Speed = config.ProjectileSpeed, // データベース内の弾速を参照
+                DropForce = config.ProjectileDrop, // 弾の落下を参照
+                Estimate = config.MaxRange / config.ProjectileSpeed, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする)
+                Dir = dir.normalized // 進行方向を設定
+            };
+
+            bulletConfigsList[index] = data; // データを格納
+            nwIDsList[index] = nwID;
+        }
+    }
+
+    int GetBullet(Vector3 pos, ulong nwID = 0)
     {
         int index;
+        Debug.Log(nwID);
         if (bulletIDQueue_FirstHalf.Count > 0) // 優先度の高い弾があればそちらから使う
         {
             index = bulletIDQueue_FirstHalf.Dequeue();
@@ -186,21 +278,19 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
         {
             index = bulletsIsActiveList.Length;
             var obj = Instantiate(bulletPrefab);
-            var nwObject = obj.GetComponent<NetworkObject>();
-            nwObject.Spawn();
-            nwIDsList.Add(nwObject.NetworkObjectId);
             transformsList.Add(obj.transform);
             bulletConfigsList.Add(new BulletControl_Config());
             bulletsElapsedList.Add(0);
             bulletsIsActiveList.Add(true);
             TargetDistanceList.Add(0);
+            if (nwID != 0)nwIDsList.Add(nwID);
         }
 
         // transformsList[index].GetComponent<TrailRenderer>().Clear();
         var t = transformsList[index];
 
         t.gameObject.SetActive(true);
-        SetActiveClientRpc(nwIDsList[index], true);
+        // t.GetComponent<NetworkTransform>().Teleport(pos, new quaternion(), Vector3.one);
         t.position = pos;
         t.GetComponent<TrailRenderer>().Clear();
         bulletsIsActiveList[index] = true;
@@ -212,7 +302,6 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
     void ReturnBullet(int index)
     {
         transformsList[index].gameObject.SetActive(false);
-        SetActiveClientRpc(nwIDsList[index], false);
 
         if (index >= transformsList.Count / 2)
         {
@@ -362,21 +451,38 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ShotServerRpc(Vector3 position, Vector3 forward, int id, int amount)
+    public void ShotServerRpc(Vector3 position, Vector3 forward, int seed, int id, int amount, ulong nwID)
     {
-        if (!IsOwner)
-            return;
+        Debug.Log("Call SErverRPC");
 
-        SetBullet(position, forward, id, amount);
+        SetBulletServer(position, forward, seed, id, amount, nwID);
+        SetBulletClientRpc(position, forward, seed, id, amount, nwID);
     }
 
     [ClientRpc]
-    public void SetActiveClientRpc(ulong targetNetworkId, bool active)
+    public void SetBulletClientRpc(Vector3 position, Vector3 forward, int seed,int id, int amount, ulong nwID)
     {
-        if (IsOwner)
+        Debug.Log("Call SErverRPC IsHost : " + isHost + " nwID : :" + (nwID == ownID));
+        if (isHost || nwID == ownID)
             return;
 
-        NetworkObject targetObject = nwSpawnManager.SpawnedObjects[targetNetworkId];
-        targetObject.gameObject.SetActive(active);
+        var config = configsSO.P_ScriptableObject[id];
+        float maxRange = config.MaxRange;
+        float maxDistance = maxRange * 0.35f;
+        var playerPos = PlayerTransform.position;
+
+        // プレイヤーと弾道の距離が離れすぎていたらシュミレーションを中止
+        if (Vector3.Distance(playerPos, forward * maxRange) < maxDistance || // 終点
+            Vector3.Distance(playerPos, 0.5f * maxRange * forward) < maxDistance || // 中間点
+            Vector3.Distance(playerPos, position) < maxDistance) // 始点
+                {Debug.Log("shoot");
+                    SetBulletClient(position, forward, seed, config, amount);}
+    }
+
+    void LinearCal(Vector3 a, Vector3 b)
+    {
+        float num = a.x - b.x;
+        float num2 = a.y - b.y;
+        float num3 = a.z - b.z;
     }
 }

@@ -1186,10 +1186,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1358839088}
-  - component: {fileID: 1358839091}
   - component: {fileID: 1358839087}
   - component: {fileID: 1358839090}
   - component: {fileID: 1358839089}
+  - component: {fileID: 1358839091}
   m_Layer: 0
   m_Name: Master
   m_TagString: Untagged
@@ -1213,6 +1213,8 @@ MonoBehaviour:
   configsSO: {fileID: 11400000, guid: 8473b56af8885f8459f8d0aec7512d87, type: 2}
   bulletPrefab: {fileID: 4191097979630892103, guid: 47d3974e940cb64428c1730a547e6f0a,
     type: 3}
+  PlayerTransform: {fileID: 0}
+  nwObject: {fileID: 0}
   transformsList: []
   testA: 0
   testB: 0
@@ -1444,6 +1446,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f65a76e8-bd12-4b93-9cbf-9ca918c2c297
     m_ActionName: 'General/RightClick[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 95eb8e7d-1350-42a4-a87b-be966b5d0a5a
+    m_ActionName: 'General/SwitchViewMode[/Keyboard/f5]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: General

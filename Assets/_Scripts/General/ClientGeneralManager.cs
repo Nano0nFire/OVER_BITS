@@ -98,6 +98,9 @@ public class ClientGeneralManager : NetworkBehaviour
         GetComponent<Rigidbody>().useGravity = true;
 
         test = masterObj.GetComponent<DACS_P_BulletControl_Normal>();
+        test.PlayerTransform = CameraPos;
+        test.nwObject = nwObject;
+        test.Setup();
         InputSetUp();
         clap_a.isOwner = isOwner;
 
@@ -325,7 +328,7 @@ public class ClientGeneralManager : NetworkBehaviour
         if (context.performed)
         {
             var xform = CameraPos.transform;
-            test.ShotServerRpc(xform.position, xform.forward, 0, 1);
+            test.SetBulletLocal(xform.position, xform.forward,0, 1);
         }
     }
 
