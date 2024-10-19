@@ -25,12 +25,14 @@ public class PlayerDataManager : MonoBehaviour
         await UnityServices.InitializeAsync();
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         PlayerAccountService.Instance.SignedIn += SignedIn;
-        PlayerAccountService.Instance.SignOut();
     }
 
     public async Task InitSignIn() // SignIn呼び出し
     {
-        await PlayerAccountService.Instance.StartSignInAsync();
+        if (AuthenticationService.Instance.IsSignedIn)
+            await LoadData();
+        else
+            await PlayerAccountService.Instance.StartSignInAsync();
     }
 
     async void SignedIn() // SignIn開始
@@ -52,7 +54,6 @@ public class PlayerDataManager : MonoBehaviour
         try
         {
             await AuthenticationService.Instance.SignInWithUnityAsync(accessToken);
-            Debug.Log("SignIn is successful.");
 
             PlayerProfile playerProfile = new()
             {
@@ -117,17 +118,24 @@ public class PlayerDataManager : MonoBehaviour
     }
     public async Task LoadData()
     {
-        var savedData = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string>{"PlayerProfileData"});
+        try
+        {
+            var savedData = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string>{"PlayerProfileData"});
 
-        var item = savedData["PlayerProfileData"];
-        var jsonData = item.Value.GetAsString();
+            var item = savedData["PlayerProfileData"];
+            var jsonData = item.Value.GetAsString();
 
-        // デシリアライズして元のデータ形式に変換
-        var playerData = JsonUtility.FromJson<PlayerProfileData>(jsonData);
+            // デシリアライズして元のデータ形式に変換
+            var playerData = JsonUtility.FromJson<PlayerProfileData>(jsonData);
 
-        _LoadedPlayerProfileData.PlayerID = playerData.PlayerID;
-        _LoadedPlayerProfileData.PlayerName = playerData.PlayerName;
-        _LoadedPlayerProfileData.Level = playerData.Level;
+            _LoadedPlayerProfileData.PlayerID = playerData.PlayerID;
+            _LoadedPlayerProfileData.PlayerName = playerData.PlayerName;
+            _LoadedPlayerProfileData.Level = playerData.Level;
+        }
+        catch (KeyNotFoundException)
+        {
+            await SaveData();
+        }
     }
 }
 

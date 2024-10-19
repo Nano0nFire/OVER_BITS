@@ -40,8 +40,9 @@ public class UI_PlayerDataManager : MonoBehaviour
     {
         await pdManager.SetPlayerNameAsync(PlayerNameField.text);
         await pdManager.SaveData();
-        PlayerName.text = pdManager.LoadedPlayerProfileData.PlayerName;
-        PlayerID.text = pdManager.LoadedPlayerProfileData.PlayerID;
+        await pdManager.LoadData();
+        PlayerName.text = "Player Name : " + pdManager.LoadedPlayerProfileData.PlayerName;
+        PlayerID.text = "ID : " + pdManager.LoadedPlayerProfileData.PlayerID;
         PlayerSettingPanel.SetActive(false);
         StartGamePanel.SetActive(true);
     }
