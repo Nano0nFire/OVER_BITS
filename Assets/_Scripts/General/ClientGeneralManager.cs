@@ -52,28 +52,8 @@ public class ClientGeneralManager : NetworkBehaviour
     [Header("Aim Settings")]
     CinemachineVirtualCamera CVCamera;
     public bool InvertAim; //垂直方向の視点操作の反転
-    public float HzCameraSens //水平方向の視点感度
-    {
-        get
-        {
-            return clap_m.HzCameraSens;
-        }
-        set
-        {
-            clap_m.HzCameraSens = value;
-        }
-    }
-    public float VCameraSens //水s直方向の視点感度
-    {
-        get
-        {
-            return clap_m.VCameraSens;
-        }
-        set
-        {
-            clap_m.VCameraSens = value;
-        }
-    }
+    public float HzCameraSens; //水平方向の視点感度
+    public float VCameraSens; //水s直方向の視点感度
     public bool FirstPersonMode;
     public override async void OnNetworkSpawn()
     {

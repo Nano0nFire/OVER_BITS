@@ -10,12 +10,6 @@ public class UIGeneral : MonoBehaviour
     public CustomLifeAvatar cla;
     [SerializeField] List<PanelSwitcher> psList;
     [SerializeField] List<SlotGenerator> SGList;
-    NetworkManager nwManager;
-
-    void Start()
-    {
-        nwManager = NetworkManager.Singleton;
-    }
 
     void OnEnable()
     {
@@ -44,16 +38,5 @@ public class UIGeneral : MonoBehaviour
     public void CLACombine()
     {
         cla.Combiner();
-    }
-
-    public void StartHost()
-    {
-        nwManager.StartHost();
-        nwManager.SceneManager.LoadScene("TestWorld", LoadSceneMode.Single);
-    }
-
-    public void StartClient()
-    {
-        nwManager.StartClient();
     }
 }

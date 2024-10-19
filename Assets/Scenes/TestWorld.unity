@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &227493395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1186,10 +1186,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1358839088}
+  - component: {fileID: 1358839091}
   - component: {fileID: 1358839087}
   - component: {fileID: 1358839090}
   - component: {fileID: 1358839089}
-  - component: {fileID: 1358839091}
   m_Layer: 0
   m_Name: Master
   m_TagString: Untagged
@@ -1215,9 +1215,9 @@ MonoBehaviour:
     type: 3}
   PlayerTransform: {fileID: 0}
   nwObject: {fileID: 0}
+  hasServerAuthority: 0
+  isHost: 0
   transformsList: []
-  testA: 0
-  testB: 0
 --- !u!4 &1358839088
 Transform:
   m_ObjectHideFlags: 0
