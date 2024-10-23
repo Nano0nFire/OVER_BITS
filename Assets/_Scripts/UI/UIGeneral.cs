@@ -35,6 +35,11 @@ public class UIGeneral : MonoBehaviour
         }
     }
 
+    public void LoadInfoPanel(ItemID itemID)
+    {
+
+    }
+
     public void CLACombine()
     {
         cla.Combiner();

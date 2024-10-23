@@ -6,19 +6,19 @@ using Unity.Services.Authentication;
 using Unity.Services.Authentication.PlayerAccounts;
 using Unity.Services.CloudSave;
 using System.Threading.Tasks;
-using TMPro;
+using Unity.Entities.UniversalDelegates;
 
 public class PlayerDataManager : MonoBehaviour
 {
     public int Level;
-    public PlayerProfileData LoadedPlayerProfileData
+    public PlayerProfile LoadedPlayerProfileData
     {
         get
         {
             return _LoadedPlayerProfileData;
         }
     }
-    PlayerProfileData _LoadedPlayerProfileData;
+    PlayerProfile _LoadedPlayerProfileData;
 
     async void Start()
     {
@@ -27,11 +27,11 @@ public class PlayerDataManager : MonoBehaviour
         PlayerAccountService.Instance.SignedIn += SignedIn;
     }
 
-    public async Task InitSignIn() // SignIn呼び出し
+    public async Task InitSignIn()
     {
-        if (AuthenticationService.Instance.IsSignedIn)
-            await LoadData();
-        else
+        if (AuthenticationService.Instance.IsSignedIn) // 以前ログインしていたならロードだけする
+            _LoadedPlayerProfileData = await LoadData<PlayerProfile>();
+        else // 履歴がないならログインする
             await PlayerAccountService.Instance.StartSignInAsync();
     }
 
@@ -41,7 +41,7 @@ public class PlayerDataManager : MonoBehaviour
         {
             var accessToken = PlayerAccountService.Instance.AccessToken;
             await SignInWithUnityAsync(accessToken);
-
+            _LoadedPlayerProfileData = await LoadData<PlayerProfile>();
         }
         catch (Exception ex)
         {
@@ -54,19 +54,9 @@ public class PlayerDataManager : MonoBehaviour
         try
         {
             await AuthenticationService.Instance.SignInWithUnityAsync(accessToken);
-
-            PlayerProfile playerProfile = new()
-            {
-                playerInfo = AuthenticationService.Instance.PlayerInfo,
-                PlayerName = await AuthenticationService.Instance.GetPlayerNameAsync()
-            };
-
-            await LoadData();
         }
         catch (AuthenticationException ex)
         {
-            await SaveData();
-            await LoadData();
             Debug.LogException(ex);
         }
         catch (RequestFailedException ex)
@@ -96,45 +86,47 @@ public class PlayerDataManager : MonoBehaviour
             Debug.LogError("Request failed: " + ex.Message);
         }
     }
-    public async Task SaveData()
+    public async Task SaveData<T>(T PlayerData)
     {
-        PlayerProfileData playerData = new()
-        {
-            PlayerID = AuthenticationService.Instance.PlayerInfo.Id,
-            PlayerName = await AuthenticationService.Instance.GetPlayerNameAsync(),
-            Level = Level
-        };
+        string jsonData = JsonUtility.ToJson(PlayerData);
 
-        string jsonData = JsonUtility.ToJson(playerData);
+        var tempKey = typeof(T).ToString();
+        var lastDot = tempKey.LastIndexOf('.');
+        if (lastDot != -1)
+            tempKey = tempKey[lastDot..]; // 型名のネームスペース部分を消す
 
         var data = new Dictionary<string, object>
         {
-            { "PlayerProfileData", jsonData }
+            {tempKey, jsonData}
         };
 
         await CloudSaveService.Instance.Data.Player.SaveAsync(data);
 
         Debug.Log("Save done");
     }
-    public async Task LoadData()
+    public async Task<T> LoadData<T>() where T : struct
     {
         try
         {
-            var savedData = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string>{"PlayerProfileData"});
+            var tempKey = typeof(T).ToString();
+            var lastDot = tempKey.LastIndexOf('.');
+            if (lastDot != -1)
+                tempKey = tempKey[lastDot..]; // 型名のネームスペース部分を消す
 
-            var item = savedData["PlayerProfileData"];
+            var savedData = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string>{tempKey});
+
+            var item = savedData[tempKey];
             var jsonData = item.Value.GetAsString();
 
             // デシリアライズして元のデータ形式に変換
-            var playerData = JsonUtility.FromJson<PlayerProfileData>(jsonData);
-
-            _LoadedPlayerProfileData.PlayerID = playerData.PlayerID;
-            _LoadedPlayerProfileData.PlayerName = playerData.PlayerName;
-            _LoadedPlayerProfileData.Level = playerData.Level;
+            return JsonUtility.FromJson<T>(jsonData);
         }
-        catch (KeyNotFoundException)
+        catch (KeyNotFoundException) // データがない場合
         {
-            await SaveData();
+            var data = new T();
+            await SaveData<T>(data); // 新規データの作成
+            var loadedData = await LoadData<T>(); // 作成後のデータをロード
+            return loadedData;
         }
     }
 }
@@ -142,9 +134,8 @@ public class PlayerDataManager : MonoBehaviour
 [Serializable]
 public struct PlayerProfile
 {
-    public PlayerInfo playerInfo;
+    public string PlayerID;
     public string PlayerName;
-    public float Level;
 }
 [Serializable]
 public struct PlayerProfileData

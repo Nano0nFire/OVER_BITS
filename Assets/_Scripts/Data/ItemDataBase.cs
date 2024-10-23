@@ -14,16 +14,6 @@ public class ItemDataConfigs
     public bool ItemLock;
     public bool CanStack;
     public int StackAmount;
-
-    public enum ItemRarities
-    {
-        normal,
-        uncommon,
-        rare,
-        epic,
-        legend,
-        named,
-    }
 }
 
 [CreateAssetMenu(fileName = "ItemData", menuName = "Data", order = 1)]
@@ -35,7 +25,7 @@ public class ItemDataBase : ScriptableObject
     [NonReorderable] public List<ItemDataConfigs> DrillDataList = new(); //3
     [NonReorderable] public List<ItemDataConfigs> HammerDataList = new(); //4
     [NonReorderable] public List<ItemDataConfigs> ShieldDataList = new(); //5
-    [NonReorderable] public List<ItemDataConfigs> BowDataList = new(); //6
+    [NonReorderable] public List<ItemDataConfigs> ConsumablesDataList = new(); //6
     [NonReorderable] public List<ItemDataConfigs> ArrowDataList = new(); //7
     [NonReorderable] public List<ItemDataConfigs> MagicDataList = new(); //8
     [NonReorderable] public List<ItemDataConfigs> FishingRodDataList = new(); //9
@@ -73,7 +63,7 @@ public class ItemDataBase : ScriptableObject
             3 => DrillDataList,
             4 => HammerDataList,
             5 => ShieldDataList,
-            6 => BowDataList,
+            6 => ConsumablesDataList,
             7 => ArrowDataList,
             8 => MagicDataList,
             9 => FishingRodDataList,
@@ -103,9 +93,30 @@ public class ItemDataBase : ScriptableObject
             _ => null,
         };
     }
-    public ItemDataConfigs GetItem(int FirstNum, int SecondNum)
+    public ItemDataConfigs GetItem(int FirstIndex, int SecondIndex)
     {
-        List<ItemDataConfigs> list = GetList(FirstNum);
-        return list[SecondNum];
+        List<ItemDataConfigs> list = GetList(FirstIndex);
+        return list[SecondIndex];
     }
+}
+
+public struct ItemID
+{
+    public int FirstIndex;
+    public int SecondIndex;
+    public int Amount;
+    public List<int> Mods;
+    public List<int> Enchants;
+    public int PriAddon;
+    public int SecAddon;
+    public List<int> Attributes;
+}
+public enum ItemRarities
+{
+    normal,
+    uncommon,
+    rare,
+    epic,
+    legend,
+    named,
 }

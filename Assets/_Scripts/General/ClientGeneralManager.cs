@@ -21,6 +21,8 @@ public class ClientGeneralManager : NetworkBehaviour
     [SerializeField] PlayerStatus playerStatus;
     [SerializeField] Transform CameraPos;
     [SerializeField] NetworkObject nwObject;
+    [SerializeField] DACS_InventorySystem invSystem;
+    PlayerDataManager pdManager;
     GameObject masterObj;
     DACS_P_BulletControl_Normal test;
     States KeepState;
@@ -76,6 +78,9 @@ public class ClientGeneralManager : NetworkBehaviour
         uiGeneral.generalManager = this;
         uiGeneral.cla = GetComponent<CustomLifeAvatar>();
         GetComponent<Rigidbody>().useGravity = true;
+        pdManager = GameObject.Find("PlayerDataManager").GetComponent<PlayerDataManager>();
+        invSystem.pdManager = pdManager;
+        invSystem.SetUp();
 
         test = masterObj.GetComponent<DACS_P_BulletControl_Normal>();
         test.PlayerTransform = CameraPos;

@@ -1,9 +1,14 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using UnityEngine;
-using Unity.Netcode;
+using Unity.Services.Core;
+using Unity.Services.Authentication;
+using Unity.Services.Authentication.PlayerAccounts;
+using Unity.Services.CloudSave;
+using System.Threading.Tasks;
 using TMPro;
+using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 public class UI_PlayerDataManager : MonoBehaviour
 {
@@ -39,8 +44,13 @@ public class UI_PlayerDataManager : MonoBehaviour
     public async void Enter()
     {
         await pdManager.SetPlayerNameAsync(PlayerNameField.text);
-        await pdManager.SaveData();
-        await pdManager.LoadData();
+        PlayerProfile playerData = new()
+        {
+            PlayerID = AuthenticationService.Instance.PlayerInfo.Id,
+            PlayerName = await AuthenticationService.Instance.GetPlayerNameAsync()
+        };
+        await pdManager.SaveData<PlayerProfile>(playerData);
+        await pdManager.LoadData<PlayerProfile>();
         PlayerName.text = "Player Name : " + pdManager.LoadedPlayerProfileData.PlayerName;
         PlayerID.text = "ID : " + pdManager.LoadedPlayerProfileData.PlayerID;
         PlayerSettingPanel.SetActive(false);

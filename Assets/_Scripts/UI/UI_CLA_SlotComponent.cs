@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CLAPUIConector : MonoBehaviour
+public class UI_CLA_SlotComponent : MonoBehaviour
 {
     public int listIndex; // ModelIDsのインデックス
     public int DataListNum; // ModelIDs内のlistIndex番目の値
     public CustomLifeAvatar cla;
 
-    public void SetCLAP()
+    public void OnClick()
     {
         cla.ModelIDs[listIndex] = DataListNum;
     }

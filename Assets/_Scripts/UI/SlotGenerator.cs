@@ -2,13 +2,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public class SlotGenerator : MonoBehaviour
+public class SlotGenerator : MonoBehaviour // UI-SlotParentにアタッチ
 {
 
-    [SerializeField] GameObject BaseSlotObj;
+    [SerializeField] UIGeneral uiGeneral;
+    [SerializeField] GameObject BaseSlotPrefab;
+    public IReadOnlyList<ItemID> itemIDsList;
     [SerializeField] int GridSideMax = 9;
     [SerializeField] int SellSize = 143;
-    [SerializeField] ItemDataBase list;
+    [SerializeField] ItemDataBase itemDataBase;
     [SerializeField] int ListIndex; // ItemDataBaseのインデックス(一番上を0としたときの数)
     [SerializeField] string DefText;
     [SerializeField] Sprite DefImage;
@@ -16,34 +18,40 @@ public class SlotGenerator : MonoBehaviour
     int Mode = 0;
     public CustomLifeAvatar cla;
     [SerializeField] int claIndex;
-    List<GameObject> Slots = new();
+    readonly List<GameObject> Slots = new();
     int i = 0;
 
     public void EnableUI() // UIGeneralがCanvas読み込み時に呼び出し
     {
         i = 0;
 
-        foreach (ItemDataConfigs itemData in list.GetList(ListIndex))
+        foreach (ItemID itemID in itemIDsList)
         {
-            GameObject item = itemData.ItemModel;
-
-            GameObject slot = Instantiate(BaseSlotObj); // スロット生成
+            GameObject slot = Instantiate(BaseSlotPrefab); // スロット生成
             slot.SetActive(true); // 有効化
             Slots.Add(slot); // スロットリストに追加
             slot.GetComponent<RectTransform>().SetParent(transform, false); // 生成したスロットの親を自分に設定
-
+            var itemData = itemDataBase.GetItem(itemID.FirstIndex, itemID.SecondIndex); // アイテムデータの取得
             RectTransform[] children = slot.GetComponentsInChildren<RectTransform>();
             foreach (RectTransform child in children)
             {
                 switch (child.name)
                 {
                     case "Text":
-                        if (itemData.ItemName == null) child.GetComponent<TextMeshProUGUI>().text = DefText;
-                        else child.GetComponent<TextMeshProUGUI>().text = itemData.ItemName;
+                        if (itemData.ItemName == null)
+                            child.GetComponent<TextMeshProUGUI>().text = DefText;
+                        else
+                            child.GetComponent<TextMeshProUGUI>().text = itemData.ItemName;
                         break;
+
                     case "Image":
-                        if (itemData.ItemImage == null) child.GetComponent<Image>().sprite = DefImage;
-                        else child.GetComponent<Image>().sprite = itemData.ItemImage;
+                        if (itemData.ItemImage == null)
+                            child.GetComponent<Image>().sprite = DefImage;
+                        else
+                            child.GetComponent<Image>().sprite = itemData.ItemImage;
+                        break;
+
+                    default:
                         break;
                 }
             }
@@ -70,14 +78,21 @@ public class SlotGenerator : MonoBehaviour
         Slots.Clear();
     }
 
+    void InvSystemSetup(GameObject slot, ItemID itemID)
+    {
+        var invSystem = slot.AddComponent<UI_DACS_InventorySystem_SlotComponent>();
+        invSystem.uiGeneral = uiGeneral;
+        invSystem.itemID = itemID;
+    }
+
     void CLAPOption(GameObject slot)
     {
-        CLAPUIConector conector = slot.AddComponent<CLAPUIConector>();
-        conector.cla = cla;
-        conector.listIndex = claIndex;
-        conector.DataListNum = i;
+        UI_CLA_SlotComponent ui_Component = slot.AddComponent<UI_CLA_SlotComponent>();
+        ui_Component.cla = cla;
+        ui_Component.listIndex = claIndex;
+        ui_Component.DataListNum = i;
 
-        slot.GetComponent<Button>().onClick.AddListener(conector.SetCLAP);
+        slot.GetComponent<Button>().onClick.AddListener(ui_Component.OnClick);
     }
 }
 
