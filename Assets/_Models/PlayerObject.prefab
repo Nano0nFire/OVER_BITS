@@ -364,7 +364,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 930562030017514262}
-  - component: {fileID: 8683983864548517336}
   m_Layer: 0
   m_Name: Armature
   m_TagString: Untagged
@@ -388,85 +387,6 @@ Transform:
   - {fileID: 3468058580418964126}
   m_Father: {fileID: 8759171870056462945}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &8683983864548517336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617031248222391846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boneShape: 1
-  drawBones: 1
-  drawTripods: 0
-  boneSize: 1
-  tripodSize: 1
-  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
-  m_Transforms:
-  - {fileID: 930562030017514262}
-  - {fileID: 3468058580418964126}
-  - {fileID: 6105132239171205341}
-  - {fileID: 8316202775742585789}
-  - {fileID: 5484319236333519236}
-  - {fileID: 4468163700930437395}
-  - {fileID: 1203005006166281681}
-  - {fileID: 2276326705715385714}
-  - {fileID: 4377937777131966681}
-  - {fileID: 7283974150557133702}
-  - {fileID: 5233322884718654502}
-  - {fileID: 4836358327917202631}
-  - {fileID: 2034138314239194800}
-  - {fileID: 3007924005381566915}
-  - {fileID: 6198599940689561511}
-  - {fileID: 2869726423024191896}
-  - {fileID: 6703871675630635509}
-  - {fileID: 6413470831730313353}
-  - {fileID: 6684609343276008150}
-  - {fileID: 590658637407435972}
-  - {fileID: 6962726365027032049}
-  - {fileID: 1458345993213654481}
-  - {fileID: 1928466350768669913}
-  - {fileID: 6619968382906185477}
-  - {fileID: 3711132276936070862}
-  - {fileID: 3983955395806928594}
-  - {fileID: 6803742350922440335}
-  - {fileID: 3755504701884460170}
-  - {fileID: 6994497614299760529}
-  - {fileID: 3063559737346253463}
-  - {fileID: 8471849483826067655}
-  - {fileID: 5460104757890693286}
-  - {fileID: 1670156248383862665}
-  - {fileID: 7782890066593087153}
-  - {fileID: 6219579732849416541}
-  - {fileID: 877278665372428069}
-  - {fileID: 3233749289904470830}
-  - {fileID: 4510455349745218504}
-  - {fileID: 4657781001554506827}
-  - {fileID: 7158890690038302571}
-  - {fileID: 5047553927734360824}
-  - {fileID: 3525059991277356989}
-  - {fileID: 1430541999851362615}
-  - {fileID: 1184744065654971947}
-  - {fileID: 6324497015478173907}
-  - {fileID: 7596856689678561230}
-  - {fileID: 8643579319843144183}
-  - {fileID: 3490851327538018121}
-  - {fileID: 5814250676908759951}
-  - {fileID: 5645421443748499011}
-  - {fileID: 6902203103266562571}
-  - {fileID: 2645920331753570595}
-  - {fileID: 8135080528628114757}
-  - {fileID: 5353410096338657119}
-  - {fileID: 6486509150867862028}
-  - {fileID: 2843526155026739656}
-  - {fileID: 2586976142989739101}
-  - {fileID: 4685035458072760380}
-  - {fileID: 5720277895253734160}
-  - {fileID: 406321585628098115}
 --- !u!1 &1636872261964982480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,6 +961,9 @@ MonoBehaviour:
   clap_m: {fileID: 6891541599273962644}
   generalManager: {fileID: 1560507658239747110}
   anim: {fileID: 6590729056726402772}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   root: {fileID: 3468058580418964126}
   hip: {fileID: 6105132239171205341}
   rUpperLeg: {fileID: 2586976142989739101}
@@ -1905,7 +1828,7 @@ GameObject:
   - component: {fileID: 1177126319070940268}
   m_Layer: 0
   m_Name: PlayerObject
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1975,13 +1898,11 @@ MonoBehaviour:
   playerStatus: {fileID: 1079164744007352747}
   CameraPos: {fileID: 1786116778649090791}
   nwObject: {fileID: 9205898677871039011}
-  invSystem: {fileID: 0}
+  invSystem: {fileID: 1177126319070940268}
   ActionLock: 0
   ToggleDash: 1
   ToggleCrouch: 0
   InvertAim: 0
-  HzCameraSens: 0
-  VCameraSens: 0
   FirstPersonMode: 0
 --- !u!114 &1079164744007352747
 MonoBehaviour:
@@ -2016,11 +1937,14 @@ MonoBehaviour:
   PlayerObj: {fileID: 7291401590381006591}
   RootBone: {fileID: 8447721790262542911}
   skins: {fileID: 7799988127983248385}
+  DefaultHeadBoneRotation: {x: -7.132, y: 0, z: 0}
   partsType:
   - Base
   - Tops
   - Bottoms
   - Shoes
+  partsList: []
+  bonesList: []
 --- !u!114 &6891541599273962644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2256,6 +2180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pdManager: {fileID: 0}
+  SlotGeneratorsList: []
   AutoSaveCount: 10
 --- !u!1 &7390301723532174587
 GameObject:
@@ -2761,7 +2686,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3468058580418964126}
-  - component: {fileID: 1550444531244424547}
+  - component: {fileID: 4575929733268220488}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -2785,7 +2710,7 @@ Transform:
   - {fileID: 6105132239171205341}
   m_Father: {fileID: 930562030017514262}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1550444531244424547
+--- !u!114 &4575929733268220488
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2813,6 +2738,8 @@ MonoBehaviour:
   - {fileID: 2276326705715385714}
   - {fileID: 4377937777131966681}
   - {fileID: 7283974150557133702}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 5233322884718654502}
   - {fileID: 4836358327917202631}
   - {fileID: 2034138314239194800}

@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "OVER_BITS.sln"
+    "dotnet.defaultSolution": "OVER_BITS.sln",
+    "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

@@ -39,18 +39,22 @@ public class UI_PlayerDataManager : MonoBehaviour
         Debug.Log(pdManager.LoadedPlayerProfileData.PlayerName);
         PlayerName.text = pdManager.LoadedPlayerProfileData.PlayerName;
         PlayerID.text = pdManager.LoadedPlayerProfileData.PlayerID;
+        var lastDot = PlayerName.text.LastIndexOf('#');
+        if (lastDot != -1)
+            PlayerNameField.text = PlayerName.text[..lastDot]; // 型名のネームスペース部分を消す
     }
 
     public async void Enter()
     {
-        await pdManager.SetPlayerNameAsync(PlayerNameField.text);
-        PlayerProfile playerData = new()
+        if (PlayerNameField.text != "")
+            await pdManager.SetPlayerNameAsync(PlayerNameField.text);
+        PlayerProfileData playerData = new()
         {
             PlayerID = AuthenticationService.Instance.PlayerInfo.Id,
             PlayerName = await AuthenticationService.Instance.GetPlayerNameAsync()
         };
-        await pdManager.SaveData<PlayerProfile>(playerData);
-        await pdManager.LoadData<PlayerProfile>();
+        await pdManager.SaveData(playerData);
+        await pdManager.LoadData<PlayerProfileData>();
         PlayerName.text = "Player Name : " + pdManager.LoadedPlayerProfileData.PlayerName;
         PlayerID.text = "ID : " + pdManager.LoadedPlayerProfileData.PlayerID;
         PlayerSettingPanel.SetActive(false);

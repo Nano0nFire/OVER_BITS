@@ -19,6 +19,7 @@ public class ItemDataConfigs
 [CreateAssetMenu(fileName = "ItemData", menuName = "Data", order = 1)]
 public class ItemDataBase : ScriptableObject
 {
+    public int ItemListCount = 33; // リストの数
     [NonReorderable] public List<ItemDataConfigs> testItemDataList = new(); //0
     [NonReorderable] public List<ItemDataConfigs> AxeDataList = new(); //1
     [NonReorderable] public List<ItemDataConfigs> PicaxeDataList = new(); //2
@@ -39,11 +40,11 @@ public class ItemDataBase : ScriptableObject
     [NonReorderable] public List<ItemDataConfigs> LMGDataList = new(); //17
     [NonReorderable] public List<ItemDataConfigs> SniperRifleDataList = new(); //18
     [NonReorderable] public List<ItemDataConfigs> BaseBodyList = new(); //19
-    [NonReorderable] public List<ItemDataConfigs> HairDataList = new(); //20
-    [NonReorderable] public List<ItemDataConfigs> FaceDataList = new(); //21
-    [NonReorderable] public List<ItemDataConfigs> TopsDataList = new(); //22
-    [NonReorderable] public List<ItemDataConfigs> BottomsDataList = new(); //23
-    [NonReorderable] public List<ItemDataConfigs> ShoesDataList = new(); //24
+    [NonReorderable] public List<ItemDataConfigs> FaceDataList = new(); //20
+    [NonReorderable] public List<ItemDataConfigs> TopsDataList = new(); //21
+    [NonReorderable] public List<ItemDataConfigs> BottomsDataList = new(); //22
+    [NonReorderable] public List<ItemDataConfigs> ShoesDataList = new(); //23
+    [NonReorderable] public List<ItemDataConfigs> HairDataList = new(); //24
     [NonReorderable] public List<ItemDataConfigs> AccessoryDataList = new(); //25
     [NonReorderable] public List<ItemDataConfigs> HelmetDataList = new(); //26
     [NonReorderable] public List<ItemDataConfigs> ChestArmorDataList = new(); //27
@@ -77,11 +78,11 @@ public class ItemDataBase : ScriptableObject
             17 => LMGDataList,
             18 => SniperRifleDataList,
             19 => BaseBodyList,
-            20 => HairDataList,
-            21 => FaceDataList,
-            22 => TopsDataList,
-            23 => BottomsDataList,
-            24 => ShoesDataList,
+            20 => FaceDataList,
+            21 => TopsDataList,
+            22 => BottomsDataList,
+            23 => ShoesDataList,
+            24 => HairDataList,
             25 => AccessoryDataList,
             26 => HelmetDataList,
             27 => ChestArmorDataList,
@@ -100,10 +101,11 @@ public class ItemDataBase : ScriptableObject
     }
 }
 
-public struct ItemID
+[System.Serializable]
+public struct ItemData
 {
-    public int FirstIndex;
-    public int SecondIndex;
+    public int FirstIndex; // GetItemの最初のインデックスに該当するもの
+    public int SecondIndex; // GetItemの二番目のインデックスに該当する
     public int Amount;
     public List<int> Mods;
     public List<int> Enchants;
@@ -118,5 +120,24 @@ public enum ItemRarities
     rare,
     epic,
     legend,
+    overrank,
     named,
+}
+
+public static class RarityToColor
+{
+    public static Color ToColor(ItemRarities rarity)
+    {
+        return rarity switch
+        {
+            ItemRarities.normal => new Color(0.65f, 0.65f, 0.65f, 1),
+            ItemRarities.uncommon => new Color(0, 0.92f, 0, 1),
+            ItemRarities.rare => new Color(0, 0.235f, 0.784f, 1),
+            ItemRarities.epic => new Color(0.561f, 0, 0.635f, 1),
+            ItemRarities.legend => new Color(1, 1, 0, 1),
+            ItemRarities.overrank => new Color(1, 0, 0.03091812f, 1),
+            ItemRarities.named => new Color(1, 0, 1, 1),
+            _ => new Color(0, 0, 0, 0),
+        };
+    }
 }

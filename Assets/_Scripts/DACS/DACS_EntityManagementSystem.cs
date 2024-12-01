@@ -1,0 +1,151 @@
+using System;
+using System.Collections.Generic;
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Entities.UniversalDelegates;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.Jobs;
+
+public class DACS_EntityManagementSystem : NetworkBehaviour
+{
+    [SerializeField] DACS_Entities_ScriptableObject EntitiesSO;
+    PlayerDataManager pdManager;
+    [SerializeField] DACS_P_BulletControl_Normal bcNormal;
+    Transform PlayerTransform; // ClientGeneralManagerから設定
+    public ulong nwID; // ClientGeneralManagerから設定
+    public float MaxSimulationDistance = 300;
+    Queue<GameObject>[][] DisabledEntities; // 待機中のEntityをキューで把握
+    [SerializeField] List<Transform> SpawnerTransformList = new(); // 読み込み範囲外のEntityを無効化する用のTransformList
+    NativeArray<bool> IsActiveArray;
+    TransformAccessArray transformAccessArray;
+    NativeQueue<int> DeactivateEntitiesIDQueue;
+    NativeArray<int> DeactivateEntitiesIDArray;
+    NativeQueue<int> ActivateEntitiesIDQueue;
+    NativeArray<int> ActivateEntitiesIDArray;
+
+    void Start()
+    {
+        if (IsServer)
+        {
+            pdManager = FindFirstObjectByType<PlayerDataManager>();
+            DisabledEntities = new Queue<GameObject>[EntitiesSO.EntityTypeNum][];
+            for (int i = 0; i < EntitiesSO.EntityTypeNum; i++)
+            {
+                DisabledEntities[i] = new Queue<GameObject>[EntitiesSO.GetList(i).Count];
+                for (int j = 0; j < DisabledEntities[i].Length; j++)
+                    DisabledEntities[i][j] = new();
+            }
+
+            foreach (var spawner in SpawnerTransformList)
+            {
+                var component = spawner.GetComponent<DACS_Entities_EnemySpawner>();
+                component.bcNormal = this.bcNormal;
+                component.emSystem = this;
+                component.EntitiesSO = this.EntitiesSO;
+                component.pdManager = pdManager;
+            }
+        }
+    }
+    public void Setup(ClientGeneralManager cgManager)
+    {
+        if (!IsClient)
+            return;
+
+        PlayerTransform = cgManager.transform;
+        nwID = cgManager.nwID;
+        DeactivateEntitiesIDQueue = new(Allocator.Persistent);
+        IsActiveArray = new(SpawnerTransformList.Count, Allocator.Persistent);
+
+        if (IsHost)
+            foreach (var spawner in SpawnerTransformList)
+            {
+                var component = spawner.GetComponent<DACS_Entities_EnemySpawner>();
+                component.LoadSpawnerServerRpc(nwID);
+            }
+    }
+    void Update()
+    {
+        if (!IsServer) // Entityがシュミレーション距離内かチェック
+        {
+            transformAccessArray.Dispose();
+            transformAccessArray = new(SpawnerTransformList.ToArray());
+            var checkJob = new EntityDistanceCheckJob()
+            {
+                playerPos = PlayerTransform.position,
+                maxDistance = MaxSimulationDistance,
+                DisableQueue = DeactivateEntitiesIDQueue.AsParallelWriter(),
+            }.Schedule(transformAccessArray);
+            checkJob.Complete();
+            DeactivateEntitiesIDArray = DeactivateEntitiesIDQueue.ToArray(Allocator.TempJob);
+            foreach (var index in ActivateEntitiesIDArray) // スポナーにEntityの同期を要請
+            {
+                if (IsActiveArray[index])
+                    continue;
+
+                SpawnerTransformList[index].GetComponent<DACS_Entities_EnemySpawner>().LoadSpawnerServerRpc(nwID);;
+                IsActiveArray[index] = true;
+            }
+            foreach (var index in DeactivateEntitiesIDArray) // スポナーにEntityの非表示を要請
+            {
+                if (!IsActiveArray[index])
+                    continue;
+
+                SpawnerTransformList[index].GetComponent<DACS_Entities_EnemySpawner>().UnLoadSpawnerServerRpc(nwID);;
+                IsActiveArray[index] = false;
+            }
+
+            DeactivateEntitiesIDArray.Dispose();
+            DeactivateEntitiesIDQueue.Clear();
+            ActivateEntitiesIDArray.Dispose();
+            ActivateEntitiesIDQueue.Clear();
+        }
+    }
+    public GameObject GetEntity(int FirstIndex, int SecondIndex)
+    {
+        GameObject entity;
+        if (DisabledEntities[FirstIndex][SecondIndex].Count == 0)
+            entity = SpawnEntity(FirstIndex, SecondIndex);
+        else
+            entity = DisabledEntities[FirstIndex][SecondIndex].Dequeue();
+        entity.SetActive(true);
+        return entity;
+    }
+    public GameObject SpawnEntity(int FirstIndex, int SecondIndex)
+    {
+        var data = EntitiesSO.GetEntity(FirstIndex, SecondIndex);
+        GameObject spawnedObject = Instantiate(data.EntityPrefab, Vector3.zero, Quaternion.identity);
+        spawnedObject.GetComponent<NetworkObject>().Spawn();
+        return spawnedObject;
+    }
+    public void ReturnEntity(GameObject entity)
+    {
+        var component = entity.GetComponent<DACS_Entities_Enemy_Component>();
+        DisabledEntities[component.entityID_FirstIndex][component.entityID_SecondIndex].Enqueue(entity);
+        entity.SetActive(false);
+    }
+    public override void OnDestroy()
+    {
+        DeactivateEntitiesIDQueue.Dispose();
+        IsActiveArray.Dispose();
+        ActivateEntitiesIDQueue.Dispose();
+    }
+
+
+    [BurstCompile]
+    struct EntityDistanceCheckJob : IJobParallelForTransform
+    {
+        public Vector3 playerPos;
+        public float maxDistance; // Entityがアクティブでいられる最大距離
+        public NativeQueue<int>.ParallelWriter DisableQueue;
+        public NativeQueue<int>.ParallelWriter ActiveQueue;
+        public NativeArray<bool> IsActive;
+        public void Execute(int index, TransformAccess xform)
+        {
+            if (Vector3.Distance(xform.position, playerPos) > maxDistance && IsActive[index])
+                DisableQueue.Enqueue(index);
+            else if (!IsActive[index])
+                ActiveQueue.Enqueue(index);
+        }
+    }
+}

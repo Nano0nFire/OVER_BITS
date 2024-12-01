@@ -19,7 +19,7 @@ public class CLAPlus_AnimationControlModuel : NetworkBehaviour
     float vSpeed, hzSpeed, ySpeed, tempVSpeed, tempHzSpeed, tempYSpeed;
     int time;
     bool tempIsGrounded;
-    public bool isOwner;
+    public bool isOwner = false;
 
     public Vector3 MoveDir;
 

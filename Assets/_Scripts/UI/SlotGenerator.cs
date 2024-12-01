@@ -7,7 +7,7 @@ public class SlotGenerator : MonoBehaviour // UI-SlotParentにアタッチ
 
     [SerializeField] UIGeneral uiGeneral;
     [SerializeField] GameObject BaseSlotPrefab;
-    public IReadOnlyList<ItemID> itemIDsList;
+    public List<ItemData> itemIDsList;
     [SerializeField] int GridSideMax = 9;
     [SerializeField] int SellSize = 143;
     [SerializeField] ItemDataBase itemDataBase;
@@ -25,7 +25,7 @@ public class SlotGenerator : MonoBehaviour // UI-SlotParentにアタッチ
     {
         i = 0;
 
-        foreach (ItemID itemID in itemIDsList)
+        foreach (ItemData itemID in itemIDsList)
         {
             GameObject slot = Instantiate(BaseSlotPrefab); // スロット生成
             slot.SetActive(true); // 有効化
@@ -66,6 +66,8 @@ public class SlotGenerator : MonoBehaviour // UI-SlotParentにアタッチ
                     break;
             }
 
+            InvSystemSetup(slot, itemID);
+
             i++;
         }
     }
@@ -78,7 +80,7 @@ public class SlotGenerator : MonoBehaviour // UI-SlotParentにアタッチ
         Slots.Clear();
     }
 
-    void InvSystemSetup(GameObject slot, ItemID itemID)
+    void InvSystemSetup(GameObject slot, ItemData itemID)
     {
         var invSystem = slot.AddComponent<UI_DACS_InventorySystem_SlotComponent>();
         invSystem.uiGeneral = uiGeneral;

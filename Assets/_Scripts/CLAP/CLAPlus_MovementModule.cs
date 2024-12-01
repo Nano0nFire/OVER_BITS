@@ -219,7 +219,7 @@ public class CLAPlus_MovementModule : NetworkBehaviour
             return - Vector2.SignedAngle(new Vector2(0,1), new Vector2(HzInput, VInput));
         }
     }
-    [HideInInspector] public float HzCameraSens, VCameraSens;
+    public float HzCameraSens, VCameraSens;
     public float HzRotation
     {
         get

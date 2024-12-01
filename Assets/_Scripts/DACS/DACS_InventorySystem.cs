@@ -4,43 +4,17 @@ using UnityEngine;
 public class DACS_InventorySystem : MonoBehaviour // PlayerObject直下
 {
     public PlayerDataManager pdManager; // ClientGeneralManagerが設定
-    [SerializeField, NonReorderable] List<SlotGenerator> SlotGeneratorsList;
-    int count = 0; // 追加されたアイテムをカウントし、一定数以上追加されたら自動でセーブする
-    [SerializeField] int AutoSaveCount = 10; // 自動セーブを始める数(デフォルトで10回更新があると自動でセーブするようになっている)
-    public PlayerInventory_Sword Pi_Sword {get {return pi_Sword;}}
-    PlayerInventory_Sword pi_Sword;
     public PlayerHotbar PlayerHotbar {get {return playerHotbar;}}
     PlayerHotbar playerHotbar;
 
 
-    public async void SetUp()
+    public async void Setup(ClientGeneralManager cgManager)
     {
-        pi_Sword = await pdManager.LoadData<PlayerInventory_Sword>();
+        pdManager = cgManager.pdManager;
         playerHotbar = await pdManager.LoadData<PlayerHotbar>();
     }
-    async void Update()
-    {
-        if (count >= AutoSaveCount)
-        {
-            await pdManager.SaveData(playerHotbar);
-            await pdManager.SaveData(Pi_Sword);
 
-            count = 0; // カウントリセット
-        }
-    }
-    public void AddItem(ItemID itemID)
-    {
-        string jsonData = JsonUtility.ToJson(itemID);
-        switch (itemID.FirstIndex) // ItemDataBaseのGetListの番号に元図いて割り当てる
-        {
-            case 10:
-                pi_Sword.LongSword.Add(jsonData);
-                break;
-        }
-
-        count ++;
-    }
-    public void ChangeHotbar(int index, ItemID itemID)
+    public void ChangeHotbar(int index, ItemData itemID)
     {
         string jsonData = JsonUtility.ToJson(itemID);
         switch (index)
@@ -61,16 +35,127 @@ public class DACS_InventorySystem : MonoBehaviour // PlayerObject直下
                 playerHotbar.SubSlot1 = jsonData;
                 break;
         }
-
-        AddItem(itemID);
-        count ++;
     }
 
-    public void LoadInventory(int index, IReadOnlyList<ItemID> items)
+    public string GetListName(int FirstNum)
     {
-        SlotGeneratorsList[index].itemIDsList = items;
+        return FirstNum switch
+        {
+            0 => "testItemInventoryData",
+            1 => "AxeInventoryData",
+            2 => "PicaxeInventoryData",
+            3 => "DrillInventoryData",
+            4 => "HammerInventoryData",
+            5 => "ShieldInventoryData",
+            6 => "ConsumablesInventoryData",
+            7 => "ArrowInventoryData",
+            8 => "MagicInventoryData",
+            9 => "FishingRodInventoryData",
+            10 => "LongSwordInventoryData",
+            11 => "ShortSwordInventoryData",
+            12 => "SpearInventoryData",
+            13 => "HandgunInventoryData",
+            14 => "RifleInventoryData",
+            15 => "SMGInventoryData",
+            16 => "ShotgunInventoryData",
+            17 => "LMGInventoryData",
+            18 => "SniperRifleInventoryData",
+            19 => "BaseBodyList",
+            20 => "FaceInventoryData",
+            21 => "TopsInventoryData",
+            22 => "BottomsInventoryData",
+            23 => "ShoesInventoryData",
+            24 => "HairInventoryData",
+            25 => "AccessoryInventoryData",
+            26 => "HelmetInventoryData",
+            27 => "ChestArmorInventoryData",
+            28 => "LegArmorInventoryData",
+            29 => "BootsArmorInventoryData",
+            30 => "PotionInventoryData",
+            31 => "MaterialInventoryData",
+            32 => "FoodInventoryData",
+            _ => null,
+        };
     }
+
+    #region InventoryDatas
+    [NonReorderable] public List<ItemData> testItemInventoryData = new(); //0
+    [NonReorderable] public List<ItemData> AxeInventoryData = new(); //1
+    [NonReorderable] public List<ItemData> PicaxeInventoryData = new(); //2
+    [NonReorderable] public List<ItemData> DrillInventoryData = new(); //3
+    [NonReorderable] public List<ItemData> HammerInventoryData = new(); //4
+    [NonReorderable] public List<ItemData> ShieldInventoryData = new(); //5
+    [NonReorderable] public List<ItemData> ConsumablesInventoryData = new(); //6
+    [NonReorderable] public List<ItemData> ArrowInventoryData = new(); //7
+    [NonReorderable] public List<ItemData> MagicInventoryData = new(); //8
+    [NonReorderable] public List<ItemData> FishingRodInventoryData = new(); //9
+    [NonReorderable] public List<ItemData> LongSwordInventoryData = new(); //10
+    [NonReorderable] public List<ItemData> ShortSwordInventoryData = new(); //11
+    [NonReorderable] public List<ItemData> SpearInventoryData = new(); //12
+    [NonReorderable] public List<ItemData> HandgunInventoryData = new(); //13
+    [NonReorderable] public List<ItemData> RifleInventoryData = new(); //14
+    [NonReorderable] public List<ItemData> SMGInventoryData = new(); //15
+    [NonReorderable] public List<ItemData> ShotgunInventoryData = new(); //16
+    [NonReorderable] public List<ItemData> LMGInventoryData = new(); //17
+    [NonReorderable] public List<ItemData> SniperRifleInventoryData = new(); //18
+    [NonReorderable] public List<ItemData> BaseBodyList = new(); //19
+    [NonReorderable] public List<ItemData> FaceInventoryData = new(); //20
+    [NonReorderable] public List<ItemData> TopsInventoryData = new(); //21
+    [NonReorderable] public List<ItemData> BottomsInventoryData = new(); //22
+    [NonReorderable] public List<ItemData> ShoesInventoryData = new(); //23
+    [NonReorderable] public List<ItemData> HairInventoryData = new(); //24
+    [NonReorderable] public List<ItemData> AccessoryInventoryData = new(); //25
+    [NonReorderable] public List<ItemData> HelmetInventoryData = new(); //26
+    [NonReorderable] public List<ItemData> ChestArmorInventoryData = new(); //27
+    [NonReorderable] public List<ItemData> LegArmorInventoryData = new(); //28
+    [NonReorderable] public List<ItemData> BootsArmorInventoryData = new(); //29
+    [NonReorderable] public List<ItemData> PotionInventoryData = new(); //30
+    [NonReorderable] public List<ItemData> MaterialInventoryData = new(); //31
+    [NonReorderable] public List<ItemData> FoodInventoryData = new(); //32
+
+    public List<ItemData> GetInventoryData(int FirstNum)
+    {
+        return FirstNum switch
+        {
+            0 => testItemInventoryData,
+            1 => AxeInventoryData,
+            2 => PicaxeInventoryData,
+            3 => DrillInventoryData,
+            4 => HammerInventoryData,
+            5 => ShieldInventoryData,
+            6 => ConsumablesInventoryData,
+            7 => ArrowInventoryData,
+            8 => MagicInventoryData,
+            9 => FishingRodInventoryData,
+            10 => LongSwordInventoryData,
+            11 => ShortSwordInventoryData,
+            12 => SpearInventoryData,
+            13 => HandgunInventoryData,
+            14 => RifleInventoryData,
+            15 => SMGInventoryData,
+            16 => ShotgunInventoryData,
+            17 => LMGInventoryData,
+            18 => SniperRifleInventoryData,
+            19 => BaseBodyList,
+            20 => FaceInventoryData,
+            21 => TopsInventoryData,
+            22 => BottomsInventoryData,
+            23 => ShoesInventoryData,
+            24 => HairInventoryData,
+            25 => AccessoryInventoryData,
+            26 => HelmetInventoryData,
+            27 => ChestArmorInventoryData,
+            28 => LegArmorInventoryData,
+            29 => BootsArmorInventoryData,
+            30 => PotionInventoryData,
+            31 => MaterialInventoryData,
+            32 => FoodInventoryData,
+            _ => null,
+        };
+    }
+    #endregion
 }
+
 
 public struct PlayerHotbar
 {
@@ -90,135 +175,139 @@ public struct PlayerInventory_Sword // ItemIDをJsonにして保存
     public List<string> Hammer;
     public List<string> Shield;
 }
-public struct PlayerInventory_testItemDataList
+public struct PlayerInventoryData
 {
-    public List<string> items;
+    public List<ItemData> ItemDatas;
 }
-public struct PlayerInventory_AxeDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_PicaxeDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_DrillDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_HammerDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_ShieldDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_ConsumablesDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_ArrowDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_MagicDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_FishingRodDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_LongSwordDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_ShortSwordDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_SpearDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_HandgunDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_RifleDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_SMGDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_ShotgunDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_LMGDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_SniperRifleDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_BaseBodyList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_HairDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_FaceDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_TopsDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_BottomsDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_ShoesDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_AccessoryDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_HelmetDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_ChestArmorDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_LegArmorDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_BootsArmorDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_PotionDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_MaterialDataList
-{
-    public List<string> items;
-}
-public struct PlayerInventory_FoodDataList
-{
-    public List<string> items;
-}
+// public struct PlayerInventory_testItemInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_AxeInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_PicaxeInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_DrillInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_HammerInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_ShieldInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_ConsumablesInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_ArrowInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_MagicInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_FishingRodInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_LongSwordInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_ShortSwordInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_SpearInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_HandgunInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_RifleInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_SMGInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_ShotgunInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_LMGInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_SniperRifleInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_BaseBodyList
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_HairInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_FaceInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_TopsInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_BottomsInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_ShoesInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_AccessoryInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_HelmetInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_ChestArmorInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_LegArmorInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_BootsArmorInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_PotionInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_MaterialInventoryData
+// {
+//     public List<string> items;
+// }
+// public struct PlayerInventory_FoodInventoryData
+// {
+//     public List<string> items;
+// }

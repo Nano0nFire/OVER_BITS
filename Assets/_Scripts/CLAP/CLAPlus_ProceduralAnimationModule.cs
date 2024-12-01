@@ -5,6 +5,7 @@ public class CLAPlus_ProceduralAnimationModuel : MonoBehaviour
     [SerializeField] CLAPlus_MovementModule clap_m;
     [SerializeField] ClientGeneralManager generalManager;
     [SerializeField] Animator anim;
+    [SerializeField] LayerMask groundLayer;
 
     [Header("Bones")]
     [SerializeField] Transform root;
@@ -137,7 +138,7 @@ public class CLAPlus_ProceduralAnimationModuel : MonoBehaviour
 
         Vector3 footIKPos = anim.GetIKPosition(avatarIKGoal);
 
-        if (Physics.Raycast(new Vector3(footIKPos.x, UpperLeg.position.y, footIKPos.z), -transform.up, out hit, UpperLegToHeelLength + rayRange))
+        if (Physics.Raycast(new Vector3(footIKPos.x, UpperLeg.position.y, footIKPos.z), -transform.up, out hit, UpperLegToHeelLength + rayRange, groundLayer))
         {
             anim.SetIKPosition(avatarIKGoal, hit.point + new Vector3(0, heelHight, 0));
 

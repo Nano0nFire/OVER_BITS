@@ -9,6 +9,7 @@ using System;
 using Unity.Entities.UniversalDelegates;
 using Cinemachine;
 using Unity.Mathematics;
+using UnityEditor;
 
 public class ClientGeneralManager : NetworkBehaviour
 {
@@ -21,10 +22,11 @@ public class ClientGeneralManager : NetworkBehaviour
     [SerializeField] PlayerStatus playerStatus;
     [SerializeField] Transform CameraPos;
     [SerializeField] NetworkObject nwObject;
-    [SerializeField] DACS_InventorySystem invSystem;
-    PlayerDataManager pdManager;
+    public DACS_InventorySystem invSystem;
+    public PlayerDataManager pdManager{get; private set;}
     GameObject masterObj;
     DACS_P_BulletControl_Normal test;
+    public ulong nwID{get; private set;}
     States KeepState;
     public bool UseInput
     {
@@ -54,8 +56,6 @@ public class ClientGeneralManager : NetworkBehaviour
     [Header("Aim Settings")]
     CinemachineVirtualCamera CVCamera;
     public bool InvertAim; //垂直方向の視点操作の反転
-    public float HzCameraSens; //水平方向の視点感度
-    public float VCameraSens; //水s直方向の視点感度
     public bool FirstPersonMode;
     public override async void OnNetworkSpawn()
     {
@@ -70,24 +70,38 @@ public class ClientGeneralManager : NetworkBehaviour
         if (!isOwner)
             return;
 
+        // データ系
+        pdManager = FindFirstObjectByType<PlayerDataManager>();
+        pdManager.inventorySystem = invSystem;
+        invSystem.Setup(this);
+
+        // Network
+        nwID = nwObject.NetworkObjectId;
+
         var LocalGM = masterObj.GetComponent<LocalGeneralManager>();
+        // UI
         MainMenu = LocalGM.MainMenu;
+        uiGeneral = MainMenu.GetComponent<UIGeneral>();
+        uiGeneral.Setup(this);
+        LocalGM.UI_playerSettings.Setup(this);
+        uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
+
+        // カメラ
         CVCamera = LocalGM.CVCamera;
         CVCamera.Follow = CameraPos;
-        uiGeneral = MainMenu.GetComponent<UIGeneral>();
-        uiGeneral.generalManager = this;
-        uiGeneral.cla = GetComponent<CustomLifeAvatar>();
-        GetComponent<Rigidbody>().useGravity = true;
-        pdManager = GameObject.Find("PlayerDataManager").GetComponent<PlayerDataManager>();
-        invSystem.pdManager = pdManager;
-        invSystem.SetUp();
 
+        // EntityManager
+        LocalGM.emSystem.Setup(this);
+
+        GetComponent<Rigidbody>().useGravity = true;
         test = masterObj.GetComponent<DACS_P_BulletControl_Normal>();
         test.PlayerTransform = CameraPos;
         test.nwObject = nwObject;
-        test.Setup();
         InputSetUp();
         clap_a.isOwner = isOwner;
+
+        // 設定
+        LoadSettings();
 
         Debug.Log("ClientGeneralManager : Complete");
     }
@@ -106,6 +120,15 @@ public class ClientGeneralManager : NetworkBehaviour
         SetInputAction(inputActions, "SwitchViewMode", SwitchViewMode);
     }
 
+    public async void LoadSettings()
+    {
+        var loadedData = await pdManager.LoadData<SettingsData>();
+        ToggleDash = loadedData.ToggleDash; //ダッシュ切り替え or 長押しダッシュ
+        ToggleCrouch = loadedData.ToggleCrouch; //しゃがみ切り替え or 長押ししゃがみ
+        InvertAim = loadedData.InvertAim; //垂直方向の視点操作の反転
+        clap_m.HzCameraSens = loadedData.HzCameraSens / 10; //水平方向の視点感度
+        clap_m.VCameraSens = loadedData.VCameraSens / 10; //水直方向の視点感度
+    }
     void SetInputAction(PlayerInput inputActions, string key, Action<InputAction.CallbackContext> action)
     {
         inputActions.actions[key].performed += action;
@@ -313,7 +336,8 @@ public class ClientGeneralManager : NetworkBehaviour
         if (context.performed)
         {
             var xform = CameraPos.transform;
-            test.SetBulletLocal(xform.position, xform.forward,0, 1);
+            test.SetBulletLocal(xform.position, xform.forward,0, 3);
+            // UnityEditor.EditorApplication.isPaused = true;
         }
     }
 

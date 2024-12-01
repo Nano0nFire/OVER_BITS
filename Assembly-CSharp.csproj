@@ -80,12 +80,13 @@
   <ItemGroup>
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\_Scripts\General\ClientGeneralManager.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CustomLifeAvatar.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelSwitcher.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACSMainController.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CLAPlus_ProceduralAnimationModule.cs" />
+    <Compile Include="Assets\_Scripts\DACS\DACS_Entities_EnemyDataScriptableObject.cs" />
+    <Compile Include="Assets\_Scripts\DACS\DACS_EntityManagementSystem.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_P_ScriptableObject.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_CLA_SlotComponent.cs" />
@@ -94,20 +95,27 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
+    <Compile Include="Assets\_Scripts\DACS\DACS_ItemManagementSystem.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACSManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\_Scripts\General\PlayerStatus.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_InventorySystem.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
+    <Compile Include="Assets\_Scripts\DACS\DACS_Entities_EnemyComponent.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\_Scripts\DACS\AdjacentController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
+    <Compile Include="Assets\_Scripts\DACS\DACS_Entities_EnemySpawner.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+    <Compile Include="Assets\_Scripts\DACS\DACS_Entities_ScriptableObject.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_PlayerSettings.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CLAPartsLists.cs" />
     <Compile Include="Assets\_Scripts\DACS\TestComponent.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_SpringSystem.cs" />
     <Compile Include="Assets\_Scripts\General\CommonEntityStatus.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\_Scripts\ClientNetworkTransform.cs" />
@@ -117,9 +125,9 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CLAPlus_MovementModule.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLASpringSystem.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
+    <Compile Include="Assets\_Scripts\DACS\DACS_Entities_PlayerComponent.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACSObjectPooler.cs" />
     <Compile Include="Assets\_Scripts\General\PlayerDataManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
@@ -128,10 +136,11 @@
     <Compile Include="Assets\_Scripts\CLAP\CLAPlus_ProceduralAnimationModule1.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\testSpring.cs" />
+    <Compile Include="Assets\_Scripts\DACS\DACS_CheckVisibility.cs" />
     <Compile Include="Assets\_Scripts\General\ScriptsAttach.cs" />
     <Compile Include="Assets\_Scripts\General\LocalGeneralManager.cs" />
     <Compile Include="Assets\_Scripts\DACS\ProjectileController.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLASpringManager.cs" />
     <Compile Include="Assets\_Scripts\UI\UIGeneral.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
@@ -148,6 +157,10 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_PlayerDataManager.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_P_BulletControl_Normal.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\CustomLiveAvatar.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_Component.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_SlotComponent.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem_ParentComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -158,6 +171,7 @@
     <None Include="Assets\_Shader\Bullet_InstancedShader.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Unity - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Fonts\rounded-l-mgenplus-1-20150602\SIL_Open_Font_License_1.1.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - AFL.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
@@ -1158,6 +1172,10 @@
       <HintPath>D:\application\Unity\Unity Editer\6000.0.18f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Networking.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Networking.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1250,16 +1268,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation.Updater">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Extensions">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Entities.Graphics.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Entities.Graphics.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Animation.Rigging">
       <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Mathematics.Extensions">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Entities.Build">
@@ -1300,6 +1322,10 @@
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Entities.Graphics">
@@ -1350,12 +1376,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Searcher.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Animation.Rigging.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Searcher.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Transforms.Hybrid">
@@ -1458,8 +1484,8 @@
       <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+    <Reference Include="Unity.AI.Navigation.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Networking.Transport">
@@ -1468,6 +1494,10 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
@@ -1532,6 +1562,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="lilToon.Editor.csproj" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <ItemGroup>
