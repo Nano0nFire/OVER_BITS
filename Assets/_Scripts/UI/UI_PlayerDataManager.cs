@@ -44,6 +44,13 @@ public class UI_PlayerDataManager : MonoBehaviour
             PlayerNameField.text = PlayerName.text[..lastDot]; // 型名のネームスペース部分を消す
     }
 
+    public void SignOut()
+    {
+        pdManager.InitSignOut();
+        SignInPanel.SetActive(true);
+        PlayerSettingPanel.SetActive(false);
+    }
+
     public async void Enter()
     {
         if (PlayerNameField.text != "")
@@ -64,7 +71,7 @@ public class UI_PlayerDataManager : MonoBehaviour
     public void StartHost()
     {
         nwManager.StartHost();
-        nwManager.SceneManager.LoadScene("TestWorld", LoadSceneMode.Single);
+        SceneEventProgressStatus status = nwManager.SceneManager.LoadScene("TestWorld", LoadSceneMode.Single);
     }
 
     public void StartClient()

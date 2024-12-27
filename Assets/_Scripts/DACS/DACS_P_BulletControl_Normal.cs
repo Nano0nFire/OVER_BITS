@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
-using Unity.Mathematics;
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.Jobs;
 
@@ -13,12 +10,8 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
 {
     [SerializeField] DACS_P_ScriptableObject configsSO; // データベース
     [SerializeField] GameObject bulletPrefab;
-    public Transform PlayerTransform; // ClientGeneralManagerから設定
-    public NetworkObject nwObject; // ClientまたはHostの時はClientGeneralManagerが設定する(PlayerObjectのnwObjectが設定される)
-    ulong ownID = 0; // ClientOnly
-    [SerializeField] bool hasServerAuthority = false;
-    [SerializeField] bool isHost = false;
-    NativeList<ulong> nwIDsList; // ServerOnly
+    [HideInInspector] public Transform PlayerTransform; // ClientGeneralManagerから設定
+    [HideInInspector] public ulong ownID = 0; // ClientOnly
     List<Transform> transformsList = new(); // 生成された弾を全て登録
     NativeList<BulletControl_Config> bulletConfigsList; // 弾のデータを格納(データの内容は変更可能)
     List<DamageConfigs> bulletDmgConfigList = new();
@@ -38,17 +31,6 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
 
     public void Start()
     {
-        if (nwObject == null) // server
-            OnlyServer();
-        else if (nwObject.IsOwnedByServer) // host
-        {
-            OnlyServer();
-            OnlyClient();
-            isHost = true;
-        }
-        else // client
-            OnlyClient();
-
         bulletConfigsList = new(Allocator.Persistent);
         bulletsElapsedList = new(Allocator.Persistent);
         bulletIndexQueue_FirstHalf = new(Allocator.Persistent); // 利用可能な弾(非アクティブな弾)の番号を確保しておく
@@ -71,11 +53,8 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
             bulletsElapsedList.Add(0);
             bulletIndexQueue_SecondHalf.Enqueue(index);
             TargetDistanceList.Add(-1);
-            if (hasServerAuthority)
-            {
-                nwIDsList.Add(0);
+            if (IsServer)
                 bulletDmgConfigList.Add(new());
-            }
         }
 
         queryParameters = new QueryParameters
@@ -85,15 +64,6 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
             hitTriggers = QueryTriggerInteraction.UseGlobal,
             hitBackfaces = false
         };
-    }
-    void OnlyServer()
-    {
-        nwIDsList = new(Allocator.Persistent);
-        hasServerAuthority = true;
-    }
-    void OnlyClient()
-    {
-        ownID = nwObject.NetworkObjectId;
     }
 
     void Update()
@@ -177,7 +147,7 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
     /// </summary>
     public void SetBulletLocal(Vector3 shotPos, Vector3 forward, int id, int amount)
     {
-        int seed = UnityEngine.Random.Range(-10000, 10000);
+        int seed = Random.Range(-10000, 10000);
         if (IsServer) // ServerまたはHostが呼び出した場合は直接サーバー操作させる
         {
             SetBulletServer(shotPos, forward, seed, id, amount, ownID);
@@ -186,11 +156,10 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
         else
             ShotServerRpc(shotPos, forward, seed, id, amount, ownID);
 
+        var config = configsSO.P_ScriptableObject[id];
         for (int i = 0; i < amount; i++)
         {
             var index = GetBullet(shotPos);
-
-            var config = configsSO.P_ScriptableObject[id];
 
             var spreadHz = config.ProjectileSpreadHz;
             var spreadV = config.ProjectileSpreadV;
@@ -246,16 +215,21 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
         }
     }
     /// <summary>
-    /// サーバー側に弾をセットする <br />
-    /// サーバーが管理するEntityが使用する場合はnwIDを省略してもいい
+    /// サーバー側に弾をセットする
     /// </summary>
-    public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed,int id, int amount, ulong nwID = 0)
+    public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed, int id, int amount, ulong nwID)
     {
-        SetBulletClientRpc(shotPos, forward, seed, id, amount, nwID); // Clientに反映
-        EntityStatusData EntityData = new();
-        if (nwID != 0 && !NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(nwID, out var networkObject))
+        DACS_Entities EntityData;
 
-        EntityData = networkObject.gameObject.GetComponent<DACS_Entities>().entityStatusData;
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(nwID, out var networkObject))
+            EntityData = networkObject.gameObject.GetComponent<DACS_Entities>();
+        else
+        {
+            Debug.LogWarning($"NetworkID:{nwID}\nError:Can't find PlayerObject\ncorrespondence:Stop SetBullet");
+            return;
+        }
+
+        SetBulletClientRpc(shotPos, forward, seed, id, amount, nwID); // Clientに反映
         var config = configsSO.P_ScriptableObject[id];
         DamageConfigs dmgConfig = config.DamageConfig;
         dmgConfig.Dmg += dmgConfig.DefMagnification == 1 ? EntityData.Atk : EntityData.MaxMP / 10;
@@ -267,7 +241,7 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
         var spreadV = config.ProjectileSpreadV;
         for (int i = 0; i < amount; i++)
         {
-            var index = GetBullet(shotPos, nwID);
+            var index = GetBullet(shotPos);
 
             System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
             int rX = random.Next(-10000, 10000);
@@ -289,11 +263,53 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
             };
 
             bulletDmgConfigList[index] = dmgConfig;
-            nwIDsList[index] = nwID;
         }
     }
 
-    int GetBullet(Vector3 pos, ulong nwID = 0)
+    /// <summary>
+    /// サーバー側に弾をセットする
+    /// </summary>
+    public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed,int id, int amount, EntityStatusData EntityData)
+    {
+        SetBulletClientRpc(shotPos, forward, seed, id, amount, 0); // Clientに反映
+
+        var config = configsSO.P_ScriptableObject[id];
+        DamageConfigs dmgConfig = config.DamageConfig;
+        dmgConfig.Dmg += dmgConfig.DefMagnification == 1 ? EntityData.Atk : EntityData.MaxMP / 10;
+        dmgConfig.CritChance += EntityData.CritChance;
+        dmgConfig.CritDmg += EntityData.CritDamage;
+        dmgConfig.Penetration += EntityData.Penetration;
+        dmgConfig.HitChance += EntityData.HitChance;
+        var spreadHz = config.ProjectileSpreadHz;
+        var spreadV = config.ProjectileSpreadV;
+        for (int i = 0; i < amount; i++)
+        {
+            var index = GetBullet(shotPos);
+
+            System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
+            int rX = random.Next(-10000, 10000);
+            int rY = random.Next(-10000, 10000);
+
+            Vector3 dir = // 弾の進行方向を計算
+                Quaternion.Euler(
+                    spreadHz * rX / 10000,
+                    spreadV * rY / 10000, // 拡散率を適応
+                    0)
+                * forward;
+
+            bulletConfigsList[index] = new BulletControl_Config()
+            {
+                Speed = config.ProjectileSpeed, // データベース内の弾速を参照
+                DropForce = config.ProjectileDrop, // 弾の落下を参照
+                Estimate = config.MaxRange / config.ProjectileSpeed, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする)
+                Dir = dir.normalized // 進行方向を設定
+            };
+
+            bulletDmgConfigList[index] = dmgConfig;
+        }
+    }
+
+    int GetBullet(Vector3 pos)
     {
         int index;
         if (bulletIndexQueue_FirstHalf.Count > 0) // 優先度の高い弾があればそちらから使う
@@ -315,7 +331,6 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
             TargetDistanceList.Add(-1); // 値が-1の時は移動処理が省略される
             if (IsServer)
             {
-                nwIDsList.Add(nwID);
                 bulletDmgConfigList.Add(new());
             }
         }
@@ -381,7 +396,6 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
 
     public override void OnDestroy()
     {
-        nwIDsList.Dispose();
         bulletConfigsList.Dispose();
         bulletsElapsedList.Dispose();
         bulletIndexQueue_FirstHalf.Dispose();
@@ -497,7 +511,7 @@ public class DACS_P_BulletControl_Normal : NetworkBehaviour
     [ClientRpc]
     public void SetBulletClientRpc(Vector3 position, Vector3 forward, int seed,int id, int amount, ulong nwID)
     {
-        if (isHost || nwID == ownID)
+        if (IsServer || nwID == ownID)
             return;
 
         var config = configsSO.P_ScriptableObject[id];

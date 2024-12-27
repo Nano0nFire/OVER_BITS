@@ -1,20 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using System;
-using Unity.Entities.UniversalDelegates;
 using Cinemachine;
-using Unity.Mathematics;
-using UnityEditor;
 
 public class ClientGeneralManager : NetworkBehaviour
 {
-    public GameObject MainMenu;
-    [SerializeField] Rigidbody rb;
+    [HideInInspector] public GameObject MainMenu;
+    GameObject ChatSpace;
     [SerializeField] UIGeneral uiGeneral;
     [SerializeField] CLAPlus_MovementModule clap_m;
     [SerializeField] CLAPlus_AnimationControlModuel clap_a;
@@ -23,23 +18,25 @@ public class ClientGeneralManager : NetworkBehaviour
     [SerializeField] Transform CameraPos;
     [SerializeField] NetworkObject nwObject;
     public DACS_InventorySystem invSystem;
+    public DACS_HotbarSystem hotbarSystem;
     public PlayerDataManager pdManager{get; private set;}
-    GameObject masterObj;
-    DACS_P_BulletControl_Normal test;
+    DACS_Projectile projectile;
     public ulong nwID{get; private set;}
     States KeepState;
     public bool UseInput
     {
         get
         {
-            return MainMenu.activeSelf;
+            return _UseInput;
         }
         set
         {
-            Cursor.visible = value;
-            Cursor.lockState = value ? CursorLockMode.None : CursorLockMode.Locked ;
+            Cursor.visible = !value;
+            Cursor.lockState = value ? CursorLockMode.Locked : CursorLockMode.None ;
+            _UseInput = value;
         }
     }
+    bool _UseInput;
     public bool ActionLock;
     CancellationTokenSource clap_mCTSource = new();
     CancellationTokenSource CTSource = new();
@@ -61,11 +58,13 @@ public class ClientGeneralManager : NetworkBehaviour
     {
         Debug.Log("ClientGeneralManager : Loading");
 
+        UseInput = true;
+
         await UniTask.Delay(500);
 
         isOwner = nwObject.IsOwner;
 
-        masterObj = GameObject.Find("Master");
+        var masterObj = GameObject.Find("Master");
 
         if (!isOwner)
             return;
@@ -82,9 +81,17 @@ public class ClientGeneralManager : NetworkBehaviour
         // UI
         MainMenu = LocalGM.MainMenu;
         uiGeneral = MainMenu.GetComponent<UIGeneral>();
+        uiGeneral.invSystem = invSystem;
         uiGeneral.Setup(this);
         LocalGM.UI_playerSettings.Setup(this);
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
+        var PlayerName = pdManager.LoadedPlayerProfileData.PlayerName;
+        var lastDot = PlayerName.LastIndexOf('#');
+        var chatComponent = masterObj.GetComponent<CLAPlus_Chat>();
+        if (lastDot != -1)
+            chatComponent.PlayerName = PlayerName[..lastDot];
+        chatComponent.cgManager = this;
+        ChatSpace = chatComponent.canvas;
 
         // カメラ
         CVCamera = LocalGM.CVCamera;
@@ -94,10 +101,15 @@ public class ClientGeneralManager : NetworkBehaviour
         LocalGM.emSystem.Setup(this);
 
         GetComponent<Rigidbody>().useGravity = true;
-        test = masterObj.GetComponent<DACS_P_BulletControl_Normal>();
-        test.PlayerTransform = CameraPos;
-        test.nwObject = nwObject;
-        InputSetUp();
+        projectile = masterObj.GetComponent<DACS_Projectile>();
+        projectile.nwID = nwID;
+        projectile.CameraPos = CameraPos;
+        projectile.Setup();
+        hotbarSystem.ChangeActionPoint += (xform) => projectile.ShotPos = xform;
+        var paControl = masterObj.GetComponent<DACS_PlayerActionControl>();
+        paControl.invSystem = invSystem;
+        paControl.handControl = GetComponentInChildren<CLAPlus_HandControl>();
+        InputSetUp(masterObj.GetComponent<PlayerInput>());
         clap_a.isOwner = isOwner;
 
         // 設定
@@ -106,18 +118,20 @@ public class ClientGeneralManager : NetworkBehaviour
         Debug.Log("ClientGeneralManager : Complete");
     }
 
-    void InputSetUp()
+    void InputSetUp(PlayerInput inputActions)
     {
-        var inputActions = masterObj.GetComponent<PlayerInput>();
         SetInputAction(inputActions, "Move", MoveKeyInput);
         SetInputAction(inputActions, "Look", CameraInput);
         SetInputAction(inputActions, "Jump", JumpKeyInput);
         SetInputAction(inputActions, "Dash", DashKeyInput);
         SetInputAction(inputActions, "Crouch", CrouchKeyInput);
         SetInputAction(inputActions, "ActionKey", SubAction);
-        SetInputAction(inputActions, "MenuEscape", UIexit);
-        SetInputAction(inputActions, "RightClick", TestShot);
         SetInputAction(inputActions, "SwitchViewMode", SwitchViewMode);
+        SetInputAction(inputActions, "PrimarySlot", SelectPriSlot);
+        SetInputAction(inputActions, "SecondarySlot", SelectSecSlot);
+        SetInputAction(inputActions, "GranadeSlot", SelectGraSlot);
+        SetInputAction(inputActions, "SubSlot1", SelectSub0Slot);
+        SetInputAction(inputActions, "SubSlot2", SelectSub1Slot);
     }
 
     public async void LoadSettings()
@@ -136,24 +150,65 @@ public class ClientGeneralManager : NetworkBehaviour
         inputActions.actions[key].canceled += action;
     }
 
-    // void Update()
-    // {
-    //     if (isOwner)
-    //         UpdatePlayerPositionServerRpc(rb.position, rb.linearVelocity);
-    // }
-    public void UIexit(InputAction.CallbackContext context)
+    public void SelectPriSlot(InputAction.CallbackContext callback)
     {
-        if (context.performed && isOwner)
+        if (callback.performed)
         {
-            uiGeneral.UIexit(MainMenu);
-            clap_m.HzInput = 0;
-            clap_m.VInput = 0;
+            hotbarSystem.SelectedHotbarSlot(0);
+            uiGeneral.uiHotbar.SelectHotbarSlot(0);
+            invSystem.SelectedSlotIndex = 0;
         }
+    }
+
+    public void SelectSecSlot(InputAction.CallbackContext callback)
+    {
+        if (callback.performed)
+        {
+            hotbarSystem.SelectedHotbarSlot(1);
+            uiGeneral.uiHotbar.SelectHotbarSlot(1);
+            invSystem.SelectedSlotIndex = 1;
+        }
+    }
+
+    public void SelectGraSlot(InputAction.CallbackContext callback)
+    {
+        if (callback.performed)
+        {
+            hotbarSystem.SelectedHotbarSlot(2);
+            uiGeneral.uiHotbar.SelectHotbarSlot(2);
+            invSystem.SelectedSlotIndex = 2;
+        }
+    }
+
+    public void SelectSub0Slot(InputAction.CallbackContext callback)
+    {
+        if (callback.performed)
+        {
+            hotbarSystem.SelectedHotbarSlot(3);
+            uiGeneral.uiHotbar.SelectHotbarSlot(3);
+            invSystem.SelectedSlotIndex = 3;
+        }
+    }
+
+    public void SelectSub1Slot(InputAction.CallbackContext callback)
+    {
+        if (callback.performed)
+        {
+            hotbarSystem.SelectedHotbarSlot(4);
+            uiGeneral.uiHotbar.SelectHotbarSlot(4);
+            invSystem.SelectedSlotIndex = 4;
+        }
+    }
+
+    public void CleatInput()
+    {
+        clap_m.HzInput = 0;
+        clap_m.VInput = 0;
     }
 
     public void MoveKeyInput(InputAction.CallbackContext context)
     {
-        if (UseInput || ActionLock || !isOwner)
+        if (!UseInput || ActionLock)
             return;
 
         clap_m.HzInput = context.ReadValue<Vector2>().x;
@@ -162,7 +217,8 @@ public class ClientGeneralManager : NetworkBehaviour
 
     public void JumpKeyInput(InputAction.CallbackContext context)
     {
-        if (UseInput || !isOwner) return;
+        if (!UseInput)
+            return;
 
         if (context.performed)
         {
@@ -172,7 +228,7 @@ public class ClientGeneralManager : NetworkBehaviour
     }
     public void DashKeyInput(InputAction.CallbackContext context)
     {
-        if (UseInput || clap_m.Gstate == States.rush || !isOwner)
+        if (!UseInput || clap_m.Gstate == States.rush)
             return;
 
         if (context.performed)
@@ -188,7 +244,7 @@ public class ClientGeneralManager : NetworkBehaviour
 
     public void CrouchKeyInput(InputAction.CallbackContext context)
     {
-        if (UseInput || !isOwner)
+        if (!UseInput)
             return;
 
         if (context.performed)
@@ -296,7 +352,7 @@ public class ClientGeneralManager : NetworkBehaviour
 
     public void CameraInput(InputAction.CallbackContext context)
     {
-        if (UseInput || !isOwner)
+        if (!UseInput)
             return;
 
         clap_m.HzRotation = context.ReadValue<Vector2>().x;
@@ -325,19 +381,6 @@ public class ClientGeneralManager : NetworkBehaviour
 
                 RunningWallAnimation = false;
                 break;
-        }
-    }
-
-    public void TestShot(InputAction.CallbackContext context)
-    {
-        if (!isOwner)
-            return;
-
-        if (context.performed)
-        {
-            var xform = CameraPos.transform;
-            test.SetBulletLocal(xform.position, xform.forward,0, 3);
-            // UnityEditor.EditorApplication.isPaused = true;
         }
     }
 

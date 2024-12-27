@@ -40,10 +40,11 @@ public class DACS_EntityManagementSystem : NetworkBehaviour
             foreach (var spawner in SpawnerTransformList)
             {
                 var component = spawner.GetComponent<DACS_Entities_EnemySpawner>();
-                component.bcNormal = this.bcNormal;
+                component.bcNormal = bcNormal;
                 component.emSystem = this;
-                component.EntitiesSO = this.EntitiesSO;
+                component.EntitiesSO = EntitiesSO;
                 component.pdManager = pdManager;
+                component.Setup();
             }
         }
     }
@@ -55,30 +56,25 @@ public class DACS_EntityManagementSystem : NetworkBehaviour
         PlayerTransform = cgManager.transform;
         nwID = cgManager.nwID;
         DeactivateEntitiesIDQueue = new(Allocator.Persistent);
+        ActivateEntitiesIDQueue = new(Allocator.Persistent);
         IsActiveArray = new(SpawnerTransformList.Count, Allocator.Persistent);
-
-        if (IsHost)
-            foreach (var spawner in SpawnerTransformList)
-            {
-                var component = spawner.GetComponent<DACS_Entities_EnemySpawner>();
-                component.LoadSpawnerServerRpc(nwID);
-            }
     }
     void Update()
     {
-        if (!IsServer) // Entityがシュミレーション距離内かチェック
+        if (!IsServer) // Spawnerがシュミレーション距離内かチェック
         {
-            transformAccessArray.Dispose();
             transformAccessArray = new(SpawnerTransformList.ToArray());
             var checkJob = new EntityDistanceCheckJob()
             {
                 playerPos = PlayerTransform.position,
                 maxDistance = MaxSimulationDistance,
                 DisableQueue = DeactivateEntitiesIDQueue.AsParallelWriter(),
+                ActiveQueue = ActivateEntitiesIDQueue.AsParallelWriter(),
+                IsActive = IsActiveArray
             }.Schedule(transformAccessArray);
             checkJob.Complete();
             DeactivateEntitiesIDArray = DeactivateEntitiesIDQueue.ToArray(Allocator.TempJob);
-            foreach (var index in ActivateEntitiesIDArray) // スポナーにEntityの同期を要請
+            foreach (var index in ActivateEntitiesIDArray) // スポナーに読み込み範囲内であることを通知
             {
                 if (IsActiveArray[index])
                     continue;
@@ -86,7 +82,7 @@ public class DACS_EntityManagementSystem : NetworkBehaviour
                 SpawnerTransformList[index].GetComponent<DACS_Entities_EnemySpawner>().LoadSpawnerServerRpc(nwID);;
                 IsActiveArray[index] = true;
             }
-            foreach (var index in DeactivateEntitiesIDArray) // スポナーにEntityの非表示を要請
+            foreach (var index in DeactivateEntitiesIDArray) // スポナーに読み込み範囲外であることを通知
             {
                 if (!IsActiveArray[index])
                     continue;
@@ -99,6 +95,7 @@ public class DACS_EntityManagementSystem : NetworkBehaviour
             DeactivateEntitiesIDQueue.Clear();
             ActivateEntitiesIDArray.Dispose();
             ActivateEntitiesIDQueue.Clear();
+            transformAccessArray.Dispose();
         }
     }
     public GameObject GetEntity(int FirstIndex, int SecondIndex)

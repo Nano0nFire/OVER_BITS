@@ -1,40 +1,50 @@
+using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
+using Unity.Netcode;
 using UnityEngine;
 
 public class DACS_InventorySystem : MonoBehaviour // PlayerObject直下
 {
-    public PlayerDataManager pdManager; // ClientGeneralManagerが設定
-    public PlayerHotbar PlayerHotbar {get {return playerHotbar;}}
-    PlayerHotbar playerHotbar;
-
+    [HideInInspector] public PlayerDataManager pdManager; // ClientGeneralManagerが設定
+    public ItemData SelectedItem
+    {
+        get
+        {
+            if (SelectedSlotIndex >= HotbarData.Count)
+                return new ItemData{FirstIndex = -1};
+            else
+                return HotbarData[SelectedSlotIndex];
+        }
+    }
+    public int SelectedSlotIndex;
+    readonly int InventoryCount = 33;
 
     public async void Setup(ClientGeneralManager cgManager)
     {
         pdManager = cgManager.pdManager;
-        playerHotbar = await pdManager.LoadData<PlayerHotbar>();
+        HotbarData = await pdManager.LoadData<List<ItemData>>("HotbarData");
+        for (int i = 0; i < InventoryCount; i ++) // インベントリのロード
+        {
+            LoadInventory(i);
+        }
     }
 
-    public void ChangeHotbar(int index, ItemData itemID)
+    async void LoadInventory(int index)
     {
-        string jsonData = JsonUtility.ToJson(itemID);
-        switch (index)
-        {
-            case 0:
-                playerHotbar.PrimarySlot = jsonData;
-                break;
-            case 1:
-                playerHotbar.SecondarySlot = jsonData;
-                break;
-            case 2:
-                playerHotbar.GranadeSlot = jsonData;
-                break;
-            case 3:
-                playerHotbar.SubSlot0 = jsonData;
-                break;
-            case 4:
-                playerHotbar.SubSlot1 = jsonData;
-                break;
-        }
+        GetInventoryData(index).AddRange(await pdManager.LoadData<List<ItemData>>(GetListName(index)));
+    }
+
+    public void ChangeHotbar(int index, ItemData itemData) // ホットバーの使用状況を保存
+    {
+        HotbarData[index] = itemData;
+        pdManager.SaveData(HotbarData, "HotbarData").Forget();
+    }
+
+    public void ConsumeItem(ItemData itemData)
+    {
+
     }
 
     public string GetListName(int FirstNum)
@@ -48,7 +58,7 @@ public class DACS_InventorySystem : MonoBehaviour // PlayerObject直下
             4 => "HammerInventoryData",
             5 => "ShieldInventoryData",
             6 => "ConsumablesInventoryData",
-            7 => "ArrowInventoryData",
+            7 => "GranadeInventoryData",
             8 => "MagicInventoryData",
             9 => "FishingRodInventoryData",
             10 => "LongSwordInventoryData",
@@ -86,7 +96,7 @@ public class DACS_InventorySystem : MonoBehaviour // PlayerObject直下
     [NonReorderable] public List<ItemData> HammerInventoryData = new(); //4
     [NonReorderable] public List<ItemData> ShieldInventoryData = new(); //5
     [NonReorderable] public List<ItemData> ConsumablesInventoryData = new(); //6
-    [NonReorderable] public List<ItemData> ArrowInventoryData = new(); //7
+    [NonReorderable] public List<ItemData> GranadeInventoryData = new(); //7
     [NonReorderable] public List<ItemData> MagicInventoryData = new(); //8
     [NonReorderable] public List<ItemData> FishingRodInventoryData = new(); //9
     [NonReorderable] public List<ItemData> LongSwordInventoryData = new(); //10
@@ -113,6 +123,8 @@ public class DACS_InventorySystem : MonoBehaviour // PlayerObject直下
     [NonReorderable] public List<ItemData> MaterialInventoryData = new(); //31
     [NonReorderable] public List<ItemData> FoodInventoryData = new(); //32
 
+    [NonReorderable] public List<ItemData> HotbarData = new();
+
     public List<ItemData> GetInventoryData(int FirstNum)
     {
         return FirstNum switch
@@ -124,7 +136,7 @@ public class DACS_InventorySystem : MonoBehaviour // PlayerObject直下
             4 => HammerInventoryData,
             5 => ShieldInventoryData,
             6 => ConsumablesInventoryData,
-            7 => ArrowInventoryData,
+            7 => GranadeInventoryData,
             8 => MagicInventoryData,
             9 => FishingRodInventoryData,
             10 => LongSwordInventoryData,
@@ -156,29 +168,6 @@ public class DACS_InventorySystem : MonoBehaviour // PlayerObject直下
     #endregion
 }
 
-
-public struct PlayerHotbar
-{
-    public string PrimarySlot;
-    public string SecondarySlot;
-    public string GranadeSlot;
-    public string SubSlot0;
-    public string SubSlot1;
-}
-
-public struct PlayerInventory_Sword // ItemIDをJsonにして保存
-{
-    public List<string> LongSword;
-    public List<string> ShortSword;
-    public List<string> Spear;
-    public List<string> Axe;
-    public List<string> Hammer;
-    public List<string> Shield;
-}
-public struct PlayerInventoryData
-{
-    public List<ItemData> ItemDatas;
-}
 // public struct PlayerInventory_testItemInventoryData
 // {
 //     public List<string> items;

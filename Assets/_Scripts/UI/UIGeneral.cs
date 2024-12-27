@@ -5,76 +5,73 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 using Cysharp.Threading.Tasks;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class UIGeneral : MonoBehaviour
 {
     ClientGeneralManager cgManager;
-    public CustomLifeAvatar cla;
-    public UI_PlayerSettings uI_PlayerSettings;
-    public PlayerDataManager pdManager {get; private set;}
+    CustomLifeAvatar cla;
+    [HideInInspector] public UI_PlayerSettings uI_PlayerSettings;
+    PlayerDataManager pdManager;
     [SerializeField] ItemDataBase itemDataBase;
-    DACS_InventorySystem inventorySystem; // ClientGeneralManagerが設定
+    [SerializeField] GameObject ChatSpace;
+    public UI_Hotbar uiHotbar;
+    [SerializeField] UI_InfomationPanel infomationPanelController;
+    [HideInInspector] public DACS_InventorySystem invSystem; // ClientGeneralManagerが設定
     [SerializeField] GameObject SlotPrefab;
-    // [SerializeField] List<PanelSwitcher> psList;
-    // [SerializeField] List<SlotGenerator> SGList;
-    [Header("Infomation Panel Settings")]
-    [SerializeField] TextMeshProUGUI txt_Info_ItemName;
-    [SerializeField] TextMeshProUGUI txt_Info_ItemInfo;
-    [SerializeField] Sprite txt_Info_ItemImage;
     UI_Component[] UIComponents;
-    public UI_Component[] InventoryParents;
+    public UI_SlotLoader[] InventoryParents;
+    bool[] InventoryIsUpdated;
     List<Transform> SlotXforms = new();
-    [SerializeField] int activatedSlotIndex = 0;
+    int activatedSlotIndex = 0;
     public int ActivePanelIndex;
 
     public void Setup(ClientGeneralManager cgManager)
     {
         this.cgManager = cgManager;
         pdManager = cgManager.pdManager;
-        inventorySystem = cgManager.invSystem;
-        pdManager.OnItemAdded += LoadData;
+        invSystem = cgManager.GetComponent<DACS_InventorySystem>();
+        uiHotbar.inventorySystem = invSystem;
+        uiHotbar.hotbarSystem = cgManager.GetComponent<DACS_HotbarSystem>();
+        pdManager.OnItemAdded += Load;
         cla = cgManager.GetComponent<CustomLifeAvatar>();
 
         UIComponents = GetComponentsInChildren<UI_Component>(true);
+        int max = itemDataBase.ItemListCount;
+        InventoryParents = new UI_SlotLoader[max];
         int i = 0;
-        foreach (var panel in UIComponents)
-        {
-            panel.uiGeneral = this;
-            panel.panelID = i;
-            i ++;
-        }
-        InventoryParents = new UI_Component[itemDataBase.ItemListCount];
-        foreach (var component in GetComponentsInChildren<UI_Component>(true))
+        foreach (var component in UIComponents)
         {
             component.uiGeneral = this;
-            component.itemDataBase = itemDataBase;
+            component.panelID = i;
+            i ++;
             component.Setup();
+        }
+        InventoryIsUpdated = new bool[max];
+        for (i = 0; i < max; i ++)
+        {
+            InventoryIsUpdated[i] = true;
         }
     }
 
-    // void OnEnable()
-    // {
-    //     foreach (var item in psList)
-    //         item.EnableUI();
-    //     foreach (var item in SGList)
-    //     {
-    //         item.cla = cla;
-    //         item.EnableUI();
-    //     }
-    // }
-    // void OnDisable()
-    // {
-    //     foreach (var item in SGList) item.DisableUI();
-    // }
-
-    public void UIexit(GameObject Menu)
+    public void UIexit(InputAction.CallbackContext context)
     {
-        Menu.SetActive(!Menu.activeSelf);
+        if (!context.performed)
+            return;
+        gameObject.SetActive(false);
+        cgManager.UseInput = true;
+        ChatSpace.SetActive(false);
+    }
 
-        if (Menu == cgManager.MainMenu)
-        {
-            cgManager.UseInput = Menu.activeSelf;
-        }
+    public void ShowHideMenu(InputAction.CallbackContext context)
+    {
+        if (!context.performed)
+            return;
+        gameObject.SetActive(!gameObject.activeSelf);
+        cgManager.UseInput = !gameObject.activeSelf;
+        cgManager.CleatInput();
+        ChatSpace.SetActive(false);
     }
 
     /// <summary>
@@ -92,7 +89,11 @@ public class UIGeneral : MonoBehaviour
         {
             int shortage = amount - SlotXforms.Count;
             for(int i = 0; i < shortage; i++)
-                SlotXforms.Add(Instantiate(SlotPrefab).transform);
+            {
+                var newSlot = Instantiate(SlotPrefab).transform;
+                newSlot.GetComponent<UI_SlotComponent>().uiInfo = infomationPanelController;
+                SlotXforms.Add(newSlot);
+            }
         }
         activatedSlotIndex = amount-1;
         return SlotXforms.GetRange(0, amount);
@@ -108,15 +109,11 @@ public class UIGeneral : MonoBehaviour
     {
         if (SlotXforms.Count < activatedSlotIndex+1) // 生成済みのSlotが必要量に達しているか確認して、足りない場合は不足分を生成
         {
-            SlotXforms.Add(Instantiate(SlotPrefab).transform);
+            var newSlot = Instantiate(SlotPrefab).transform;
+            newSlot.GetComponent<UI_SlotComponent>().uiInfo = infomationPanelController;
+            SlotXforms.Add(newSlot);
         }
         return SlotXforms[activatedSlotIndex+1];
-    }
-
-    public void LoadInfoPanel(ItemData itemID)
-    {
-        var data = itemDataBase.GetItem(itemID.FirstIndex, itemID.SecondIndex);
-
     }
 
     public void SaveData() => Save(); // UIからの呼び出し用
@@ -134,32 +131,18 @@ public class UIGeneral : MonoBehaviour
                 break;
         }
     }
-    public void LoadData(int index)
-    {
-        if (!InventoryParents[index].enabled) // 非アクティブ状態ならローカルデータの更新はしない
-            return;
-
-        Load(index);
-    }
 
     /// <summary>
     /// ローカルデータの更新と対応するUIの更新を行う
     /// </summary>
-    /// <param name="index"></param> <summary>
-    ///
-    /// </summary>
-    /// <param name="index"></param>
+    /// <param name="forceLoad">true : 強制的に読み込む<br />false(デフォルト) : データに更新があった場合のみ読み込む</param>
+    /// <param name="index">読み込み先のインデックス</param>
     /// <returns></returns>
-    public async void Load(int index)
+    public void Load(int index)
     {
-        string key = inventorySystem.GetListName(index); // 変換したデータからFirstIndexを取得しKeyを取得
-        UniTask<List<ItemData>> task = pdManager.LoadData<List<ItemData>>(key); // 非同期ロード開始
-        inventorySystem.GetInventoryData(index).Clear(); // ロード中に古いデータを整理
-        var data = await task;
-        Debug.Log($"data length : {data.Count} \nlocal length : {inventorySystem.GetInventoryData(index).Count}");
-        inventorySystem.GetInventoryData(index).AddRange(data); // ロードが完了したデータを再設定
-        InventoryParents[index].LoadSlot(inventorySystem.GetInventoryData(index)); // スロットを更新
-        Debug.Log($"local length : {inventorySystem.GetInventoryData(index).Count}");
+        if (!InventoryParents[index].enabled) // 非アクティブ状態なら更新はしない
+            return;
+        InventoryParents[index].LoadSlot(invSystem.GetInventoryData(index)); // スロットを更新
     }
 
     public void CLACombine()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,10 @@ public class ItemDataConfigs
     public bool ItemLock;
     public bool CanStack;
     public int StackAmount;
+    [Tooltip("1,2桁目の数字でアイテムの動作モードを設定\n3,4桁目の数字で動作の詳細設定\n5,6桁目の数字で動作の詳細設定\n7,8桁目の数字で動作の詳細設定")]
+    public string R_Function;
+    [Tooltip("1,2桁目の数字でアイテムの動作モードを設定\n3,4桁目の数字で動作の詳細設定\n5,6桁目の数字で動作の詳細設定\n7,8桁目の数字で動作の詳細設定")]
+    public string L_Function;
 }
 
 [CreateAssetMenu(fileName = "ItemData", menuName = "Data", order = 1)]
@@ -27,7 +32,7 @@ public class ItemDataBase : ScriptableObject
     [NonReorderable] public List<ItemDataConfigs> HammerDataList = new(); //4
     [NonReorderable] public List<ItemDataConfigs> ShieldDataList = new(); //5
     [NonReorderable] public List<ItemDataConfigs> ConsumablesDataList = new(); //6
-    [NonReorderable] public List<ItemDataConfigs> ArrowDataList = new(); //7
+    [NonReorderable] public List<ItemDataConfigs> GranadeDataList = new(); //7
     [NonReorderable] public List<ItemDataConfigs> MagicDataList = new(); //8
     [NonReorderable] public List<ItemDataConfigs> FishingRodDataList = new(); //9
     [NonReorderable] public List<ItemDataConfigs> LongSwordDataList = new(); //10
@@ -65,7 +70,7 @@ public class ItemDataBase : ScriptableObject
             4 => HammerDataList,
             5 => ShieldDataList,
             6 => ConsumablesDataList,
-            7 => ArrowDataList,
+            7 => GranadeDataList,
             8 => MagicDataList,
             9 => FishingRodDataList,
             10 => LongSwordDataList,
@@ -106,7 +111,7 @@ public struct ItemData
 {
     public int FirstIndex; // GetItemの最初のインデックスに該当するもの
     public int SecondIndex; // GetItemの二番目のインデックスに該当する
-    public int Amount;
+    public int Amount; // アイテムの数
     public List<int> Mods;
     public List<int> Enchants;
     public int PriAddon;
@@ -122,6 +127,13 @@ public enum ItemRarities
     legend,
     overrank,
     named,
+}
+
+[Serializable]
+public class ItemFunction
+{
+    public int funcA;
+    public int funcB;
 }
 
 public static class RarityToColor

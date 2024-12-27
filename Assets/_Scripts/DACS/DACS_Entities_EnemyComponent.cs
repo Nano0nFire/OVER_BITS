@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Unity.Entities.UniversalDelegates;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,14 +29,14 @@ public class DACS_Entities_Enemy_Component : DACS_Entities // Entity直下
     CancellationTokenSource _ctSource;
     CancellationToken ctToken;
     [HideInInspector] public int lvl; // spawnerが設定
-    float MaxHP = 100;
-    public float HP
+    public override float MaxHP{get; set;}
+    public override float HP
     {
         get
         {
             return _hp;
         }
-        private set
+        set
         {
             _hp = value;
             if (_hp > MaxHP)
@@ -44,11 +45,11 @@ public class DACS_Entities_Enemy_Component : DACS_Entities // Entity直下
                 _hp = 0;
         }
     }
-    public float _hp;
-    float Def;
-    float Abno;
-    float Atk;
-    float DodgeChance;
+    float _hp;
+    public override float Def{get; set;}
+    public override float Abno{get; set;}
+    public override float Atk{get; set;}
+    public override float DodgeChance{get; set;}
     int ReviveNumber = 0;
     int AttackCount = 0;
     [SerializeField] CapsuleCollider col;
@@ -260,40 +261,6 @@ public class DACS_Entities_Enemy_Component : DACS_Entities // Entity直下
         }
     }
 
-    // async void OnTriggerStay(Collider other)
-    // {
-    //     if (other.gameObject.CompareTag("Player"))
-    //     {
-    //         Target = other.transform;
-
-    //         if (Vector3.Distance(transform.position, Target.transform.position) > entityConfig.AttackRange)
-    //         {
-    //             StartChace();
-    //             entityState = EntityState.Chase;
-    //             isAttacking = false;
-    //         }
-    //         else
-    //         {
-    //             if (isAttacking)
-    //                 return;
-    //             rb.AddForce(-10 * transform.forward);
-    //             Debug.Log("AAAAAAAAAAAA");
-    //             isAttacking = true;
-    //             // StopChace();
-    //             // if (!isAttacking)
-    //             // {
-    //             //     isAttacking = true;
-    //             //     entityState = EntityState.Attack;
-
-    //             //     await Attack(AttackPatterns[UnityEngine.Random.Range(0, AttackPatterns.Count - 1)]);
-
-    //             //     isAttacking = false;
-    //             //     entityState = EntityState.Chase;
-    //             // }
-    //         }
-    //     }
-    // }
-
     void SearchPlayer()
     {
         if (Spawner.NearbyPalyersTransformList.Count == 0)
@@ -359,9 +326,20 @@ public class DACS_Entities_Enemy_Component : DACS_Entities // Entity直下
     }
 
 }
-public class DACS_Entities : MonoBehaviour
+public class DACS_Entities : NetworkBehaviour
 {
-    public EntityStatusData entityStatusData;
+    public virtual float MaxHP{get; set;}
+    public virtual float HP{get; set;}
+    public virtual float Def{get; set;}
+    public virtual float Abno{get; set;}
+    public virtual float DodgeChance{get; set;}
+    public virtual float Atk{get; set;}
+    public virtual float MaxMP{get; set;}
+    public virtual float MP{get; set;}
+    public virtual float CritChance{get; set;}
+    public virtual float CritDamage{get; set;}
+    public virtual float Penetration{get; set;}
+    public virtual float HitChance{get; set;}
     public virtual void OnDamage(DamageData damage, ulong nwID = 0){}
     public virtual void OnDead(){}
     public virtual void OnDodge(){}

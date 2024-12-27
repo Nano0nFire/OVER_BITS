@@ -8,6 +8,7 @@ using Unity.Services.CloudSave;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using Newtonsoft.Json;
+using System.Linq;
 
 public class PlayerDataManager : NetworkBehaviour
 {
@@ -28,7 +29,10 @@ public class PlayerDataManager : NetworkBehaviour
         if (AuthenticationService.Instance.IsSignedIn) // 以前ログインしていたならロードだけする
             LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
         else // 履歴がないならログインする
+        {
             await PlayerAccountService.Instance.StartSignInAsync();
+            Debug.Log("SignIn Start");
+        }
     }
 
     async void SignedIn() // SignIn開始
@@ -38,6 +42,7 @@ public class PlayerDataManager : NetworkBehaviour
             var accessToken = PlayerAccountService.Instance.AccessToken;
             await SignInWithUnityAsync(accessToken);
             LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
+            Debug.Log("SignIn Done");
         }
         catch (Exception ex)
         {
@@ -50,6 +55,7 @@ public class PlayerDataManager : NetworkBehaviour
         try
         {
             await AuthenticationService.Instance.SignInWithUnityAsync(accessToken);
+            Debug.Log("SignInWithUnity Done");
         }
         catch (AuthenticationException ex)
         {
@@ -59,6 +65,11 @@ public class PlayerDataManager : NetworkBehaviour
         {
             Debug.LogException(ex);
         }
+    }
+
+    public void InitSignOut()
+    {
+        AuthenticationService.Instance.SignOut(true);
     }
 
     private void OnDestroy()
@@ -85,8 +96,6 @@ public class PlayerDataManager : NetworkBehaviour
     public async UniTask SaveData<T>(T SaveData, string CustomKey = null)
     {
         string jsonData = JsonConvert.SerializeObject(SaveData); // データをJsonに変換
-
-        Debug.Log(jsonData);
 
         string Key;
         if (CustomKey != null)
@@ -139,7 +148,6 @@ public class PlayerDataManager : NetworkBehaviour
 
             var item = savedData[Key];
             var jsonData = item.Value.GetAsString();
-            Debug.Log(jsonData + Key);
 
             // デシリアライズして元のデータ形式に変換
             return JsonConvert.DeserializeObject<T>(jsonData);
@@ -152,7 +160,7 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
 
-    public async UniTask CreateAndSaveNewData<T>(string CustomKey = null) where T : new() // 初期値の設定はここで行う
+    public async UniTask CreateAndSaveNewData<T>(string CustomKey) where T : new() // 初期値の設定はここで行う
     {
         if (typeof(T) == typeof(SettingsData))
         {
@@ -166,6 +174,11 @@ public class PlayerDataManager : NetworkBehaviour
             };
             await SaveData(data); // 新規データの作成
         }
+        else if (CustomKey == "HotbarData")
+        {
+            List<ItemData> data = new ItemData[5].ToList();
+            await SaveData(data, CustomKey); // 新規データの作成
+        }
         else
         {
             var data = new T();
@@ -173,7 +186,7 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
     #region AddItemData
-    public void AddItem(ItemData itemData, ulong wnID)
+    public void AddItem(ItemData itemData, ulong wnID, int amount = 0)
     {
         if (!IsServer)
             return;
@@ -182,26 +195,114 @@ public class PlayerDataManager : NetworkBehaviour
         {
             Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { wnID } }
         };
-        AddItemOrderToClientClientRpc(JsonConvert.SerializeObject(itemData), rpcParams);
+        AddItemOrderClientRpc(JsonConvert.SerializeObject(itemData), amount, rpcParams);
     }
 
     [ClientRpc]
-    public void AddItemOrderToClientClientRpc(string data, ClientRpcParams rpcParams = default)
+    public void AddItemOrderClientRpc(string data, int amount, ClientRpcParams rpcParams = default)
     {
         if (!IsClient)
             return;
 
-        AddItemOrderToClient(data);
-        Debug.Log(data);
+        AddItem(data, amount);
     }
 
-    async void AddItemOrderToClient(string data)
+    async void AddItem(string data, int amount = 0)
     {
+        if (!IsClient)
+            return;
+
         var itemData = JsonConvert.DeserializeObject<ItemData>(data); // Jsonから変換
-        Debug.Log(itemData);
         string key = inventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
         var PlayerInventoryData = await LoadData<List<ItemData>>(key); // Keyを元にインベントリデータを取得
-        PlayerInventoryData.Add(itemData); // アイテムの追加
+        if (amount == 0) {
+            PlayerInventoryData.Add(itemData);
+            inventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
+        } else {
+            int itemIndex;
+            int secondIndex = itemData.SecondIndex;
+            int length = PlayerInventoryData.Count;
+            for (itemIndex = 0; itemIndex < length; itemIndex++)
+                if (PlayerInventoryData[itemIndex].SecondIndex == secondIndex)
+                    break;
+
+            if (length == itemIndex){ // アイテムがリスト内に存在しなかった場合
+                itemData.Amount += amount;
+                PlayerInventoryData.Add(itemData);
+                inventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
+            } else {
+                itemData = PlayerInventoryData[itemIndex];
+                itemData.Amount += amount;
+                PlayerInventoryData[itemIndex] = itemData;
+                inventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
+            }
+        }
+        await SaveData(PlayerInventoryData, key); // 追加した後のインベントリデータを保存
+        OnItemAdded.Invoke(itemData.FirstIndex);
+    }
+    #endregion
+    #region RemoveItem
+    /// <summary>
+    /// ServerOnly
+    /// </summary>
+    /// <param name="itemData"></param>
+    /// <param name="wnID"></param>
+    public void RemoveItem(ItemData itemData, ulong wnID, int amount)
+    {
+        if (!IsServer)
+            return;
+
+        ClientRpcParams rpcParams = new() // ClientRPCを送る対象を選択
+        {
+            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { wnID } }
+        };
+        RemoveItemOrderClientRpc(JsonConvert.SerializeObject(itemData), amount, rpcParams);
+    }
+
+    [ClientRpc]
+    public void RemoveItemOrderClientRpc(string data, int amount, ClientRpcParams rpcParams = default)
+    {
+        if (!IsClient)
+            return;
+
+        RemoveItem(data, amount);
+    }
+
+    /// <summary>
+    /// ClientOnly
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    async void RemoveItem(string data, int amount = 0)
+    {
+        if (!IsClient)
+            return;
+
+        var itemData = JsonConvert.DeserializeObject<ItemData>(data); // Jsonから変換
+        string key = inventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
+        var PlayerInventoryData = await LoadData<List<ItemData>>(key); // Keyを元にインベントリデータを取得
+        if (amount == 0) {
+            PlayerInventoryData.Remove(itemData);
+            inventorySystem.GetInventoryData(itemData.FirstIndex).Remove(itemData);
+        } else {
+            int itemIndex;
+            int secondIndex = itemData.SecondIndex;
+            int length = PlayerInventoryData.Count;
+            for (itemIndex = 0; itemIndex < length; itemIndex++)
+                if (PlayerInventoryData[itemIndex].SecondIndex == secondIndex)
+                    break;
+
+            if (length == itemIndex){ // アイテムがリスト内に存在しなかった場合
+                itemData.Amount += amount;
+                PlayerInventoryData.Add(itemData);
+                inventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
+            } else {
+                itemData = PlayerInventoryData[itemIndex];
+                itemData.Amount += amount;
+                PlayerInventoryData[itemIndex] = itemData;
+                inventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
+            }
+        }
         await SaveData(PlayerInventoryData, key); // 追加した後のインベントリデータを保存
         OnItemAdded.Invoke(itemData.FirstIndex);
     }

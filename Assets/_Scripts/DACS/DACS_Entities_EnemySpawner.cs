@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DACS_Entities_EnemySpawner : NetworkBehaviour // スポナーにアタッチ
 {
@@ -10,17 +11,32 @@ public class DACS_Entities_EnemySpawner : NetworkBehaviour // スポナーにア
     [HideInInspector] public DACS_P_BulletControl_Normal bcNormal; // EntityManagerが設定
     [HideInInspector] public DACS_Entities_ScriptableObject EntitiesSO; // EntityManagerが設定
     [HideInInspector] public PlayerDataManager pdManager; // EntityManagerが設定
+
+    [Header("Entity Settings")]
     [SerializeField] int SpawnTargetFirstIndex, SpawnTargetSecondIndex;
-    [SerializeField] List<GameObject> Entities = new(); // アクティブなEntityをキューで把握
+    [SerializeField,Tooltip("0の場合はデフォルト値に基づいてステータスが決まる")] int EntityLevel = 0; // スポーンするEntityのLevel(0の場合はデフォルト値が使われる)
+
+    [Space(1), Header("Spawner Settings")]
     [SerializeField] int MaxSpawnAmount = 5; // 最大同時スポーン数
     [SerializeField] int SpawnSpan = 10;
-    [SerializeField] int EntityLevel = 0; // スポーンするEntityのLevel(0の場合はデフォルト値が使われる)
-    public List<Transform> NearbyPalyersTransformList = new(); // スポナーを読み込んでいるプレイヤーのTransform
-    List<ulong> loadedPlayerNWIDs = new();
+
+    [SerializeField, Tooltip("スポーン範囲を設定\nランダムスポーンの場合は最低3つを指定する/n固定スポーンの場合は一つだけ指定する")]
+    Transform[] SpawnMarker = new Transform[3];
+    [SerializeField] List<GameObject> Entities = new(); // アクティブなEntityをキューで把握
+    [HideInInspector] public List<Transform> NearbyPalyersTransformList = new(); // スポナーを読み込んでいるプレイヤーのTransform
+    // List<ulong> loadedPlayerNWIDs = new();
     EntityConfigs entityData;
-    [SerializeField] bool isSpawning = false;
-    [SerializeField] Vector3 spawnPoint;
-    [SerializeField] ItemData itemDataa;
+    bool isSpawning = false;
+
+    // 座標計算
+    Vector3 center;
+    float rad;
+
+    public void Setup()
+    {
+        center = CalculateCenter();
+        rad = CalculateRadius();
+    }
 
     async void Update()
     {
@@ -32,10 +48,9 @@ public class DACS_Entities_EnemySpawner : NetworkBehaviour // スポナーにア
         if (!IsServer) // Serverのみ呼び出し可能
             return;
 
-        entityData ??= EntitiesSO.GetEntity(SpawnTargetFirstIndex, SpawnTargetSecondIndex);
-
         if (Entities.Count >= MaxSpawnAmount)
             return;
+        entityData ??= EntitiesSO.GetEntity(SpawnTargetFirstIndex, SpawnTargetSecondIndex);
 
         await UniTask.Delay(TimeSpan.FromSeconds(UnityEngine.Random.Range((SpawnSpan - 5) > 0 ? SpawnSpan - 5 : 0, (SpawnSpan + 5) > 0 ? SpawnSpan + 5 : 5)), cancellationToken : destroyCancellationToken); // スポーンの間隔を設定から+-5秒にする
         Spawn();
@@ -50,11 +65,11 @@ public class DACS_Entities_EnemySpawner : NetworkBehaviour // スポナーにア
 
         var entity = emSystem.GetEntity(SpawnTargetFirstIndex, SpawnTargetSecondIndex);
         await UniTask.Delay(TimeSpan.FromSeconds(1)); // NetworkObject.Spawn()を待つ
-        var nwObject = entity.GetComponent<NetworkObject>();
-        Debug.Log($"IsServer: {IsServer}, NetworkObject: {nwObject}");
-        foreach (var id in loadedPlayerNWIDs)
-            nwObject.NetworkShow(id);
-        entity.transform.position = spawnPoint;
+        // var nwObject = entity.GetComponent<NetworkObject>();
+        // Debug.Log($"IsServer: {IsServer}, NetworkObject: {nwObject}");
+        // foreach (var id in loadedPlayerNWIDs)
+        //     nwObject.NetworkShow(id);
+        entity.transform.position = GetSpawnPoint();
         var data = entity.GetComponent<DACS_Entities_Enemy_Component>();
         Entities.Add(entity);
         data.Spawner = this;
@@ -62,17 +77,95 @@ public class DACS_Entities_EnemySpawner : NetworkBehaviour // スポナーにア
         data.lvl = EntityLevel != 0 ? EntityLevel : entityData.EntityStatus.BaseLevel;
         data.OnActivate(entityData);
     }
+
+    Vector3 GetSpawnPoint()
+    {
+        if (SpawnMarker.Length < 3 && SpawnMarker.Length != 1)
+            return Vector3.zero;
+
+        for (int i = 0; i < 10; i++) // 10回試行して見つからなかった場合は中心地点を返す
+        {
+            // ランダム座標を生成
+            Vector3 randomPoint = GenerateRandomPoint(center);
+
+            // ポリゴン内チェック
+            if (!IsPointInPolygon(randomPoint))
+                continue;
+
+            // NavMesh上チェック
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+                return hit.position;
+        }
+
+        return center;
+    }
+
+    Vector3 CalculateCenter()
+    {
+        Vector3 center = Vector3.zero;
+        foreach (var obj in SpawnMarker)
+            center += obj.position;
+        return center / SpawnMarker.Length;
+    }
+
+    float CalculateRadius()
+    {
+        float x = 0;
+        foreach (var obj in SpawnMarker)
+            x += Vector3.Distance(center, obj.position);
+
+        return x / SpawnMarker.Length;
+    }
+
+    // 指定したオブジェクトで囲まれた範囲内のランダムな点を生成
+    Vector3 GenerateRandomPoint(Vector3 center)
+    {
+        // 囲まれた範囲の適当な点（中央を基準に小さな範囲を作成）
+        float randomX = UnityEngine.Random.Range(-rad, rad);
+        float randomZ = UnityEngine.Random.Range(-rad, rad);
+        return center + new Vector3(randomX, 0, randomZ);
+    }
+
+    // 点がポリゴン内にあるかチェック（2D平面とみなして計算）
+    bool IsPointInPolygon(Vector3 point)
+    {
+        int intersections = 0;
+        for (int i = 0; i < SpawnMarker.Length; i++)
+        {
+            Vector3 p1 = SpawnMarker[i].position;
+            Vector3 p2 = SpawnMarker[(i + 1) % SpawnMarker.Length].position;
+
+            if (IsIntersecting(point, p1, p2))
+                intersections++;
+        }
+
+        // 奇数ならポリゴン内
+        return intersections % 2 != 0;
+    }
+
+    // 線分と点が交差しているかを判定
+    bool IsIntersecting(Vector3 point, Vector3 p1, Vector3 p2)
+    {
+        // Y座標を無視してXZ平面で計算
+        if ((p1.z > point.z) != (p2.z > point.z))
+        {
+            float slope = (point.z - p1.z) / (p2.z - p1.z);
+            float intersectX = p1.x + slope * (p2.x - p1.x);
+            return point.x < intersectX;
+        }
+        return false;
+    }
+
     public void OnDead(GameObject entity, ulong attackerID)
     {
         Entities.Remove(entity);
         emSystem.ReturnEntity(entity);
-        foreach (var id in loadedPlayerNWIDs)
-            entity.GetComponent<NetworkObject>().NetworkHide(id);
+        // foreach (var id in loadedPlayerNWIDs)
+        //     entity.GetComponent<NetworkObject>().NetworkHide(id);
     }
     public void OnDrop(ItemData itemData, ulong attackerID)
     {
         pdManager.AddItem(itemData, attackerID);
-        itemDataa = itemData;
     }
 
     [ServerRpc]
@@ -82,11 +175,11 @@ public class DACS_Entities_EnemySpawner : NetworkBehaviour // スポナーにア
             return;
 
         NearbyPalyersTransformList.Add(NetworkManager.SpawnManager.SpawnedObjects[nwID].transform);
-        loadedPlayerNWIDs.Add(nwID);
-        foreach (var entity in Entities)
-        {
-            entity.GetComponent<NetworkObject>().NetworkShow(nwID);
-        }
+        // loadedPlayerNWIDs.Add(nwID);
+        // foreach (var entity in Entities)
+        // {
+        //     entity.GetComponent<NetworkObject>().NetworkShow(nwID);
+        // }
     }
     [ServerRpc]
     public void UnLoadSpawnerServerRpc(ulong nwID)
@@ -95,11 +188,11 @@ public class DACS_Entities_EnemySpawner : NetworkBehaviour // スポナーにア
             return;
 
         NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedObjects[nwID].transform);
-        loadedPlayerNWIDs.Remove(nwID);
-        foreach (var entity in Entities)
-        {
-            entity.GetComponent<NetworkObject>().NetworkHide(nwID);
-        }
+        // loadedPlayerNWIDs.Remove(nwID);
+        // foreach (var entity in Entities)
+        // {
+        //     entity.GetComponent<NetworkObject>().NetworkHide(nwID);
+        // }
     }
     // [ServerRpc]
     // public void DespawnOrderServerRpc(ulong nwID)
@@ -107,7 +200,7 @@ public class DACS_Entities_EnemySpawner : NetworkBehaviour // スポナーにア
     //     if (!IsServer)
     //         return;
     //     DespawnForClient(Entities.ToArray(), nwID);
-    //     NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedObjects[nwID].transform);
+    //     NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedSpawnMarker[nwID].transform);
     //     NearbyPalyersNWIDsList.Remove(nwID);
     // }
     // public void SpawnForClient(GameObject[] entities, ulong targetClientId) // このスポナーをクライアントが読み込んだ場合にServerRPCを通して呼び出される
