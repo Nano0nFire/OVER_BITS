@@ -2,11 +2,12 @@ using System;
 using Unity.Entities.UniversalDelegates;
 using Unity.Netcode;
 using UnityEngine;
+using CLAPlus.AnimationControl;
 
 public class DACS_HotbarSystem : NetworkBehaviour
 {
     [SerializeField] ItemDataBase itemDataBase;
-    [SerializeField] CLAPlus_HandControl handControl;
+    [SerializeField] HandControl handControl;
     int SelectedSlotIndex = 0;
     [SerializeField] Transform ItemPos;
     [SerializeField] Transform RightHandPoint;

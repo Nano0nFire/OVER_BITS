@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using System;
+using CLAPlus;
+using CLAPlus.AnimationControl;
 using Cinemachine;
 
 public class ClientGeneralManager : NetworkBehaviour
@@ -11,8 +13,8 @@ public class ClientGeneralManager : NetworkBehaviour
     [HideInInspector] public GameObject MainMenu;
     GameObject ChatSpace;
     [SerializeField] UIGeneral uiGeneral;
-    [SerializeField] CLAPlus_MovementModule clap_m;
-    [SerializeField] CLAPlus_AnimationControlModuel clap_a;
+    [SerializeField] CharactorMovement clap_m;
+    [SerializeField] AnimationControl clap_a;
     [SerializeField] GameObject avatar;
     [SerializeField] PlayerStatus playerStatus;
     [SerializeField] Transform CameraPos;
@@ -87,7 +89,7 @@ public class ClientGeneralManager : NetworkBehaviour
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
         var PlayerName = pdManager.LoadedPlayerProfileData.PlayerName;
         var lastDot = PlayerName.LastIndexOf('#');
-        var chatComponent = masterObj.GetComponent<CLAPlus_Chat>();
+        var chatComponent = masterObj.GetComponent<ClapChat>();
         if (lastDot != -1)
             chatComponent.PlayerName = PlayerName[..lastDot];
         chatComponent.cgManager = this;
@@ -108,7 +110,7 @@ public class ClientGeneralManager : NetworkBehaviour
         hotbarSystem.ChangeActionPoint += (xform) => projectile.ShotPos = xform;
         var paControl = masterObj.GetComponent<DACS_PlayerActionControl>();
         paControl.invSystem = invSystem;
-        paControl.handControl = GetComponentInChildren<CLAPlus_HandControl>();
+        paControl.handControl = GetComponentInChildren<HandControl>();
         InputSetUp(masterObj.GetComponent<PlayerInput>());
         clap_a.isOwner = isOwner;
 

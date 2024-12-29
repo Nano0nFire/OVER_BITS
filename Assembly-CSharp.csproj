@@ -80,28 +80,32 @@
   <ItemGroup>
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\_Scripts\General\ClientGeneralManager.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\HandControl.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelSwitcher.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
+    <Compile Include="Assets\_Scripts\FaceTrack\Face2Face.cs" />
     <Compile Include="Assets\IKTEST.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACSMainController.cs" />
     <Compile Include="Assets\_Scripts\General\PlayerInputManager.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_Entities_EnemyDataScriptableObject.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_EntityManagementSystem.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\BodyControl.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_WeaponObjectInfo.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_Hotbar.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_IKControl.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\SpringSystem.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_P_ScriptableObject.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_CLA_SlotComponent.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_PlayerActionControl.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_NetworkAnimation.cs" />
     <Compile Include="Assets\_Scripts\UI\SlotGenerator.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\FootControl.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_ItemManagementSystem.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACSManager.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\AnimationControl.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\_Scripts\SecureValue.cs" />
     <Compile Include="Assets\_Scripts\General\PlayerStatus.cs" />
@@ -120,11 +124,11 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_PlayerSettings.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
+    <Compile Include="Assets\_Scripts\Old\CharactorMovement_v2.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\ClapChat.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_HotbarSystem.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLAPartsLists.cs" />
     <Compile Include="Assets\_Scripts\DACS\TestComponent.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_SlotLoader.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_SpringSystem.cs" />
     <Compile Include="Assets\_Scripts\General\CommonEntityStatus.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\_Scripts\ClientNetworkTransform.cs" />
@@ -132,9 +136,9 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
+    <Compile Include="Assets\_Scripts\FaceTrack\Video_Inspector.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_Chat.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_MovementModule.cs" />
+    <Compile Include="Assets\_Scripts\FaceTrack\UI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_Entities_PlayerComponent.cs" />
@@ -144,31 +148,31 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
     <Compile Include="Assets\_Scripts\Data\ItemDataBase.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_Projectile.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_ProceduralAnimationModule1.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\CharactorMovement.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\testSpring.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_CheckVisibility.cs" />
     <Compile Include="Assets\_Scripts\General\ScriptsAttach.cs" />
     <Compile Include="Assets\_Scripts\SingleTargetRPCTest.cs" />
+    <Compile Include="Assets\_Scripts\Old\CLAPlus_ProceduralAnimationModule1.cs" />
     <Compile Include="Assets\_Scripts\General\LocalGeneralManager.cs" />
+    <Compile Include="Assets\_Scripts\FaceTrack\Video.cs" />
     <Compile Include="Assets\_Scripts\DACS\ProjectileController.cs" />
     <Compile Include="Assets\_Scripts\UI\UIGeneral.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CharactorMovement_v2.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\PartsSO.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\_Scripts\DACS\DynamicActionControlSystem.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem_SlotComponent.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_HandControl.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\_Scripts\UI\SubPanelSwitcher.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\CLAPlus_AnimationControlModule.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_ObjectInfo.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
+    <Compile Include="Assets\_Scripts\Old\CLAPlus_NetworkAnimation.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_PlayerDataManager.cs" />
     <Compile Include="Assets\_Scripts\DACS\DACS_P_BulletControl_Normal.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CustomLiveAvatar.cs" />
@@ -177,38 +181,69 @@
     <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem_ParentComponent.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\runtimes\win-x86\native\DlibDotNetNativeDnn.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\_Scripts\FaceTrack\haarcascade_frontalface_default.xml" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\runtimes\win-x64\native\DlibDotNetNative.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\LICENSE.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\Mobility_Pro\Demo_Scene_Animation_README.txt" />
+    <None Include="Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.Blob.dll" />
     <None Include="Assets\_Shader\Bullet_InstancedShader.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Unity - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.xml" />
+    <None Include="Assets\Packages\System.Drawing.Common.4.7.0\LICENSE.TXT" />
     <None Include="Assets\TextMesh Pro\Fonts\rounded-l-mgenplus-1-20150602\SIL_Open_Font_License_1.1.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - AFL.txt" />
+    <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.7.1\version.txt" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\licenses\libpng.txt" />
+    <None Include="Assets\Packages\System.Drawing.Common.4.7.0\version.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.Extensions.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\Packages\System.Drawing.Common.4.7.0\lib\netstandard2.0\System.Drawing.Common.dll" />
+    <None Include="Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.Extensions.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
+    <None Include="Assets\Packages\System.Drawing.Common.4.7.0\useSharedDesignerContext.txt" />
     <None Include="Assets\TextMesh Pro\japanese_full.txt" />
+    <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.7.1\useSharedDesignerContext.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\_UI\MainUI.uss" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\runtimes\win-x64\native\DlibDotNetNativeDnn.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\runtimes\win-x86\native\DlibDotNetNative.dll" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\licenses\libjpeg.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.Blob.xml" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.xml" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\licenses\giflib.txt" />
+    <None Include="Assets\OpenCvSharpNative\opencv_videoio_ffmpeg440_64.dll" />
+    <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.7.1\LICENSE.TXT" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\licenses\dlib.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll" />
     <None Include="Assets\_UI\MainUI.uxml" />
+    <None Include="Assets\OpenCvSharpNative\OpenCvSharpExtern.dll" />
+    <None Include="Assets\Packages\System.Drawing.Common.4.7.0\THIRD-PARTY-NOTICES.TXT" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\licenses\zlib.txt" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.7.1\THIRD-PARTY-NOTICES.TXT" />
+    <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\lib\netstandard2.0\DlibDotNet.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
@@ -678,12 +713,28 @@
       <HintPath>D:\application\Unity\Unity Editer\6000.0.30f1\Editor\Data\Managed\UnityEngine\UnityEditor.XRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="OpenCvSharp.Blob">
+      <HintPath>Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.Blob.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Collections.LowLevel.ILSupport">
       <HintPath>Library\PackageCache\com.unity.collections\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenCvSharp.Extensions">
+      <HintPath>Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Drawing.Common">
+      <HintPath>Assets\Packages\System.Drawing.Common.4.7.0\lib\netstandard2.0\System.Drawing.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OpenCvSharp">
+      <HintPath>Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
@@ -696,6 +747,14 @@
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DlibDotNet">
+      <HintPath>Assets\Packages\DlibDotNet.19.20.0.20200725\lib\netstandard2.0\DlibDotNet.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard">

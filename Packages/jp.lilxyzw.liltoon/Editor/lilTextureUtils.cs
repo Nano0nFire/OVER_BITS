@@ -265,57 +265,70 @@ namespace lilToon
 
             public static string ConvertGifToAtlas(Object tex, out int frameCount, out int loopXY, out int duration, out float xScale, out float yScale)
             {
-                    string path = AssetDatabase.GetAssetPath(tex);
-                    var origGif = System.Drawing.Image.FromFile(path);
-                    var dimension = new System.Drawing.Imaging.FrameDimension(origGif.FrameDimensionsList[0]);
-                    frameCount = origGif.GetFrameCount(dimension);
-                    loopXY = Mathf.CeilToInt(Mathf.Sqrt(frameCount));
-                    duration = BitConverter.ToInt32(origGif.GetPropertyItem(20736).Value, 0);
-                    int finalWidth = 1;
-                    int finalHeight = 1;
-                    if(EditorUtility.DisplayDialog(lilLanguageManager.GetLoc("sDialogGifToAtlas"), lilLanguageManager.GetLoc("sUtilGif2AtlasPow2"), lilLanguageManager.GetLoc("sYes"), lilLanguageManager.GetLoc("sNo")))
-                    {
-                        while(finalWidth < origGif.Width * loopXY) finalWidth *= 2;
-                        while(finalHeight < origGif.Height * loopXY) finalHeight *= 2;
-                    }
-                    else
-                    {
-                        finalWidth = origGif.Width * loopXY;
-                        finalHeight = origGif.Height * loopXY;
-                    }
-                    var atlasTexture = new Texture2D(finalWidth, finalHeight);
-                    xScale = (float)(origGif.Width * loopXY) / finalWidth;
-                    yScale = (float)(origGif.Height * loopXY) / finalHeight;
-                    for(int x = 0; x < finalWidth; x++)
-                    {
-                        for(int y = 0; y < finalHeight; y++)
-                        {
-                            atlasTexture.SetPixel(x, finalHeight - 1 - y, Color.clear);
-                        }
-                    }
-                    for(int i = 0; i < frameCount; i++)
-                    {
-                        int offsetX = i%loopXY;
-                        int offsetY = Mathf.FloorToInt(i/loopXY);
-                        origGif.SelectActiveFrame(dimension, i);
-                        var frame = new System.Drawing.Bitmap(origGif.Width, origGif.Height);
-                        System.Drawing.Graphics.FromImage(frame).DrawImage(origGif, System.Drawing.Point.Empty);
+                    // string path = AssetDatabase.GetAssetPath(tex);
+                    // var origGif = System.Drawing.Image.FromFile(path);
+                    // var dimension = new System.Drawing.Imaging.FrameDimension(origGif.FrameDimensionsList[0]);
+                    // frameCount = origGif.GetFrameCount(dimension);
+                    // loopXY = Mathf.CeilToInt(Mathf.Sqrt(frameCount));
+                    // duration = BitConverter.ToInt32(origGif.GetPropertyItem(20736).Value, 0);
+                    // int finalWidth = 1;
+                    // int finalHeight = 1;
+                    // if(EditorUtility.DisplayDialog(lilLanguageManager.GetLoc("sDialogGifToAtlas"), lilLanguageManager.GetLoc("sUtilGif2AtlasPow2"), lilLanguageManager.GetLoc("sYes"), lilLanguageManager.GetLoc("sNo")))
+                    // {
+                    //     while(finalWidth < origGif.Width * loopXY) finalWidth *= 2;
+                    //     while(finalHeight < origGif.Height * loopXY) finalHeight *= 2;
+                    // }
+                    // else
+                    // {
+                    //     finalWidth = origGif.Width * loopXY;
+                    //     finalHeight = origGif.Height * loopXY;
+                    // }
+                    // var atlasTexture = new Texture2D(finalWidth, finalHeight);
+                    // xScale = (float)(origGif.Width * loopXY) / finalWidth;
+                    // yScale = (float)(origGif.Height * loopXY) / finalHeight;
+                    // for(int x = 0; x < finalWidth; x++)
+                    // {
+                    //     for(int y = 0; y < finalHeight; y++)
+                    //     {
+                    //         atlasTexture.SetPixel(x, finalHeight - 1 - y, Color.clear);
+                    //     }
+                    // }
+                    // for(int i = 0; i < frameCount; i++)
+                    // {
+                    //     int offsetX = i%loopXY;
+                    //     int offsetY = Mathf.FloorToInt(i/loopXY);
+                    //     origGif.SelectActiveFrame(dimension, i);
+                    //     var frame = new Texture2D(origGif.Width, origGif.Height);
+                    //     for (int x = 0; x < origGif.Width; x++)
+                    //     {
+                    //         for (int y = 0; y < origGif.Height; y++)
+                    //         {
+                    //             var pixelColor = origGif.GetPixel(x, y);
+                    //             frame.SetPixel(x, origGif.Height - 1 - y, new Color32(pixelColor.R, pixelColor.G, pixelColor.B, pixelColor.A));
+                    //         }
+                    //     }
+                    //     frame.Apply();
 
-                        for(int x = 0; x < frame.Width; x++)
-                        {
-                            for(int y = 0; y < frame.Height; y++)
-                            {
-                                var sourceColor = frame.GetPixel(x, y);
-                                atlasTexture.SetPixel(x + (frame.Width * offsetX), finalHeight - (frame.Height * offsetY) - 1 - y, new Color32(sourceColor.R, sourceColor.G, sourceColor.B, sourceColor.A));
-                            }
-                        }
-                    }
-                    atlasTexture.Apply();
+                    //     for(int x = 0; x < frame.Width; x++)
+                    //     {
+                    //         for(int y = 0; y < frame.Height; y++)
+                    //         {
+                    //             var sourceColor = frame.GetPixel(x, y);
+                    //             atlasTexture.SetPixel(x + (frame.Width * offsetX), finalHeight - (frame.Height * offsetY) - 1 - y, new Color32(sourceColor.R, sourceColor.G, sourceColor.B, sourceColor.A));
+                    //         }
+                    //     }
+                    // }
+                    // atlasTexture.Apply();
 
-                    // Save
-                    string savePath = SaveTextureToPng(path, "_gif2png_" + loopXY + "_" + frameCount + "_" + duration, atlasTexture);
-                    AssetDatabase.Refresh();
-                    return savePath;
+                    // // Save
+                    // string savePath = SaveTextureToPng(path, "_gif2png_" + loopXY + "_" + frameCount + "_" + duration, atlasTexture);
+                    // AssetDatabase.Refresh();
+                    frameCount = 0;
+                    loopXY = 0;
+                    duration = 0;
+                    xScale = 1.0f;
+                    yScale = 1.0f;
+                    return null;
             }
         #else
             public static string ConvertGifToAtlas(Object tex)

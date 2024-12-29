@@ -1,4 +1,5 @@
 using UnityEngine;
+using CLAPlus;
 
 public class UI_CLA_SlotComponent : MonoBehaviour
 {

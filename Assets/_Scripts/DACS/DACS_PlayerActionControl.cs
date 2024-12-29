@@ -1,4 +1,4 @@
-using System;
+using CLAPlus.AnimationControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +6,7 @@ public class DACS_PlayerActionControl : MonoBehaviour // LocalOnly
 {
     [SerializeField] ItemDataBase itemDataBase;
     [HideInInspector] public DACS_InventorySystem invSystem; // ClientGeneralManagerが設定
-    [HideInInspector] public CLAPlus_HandControl handControl; // ClientGeneralManagerが設定
+    [HideInInspector] public HandControl handControl; // ClientGeneralManagerが設定
     [SerializeField] DACS_Projectile projectile;
 
     public void OnRightClick(InputAction.CallbackContext callback)

@@ -800,6 +800,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: womanBase
       objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[13]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[14]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[15]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[18]'
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -832,6 +852,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8781173543977386740}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7842648820294040041}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
         type: 3}
       insertIndex: -1
@@ -906,13 +930,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clap_m: {fileID: 2334364849733573655}
-  generalManager: {fileID: 8639058358128454621}
   anim: {fileID: 2655085998872741545}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
   root: {fileID: 6110538507771165534}
-  hip: {fileID: 9063297195601143456}
   rUpperLeg: {fileID: 4118665015899621182}
   lUpperLeg: {fileID: 8955998224763743767}
   rFoot: {fileID: 86563437834521682}
@@ -924,9 +946,23 @@ MonoBehaviour:
   UpperLegToHeelLength: 0.845
   heelHight: 0.085
   rayRange: 0.05
+  UseIKCon: 1
+--- !u!114 &7842648820294040041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707552037496502316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba4e519ed774a54e95b7886b0082c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clap_m: {fileID: 2334364849733573655}
+  anim: {fileID: 2655085998872741545}
   bodyPosLerpSpeed: 1
   bodyRotLerpSpeed: 10
-  UseIKCon: 1
 --- !u!114 &2736980600288343618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1096,12 +1132,6 @@ Transform:
 --- !u!4 &8955998224763743767 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7437977054926498666, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1977951419301627261}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &9063297195601143456 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7400633072643580893, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
     type: 3}
   m_PrefabInstance: {fileID: 1977951419301627261}
   m_PrefabAsset: {fileID: 0}
