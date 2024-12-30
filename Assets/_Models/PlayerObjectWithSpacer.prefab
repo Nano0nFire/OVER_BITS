@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 8552473888624340215}
   - component: {fileID: 2974271652213683632}
   - component: {fileID: -7599055933827522201}
+  - component: {fileID: 6296186416508094674}
   m_Layer: 0
   m_Name: PlayerObjectWithSpacer
   m_TagString: Player
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3774752910
+  GlobalObjectIdHash: 243907195
   InScenePlacedSourceGlobalObjectIdHash: 239926996
   DeferredDespawnTick: 0
   Ownership: 1
@@ -214,6 +215,7 @@ MonoBehaviour:
   uiGeneral: {fileID: 0}
   clap_m: {fileID: 2334364849733573655}
   clap_a: {fileID: 2140513028944923830}
+  faceSync: {fileID: 6296186416508094674}
   avatar: {fileID: 1707552037496502316}
   playerStatus: {fileID: 3045930827321576095}
   CameraPos: {fileID: 4433113476992200525}
@@ -580,6 +582,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &6296186416508094674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3288742083618601568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 026b3f0c07af9074cb5e714d73ad7a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  tracker: {fileID: 0}
+  smr: {fileID: 4909360540775930956}
 --- !u!1 &3759549174565842990
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,6 +835,46 @@ PrefabInstance:
     - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
         type: 3}
       propertyPath: 'm_BlendShapeWeights.Array.data[18]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[20]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[25]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[26]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[28]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[32]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[35]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[39]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[40]'
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1060,6 +1117,12 @@ Transform:
 --- !u!4 &4118665015899621182 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2475687133242884675, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1977951419301627261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &4909360540775930956 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6868716418057165105, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
     type: 3}
   m_PrefabInstance: {fileID: 1977951419301627261}
   m_PrefabAsset: {fileID: 0}

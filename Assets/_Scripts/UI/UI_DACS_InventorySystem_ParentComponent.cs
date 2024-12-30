@@ -1,7 +1,7 @@
 // using System.Collections.Generic;
 // using UnityEngine;
 
-// public class UI_DACS_InventorySystem_ParentComponent : MonoBehaviour
+// public class UI_InventorySystem_ParentComponent : MonoBehaviour
 // {
 //     [HideInInspector] public UIGeneral uiGeneral; // SlotGeneratorが設定
 //     public int FirstIndex;

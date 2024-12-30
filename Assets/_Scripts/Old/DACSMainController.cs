@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DACS.Projectile;
 
 public class DACSMainController : MonoBehaviour
 {
-    [SerializeField] private DACS_P_ScriptableObject ScriptableObject;
+    [SerializeField] private ProjectileSO ScriptableObject;
     [SerializeField] private DACSObjectPooler ObjectPooler;
     [SerializeField] private GameObject Player;
     [SerializeField] private int UseID = 0;

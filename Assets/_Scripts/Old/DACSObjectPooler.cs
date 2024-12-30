@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using DACS.Projectile;
 
 public class DACSObjectPooler : MonoBehaviour
 {
-    public DACS_P_ScriptableObject DACSSO;
+    public ProjectileSO DACSSO;
     private Queue<GameObject> objectPool = new Queue<GameObject>();
 
     public GameObject GetObjectFromPool(int ID, Transform Pos)

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using DACS.Inventory;
 
 public class UI_Hotbar : MonoBehaviour
 {
@@ -14,8 +15,8 @@ public class UI_Hotbar : MonoBehaviour
         }
     }
     ItemData _SelectedItem;
-    [HideInInspector] public DACS_InventorySystem inventorySystem;
-    [HideInInspector] public DACS_HotbarSystem hotbarSystem;
+    [HideInInspector] public InventorySystem inventorySystem;
+    [HideInInspector] public HotbarSystem hotbarSystem;
     [SerializeField] ItemDataBase itemDataBase;
     [SerializeField] GameObject PriSelecter;
     [SerializeField] GameObject SecSelecter;

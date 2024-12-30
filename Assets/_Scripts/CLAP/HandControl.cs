@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using DACS.Inventory;
 
 namespace CLAPlus.AnimationControl
 {
@@ -27,7 +28,7 @@ namespace CLAPlus.AnimationControl
         [SerializeField] ThumbPreset[] R_ThumbPresets = new ThumbPreset[1];
         [SerializeField] ThumbPreset[] L_ThumbPresets = new ThumbPreset[1];
 
-        [HideInInspector] public DACS_ObjectInfo.Preset[] StatePreset;
+        [HideInInspector] public ItemComponent.Preset[] StatePreset;
 
         [SerializeField] float Speed = 5;
 

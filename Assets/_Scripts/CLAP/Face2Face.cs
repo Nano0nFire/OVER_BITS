@@ -17,9 +17,7 @@ namespace CLAPlus.Face2Face
         #pragma warning disable 0649
 
         public bool isRunning = false;        /// <param name="isRunning">  非同期停止用        for stop ansync</param>
-        public bool StopBlink = false; /// <param name="StopBlink">  まばたきを止めるか  stop blink</param>
-
-        public bool boolStart, boolStop;
+        bool StopTrack = false; /// <param name="StopTrack">  まばたきを止めるか  stop blink</param>
 
         //ロックトークン       locktoken --------------------------------------------------
         private object lock_fps = new object();
@@ -29,9 +27,10 @@ namespace CLAPlus.Face2Face
         private int diff_time = 1000 / 60;  /// <param name="diff_time">非同期開始時間のずれ          time of diff async start</param>
         private IntPtr[] ptr;               /// <param name="ptr">カメラに保存された画像のポインタ    pointer of image taken by camera</param>
         /// //出力        output  --------------------------------------------------------------
-        public float LeftEyeCloseness = default;
-        public float RightEyeCloseness = default;
-        public float mouthOpenRatio = default;
+        public bool LeftEyeCloseness = false;
+        public bool RightEyeCloseness = false;
+        public bool MouthCloseness = false;
+        
 
         //キャッシュ用の変数         Variable for cache -----------------------------------
         private LinkedList<int> elapt_time = new LinkedList<int>();                      /// <param name="elapt_time">検出にかかった時間の配列 Array of detecting time</param>
@@ -39,23 +38,16 @@ namespace CLAPlus.Face2Face
         private ShapePredictor shape = new ShapePredictor();                             /// <param name="shape">    顔の特徴点検出器        Facial landmark detector</param>
         private float eye_L_ratio = default;                                             /// <param name="eye_L_o">左目の開き具合            Left eye openness</param>
         private float eye_R_ratio = default;                                             /// <param name="eye_R_o">右目の開き具合            Right eye openness</param>
-        private float eye_L_c = default;                                                 /// <param name="eye_L_c">左目の開き具合            Left eye openness</param>
-        private float eye_R_c = default;                                                 /// <param name="eye_R_c">右目の開き具合            Right eye openness</param>
+        private float mouth_ratio = default;
         private float eye_L_Width = 70;                                             /// <param name="eye_L_Width">左目の横幅            Width of left eye</param>
         private float eye_R_Width = 70;                                             /// <param name="eye_R_Width">右目の横幅            Width of right eye</param>
         private bool measureWidth = false;
         //顔検出に関する変数     Variable for face detecting ------------------------------
         private byte[][] bytes;                             /// <param name="bytes">Mat→array2Dへの変換時のbyte配列   Byte array when converting from Mat to array2D</param>
 
-// #if UNITY_EDITOR
-        //検出の成功・失敗      success or fail detect ------------------------------------
-        public int suc = 0;
-        public int fail = 0;
-// #endif
-
         //Unityで設定するやつ  setting parameter on Unity ---------------------------------
         [SerializeField]
-        private CaptureDeviceControll caputure;                             /// <param name="caputure"> ビデオキャプチャー      Video capture</param>
+        private CaptureDeviceControl caputure;                             /// <param name="caputure"> ビデオキャプチャー      Video capture</param>
 
         [SerializeField]
         private string shape_file_68 = default;             /// <param name="shape_file_68">shape_file_68のファイル名            Name if shape_file_68</param>
@@ -78,6 +70,13 @@ namespace CLAPlus.Face2Face
         [Range(0, 1)]
         [SerializeField]
         private float eye_ratio_l_l = 0.2f;                   /// <param name="eye_ratio_l_r">左目を閉じているときの縦横比   Aspect ratio when eye close</param>
+        [Range(0, 1)]
+        [SerializeField]
+        private float mouth_ratio_h = 0.1f;                   /// <param name="eye_ratio_h_r">左目を開けているときの縦横比   Aspect ratio when eye open</param>
+        [Range(0, 1)]
+        [SerializeField]
+        private float mouth_ratio_l = 0.5f;
+
 #pragma warning restore 0649
 
         //----------------------------------------------------------------------------------------------------------------------
@@ -112,9 +111,6 @@ namespace CLAPlus.Face2Face
 
             if (result)
             {
-// #if UNITY_EDITOR
-                ++suc;
-// #endif
                 lock (lock_fps)
                 {
 
@@ -123,13 +119,6 @@ namespace CLAPlus.Face2Face
                     elapt_time.AddLast((int)stopwatch.ElapsedMilliseconds);
                 }
             }
-            else
-            {
-// #if UNITY_EDITOR
-                ++fail;
-// #endif
-            }
-
         }
 
         bool CalculateFaceTrack(int threadNo)
@@ -186,19 +175,19 @@ namespace CLAPlus.Face2Face
             CalculateEyeOpenRatio(points);
 
             // 口の開け閉めの割合を計算
-            CalculateMouthOpenRatio(points);
+            Calculatemouth_ratio(points);
 
             image.Dispose();
             array2D.Dispose();
             return true;
         }
 
-        private void CalculateMouthOpenRatio(Span<DlibDotNet.Point> points)
+        private void Calculatemouth_ratio(Span<DlibDotNet.Point> points)
         {
             // 口のランドマークポイントを使用して、口の開け閉めの割合を計算
             float mouthHeight = Distance(points[62], points[66]);
             float mouthWidth = Distance(points[60], points[64]);
-            mouthOpenRatio = mouthHeight / mouthWidth;
+            mouth_ratio = mouthHeight / mouthWidth;
         }
 
         private void CalculateEyeOpenRatio(Span<DlibDotNet.Point> points)
@@ -214,7 +203,6 @@ namespace CLAPlus.Face2Face
         void Start()
         {
             InitTracker();
-            StartTracking();
         }
 
         public async void StartTracking()
@@ -231,9 +219,14 @@ namespace CLAPlus.Face2Face
             _ = UniTask.Run(DetectAsync);
         }
 
-        public void StopTracking()
+        public async void StopTracking()
         {
+            RightEyeCloseness = false;
+            LeftEyeCloseness = false;
+            MouthCloseness = false;
+            await UniTask.Delay(100);
             isRunning = false;
+            FaceSync.Stop = true;
         }
 
         void InitTracker()
@@ -270,6 +263,7 @@ namespace CLAPlus.Face2Face
             bytes = new byte[thread - 1][];
             lock_imagebytes = new object[thread - 1];
         }
+
         async void InitCamera()
         {
             caputure.InitCamera();
@@ -289,25 +283,10 @@ namespace CLAPlus.Face2Face
             if (image.IsEnabledDispose)
                 image.Dispose();
         }
+
         //--------------------------------------------------------------------------------------------------------------------------------
         private void Update()
         {
-            if (suc > 500)
-            {
-                suc = 0;
-                fail = 0;
-            }
-            if (boolStart)
-            {
-                StartTracking();
-                boolStart = false;
-            }
-            if (boolStop)
-            {
-                StopTracking();
-                boolStop = false;
-            }
-
             if (!isRunning)
                 return;
 
@@ -324,27 +303,23 @@ namespace CLAPlus.Face2Face
                 }
             }
 
-            if (StopBlink)
+            if (StopTrack)
                 return;
 
-            eye_L_c = math.lerp(eye_L_c,
-                                1 - (eye_L_ratio - eye_ratio_l_l) / (eye_ratio_h_l - eye_ratio_l_l) > 0.6f ? 100 : 0,
-                                0.1f);
-            eye_R_c = math.lerp(eye_R_c,
-                                1 - (eye_R_ratio - eye_ratio_l_r) / (eye_ratio_h_r - eye_ratio_l_r) > 0.6f ? 100 : 0,
-                                0.1f);
+            float t = Time.deltaTime;
 
-            LeftEyeCloseness = eye_L_ratio;
-            RightEyeCloseness = eye_R_ratio;
+            LeftEyeCloseness = 1 - (eye_L_ratio - eye_ratio_l_l) / (eye_ratio_h_l - eye_ratio_l_l) > 0.6f;
+            RightEyeCloseness = 1 - (eye_R_ratio - eye_ratio_l_r) / (eye_ratio_h_r - eye_ratio_l_r) > 0.6f;
+            MouthCloseness = 1 - (mouth_ratio - mouth_ratio_l) / (mouth_ratio_h - mouth_ratio_l) > 0.6f;
         }
 
         //--------------------------------------------------------------------------------------------------------
         /// <summary>
         /// まばたきの割合を調整する
         /// </summary>
-        public async void FaceMeasurement()
+        public async void BlinkAdjust()
         {
-            StopBlink = true; // まばたきを止める
+            StopTrack = true; // まばたきを止める
 
             int i;
             float tempL = 0, tempR = 0;
@@ -392,7 +367,37 @@ namespace CLAPlus.Face2Face
             eye_ratio_l_l = tempL / 20;
             eye_ratio_l_r = tempR / 20;
 
-            StopBlink = false; // まばたきを再開
+            StopTrack = false; // まばたきを再開
+        }
+
+        /// <summary>
+        /// 口の調整する
+        /// </summary>
+        public async void MouthAdjust()
+        {
+            StopTrack = true; // まばたきを止める
+
+            int i;
+            float tempO = 0, tempC = 0;
+
+            // 口があいた状態を計測
+            for (i = 0; i < 20; i++) // 20フレーム分の平均を取る
+            {
+                await UniTask.Delay(50); // 50ms待つ
+                tempO += mouth_ratio;
+            }
+
+            // 口が閉じた状態を計測
+            for (i = 0; i < 20; i++) // 20フレーム分の平均を取る
+            {
+                await UniTask.Delay(50); // 50ms待つ
+                tempC += mouth_ratio;
+            }
+
+            mouth_ratio_h = tempO / 20;
+            mouth_ratio_l = tempC / 20;
+
+            StopTrack = false; // まばたきを再開
         }
 
 

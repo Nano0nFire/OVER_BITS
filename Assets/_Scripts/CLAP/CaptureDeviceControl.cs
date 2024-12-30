@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using OpenCvSharp;
-using UnityEngine.Video;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -9,28 +8,17 @@ using Cysharp.Threading.Tasks;
 namespace CLAPlus.Face2Face
 {
     [DefaultExecutionOrder(-1)]
-    public class CaptureDeviceControll : MonoBehaviour, IDisposable
+    public class CaptureDeviceControl : MonoBehaviour, IDisposable
     {
         private WebCamTexture webcam;
 
         [NonSerialized] public int width = default;
         [NonSerialized] public int height = default;
-        [NonSerialized] public bool ended = false;
         private SynchronizationContext context = default;
         Color32[] tex1;
         byte[] tmp1;
 
-        [SerializeField] private int sourse = 0; // デバイスの番号
-
-        // void Awake()
-        // {
-        //     webcam = new WebCamTexture(WebCamTexture.devices[sourse].name);
-        //     context = SynchronizationContext.Current;
-        //     if (!webcam.isPlaying)
-        //     {
-        //         webcam.Play();
-        //     }
-        // }
+        public int sourse = -1; // デバイスの番号
 
         public void InitCamera()
         {
