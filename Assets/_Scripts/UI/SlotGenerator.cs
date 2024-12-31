@@ -82,7 +82,7 @@
 
 //     void InvSystemSetup(GameObject slot, ItemData itemID)
 //     {
-//         var invSystem = slot.AddComponent<UI_DACS_InventorySystem_SlotComponent>();
+//         var invSystem = slot.AddComponent<UI_InventorySystem_SlotComponent>();
 //         invSystem.uiGeneral = uiGeneral;
 //         invSystem.itemID = itemID;
 //     }

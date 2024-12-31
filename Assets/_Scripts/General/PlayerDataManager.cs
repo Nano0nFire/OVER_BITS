@@ -9,11 +9,12 @@ using Cysharp.Threading.Tasks;
 using Unity.Netcode;
 using Newtonsoft.Json;
 using System.Linq;
+using DACS.Inventory;
 
 public class PlayerDataManager : NetworkBehaviour
 {
     public PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
-    [HideInInspector] public DACS_InventorySystem inventorySystem; // ClientGeneralManagerから設定(ClientOnly)
+    [HideInInspector] public InventorySystem inventorySystem; // ClientGeneralManagerから設定(ClientOnly)
     [HideInInspector] public Action<int> OnItemAdded;
 
     async void Start()

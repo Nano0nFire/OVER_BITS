@@ -1,13 +1,9 @@
-using System.Buffers.Text;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.NCalc;
+using CLAPlus;
 using UnityEngine;
 
 public class PlayerStatus : CommonEntityStatus
 {
-    [SerializeField] CLAPlus_MovementModule clap_m;
+    [SerializeField] CharactorMovement clap_m;
     public States SelectedActionSkill;
     public float ExWalkSpeed
     {

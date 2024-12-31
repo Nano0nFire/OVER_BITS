@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using Unity.Netcode;
-using TMPro;
-using Cysharp.Threading.Tasks;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using CLAPlus;
+using DACS.Inventory;
 
 public class UIGeneral : MonoBehaviour
 {
@@ -18,7 +16,7 @@ public class UIGeneral : MonoBehaviour
     [SerializeField] GameObject ChatSpace;
     public UI_Hotbar uiHotbar;
     [SerializeField] UI_InfomationPanel infomationPanelController;
-    [HideInInspector] public DACS_InventorySystem invSystem; // ClientGeneralManagerが設定
+    [HideInInspector] public InventorySystem invSystem; // ClientGeneralManagerが設定
     [SerializeField] GameObject SlotPrefab;
     UI_Component[] UIComponents;
     public UI_SlotLoader[] InventoryParents;
@@ -31,9 +29,9 @@ public class UIGeneral : MonoBehaviour
     {
         this.cgManager = cgManager;
         pdManager = cgManager.pdManager;
-        invSystem = cgManager.GetComponent<DACS_InventorySystem>();
+        invSystem = cgManager.GetComponent<InventorySystem>();
         uiHotbar.inventorySystem = invSystem;
-        uiHotbar.hotbarSystem = cgManager.GetComponent<DACS_HotbarSystem>();
+        uiHotbar.hotbarSystem = cgManager.GetComponent<HotbarSystem>();
         pdManager.OnItemAdded += Load;
         cla = cgManager.GetComponent<CustomLifeAvatar>();
 

@@ -5,22 +5,29 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using System;
 using Cinemachine;
+using CLAPlus;
+using CLAPlus.AnimationControl;
+using DACS;
+using DACS.Projectile;
+using DACS.Inventory;
+using CLAPlus.Face2Face;
 
 public class ClientGeneralManager : NetworkBehaviour
 {
     [HideInInspector] public GameObject MainMenu;
     GameObject ChatSpace;
     [SerializeField] UIGeneral uiGeneral;
-    [SerializeField] CLAPlus_MovementModule clap_m;
-    [SerializeField] CLAPlus_AnimationControlModuel clap_a;
+    [SerializeField] CharactorMovement clap_m;
+    [SerializeField] AnimationControl clap_a;
+    [SerializeField] FaceSync faceSync;
     [SerializeField] GameObject avatar;
     [SerializeField] PlayerStatus playerStatus;
     [SerializeField] Transform CameraPos;
     [SerializeField] NetworkObject nwObject;
-    public DACS_InventorySystem invSystem;
-    public DACS_HotbarSystem hotbarSystem;
+    public InventorySystem invSystem;
+    public HotbarSystem hotbarSystem;
     public PlayerDataManager pdManager{get; private set;}
-    DACS_Projectile projectile;
+    Projectile projectile;
     public ulong nwID{get; private set;}
     States KeepState;
     public bool UseInput
@@ -87,7 +94,7 @@ public class ClientGeneralManager : NetworkBehaviour
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
         var PlayerName = pdManager.LoadedPlayerProfileData.PlayerName;
         var lastDot = PlayerName.LastIndexOf('#');
-        var chatComponent = masterObj.GetComponent<CLAPlus_Chat>();
+        var chatComponent = masterObj.GetComponent<ClapChat>();
         if (lastDot != -1)
             chatComponent.PlayerName = PlayerName[..lastDot];
         chatComponent.cgManager = this;
@@ -101,16 +108,17 @@ public class ClientGeneralManager : NetworkBehaviour
         LocalGM.emSystem.Setup(this);
 
         GetComponent<Rigidbody>().useGravity = true;
-        projectile = masterObj.GetComponent<DACS_Projectile>();
+        projectile = masterObj.GetComponent<Projectile>();
         projectile.nwID = nwID;
         projectile.CameraPos = CameraPos;
         projectile.Setup();
         hotbarSystem.ChangeActionPoint += (xform) => projectile.ShotPos = xform;
-        var paControl = masterObj.GetComponent<DACS_PlayerActionControl>();
+        var paControl = masterObj.GetComponent<PlayerActionControl>();
         paControl.invSystem = invSystem;
-        paControl.handControl = GetComponentInChildren<CLAPlus_HandControl>();
+        paControl.handControl = GetComponentInChildren<HandControl>();
         InputSetUp(masterObj.GetComponent<PlayerInput>());
         clap_a.isOwner = isOwner;
+        faceSync.tracker = masterObj.GetComponent<Face2Face>();
 
         // 設定
         LoadSettings();

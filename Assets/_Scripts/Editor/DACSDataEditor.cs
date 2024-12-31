@@ -2,7 +2,7 @@
 // using UnityEditorInternal;
 // using UnityEngine;
 
-// [CustomEditor(typeof(DACS_P_ScriptableObject))]
+// [CustomEditor(typeof(ProjectileSO))]
 // public class DACSDataEditor : Editor
 // {
 //     private ReorderableList reorderableList;

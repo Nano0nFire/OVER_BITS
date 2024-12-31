@@ -10,6 +10,7 @@
 0x014c4d9ccc7234ec -      93535028108211436 - UnityEditor.TestTools.TestRunner.CommandLineTest.ResultsSavingCallbacks
 0x01575a554d07bfdd -      96645239422828509 - CinemachineShotEditor
 0x01877054bee401c8 -     110180225176043976 - UnityEngine.Build.Pipeline.CompatibilityAssetBundleManifest
+0x018994a99e9cae23 -     110783122078740003 - UI_InventorySystem
 0x01b0431db51e0955 -     121670984810760533 - UnityEditor.LightingDataAsset
 0x01ca60e1a51e16bf -     129022061587601087 - Unity.VisualScripting.AnimatorMessageListener
 0x01caec39981845ad -     129175271442498989 - UnityEditor.AudioMixerSnapshotControllerInspector
@@ -45,7 +46,6 @@
 0x069875633a87aee0 -     475258829731770080 - UnityEditor.U2D.Physics2D.MenuItems+CreateAssetEndNameEditAction
 0x069a751af675c2e0 -     475821469305520864 - Unity.VisualScripting.UnityOnCancelMessageListener
 0x06d9c7c116827fdb -     493645266294046683 - UnityEditor.Rigidbody2DEditor
-0x06faa45e6abad60b -     502895033829742091 - DACS_Entities_PlayerComponent
 0x0710e01b1d9fdcf9 -     509153164958620921 - UnityEditor.UI.ButtonEditor
 0x07220ccb614c0881 -     513987375123925121 - UnityEditor.Animations.Rigging.RigBuilderEditor
 0x076f564c2693251d -     535741765745059101 - Unity.Rendering.URPMaterialPropertyBaseColor
@@ -64,7 +64,6 @@
 0x0905668d102eac95 -     650038477272820885 - UnityEngine.Playables.PlayableDirector
 0x095d9272d1266acd -     674856541008325325 - Cinemachine.CinemachineInputProvider
 0x0968a9aedb7c1249 -     677978312391004745 - UnityEditor.BoxColliderEditor
-0x096c5a33dc10b318 -     679016822608016152 - CLAPlus_SpringSystem
 0x09ce1fb7712f25f0 -     706537064282138096 - UnityEditor.Timeline.TrackAssetInspector
 0x09d4adb11008b829 -     708382017393834025 - UnityEditor.HingeJointEditor
 0x09dde37e76da0ecd -     710974448493792973 - Unity.Rendering.MeshLODGroupComponent
@@ -78,7 +77,6 @@
 0x0a7e975efa7b4344 -     756208221629924164 - UnityEditor.ProBuilder.PositionToolEditor
 0x0addc96c68a38adf -     783003377681533663 - UnityEditor.WheelColliderEditor
 0x0af7550776d97771 -     790193750173906801 - UnityEditor.EditorBuildSettings
-0x0b16f8a27d2bb699 -     799099360673248921 - CLAPlus_MovementModule
 0x0b20d284303124f2 -     801872198857991410 - Unity.Services.Authentication.PlayerAccounts.UnityPlayerAccountSettings
 0x0b3ee838a88275f5 -     810340313016202741 - Unity.Netcode.Components.NetworkRigidbody
 0x0b8609b49236be0b -     830361852448259595 - UnityEditor.ShapeModuleUI+ShapeGizmoTool
@@ -113,7 +111,6 @@
 0x0debbfebf16b6c42 -    1003106362108636226 - UnityEditor.FallbackEditorWindow
 0x0e080fe3ebb0f350 -    1011075587930911568 - UnityEditor.ShaderVariantCollectionInspector
 0x0e1396aa21d69d34 -    1014319998544813364 - UnityEditor.Overlays.SaveOverlayPreset
-0x0e5090c9e56ef0c7 -    1031483511479922887 - DACS_P_BulletControl_Normal
 0x0e55d70366d259a9 -    1032968099161332137 - ChatController
 0x0e67dcadff7cc834 -    1038040879006009396 - UnityEditor.Search.ASIEI08
 0x0e7f14f9b1f0d675 -    1044576701238007413 - MaterialOverride
@@ -148,7 +145,6 @@
 0x12a4fe67bce53865 -    1343478310367475813 - Unity.VisualScripting.UnityOnCollisionStay2DMessageListener
 0x12b4e84821a378e7 -    1347957584990271719 - UnityEditor.AreaEffector2DEditor
 0x12b6f856584b6af0 -    1348538188176255728 - UnityEditor.UI.DropdownEditor
-0x12e8f11960f4aec4 -    1362603978582699716 - CLAPlus_NetworkAnimation
 0x1314d6ea398388cd -    1374960087730456781 - UnityEngine.Connect.UnityConnectSettings
 0x132fbed6295dd53b -    1382533437652325691 - Unity.PlasticSCM.Editor.Configuration.SSOCredentialsDialog
 0x1356543f819e53d6 -    1393393766452057046 - UnityEditor.RectTransformEditor
@@ -195,6 +191,7 @@
 0x18ac3196e58ba85d -    1777850477070493789 - Cinemachine.CinemachineSmoothPath
 0x18bd7eee6d62d9f4 -    1782720590011095540 - UnityEngine.InputSystem.UI.TrackedDeviceRaycaster
 0x18c48e7cf4e54f24 -    1784708019681316644 - UnityEditor.CapsuleCollider2DTool
+0x18f8cd85b06efc62 -    1799414025208921186 - DACS.Inventory.InventorySystem
 0x1904b9f9214116ce -    1802770230510950094 - UnityEditor.ParticleSystemWindow
 0x191c6f0d3aeaa3ee -    1809443252909810670 - UnityEngine.Audio.AudioRandomContainer
 0x1944944a7dae0b25 -    1820743197021571877 - UnityEditor.Rendering.Universal.DecalSettings
@@ -202,6 +199,7 @@
 0x19540337c698adf4 -    1825087287081872884 - UnityEngine.Rendering.UI.DebugUIHandlerIntField
 0x196062756fb9c7f4 -    1828569705237563380 - Cinemachine.PostFX.Editor.CinemachineVolumeSettingsEditor
 0x19e5d39daf2c028e -    1866130294817161870 - Unity.VisualScripting.UnityOnTriggerEnterMessageListener
+0x19ec1730f69768f1 -    1867893444514900209 - DACS.Projectile.Projectile
 0x19f3e1a6cfe534c3 -    1870086376857613507 - Unity.Rendering.DeformedEntity
 0x1a0c13607f7d84fd -    1876896449883374845 - UnityEngine.Rendering.Universal.PaniniProjection
 0x1a0cb7af89b7fe33 -    1877077109264350771 - UnityEngine.InputSystem.OnScreen.OnScreenControl
@@ -236,12 +234,14 @@
 0x1dc4b7de8b918c08 -    2145041488987393032 - UnityEditor.BrushEditor
 0x1dcfc54b01729b3e -    2148152473216523070 - UnityEditorInternal.ProjectSettingsBaseEditor
 0x1de8b2b59deb1f63 -    2155168914805038947 - Unity.Rendering.ChunkWorldRenderBounds
+0x1df48c7871db4c4c -    2158504570351471692 - DACS.Entities.PlayerComponent
 0x1e09eeeebdf8f9a8 -    2164523805085071784 - UnityEditor.Rendering.UnifiedRayTracing.UnifiedRTShaderImporter
 0x1e26bf857746ed8b -    2172634450205535627 - UnityEditor.RotationConstraintEditor
 0x1e5c7d96719e6fc8 -    2187761604099993544 - UnityEditor.LightProbeGroupTool
 0x1e66048f492162d7 -    2190443282216084183 - PlayerDataManager
 0x1e9bec972237b173 -    2205616576386281843 - TMPro.TMP_Dropdown+DropdownItem
 0x1ea90dc931619097 -    2209312249970004119 - UnityEditor.UIElements.Inspector.PanelSettingsInspector
+0x1eb3f9e128edb64f -    2212386587418670671 - DACS.PlayerActionControl
 0x1ef96fcce594523b -    2231938016154505787 - Cinemachine.Editor.WaveformWindow
 0x1f0cec1182d43d1c -    2237422674849840412 - UnityEngine.AudioListener
 0x1f15f4d48f03637f -    2239965583456297855 - UnityEditor.UI.LayoutElementEditor
@@ -253,7 +253,6 @@
 0x2009233f15b71bbb -    2308415037858323387 - Unity.Entities.Simulate
 0x201edb3545ea4015 -    2314528280367742997 - UnityEditor.Rendering.DebugWindow
 0x2028738250bd9923 -    2317229011819665699 - UnityEngine.InputSystem.InputSettings
-0x2049b6212feab0fd -    2326590936167657725 - DACS_Entities_EnemySpawner
 0x205eb5172444a7ff -    2332500768021850111 - UnityEditor.Rendering.Universal.UniversalRenderPipelineAssetEditor
 0x20685a088964ddd5 -    2335215399502929365 - Unity.Entities.Hybrid.Baking.LinkedEntityGroupBakingData
 0x206dc368001aa5d1 -    2336738633120916945 - UnityEditor.TestTools.TestRunner.CommandLineTest.RunData
@@ -273,7 +272,6 @@
 0x228ff1e14a5b8422 -    2490475068876620834 - Unity.Entities.EndSimulationEntityCommandBufferSystem+Singleton
 0x229813268188242b -    2492763449852437547 - UnityEditor.Search.QueryExpressionBlockEditor
 0x22b6c454e9438300 -    2501402512020701952 - UnityEditor.ShaderGraph.ShaderGraphMetadata
-0x22c19f5f145f80c8 -    2504458098507219144 - DACS_Projectile
 0x22e1b9e517b67b45 -    2513494460645931845 - UnityEditor.ScriptableWizard
 0x22e934041c4a6b59 -    2515599059122285401 - Cinemachine.CinemachineFreeLook
 0x232632825d983140 -    2532767375939875136 - UnityEngine.TrailRenderer
@@ -286,9 +284,7 @@
 0x2479963f0bc0d6fb -    2628297055071688443 - UnityEditor.SceneManagement.AvatarConfigurationStage
 0x24a2add8cf2d708a -    2639863478292934794 - Unity.VisualScripting.UnityOnScrollRectValueChangedMessageListener
 0x24aedca276926887 -    2643292621645179015 - Unity.Entities.DefaultWorldInitializationProxy
-0x24be4e46ffe8cb25 -    2647639697788554021 - UI_DACS_InventorySystem
 0x24eb74cf77ab3ae7 -    2660348439307172583 - UnityEditor.UI.ScrollbarEditor
-0x24ff5562df310e3d -    2665943387566313021 - CLAPlus_IKControl
 0x25696d8cac2b9f5f -    2695806302909341535 - UnityEditorInternal.BlendTree
 0x25a01017f2af2220 -    2711184670718894624 - Unity.Scenes.AssetObjectManifest
 0x25a7322d510312a5 -    2713192470728086181 - UnityEditor.PlayerSettings
@@ -302,7 +298,6 @@
 0x2743a592ad4c8e1e -    2829287040310087198 - Unity.Entities.BeginVariableRateSimulationEntityCommandBufferSystem+Singleton
 0x27504ceb6cde8bff -    2832848739643591679 - UnityEditor.LightmapPreviewWindow
 0x2780e273374ae747 -    2846523948974925639 - UnityEditor.MonoScript
-0x2790440eb32c9e86 -    2850853394051800710 - DACS_HotbarSystem
 0x27ca85d8ad685470 -    2867251278443467888 - UnityEditor.SceneView
 0x27e130d7dc933c69 -    2873631740915825769 - UnityEditor.TestTools.TestRunner.TestRunnerWindow
 0x28514e8d81d4f517 -    2905189604306253079 - UnityEditor.ProBuilder.TextureScaleTool
@@ -345,6 +340,7 @@
 0x2b751ed2cd61c39d -    3131443006643749789 - Unity.AI.Navigation.Editor.NavMeshLinkEditor
 0x2b8f404ffac827e5 -    3138798177554540517 - UnityEngine.Animations.Rigging.MultiRotationConstraint
 0x2b9040315d11a708 -    3139079521036248840 - Cinemachine.Editor.CinemachinePOVEditor
+0x2bb3a06485c2dc1c -    3149036918063422492 - DACS.Projectile.BulletControl_Basic
 0x2bd0b5e94112ac2e -    3157223352210467886 - UnityEngine.Rendering.UI.DebugUIHandlerVBox
 0x2bf7df1eb0320aab -    3168246185776515755 - UnityEditor.UIAutomation.TestEditorWindow
 0x2c19dd2e916cc5e8 -    3177814204164654568 - UnityEditor.Rendering.RenderPipelineGlobalSettingsEndNameEditAction
@@ -355,7 +351,6 @@
 0x2ce59691e4e498ee -    3235157460690180334 - UnityEngine.Grid
 0x2d0201fc104f333b -    3243156863777190715 - Unity.UI.Builder.BuilderUssPreviewWindow
 0x2d13ea8a04678405 -    3248197634764538885 - UnityEngine.InputSystem.EnhancedTouch.TouchSimulation
-0x2d3b5cb0e51d4706 -    3259300670160586502 - DACS_InventorySystem
 0x2d7db1c7469ee825 -    3277971573237016613 - UnityEditor.RagdollBuilder
 0x2d806dbb92392958 -    3278741181105252696 - Unity.Rendering.WorldRenderBounds
 0x2da1be4e4d3f5ec7 -    3288118446469897927 - UnityEditor.InputManagerEditor
@@ -469,7 +464,6 @@
 0x38d5de04a7375fdc -    4095423547729993692 - UnityEditor.WindowFocusState
 0x38eaa92ceada2193 -    4101276421058077075 - UnityEditor.Rendering.LookDev.Environment
 0x38fac94f98ee66f6 -    4105815354006988534 - UnityEditor.Graphs.AnimationStateMachine.InvalidStateMachineBehaviour
-0x3913eb19accaa9e1 -    4112889380225067489 - DACS_Entities_Enemy_Component
 0x391b6dd0f34fe1d4 -    4115003428735803860 - TMPro.EditorUtilities.TMP_SpriteAssetEditor
 0x3946994dc000150e -    4127154667744400654 - UnityEngine.Rendering.CameraSwitcher
 0x39b987a0b446d363 -    4159504855142421347 - Unity.Deformations.SkinMatrix
@@ -480,9 +474,7 @@
 0x3a4b28f4b31b1de3 -    4200496108895149539 - TMPro.EditorUtilities.TMP_EditorPanel
 0x3a6e61f57b647416 -    4210410408603055126 - UnityEditor.Collider3DEditorBase
 0x3af4bb368409c2fa -    4248226191335080698 - UnityEditor.Graphing.GraphObject
-0x3b08fab13fbd142b -    4253925487236944939 - CustomLifeAvatar
 0x3b40e42534b03acb -    4269663295196117707 - UnityEditor.ShaderGraph.ShaderGraphImporter
-0x3b666501cdabeff8 -    4280219554282205176 - DACS_EntityManagementSystem
 0x3b9c618fcff55625 -    4295415414901790245 - UnityEditor.TargetJoint2DEditor
 0x3b9eff2581338581 -    4296151631104542081 - UnityEditor.TagManagerInspector
 0x3bb2a3b0b7d8f0d0 -    4301680573486264528 - Cinemachine.CinemachineFollowZoom
@@ -575,6 +567,7 @@
 0x4562f43aec31d407 -    4999827070242640903 - Cinemachine.CinemachineTransposer
 0x457cfd64bc42e88c -    5007155494826207372 - UnityEngine.HingeJoint2D
 0x45e487b897a87ba8 -    5036299510195190696 - Unity.Burst.Editor.BurstInspectorGUI
+0x45e69d1e15ad2f12 -    5036885985798729490 - DACS.Inventory.HotbarSystem
 0x46520b10422f3419 -    5067124695203001369 - UnityEditor.DiagnosticSwitchesConsoleMessage
 0x46b7b895d57f250a -    5095744457064523018 - UnityEditor.Audio.AudioMixerController
 0x47036929ddfdeba1 -    5117049230161996705 - Unity.Entities.Editor.HierarchyWindow
@@ -599,7 +592,6 @@
 0x498f4dffae2d2d06 -    5300541046972558598 - Cysharp.Threading.Tasks.Triggers.AsyncRectTransformRemovedTrigger
 0x49954b0343197415 -    5302226613681353749 - UnityEditor.VideoClipImporterInspector
 0x499e4c1171fc4010 -    5304761048899534864 - Unity.AI.Navigation.Editor.NavMeshSurfaceEditor
-0x49ae832caa89fd60 -    5309325238579363168 - DACS_Entities
 0x49d21bf871791df5 -    5319344863747579381 - UnityEditor.Overlays.OverlayPreset
 0x49eb265728d4d0e8 -    5326393140084789480 - UnityEditor.Graphs.AnimationStateMachine.EntryNode
 0x4a2710630b2a3ea3 -    5343257500473507491 - UnityEngine.Animations.Rigging.ChainIKConstraint
@@ -612,6 +604,7 @@
 0x4a9f09bf867a7d6f -    5377027198303239535 - Cinemachine.Editor.CinemachineImpulseSourceEditor
 0x4ad08ee8c5670070 -    5390965884357902448 - Unity.Rendering.RootLODWorldReferencePoint
 0x4ad577e183e520b6 -    5392347939310215350 - Unity.Rendering.MaterialMeshInfo
+0x4af874baa984e87d -    5402196098087708797 - DACS.Entities.EntitiesSO
 0x4afd24bdaea55ad5 -    5403515525011954389 - UnityEditor.Rendering.LookDev.Context
 0x4b141062e2ffc2bc -    5409967069280060092 - UnityEditor.AudioImporterInspector
 0x4b1d892e25f4417f -    5412633158467469695 - Cysharp.Threading.Tasks.Triggers.AsyncBeforeTransformParentChangedTrigger
@@ -854,6 +847,7 @@
 0x69c8be6025c01b8a -    7622551689484049290 - UnityEditor.ProBuilder.PreferenceDictionaryEditor
 0x69d4a861bdbb0c7f -    7625905206793538687 - LocalGeneralManager
 0x6a4143757b660a6a -    7656475013367073386 - Cinemachine.Editor.CinemachineBlenderSettingsEditor
+0x6aaf2978f35a9999 -    7687408688400341401 - DACS.Entities.EnemyComponent
 0x6abf1132049c4052 -    7691885595095482450 - UnityEditor.PrefabImporterEditor
 0x6ac961612c53db8e -    7694788508322618254 - UnityEditor.ProBuilder.CreateCylinderTool
 0x6ad5f25495927cc6 -    7698325583160310982 - UnityEngine.InputSystem.Editor.InputActionImporterEditor
@@ -891,6 +885,7 @@
 0x6ef43dbeaa0e891c -    7995083127595632924 - UnityEditor.EditorSettingsInspector
 0x6f11eff996724c5f -    8003441868064050271 - UnityEngine.Rendering.GraphicsSettings
 0x6f1217fe2a5d6cc9 -    8003485868190690505 - UnityEngine.LightAnchor
+0x6f1c4d85f0d50afb -    8006359475224382203 - SingleTargetRPCTest
 0x6f6c5489fcceb65d -    8028885187323410013 - UnityEngine.ParticleSystemRenderer
 0x7007aa88050a4249 -    8072608358261736009 - UnityEngine.Animations.Rigging.BlendConstraint
 0x7041288244dcd45a -    8088790945700303962 - UnityEditor.IHVImageFormatImporter
@@ -917,6 +912,7 @@
 0x72b2e7c03f118b4a -    8264923079056132938 - UnityEditorInternal.AssemblyDefinitionReferenceAsset
 0x72f8e0090081a448 -    8284617843815851080 - Unity.Entities.RetainBlobAssetBatchPtr
 0x73334e4ec7617332 -    8301064638433424178 - UnityEditor.TestRunner.UnityTestProtocol.TestRunDataHolder
+0x7346c9b5b81471f4 -    8306548345046069748 - CLAPlus.Face2Face.FaceSync
 0x735d1bdae88efed2 -    8312831114214309586 - UnityEditor.SettingsWindow
 0x73606a1bac9125e9 -    8313761579217790441 - UnityEditor.Rendering.Universal.MotionBlurEditor
 0x7361b6542cda3653 -    8314126859748652627 - UnityEditor.PluginImporterInspector
@@ -931,7 +927,7 @@
 0x749e0174317d554e -    8403155553278055758 - UnityEngine.PlatformEffector2D
 0x74a10017b378aa55 -    8403998481445333589 - UnityEditor.Build.Profile.BuildProfile
 0x74acd315c41c48a5 -    8407326694831835301 - UnityEditor.Audio.AudioMixerGroupController
-0x74c87f623b4ac5b1 -    8415115963620050353 - DACS_Entities_EnemyDataScriptableObject
+0x74cd1da316b871b0 -    8416415864923386288 - CLAPlus.Face2Face.Face2Face
 0x74d5524ffb89f593 -    8418725581915026835 - UnityEngine.LensFlare
 0x74ddd916f7df966b -    8421125570923828843 - TMPro.Examples.TextMeshSpawner
 0x74eabe556eb682ed -    8424755327088886509 - Cysharp.Threading.Tasks.Triggers.AsyncCollisionStayTrigger
@@ -962,7 +958,6 @@
 0x78aece2a1b511482 -    8696114610741253250 - UnityEditor.UI.GridLayoutGroupEditor
 0x78ba90255d954640 -    8699424120377787968 - UnityEngine.Rendering.UI.DebugUIHandlerPersistentCanvas
 0x78dd2d2dcda8b505 -    8709166929151571205 - UnityEngine.Rendering.UI.DebugUIHandlerIndirectToggle
-0x7916804d2b2050aa -    8725302397001289898 - DACS_ObjectInfo
 0x796729bd2d167a03 -    8748006693672483331 - UnityEngine.Texture3D
 0x797569839a2fbb02 -    8752017464812878594 - UnityEngine.Canvas
 0x79a8f0a46877edb1 -    8766521263594663345 - UnityEngine.CustomRenderTexture
@@ -1002,7 +997,6 @@
 0x7e4c2546e716ae0d -    9100689933463891469 - UnityEditor.TextAssetInspector
 0x7e53a7f1c3239e2b -    9102803928648752683 - Unity.Deformations.BlendShapeWeight
 0x7e9f58f8533d986b -    9124109193647593579 - UnityEditor.Timeline.TimelineWindow
-0x7ead9b9533930e4f -    9128123084867571279 - DACS_Entities_ScriptableObject
 0x7ece1700335e217a -    9137265983610560890 - UnityEditor.TreeWizard
 0x7eff6a84e98dbafc -    9151150086926744316 - Unity.PlasticSCM.Editor.Views.Branches.Dialogs.DeleteBranchDialog
 0x7f015c90fa312d12 -    9151697695536131346 - Unity.Rendering.SkipLODGroupWorldReferencePointUpdate
@@ -1018,6 +1012,7 @@
 0x807fdd5f4a6f5fb9 -    9259362760237473721 - Unity.Rendering.AdditionalMeshRendererEntity
 0x808e00a8e9fb8035 -    9263342209027768373 - UnityEditor.CurveEditorSelection
 0x80905c5c08a84310 -    9264005983853101840 - UnityEngine.SpringJoint2D
+0x80bc4424dfc7d9f6 -    9276364257640307190 - CLAPlus.SpringSystem
 0x80f4100f9f50df43 -    9292069590455607107 - UnityEditor.Build.Reporting.ScenesUsingAssets
 0x8137861506da729a -    9311058179479204506 - UnityEngine.Behaviour
 0x815dc31b8e956902 -    9321821326850484482 - UnityEngine.Animation
@@ -1025,6 +1020,7 @@
 0x8193269c93f2bffa -    9336848906408083450 - Unity.PerformanceTesting.Editor.PerformanceTestRunSaver
 0x819927f6c7f5aaa5 -    9338539243199638181 - UnityEditor.Graphs.GroupNode
 0x81a2f0af67754fdc -    9341293213265514460 - UnityEditor.TerrainTools.PaintHeightTool
+0x81e9a2e4d91025ab -    9361192404244243883 - DACS.Entities.Entity
 0x8203af2cb3f46004 -    9368524256393322500 - UnityEditor.PackageImport
 0x82238676b8557a50 -    9377486693572377168 - UnityEditor.Rendering.RenderGraphViewer
 0x8241ea5d1b0ddf1f -    9386040784023576351 - UnityEngine.PhysicsMaterial2D
@@ -1040,7 +1036,7 @@
 0x83502fcb4c0d5d5e -    9462115367306222942 - UnityEditor.Timeline.AnimationTrackInspector
 0x8359227e106d8ca0 -    9464634016732646560 - UnityEditor.AnimationModeDriver
 0x83863e3b73262491 -    9477330890903659665 - UnityEditor.ProBuilder.CreateSpriteTool
-0x838d93b11cd152ec -    9479395179586736876 - CLAPartsLists
+0x838a80cd1fa4c943 -    9478529984242174275 - CLAPlus.CustomLiveAvatar.CLAPartsLists
 0x83d404ab4f3a7117 -    9499222647846367511 - UnityEditor.Presets.PresetManagerEditor
 0x83fe33b4bcff13eb -    9511096314411029483 - UnityEngine.LightProbeProxyVolume
 0x8419b40d565bac8c -    9518837256800677004 - DACSObjectPooler
@@ -1088,11 +1084,11 @@
 0x88d8fc95251eea17 -    9860909101630810647 - UnityEditor.AvatarSubEditor
 0x88f907687517915d -    9869928203581624669 - Cysharp.Threading.Tasks.Triggers.AsyncPreCullTrigger
 0x8928e7472c60ff69 -    9883403675137802089 - UnityEditor.Rendering.Universal.CompositeShadowCaster2DEditor
-0x8949a0c961759f38 -    9892614843279974200 - testSpring
 0x897438b08a23d251 -    9904603811377566289 - UnityEngine.InputSystem.XR.TrackedPoseDriver
 0x897a46fa35025d04 -    9906308370799942916 - UnityEngine.Animations.ScaleConstraint
 0x89bd68482ee6012d -    9925203813028200749 - DownloadableSample
 0x8a0089708df362cf -    9944099093744935631 - UnityEditor.GridEditor
+0x8a0a7c3065c0f274 -    9946899274308579956 - CLAPlus.AnimationControl.BodyControl
 0x8a1d91e261ef5cc2 -    9952271153050377410 - UnityEditor.ProBuilder.LicenseEditor
 0x8a627f480180c767 -    9971672472191289191 - Cinemachine.Editor.CinemachineBrainEditor
 0x8a6b7dda80ff9e43 -    9974204177162673731 - TMPro.TMP_Settings
@@ -1114,6 +1110,7 @@
 0x8bc61a3e69fda0df -   10071766472029216991 - UnityEditor.ArticulationBodyAnchorTransformTool
 0x8bd6a96e576240a2 -   10076427507665617058 - Unity.Scenes.PrefabAssetReference
 0x8bdb58650def914d -   10077745782220362061 - TMPro.Examples.TeleType
+0x8bdcd4d29330739d -   10078164067025974173 - DACS.Projectile.ProjectileSO
 0x8be438495caccf52 -   10080243753700609874 - UnityEditor.ProBuilder.MaterialEditor
 0x8bf115c35c7da78e -   10083864969473795982 - UnityEditor.Rendering.Universal.UniversalRenderPipelineCameraEditor
 0x8c0c8cebbcf83dcf -   10091595809146027471 - Unity.Netcode.Components.NetworkAnimator
@@ -1177,6 +1174,7 @@
 0x925986cf545e14da -   10545608227496531162 - Unity.UI.Builder.BuilderNewClassWindow
 0x925b9e5ce1999ddf -   10546197074177269215 - Cinemachine.CinemachinePOV
 0x927c1c894fb63d32 -   10555343002723040562 - UnityEditor.Rendering.VolumeProfileEditor
+0x92a600d43a30d50a -   10567134487180793098 - CLAPlus.ClapChat
 0x92ac1541ab895d1a -   10568845797326675226 - UnityEditor.SketchUpImporter
 0x92c12ad104057070 -   10574780477246632048 - UnityEditor.U2D.SpriteAtlasImporter
 0x92ed104d50565a5d -   10587136223264266845 - Unity.Netcode.NetworkTransport
@@ -1197,15 +1195,14 @@
 0x94bad72c91c61ee5 -   10717114849705729765 - UnityEditor.PackageManager.UI.PackageManagerWindow
 0x94f7f94afb74dd12 -   10734322337302502674 - UnityEditor.UI.ScrollRectEditor
 0x95160278a232694b -   10742776678279440715 - Unity.Rendering.URPMaterialPropertyCutoff
+0x952d64e918f0c9f7 -   10749358837911833079 - DACS.Entities.EntitySpawner
 0x9530bd42ef0d482a -   10750300405709490218 - UnityEditor.Editor
-0x953968a865c113c7 -   10752740657794716615 - DACS_PlayerActionControl
 0x9564be115810b75a -   10764937991023540058 - Unity.VisualScripting.UnityOnSubmitMessageListener
 0x956b7b46f01e1a14 -   10766834878765734420 - UnityEngine.Timeline.SignalEmitter
 0x957991d4476d36c2 -   10770800324750685890 - UnityEditor.TerrainInspector+DoCreateTerrainMaterial
 0x957b4619b894d17a -   10771280010071560570 - UnityEditor.U2D.SpriteAtlasAsset
 0x95ca66af693cfab6 -   10793552360517728950 - Unity.VisualScripting.UnityOnCollisionEnter2DMessageListener
 0x95e9f2272c60d19a -   10802431431287034266 - UnityEngine.Rendering.Universal.XRSystemData
-0x95ed22b909bd23b0 -   10803329259259372464 - CLAPlus_HandControl
 0x96078bda96d05399 -   10810763201475531673 - UnityEditor.ModeDescriptorImporter
 0x964b2708f18bd344 -   10829792648308183876 - UnityEngine.Timeline.AudioPlayableAsset
 0x965581db480f8125 -   10832707257516392741 - UnityEditor.SpringJointEditor
@@ -1257,6 +1254,7 @@
 0x9bfd140b867e73b1 -   11240162284720255921 - UnityEngine.Rendering.RenderPipelineResourcesEditor
 0x9c19f694f93be0e5 -   11248292664031568101 - UnityEditor.Search.ASIEI09
 0x9c1bbfd45548801e -   11248795412972732446 - Cinemachine.CinemachineBasicMultiChannelPerlin
+0x9c2f7461eca661df -   11254341957753135583 - NugetForUnity.Ui.NuspecEditor
 0x9c4b95871649c9e1 -   11262259700597115361 - UnityEditor.AssemblyDefinitionImporterInspector
 0x9c83b85ca436364a -   11278060599897372234 - UnityEngine.Animations.Rigging.BoneRenderer
 0x9cbdb4edeccc06fc -   11294382374488114940 - UnityEditor.Presets.PresetEditor
@@ -1311,6 +1309,7 @@
 0xa338d8c6b07a6073 -   11761388774753984627 - UnityEditor.RectTool
 0xa37143049b8fbc86 -   11777268187619376262 - UnityEditor.Search.IndexManager
 0xa3e57e8254b7ed3a -   11809984696081182010 - UnityEngine.Rendering.DisallowGPUDrivenRendering
+0xa3f15aacd4768e06 -   11813322995914935814 - CLAPlus.AnimationControl.AnimationControl
 0xa42766b4b2df5898 -   11828535872593025176 - UnityEditor.Timeline.Signals.SignalAssetInspector
 0xa43f32730793e4b9 -   11835233815382713529 - UnityEditor.CapsuleCollider2DEditor
 0xa44fdbd68f94326c -   11839923659958661740 - UnityEditor.Rendering.Universal.UniversalRenderPipelineVolumeComponentEditor
@@ -1354,6 +1353,7 @@
 0xa85669d50c0d1314 -   12129999010120143636 - Unity.UI.Builder.BuilderViewportWindow
 0xa861c46a0d20a50b -   12133194830878647563 - Cysharp.Threading.Tasks.Triggers.AsyncCollisionStay2DTrigger
 0xa87b6ecf73632094 -   12140419057780465812 - UnityEditor.HingeJoint2DTool
+0xa898a0c230bde3e6 -   12148636750733763558 - CLAPlus.CustomLifeAvatar
 0xa8b3ebc8c00a839a -   12156319066651001754 - UnityEngine.Rigidbody2D
 0xa8dd65374925ef9c -   12167993056349777820 - UnityEngine.Tilemaps.TilemapRenderer
 0xa8fc62cb45f6de1f -   12176716117694668319 - UnityEditor.Graphs.AnimationStateMachine.AnimatorTransitionInspector
@@ -1410,7 +1410,6 @@
 0xb03226f832f32dc4 -   12696253146959392196 - Cysharp.Threading.Tasks.Triggers.AsyncMouseUpTrigger
 0xb0488215949a5bdc -   12702545778197552092 - UnityEditor.LightEditor
 0xb0544c1906c0e484 -   12705864119090209924 - UnityEditor.UI.ImageEditor
-0xb07a2f91193d5e2e -   12716528798074232366 - DACS_P_ScriptableObject
 0xb098e19dc5a3ce33 -   12725168814877298227 - TMPro.TextMeshPro
 0xb0ade9e5f1f7a696 -   12731088895462581910 - UnityEditor.AnimationWindowEventInspector
 0xb0cb47792340814b -   12739354556555624779 - Unity.Multiplayer.Samples.Utilities.ClientAuthority.ClientNetworkTransform
@@ -1487,6 +1486,7 @@
 0xb857df983bbb04b5 -   13283331470882702517 - Unity.Rendering.EntitiesGraphicsChunkInfo
 0xb8716cd615ecc3a4 -   13290523642093683620 - UnityEngine.Rendering.UI.DebugUIHandlerEnumField
 0xb8752607eb370861 -   13291571690706765921 - UnityEditor.PackageManager.UI.Internal.RegistryInfoDraftData
+0xb879a6ab81145613 -   13292839030695941651 - NugetForUnity.Ui.DependencyTreeViewer
 0xb88936303ca52da1 -   13297218955591888289 - UnityEngine.Timeline.MarkerTrack
 0xb8a01a5fcdc68516 -   13303662298028999958 - Unity.Rendering.URPMaterialPropertyOcclusionStrength
 0xb8c766169491da9a -   13314723070512061082 - UnityEngine.Rendering.UI.DebugUIHandlerContainer
@@ -1559,6 +1559,7 @@
 0xc0e9481148dd282b -   13900720963929843755 - UnityEditor.PackageManager.UI.Internal.SelectionWindow
 0xc11a73165130a1ce -   13914560538403185102 - UnityEditor.Graphs.AnimationStateMachine.AnyStateNodeInspector
 0xc13d4bc1ff8c56fc -   13924368919487600380 - UnityEditor.ProBuilder.MenuOption
+0xc17afea6a5e9cf15 -   13941735588180381461 - CLAPlus.Face2Face.CaptureDeviceControl
 0xc2023495dee3a40c -   13979794011605672972 - UnityEngine.AudioClip
 0xc21295e9e535e909 -   13984404624744245513 - Cysharp.Threading.Tasks.Triggers.AsyncLateUpdateTrigger
 0xc280b01d324eed06 -   14015395679821556998 - UnityEngine.EdgeCollider2D
@@ -1577,6 +1578,7 @@
 0xc4089f68b28f5319 -   14125715503268713241 - UnityEditor.CollisionModuleUI+CollisionModuleTransformTool
 0xc45a912b939caa1b -   14148780795683973659 - IKTEST
 0xc51125f361204d22 -   14200172827312672034 - UnityEditor.AvatarMuscleEditor
+0xc51246caf666f749 -   14200490412583876425 - DACS.Entities.EntityManagementSystem
 0xc563ef1bc73003e8 -   14223474950751126504 - UnityEditor.GUIViewDebuggerWindow
 0xc568512c381138c1 -   14224708673410775233 - UnityEditor.CompositeCollider2DEditor
 0xc5715c0eaccdd415 -   14227253915938575381 - UnityEngine.Animations.Rigging.OverrideTransform
@@ -1589,6 +1591,7 @@
 0xc639dd22d7295b37 -   14283690834890677047 - UnityEngine.Rendering.FreeCamera
 0xc63ca59d8b7d0ba5 -   14284474214181047205 - UnityEditor.EditorTools.EditorToolManager
 0xc64801d2f3511570 -   14287671823369835888 - UnityEditor.ShaderGraph.SubGraphAsset
+0xc64d9fd2d286592f -   14289252920540420399 - CLAPlus.AnimationControl.HandControl
 0xc6578e78ec33f61a -   14292048592493606426 - UnityEditor.ProBuilder.ProBuilderShapeEditor
 0xc65873fe961d8be2 -   14292300954737675234 - UnityEngine.BillboardAsset
 0xc66b2b9601ee6c95 -   14297569365295262869 - UnityEditor.TextureImporterInspector
@@ -1664,6 +1667,7 @@
 0xce9514726c7f9217 -   14885826625022169623 - UnityEngine.Rendering.Universal.DecalRendererFeature
 0xcedafcad90723086 -   14905503739119022214 - Unity.Entities.Editor.ComponentsWindow
 0xcee4ccd0920670eb -   14908265862678343915 - UnityEngine.ParticleSystemForceField
+0xceff05415a6932d3 -   14915646269122228947 - DACS.Inventory.ItemComponent
 0xcf05d13a12dbf0fe -   14917559388089348350 - Unity.Entities.RemoveUnusedEntityInBake
 0xcf20813a78589970 -   14925071253232982384 - Unity.Burst.Editor.BurstPlatformAotSettings
 0xcf3a5a3995ef2549 -   14932346717875414345 - UnityEngine.Animations.PositionConstraint
@@ -1723,11 +1727,11 @@
 0xd40352c43b18e65f -   15277145363729409631 - UnityEditor.TestTools.TestRunner.TestListCacheData
 0xd40aa94009999fbb -   15279210778311892923 - UnityEditor.TextCore.Text.FontAssetCreatorWindow
 0xd41d679d55857179 -   15284486635807666553 - Unity.Entities.Serialization.DotsSerialization+StringTableNode
+0xd43711eb2186c942 -   15291710761337276738 - CLAPlus.CharactorMovement
 0xd46bb83fadd5dc03 -   15306530342187686915 - UnityEngine.AudioSource
 0xd4b2b5fb100ebe64 -   15326512571806039652 - UnityEditor.ShapeModuleUI+ShapePositionTool
 0xd507572cd4fbe2ec -   15350333704979079916 - UnityEditor.Search.ColumnEditor
 0xd50d3042b518abb1 -   15351979767840156593 - UnityEditor.SceneTemplate.SceneTemplateAssetInspectorWindow
-0xd5368909f2333efe -   15363617854632181502 - CLAPlus_Chat
 0xd54b8d85765d9813 -   15369533757687961619 - UnityEngine.AnimatorOverrideController
 0xd54d5e92d3d77b47 -   15370045087997721415 - UnityEditor.ShaderGraph.ShaderSubGraphImporter
 0xd54f3b1d1fbefc46 -   15370569049511492678 - UnityEditor.Rendering.LookDev.EnvironmentEditor
@@ -1803,6 +1807,7 @@
 0xe004775f4d88a450 -   16142158215609099344 - UnityEngine.Animations.Rigging.DampedTransform
 0xe0240eb0a299294f -   16151050315462420815 - UnityEngine.FailedToLoadScriptObject
 0xe038d51c9ced3b66 -   16156897982060247910 - Unity.Scenes.WeakAssetPrefabLoadRequest
+0xe0441dab64e778d2 -   16160073984881686738 - DACS.Entities.EnemyDataSO
 0xe07653327c6e41a0 -   16174206588048785824 - Unity.Rendering.OverrideLightProbeAnchorComponent
 0xe0a5ed973e18abb3 -   16187605669490764723 - Unity.VisualScripting.UnityOnDropMessageListener
 0xe0ad1c0469b98176 -   16189627040746013046 - UnityEditor.VFX.VisualEffectSubgraphBlock
@@ -1839,7 +1844,6 @@
 0xe4be5c5490ac1d56 -   16482713204496801110 - UnityEditor.MonoScriptImporterInspector
 0xe4f647565e64433a -   16498452721194779450 - Unity.VisualScripting.StateGraphAsset
 0xe51549e1623574ea -   16507181241560560874 - TMPro.TMP_SerializedPropertyHolder
-0xe5305ee4c8bd0832 -   16514804170280994866 - UI_CLA_SlotComponent
 0xe5359ebb0fadf56a -   16516281734710293866 - DACS_ItemManagementSystem
 0xe53d706a86912083 -   16518482611091349635 - UnityEditor.DefaultAssetInspector
 0xe55a0f40639a2002 -   16526538551812825090 - UnityEditor.Rendering.Universal.ShadowCasterPath
@@ -1856,6 +1860,7 @@
 0xe68e3d07dedffd3b -   16613283179429625147 - UI_Component
 0xe6a7db3de0658fd4 -   16620494008638345172 - Unity.UI.Builder.BuilderUxmlAttributesView+TempSerializedData
 0xe6e8e92256411a6e -   16638805157005564526 - UI_PlayerSettings
+0xe71dd9a5e2ebc1d1 -   16653706303585894865 - NugetForUnity.Ui.NugetWindow
 0xe73c2cd1a2a0cb95 -   16662242000252226453 - UnityEngine.Animations.AimConstraint
 0xe75b0ce35a4c2314 -   16670932616254071572 - UnityEditor.ProBuilder.VertexPositionEditor
 0xe7acd36536ac4d52 -   16693950350418005330 - UnityEditor.Search.ASIEI06
@@ -1863,7 +1868,6 @@
 0xe7d04605aa7a4d6e -   16703928008066092398 - UnityEngine.InputSystem.InputSystemObject
 0xe7dc6041a8235a62 -   16707334552747727458 - UnityEditor.CameraOverscanSettingsWindow
 0xe8145da33470517f -   16723094271874322815 - UnityEditor.Animations.AnimatorTransitionBase
-0xe849f4b887041f07 -   16738178563475513095 - CLAPlus_AnimationControlModuel
 0xe85167f650b24517 -   16740275597526320407 - Unity.VisualScripting.UnityOnScrollbarValueChangedMessageListener
 0xe856855452f56cc9 -   16741715262011960521 - UnityEditor.Search.SearchWindow
 0xe859e64cd80077ef -   16742666307442341871 - Cinemachine.GroupWeightManipulator
@@ -1879,7 +1883,6 @@
 0xe93741f5e6fb6006 -   16804973058954321926 - UnityEditor.Rendering.Universal.ScriptableRendererFeatureEditor
 0xe93e1ab2520f6a8f -   16806900212576512655 - UnityEditor.Timeline.GroupTrackInspector
 0xe96984bae3affabc -   16819120221610572476 - UnityEditor.TestTools.TestRunner.EditModeRunner
-0xe9784e31e273bb84 -   16823282384202087300 - CLAPlus_ProceduralAnimationModuel1
 0xe97ee902d602b6ee -   16825141456292460270 - Unity.Rendering.SkipWorldRenderBoundsUpdate
 0xe9b03caf60881f24 -   16839025730674761508 - UnityEditor.SpriteRectCache
 0xe9d4122f0f79260b -   16849112099232228875 - Cinemachine.CinemachineHardLookAt
@@ -1913,6 +1916,7 @@
 0xeda9a6b0a4fcd7dd -   17125402335665510365 - UnityEngine.U2D.Light2DBase
 0xedaabf704aea21f8 -   17125711022043832824 - UnityEngine.U2D.SpriteShapeRenderer
 0xedb919bef6fb33fc -   17129750965658530812 - Cysharp.Threading.Tasks.Triggers.AsyncDrawGizmosSelectedTrigger
+0xedd6f5fe34d514ba -   17138155904161879226 - CLAPlus.AnimationControl.FootControl
 0xee038d1a2dee2521 -   17150706949536228641 - Unity.Entities.Editor.SystemInfo
 0xee2b12992ad88f98 -   17161831254083538840 - TMPro.EditorUtilities.TMP_SettingsEditor
 0xee5079490420dd7c -   17172358733672537468 - UnityEngine.Mesh
@@ -2005,7 +2009,6 @@
 0xfb584cd08f68e52b -   18111310360113374507 - UnityEditor.Search.ASIEI07
 0xfb5b16a7be0ff487 -   18112095236104647815 - UnityEditor.UIElements.PanelTextSettingsEditor
 0xfb65479bf25cd66f -   18114963811279361647 - UnityEditor.SafeModeToolbarWindow
-0xfb8c76775fead044 -   18125992855341813828 - DACS_WeaponObjectInfo
 0xfb997255bcae6a92 -   18129647487519976082 - UnityEditor.ShaderFoundry.ShaderContainer
 0xfbb2f1a86f8125a7 -   18136824355101943207 - Unity.Netcode.NetworkBehaviour
 0xfc2741cf1562005d -   18169563579322335325 - Cysharp.Threading.Tasks.Triggers.AsyncEnableTrigger
@@ -2015,6 +2018,7 @@
 0xfccf509a80873c2f -   18216867642248477743 - Cinemachine.CinemachineClearShot
 0xfcecd293ba3636cf -   18225173323987695311 - UnityEditorInternal.Transition
 0xfcf341636b10ad3e -   18226984012152352062 - UnityEditor.Experimental.Rendering.GraphicsStateCollectionImporterEditor
+0xfd0f2cc0c7b7af7b -   18234842622742474619 - CLAPlus.Face2Face.UI_Face2Face
 0xfd16dee19c83b46c -   18237008801658287212 - UnityEditor.Profiling.ProfilerModulesDropdownWindow
 0xfdad7af89f7d0803 -   18279401670812960771 - Unity.Entities.CompanionLink
 0xfdb5127813b4f703 -   18281538569316398851 - UnityEditor.Accessibility.AccessibilityHierarchyViewerWindow
