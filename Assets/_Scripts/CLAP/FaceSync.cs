@@ -13,8 +13,8 @@ namespace CLAPlus.Face2Face
         static readonly int MouthBlendshapeIndex = 39;
         static readonly int RightEyeBlendshapeIndex = 14;
         static readonly int LeftEyeBlendshapeIndex = 15;
-        static readonly float eye_smooth = 10;                          /// <param name="eye_smooth">まばたきの滑らかさ   Smoothness of blink</param>
-        static readonly float mouth_smooth = 5;                        /// <param name="mouth_smooth">口の開閉の滑らかさ   Smoothness of mouth open/close
+        static readonly float eye_smooth = 20;                          /// <param name="eye_smooth">まばたきの滑らかさ   Smoothness of blink</param>
+        static readonly float mouth_smooth = 10;                        /// <param name="mouth_smooth">口の開閉の滑らかさ   Smoothness of mouth open/close
 
         float eye_l_c;
         float eye_r_c;
@@ -31,13 +31,10 @@ namespace CLAPlus.Face2Face
                 Stop = false;
             }
 
-            if (tracker == null)
-                return;
-            if (IsOwner && !tracker.isRunning)
-                return;
-
             if (IsOwner)
             {
+                if (tracker == null)
+                    return;
                 if (tracker.isRunning)
                 {
                     CalculateLerp(tracker.MouthCloseness, tracker.RightEyeCloseness, tracker.LeftEyeCloseness);
@@ -81,6 +78,7 @@ namespace CLAPlus.Face2Face
             smr.SetBlendShapeWeight(MouthBlendshapeIndex, 0);
             smr.SetBlendShapeWeight(RightEyeBlendshapeIndex, 0);
             smr.SetBlendShapeWeight(LeftEyeBlendshapeIndex, 0);
+            FaceSyncServerRpc(false, false, false);
         }
 
         [ServerRpc]
@@ -93,7 +91,7 @@ namespace CLAPlus.Face2Face
         [ClientRpc]
         public void FaceSyncClientRpc(bool mouth, bool eye_r, bool eye_l)
         {
-            if (UseFaceSync)
+            if (UseFaceSync && !IsOwner)
                 CalculateLerp(mouth, eye_r, eye_l);
         }
     }

@@ -87,7 +87,6 @@ namespace DACS.Inventory
             if (!IsServer)
                 return;
 
-            Debug.Log("ItemSpawn - ServerRPC");
             SpawnItemObjectClientRpc(FirstIndex, SecondIndex, SlotIndex);
         }
 
@@ -97,7 +96,6 @@ namespace DACS.Inventory
             if (IsOwner)
                 return;
 
-            Debug.Log("ItemSpawn - ClienRPC");
             SpawnItemObjectLocal(FirstIndex, SecondIndex, SlotIndex);
         }
 
@@ -107,7 +105,6 @@ namespace DACS.Inventory
             if (!IsServer)
                 return;
 
-            Debug.Log("ItemSet - ServerRPC");
             SetItemObjectClientRpc(SlotIndex);
         }
 
@@ -117,7 +114,6 @@ namespace DACS.Inventory
             if (IsOwner)
                 return;
 
-            Debug.Log("ItemSet - ClientRPC");
             SetItemObjectLocal(SlotIndex);
         }
     }
