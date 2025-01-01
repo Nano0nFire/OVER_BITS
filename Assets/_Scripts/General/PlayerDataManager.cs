@@ -10,6 +10,7 @@ using Unity.Netcode;
 using Newtonsoft.Json;
 using System.Linq;
 using DACS.Inventory;
+using Unity.Services.Vivox;
 
 public class PlayerDataManager : NetworkBehaviour
 {
@@ -21,6 +22,7 @@ public class PlayerDataManager : NetworkBehaviour
     {
         await UnityServices.InitializeAsync();
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        await VivoxService.Instance.InitializeAsync();
         PlayerAccountService.Instance.SignedIn += SignedIn;
         DontDestroyOnLoad(gameObject);
     }
