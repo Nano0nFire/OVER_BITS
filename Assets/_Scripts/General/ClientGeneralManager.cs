@@ -92,7 +92,7 @@ public class ClientGeneralManager : NetworkBehaviour
         uiGeneral.Setup(this);
         LocalGM.UI_playerSettings.Setup(this);
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
-        var PlayerName = pdManager.LoadedPlayerProfileData.PlayerName;
+        var PlayerName = PlayerDataManager.LoadedPlayerProfileData.PlayerName;
         var lastDot = PlayerName.LastIndexOf('#');
         var chatComponent = masterObj.GetComponent<ClapChat>();
         if (lastDot != -1)

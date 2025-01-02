@@ -14,7 +14,7 @@ using Unity.Services.Vivox;
 
 public class PlayerDataManager : NetworkBehaviour
 {
-    public PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
+    public static PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
     [HideInInspector] public InventorySystem inventorySystem; // ClientGeneralManagerから設定(ClientOnly)
     [HideInInspector] public Action<int> OnItemAdded;
 
@@ -22,7 +22,7 @@ public class PlayerDataManager : NetworkBehaviour
     {
         await UnityServices.InitializeAsync();
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        await VivoxService.Instance.InitializeAsync();
+        ClapTalk.InitVivoxAsync();
         PlayerAccountService.Instance.SignedIn += SignedIn;
         DontDestroyOnLoad(gameObject);
     }
@@ -32,10 +32,9 @@ public class PlayerDataManager : NetworkBehaviour
         if (AuthenticationService.Instance.IsSignedIn) // 以前ログインしていたならロードだけする
             LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
         else // 履歴がないならログインする
-        {
             await PlayerAccountService.Instance.StartSignInAsync();
-            Debug.Log("SignIn Start");
-        }
+
+        ClapTalk.LoginToVivoxAsync();
     }
 
     async void SignedIn() // SignIn開始
@@ -44,8 +43,13 @@ public class PlayerDataManager : NetworkBehaviour
         {
             var accessToken = PlayerAccountService.Instance.AccessToken;
             await SignInWithUnityAsync(accessToken);
-            LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
-            Debug.Log("SignIn Done");
+            // LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
+            LoadedPlayerProfileData = new()
+            {
+                PlayerID = AuthenticationService.Instance.PlayerInfo.Id,
+                PlayerName = await LoadData<PlayerProfileData>().ContinueWith(x => x.PlayerName) // ロードが終わるまで待機
+            };
+            await SaveData(LoadedPlayerProfileData);
         }
         catch (Exception ex)
         {
@@ -58,7 +62,6 @@ public class PlayerDataManager : NetworkBehaviour
         try
         {
             await AuthenticationService.Instance.SignInWithUnityAsync(accessToken);
-            Debug.Log("SignInWithUnity Done");
         }
         catch (AuthenticationException ex)
         {
@@ -174,6 +177,14 @@ public class PlayerDataManager : NetworkBehaviour
                 InvertAim = false,
                 HzCameraSens = 50,
                 VCameraSens = 50,
+            };
+            await SaveData(data); // 新規データの作成
+        }
+        else if (typeof(T) == typeof(PlayerProfileData))
+        {
+            PlayerProfileData data = new()
+            {
+                PlayerName = "Player" + UnityEngine.Random.Range(1000, 9999),
             };
             await SaveData(data); // 新規データの作成
         }

@@ -32,13 +32,13 @@ public class UI_PlayerDataManager : MonoBehaviour
         LoadingPanel.SetActive(true);
         await pdManager.InitSignIn();
         LoadingPanel.SetActive(false);
-        Debug.Log(pdManager.LoadedPlayerProfileData.PlayerName);
+        Debug.Log(PlayerDataManager.LoadedPlayerProfileData.PlayerName);
 
         SignInPanel.SetActive(false);
         PlayerSettingPanel.SetActive(true);
-        Debug.Log(pdManager.LoadedPlayerProfileData.PlayerName);
-        PlayerName.text = pdManager.LoadedPlayerProfileData.PlayerName;
-        PlayerID.text = pdManager.LoadedPlayerProfileData.PlayerID;
+        Debug.Log(PlayerDataManager.LoadedPlayerProfileData.PlayerName);
+        PlayerName.text = PlayerDataManager.LoadedPlayerProfileData.PlayerName;
+        PlayerID.text = PlayerDataManager.LoadedPlayerProfileData.PlayerID;
         var lastDot = PlayerName.text.LastIndexOf('#');
         if (lastDot != -1)
             PlayerNameField.text = PlayerName.text[..lastDot]; // 型名のネームスペース部分を消す
@@ -62,8 +62,8 @@ public class UI_PlayerDataManager : MonoBehaviour
         };
         await pdManager.SaveData(playerData);
         await pdManager.LoadData<PlayerProfileData>();
-        PlayerName.text = "Player Name : " + pdManager.LoadedPlayerProfileData.PlayerName;
-        PlayerID.text = "ID : " + pdManager.LoadedPlayerProfileData.PlayerID;
+        PlayerName.text = "Player Name : " + PlayerDataManager.LoadedPlayerProfileData.PlayerName;
+        PlayerID.text = "ID : " + PlayerDataManager.LoadedPlayerProfileData.PlayerID;
         PlayerSettingPanel.SetActive(false);
         StartGamePanel.SetActive(true);
     }
