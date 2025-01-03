@@ -9,7 +9,6 @@ namespace DACS.Inventory
 {
     public class InventorySystem : MonoBehaviour // PlayerObject直下
     {
-        [HideInInspector] public PlayerDataManager pdManager; // ClientGeneralManagerが設定
         public ItemData SelectedItem
         {
             get
@@ -23,10 +22,9 @@ namespace DACS.Inventory
         public int SelectedSlotIndex;
         readonly int InventoryCount = 33;
 
-        public async void Setup(ClientGeneralManager cgManager)
+        public async void Setup()
         {
-            pdManager = cgManager.pdManager;
-            HotbarData = await pdManager.LoadData<List<ItemData>>("HotbarData");
+            HotbarData = await PlayerDataManager.LoadData<List<ItemData>>("HotbarData");
             for (int i = 0; i < InventoryCount; i ++) // インベントリのロード
             {
                 LoadInventory(i);
@@ -35,13 +33,13 @@ namespace DACS.Inventory
 
         async void LoadInventory(int index)
         {
-            GetInventoryData(index).AddRange(await pdManager.LoadData<List<ItemData>>(GetListName(index)));
+            GetInventoryData(index).AddRange(await PlayerDataManager.LoadData<List<ItemData>>(GetListName(index)));
         }
 
         public void ChangeHotbar(int index, ItemData itemData) // ホットバーの使用状況を保存
         {
             HotbarData[index] = itemData;
-            pdManager.SaveData(HotbarData, "HotbarData").Forget();
+            PlayerDataManager.SaveData(HotbarData, "HotbarData").Forget();
         }
 
         public void ConsumeItem(ItemData itemData)

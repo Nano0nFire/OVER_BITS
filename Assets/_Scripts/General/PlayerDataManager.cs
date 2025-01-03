@@ -20,14 +20,12 @@ public class PlayerDataManager : NetworkBehaviour
 
     async void Start()
     {
-        await UnityServices.InitializeAsync();
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        ClapTalk.InitVivoxAsync();
+        await UnityServicesManager.InitUnityServices();
         PlayerAccountService.Instance.SignedIn += SignedIn;
         DontDestroyOnLoad(gameObject);
     }
 
-    public async UniTask InitSignIn()
+    public static async UniTask InitSignIn()
     {
         if (AuthenticationService.Instance.IsSignedIn) // 以前ログインしていたならロードだけする
             LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
@@ -73,17 +71,12 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
 
-    public void InitSignOut()
-    {
-        AuthenticationService.Instance.SignOut(true);
-    }
-
     private void OnDestroy()
     {
         PlayerAccountService.Instance.SignedIn -= SignedIn;
     }
 
-    public async UniTask SetPlayerNameAsync(string newName)
+    public static async UniTask SetPlayerNameAsync(string newName)
     {
         try
         {
@@ -99,7 +92,7 @@ public class PlayerDataManager : NetworkBehaviour
             Debug.LogError("Request failed: " + ex.Message);
         }
     }
-    public async UniTask SaveData<T>(T SaveData, string CustomKey = null)
+    public static async UniTask SaveData<T>(T SaveData, string CustomKey = null)
     {
         string jsonData = JsonConvert.SerializeObject(SaveData); // データをJsonに変換
 
@@ -133,7 +126,7 @@ public class PlayerDataManager : NetworkBehaviour
     /// <param name="CustomKey">任意のKey名(省略で保存するデータの型名が使用される)</param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public async UniTask<T> LoadData<T>(string CustomKey = null) where T : new()
+    public static async UniTask<T> LoadData<T>(string CustomKey = null) where T : new()
     {
         try
         {
@@ -166,7 +159,7 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
 
-    public async UniTask CreateAndSaveNewData<T>(string CustomKey) where T : new() // 初期値の設定はここで行う
+    public static async UniTask CreateAndSaveNewData<T>(string CustomKey) where T : new() // 初期値の設定はここで行う
     {
         if (typeof(T) == typeof(SettingsData))
         {

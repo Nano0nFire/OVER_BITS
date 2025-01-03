@@ -4,7 +4,6 @@ using TMPro;
 
 public class UI_PlayerSettings : MonoBehaviour
 {
-    public PlayerDataManager pdManager;
     public SettingsData data;
     bool Loaded = false;
     [SerializeField] Slider Sli_HzCameraSens;
@@ -12,11 +11,9 @@ public class UI_PlayerSettings : MonoBehaviour
     [SerializeField] Slider Sli_VCameraSens;
     [SerializeField] TMP_InputField Inp_VCameraSens;
 
-    public async void Setup(ClientGeneralManager cgManager)
+    public async void Setup()
     {
-        pdManager = cgManager.pdManager;
-
-        data = await pdManager.LoadData<SettingsData>();
+        data = await PlayerDataManager.LoadData<SettingsData>();
         Inp_HzCameraSens.text = data.HzCameraSens.ToString();
         Sli_HzCameraSens.value = data.HzCameraSens;
         Inp_VCameraSens.text = data.VCameraSens.ToString();

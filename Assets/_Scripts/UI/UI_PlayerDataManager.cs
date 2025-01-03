@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using Unity.Services.Core;
 using Unity.Services.Authentication;
-using Unity.Services.Authentication.PlayerAccounts;
-using Unity.Services.CloudSave;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
 public class UI_PlayerDataManager : MonoBehaviour
 {
-    [SerializeField] PlayerDataManager pdManager;
     [SerializeField] TMP_InputField PlayerNameField;
     [SerializeField] TMP_Text PlayerName;
     [SerializeField] TMP_Text PlayerID;
@@ -30,7 +23,7 @@ public class UI_PlayerDataManager : MonoBehaviour
     public async void SignIn()
     {
         LoadingPanel.SetActive(true);
-        await pdManager.InitSignIn();
+        await PlayerDataManager.InitSignIn();
         LoadingPanel.SetActive(false);
         Debug.Log(PlayerDataManager.LoadedPlayerProfileData.PlayerName);
 
@@ -46,7 +39,7 @@ public class UI_PlayerDataManager : MonoBehaviour
 
     public void SignOut()
     {
-        pdManager.InitSignOut();
+        UnityServicesManager.Logout();
         SignInPanel.SetActive(true);
         PlayerSettingPanel.SetActive(false);
     }
@@ -54,14 +47,14 @@ public class UI_PlayerDataManager : MonoBehaviour
     public async void Enter()
     {
         if (PlayerNameField.text != "")
-            await pdManager.SetPlayerNameAsync(PlayerNameField.text);
+            await PlayerDataManager.SetPlayerNameAsync(PlayerNameField.text);
         PlayerProfileData playerData = new()
         {
             PlayerID = AuthenticationService.Instance.PlayerInfo.Id,
             PlayerName = await AuthenticationService.Instance.GetPlayerNameAsync()
         };
-        await pdManager.SaveData(playerData);
-        await pdManager.LoadData<PlayerProfileData>();
+        await PlayerDataManager.SaveData(playerData);
+        await PlayerDataManager.LoadData<PlayerProfileData>();
         PlayerName.text = "Player Name : " + PlayerDataManager.LoadedPlayerProfileData.PlayerName;
         PlayerID.text = "ID : " + PlayerDataManager.LoadedPlayerProfileData.PlayerID;
         PlayerSettingPanel.SetActive(false);

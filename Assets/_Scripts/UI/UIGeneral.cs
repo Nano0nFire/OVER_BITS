@@ -124,7 +124,7 @@ public class UIGeneral : MonoBehaviour
 
             case UIType.Settings:
                 var data = uI_PlayerSettings.data;
-                await pdManager.SaveData(data);
+                await PlayerDataManager.SaveData(data);
                 cgManager.LoadSettings();
                 break;
         }

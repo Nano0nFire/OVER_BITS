@@ -79,7 +79,7 @@ public class ClientGeneralManager : NetworkBehaviour
         // データ系
         pdManager = FindFirstObjectByType<PlayerDataManager>();
         pdManager.inventorySystem = invSystem;
-        invSystem.Setup(this);
+        invSystem.Setup();
 
         // Network
         nwID = nwObject.NetworkObjectId;
@@ -90,7 +90,7 @@ public class ClientGeneralManager : NetworkBehaviour
         uiGeneral = MainMenu.GetComponent<UIGeneral>();
         uiGeneral.invSystem = invSystem;
         uiGeneral.Setup(this);
-        LocalGM.UI_playerSettings.Setup(this);
+        LocalGM.UI_playerSettings.Setup();
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
         var PlayerName = PlayerDataManager.LoadedPlayerProfileData.PlayerName;
         var lastDot = PlayerName.LastIndexOf('#');
@@ -144,7 +144,7 @@ public class ClientGeneralManager : NetworkBehaviour
 
     public async void LoadSettings()
     {
-        var loadedData = await pdManager.LoadData<SettingsData>();
+        var loadedData = await PlayerDataManager.LoadData<SettingsData>();
         ToggleDash = loadedData.ToggleDash; //ダッシュ切り替え or 長押しダッシュ
         ToggleCrouch = loadedData.ToggleCrouch; //しゃがみ切り替え or 長押ししゃがみ
         InvertAim = loadedData.InvertAim; //垂直方向の視点操作の反転
