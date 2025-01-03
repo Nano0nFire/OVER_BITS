@@ -133,6 +133,8 @@ namespace DACS.Entities
             if (nwID != 0)
                 AttackerNWID = nwID;
 
+            Debug.Log(nwID);
+
             float DmgReceived = damage.Dmg - (Def - damage.Penetration > 0 ? Def - damage.Penetration : 0) * damage.DefMagnification;
             HP -= DmgReceived > 0 ? DmgReceived : 0;
 

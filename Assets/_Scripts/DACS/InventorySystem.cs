@@ -47,7 +47,7 @@ namespace DACS.Inventory
 
         }
 
-        public string GetListName(int FirstNum)
+        public static string GetListName(int FirstNum)
         {
             return FirstNum switch
             {
@@ -89,43 +89,43 @@ namespace DACS.Inventory
         }
 
         #region InventoryDatas
-        [NonReorderable] public List<ItemData> testItemInventoryData = new(); //0
-        [NonReorderable] public List<ItemData> AxeInventoryData = new(); //1
-        [NonReorderable] public List<ItemData> PicaxeInventoryData = new(); //2
-        [NonReorderable] public List<ItemData> DrillInventoryData = new(); //3
-        [NonReorderable] public List<ItemData> HammerInventoryData = new(); //4
-        [NonReorderable] public List<ItemData> ShieldInventoryData = new(); //5
-        [NonReorderable] public List<ItemData> ConsumablesInventoryData = new(); //6
-        [NonReorderable] public List<ItemData> GranadeInventoryData = new(); //7
-        [NonReorderable] public List<ItemData> MagicInventoryData = new(); //8
-        [NonReorderable] public List<ItemData> FishingRodInventoryData = new(); //9
-        [NonReorderable] public List<ItemData> LongSwordInventoryData = new(); //10
-        [NonReorderable] public List<ItemData> ShortSwordInventoryData = new(); //11
-        [NonReorderable] public List<ItemData> SpearInventoryData = new(); //12
-        [NonReorderable] public List<ItemData> HandgunInventoryData = new(); //13
-        [NonReorderable] public List<ItemData> RifleInventoryData = new(); //14
-        [NonReorderable] public List<ItemData> SMGInventoryData = new(); //15
-        [NonReorderable] public List<ItemData> ShotgunInventoryData = new(); //16
-        [NonReorderable] public List<ItemData> LMGInventoryData = new(); //17
-        [NonReorderable] public List<ItemData> SniperRifleInventoryData = new(); //18
-        [NonReorderable] public List<ItemData> BaseBodyList = new(); //19
-        [NonReorderable] public List<ItemData> FaceInventoryData = new(); //20
-        [NonReorderable] public List<ItemData> TopsInventoryData = new(); //21
-        [NonReorderable] public List<ItemData> BottomsInventoryData = new(); //22
-        [NonReorderable] public List<ItemData> ShoesInventoryData = new(); //23
-        [NonReorderable] public List<ItemData> HairInventoryData = new(); //24
-        [NonReorderable] public List<ItemData> AccessoryInventoryData = new(); //25
-        [NonReorderable] public List<ItemData> HelmetInventoryData = new(); //26
-        [NonReorderable] public List<ItemData> ChestArmorInventoryData = new(); //27
-        [NonReorderable] public List<ItemData> LegArmorInventoryData = new(); //28
-        [NonReorderable] public List<ItemData> BootsArmorInventoryData = new(); //29
-        [NonReorderable] public List<ItemData> PotionInventoryData = new(); //30
-        [NonReorderable] public List<ItemData> MaterialInventoryData = new(); //31
-        [NonReorderable] public List<ItemData> FoodInventoryData = new(); //32
+        [NonReorderable] public static List<ItemData> testItemInventoryData = new(); //0
+        [NonReorderable] public static List<ItemData> AxeInventoryData = new(); //1
+        [NonReorderable] public static List<ItemData> PicaxeInventoryData = new(); //2
+        [NonReorderable] public static List<ItemData> DrillInventoryData = new(); //3
+        [NonReorderable] public static List<ItemData> HammerInventoryData = new(); //4
+        [NonReorderable] public static List<ItemData> ShieldInventoryData = new(); //5
+        [NonReorderable] public static List<ItemData> ConsumablesInventoryData = new(); //6
+        [NonReorderable] public static List<ItemData> GranadeInventoryData = new(); //7
+        [NonReorderable] public static List<ItemData> MagicInventoryData = new(); //8
+        [NonReorderable] public static List<ItemData> FishingRodInventoryData = new(); //9
+        [NonReorderable] public static List<ItemData> LongSwordInventoryData = new(); //10
+        [NonReorderable] public static List<ItemData> ShortSwordInventoryData = new(); //11
+        [NonReorderable] public static List<ItemData> SpearInventoryData = new(); //12
+        [NonReorderable] public static List<ItemData> HandgunInventoryData = new(); //13
+        [NonReorderable] public static List<ItemData> RifleInventoryData = new(); //14
+        [NonReorderable] public static List<ItemData> SMGInventoryData = new(); //15
+        [NonReorderable] public static List<ItemData> ShotgunInventoryData = new(); //16
+        [NonReorderable] public static List<ItemData> LMGInventoryData = new(); //17
+        [NonReorderable] public static List<ItemData> SniperRifleInventoryData = new(); //18
+        [NonReorderable] public static List<ItemData> BaseBodyList = new(); //19
+        [NonReorderable] public static List<ItemData> FaceInventoryData = new(); //20
+        [NonReorderable] public static List<ItemData> TopsInventoryData = new(); //21
+        [NonReorderable] public static List<ItemData> BottomsInventoryData = new(); //22
+        [NonReorderable] public static List<ItemData> ShoesInventoryData = new(); //23
+        [NonReorderable] public static List<ItemData> HairInventoryData = new(); //24
+        [NonReorderable] public static List<ItemData> AccessoryInventoryData = new(); //25
+        [NonReorderable] public static List<ItemData> HelmetInventoryData = new(); //26
+        [NonReorderable] public static List<ItemData> ChestArmorInventoryData = new(); //27
+        [NonReorderable] public static List<ItemData> LegArmorInventoryData = new(); //28
+        [NonReorderable] public static List<ItemData> BootsArmorInventoryData = new(); //29
+        [NonReorderable] public static List<ItemData> PotionInventoryData = new(); //30
+        [NonReorderable] public static List<ItemData> MaterialInventoryData = new(); //31
+        [NonReorderable] public static List<ItemData> FoodInventoryData = new(); //32
 
-        [NonReorderable] public List<ItemData> HotbarData = new();
+        [NonReorderable] public static List<ItemData> HotbarData = new();
 
-        public List<ItemData> GetInventoryData(int FirstNum)
+        public static List<ItemData> GetInventoryData(int FirstNum)
         {
             return FirstNum switch
             {

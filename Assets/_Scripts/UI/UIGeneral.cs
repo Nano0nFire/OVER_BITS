@@ -32,7 +32,7 @@ public class UIGeneral : MonoBehaviour
         invSystem = cgManager.GetComponent<InventorySystem>();
         uiHotbar.inventorySystem = invSystem;
         uiHotbar.hotbarSystem = cgManager.GetComponent<HotbarSystem>();
-        pdManager.OnItemAdded += Load;
+        PlayerDataManager.OnItemAdded += Load;
         cla = cgManager.GetComponent<CustomLifeAvatar>();
 
         UIComponents = GetComponentsInChildren<UI_Component>(true);
@@ -140,7 +140,7 @@ public class UIGeneral : MonoBehaviour
     {
         if (!InventoryParents[index].enabled) // 非アクティブ状態なら更新はしない
             return;
-        InventoryParents[index].LoadSlot(invSystem.GetInventoryData(index)); // スロットを更新
+        InventoryParents[index].LoadSlot(InventorySystem.GetInventoryData(index)); // スロットを更新
     }
 
     public void CLACombine()

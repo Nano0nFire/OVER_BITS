@@ -78,7 +78,6 @@ public class ClientGeneralManager : NetworkBehaviour
 
         // データ系
         pdManager = FindFirstObjectByType<PlayerDataManager>();
-        pdManager.inventorySystem = invSystem;
         invSystem.Setup();
 
         // Network

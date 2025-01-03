@@ -148,6 +148,7 @@
     <Compile Include="Assets\_Scripts\DACS\HotbarSystem.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CharactorMovement.cs" />
+    <Compile Include="Assets\_Scripts\General\SingleCommunication.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
     <Compile Include="Assets\_Scripts\General\ScriptsAttach.cs" />
     <Compile Include="Assets\_Scripts\SingleTargetRPCTest.cs" />

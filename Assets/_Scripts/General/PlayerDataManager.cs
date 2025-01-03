@@ -15,8 +15,44 @@ using Unity.Services.Vivox;
 public class PlayerDataManager : NetworkBehaviour
 {
     public static PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
-    [HideInInspector] public InventorySystem inventorySystem; // ClientGeneralManagerから設定(ClientOnly)
-    [HideInInspector] public Action<int> OnItemAdded;
+    [HideInInspector] public static Action<int> OnItemAdded;
+    [HideInInspector] public SingleCommunication singleCommunication;
+
+    // シングルトンインスタンス
+    private static PlayerDataManager instance;
+
+    // インスタンスへのプロパティ
+    public static PlayerDataManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindAnyObjectByType<PlayerDataManager>();
+
+                if (instance == null)
+                {
+                    GameObject singletonObject = new GameObject(typeof(PlayerDataManager).Name);
+                    instance = singletonObject.AddComponent<PlayerDataManager>();
+                }
+            }
+            return instance;
+        }
+    }
+
+    // シングルトンの初期化
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // シーンを跨いでも破棄されないようにする
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject); // 重複するインスタンスを破棄
+        }
+    }
 
     async void Start()
     {
@@ -193,38 +229,46 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
     #region AddItemData
-    public void AddItem(ItemData itemData, ulong wnID, int amount = 0)
+    public void AddItem(ItemData itemData, ulong nwID, int amount = 0)
     {
         if (!IsServer)
             return;
 
+        Debug.Log("AddItem");
+
         ClientRpcParams rpcParams = new() // ClientRPCを送る対象を選択
         {
-            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { wnID } }
+            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { nwID } }
         };
-        AddItemOrderClientRpc(JsonConvert.SerializeObject(itemData), amount, rpcParams);
+        singleCommunication.AddItemOrderClientRpc(JsonConvert.SerializeObject(itemData), amount, rpcParams);
+        Debug.Log("AddasetasdItem");
     }
 
     [ClientRpc]
     public void AddItemOrderClientRpc(string data, int amount, ClientRpcParams rpcParams = default)
     {
+        Debug.Log("start");
         if (!IsClient)
             return;
+
+        Debug.Log("AddItemOrderClientRpc");
 
         AddItem(data, amount);
     }
 
-    async void AddItem(string data, int amount = 0)
+    public static async void AddItem(string data, int amount = 0)
     {
-        if (!IsClient)
-            return;
+        // if (!IsClient)
+        //     return;
+
+        Debug.Log("AddadddaaadddItem");
 
         var itemData = JsonConvert.DeserializeObject<ItemData>(data); // Jsonから変換
-        string key = inventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
+        string key = InventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
         var PlayerInventoryData = await LoadData<List<ItemData>>(key); // Keyを元にインベントリデータを取得
         if (amount == 0) {
             PlayerInventoryData.Add(itemData);
-            inventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
+            InventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
         } else {
             int itemIndex;
             int secondIndex = itemData.SecondIndex;
@@ -236,12 +280,12 @@ public class PlayerDataManager : NetworkBehaviour
             if (length == itemIndex){ // アイテムがリスト内に存在しなかった場合
                 itemData.Amount += amount;
                 PlayerInventoryData.Add(itemData);
-                inventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
+                InventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
             } else {
                 itemData = PlayerInventoryData[itemIndex];
                 itemData.Amount += amount;
                 PlayerInventoryData[itemIndex] = itemData;
-                inventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
+                InventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
             }
         }
         await SaveData(PlayerInventoryData, key); // 追加した後のインベントリデータを保存
@@ -286,11 +330,11 @@ public class PlayerDataManager : NetworkBehaviour
             return;
 
         var itemData = JsonConvert.DeserializeObject<ItemData>(data); // Jsonから変換
-        string key = inventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
+        string key = InventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
         var PlayerInventoryData = await LoadData<List<ItemData>>(key); // Keyを元にインベントリデータを取得
         if (amount == 0) {
             PlayerInventoryData.Remove(itemData);
-            inventorySystem.GetInventoryData(itemData.FirstIndex).Remove(itemData);
+            InventorySystem.GetInventoryData(itemData.FirstIndex).Remove(itemData);
         } else {
             int itemIndex;
             int secondIndex = itemData.SecondIndex;
@@ -302,12 +346,12 @@ public class PlayerDataManager : NetworkBehaviour
             if (length == itemIndex){ // アイテムがリスト内に存在しなかった場合
                 itemData.Amount += amount;
                 PlayerInventoryData.Add(itemData);
-                inventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
+                InventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
             } else {
                 itemData = PlayerInventoryData[itemIndex];
                 itemData.Amount += amount;
                 PlayerInventoryData[itemIndex] = itemData;
-                inventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
+                InventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
             }
         }
         await SaveData(PlayerInventoryData, key); // 追加した後のインベントリデータを保存
