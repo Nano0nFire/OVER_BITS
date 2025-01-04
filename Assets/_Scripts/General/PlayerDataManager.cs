@@ -17,6 +17,7 @@ public class PlayerDataManager : NetworkBehaviour
     public static PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
     [HideInInspector] public static Action<int> OnItemAdded;
     public SingleCommunication singleCommunication;
+    bool isReady = false;
 
     // シングルトンインスタンス
     private static PlayerDataManager instance;
@@ -64,9 +65,13 @@ public class PlayerDataManager : NetworkBehaviour
         if (AuthenticationService.Instance.IsSignedIn) // 以前ログインしていたならロードだけする
             LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
         else // 履歴がないならログインする
+        {
             await PlayerAccountService.Instance.StartSignInAsync();
+            await UniTask.WaitUntil(() => AuthenticationService.Instance.IsSignedIn); // ログインが終わるまで待機
+        }
 
         ClapTalk.LoginToVivoxAsync();
+        await UniTask.Delay(500); // 全体の読み込みに余裕を持たせる
     }
 
     async void SignedIn() // SignIn開始

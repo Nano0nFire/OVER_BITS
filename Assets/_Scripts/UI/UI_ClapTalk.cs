@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using Unity.Services.Vivox;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace CLAPlus.ClapTalk
 {
@@ -8,6 +10,7 @@ namespace CLAPlus.ClapTalk
     {
         [SerializeField] TMP_Dropdown inputDropdown;
         [SerializeField] TMP_Dropdown outputDropdown;
+        [SerializeField] Image MuteImage;
 
         void OnEnable()
         {
@@ -34,9 +37,13 @@ namespace CLAPlus.ClapTalk
         }
 
         public void OnInputDeviceChanged(int index) => ClapTalk.OnInputDeviceChanged(index);
-
         public void OnOutputDeviceChanged(int index) => ClapTalk.OnOutputDeviceChanged(index);
-
         public void UseToggleMute(bool value) => ClapTalk.UseToggleMute = !value;
+        public void JoinVoiceChatChannel(int index) => ClapTalk.JoinVoiceChatChannel((ChannelType)index);
+        public void Mute(InputAction.CallbackContext context)
+        {
+            ClapTalk.ChangeMute(context);
+            MuteImage.gameObject.SetActive(ClapTalk.isMuted);
+        }
     }
 }

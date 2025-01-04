@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace CLAPlus.ClapTalk
 {
-    public class ClapTalk : MonoBehaviour
+    public class ClapTalk
     {
         static string OpenVCChannelName = "OpenVC";
         static string TestChannelName = "TestChannel";
@@ -17,18 +17,23 @@ namespace CLAPlus.ClapTalk
         static ChannelType joinnedChannel = ChannelType.empty;
         Channel3DProperties channel3DProperties = new(10, 1, 1, AudioFadeModel.InverseByDistance);
 
-        public async void JoinEchoChannelAsync()
+        public static async void JoinVoiceChatChannel(ChannelType channelType)
         {
             await LeaveChannnelAsync();
-            await VivoxService.Instance.JoinEchoChannelAsync(TestChannelName, ChatCapability.TextAndAudio);
-            joinnedChannel = ChannelType.TestChannel;
-        }
+            switch ((int)channelType)
+            {
+                case 0:
+                    await VivoxService.Instance.JoinGroupChannelAsync(OpenVCChannelName, ChatCapability.TextAndAudio);
+                    break;
 
-        public async void JoinOpenChannelAsync()
-        {
-            await LeaveChannnelAsync();
-            await VivoxService.Instance.JoinGroupChannelAsync(OpenVCChannelName, ChatCapability.TextAndAudio);
-            joinnedChannel = ChannelType.OpenVC;
+                case 1:
+                    await VivoxService.Instance.JoinEchoChannelAsync(TestChannelName, ChatCapability.TextAndAudio);
+                    break;
+
+                default:
+                    break;
+            }
+            joinnedChannel = channelType;
         }
 
         public static async void LoginToVivoxAsync()
@@ -59,9 +64,6 @@ namespace CLAPlus.ClapTalk
             }
         }
 
-        public void LogIn() => UnityServicesManager.InitUnityServices();
-        public void Logout() => UnityServicesManager.Logout();
-
         public static void OnInputDeviceChanged(int index)
         {
             var selectedDevice = VivoxService.Instance.AvailableInputDevices[index];
@@ -76,7 +78,7 @@ namespace CLAPlus.ClapTalk
             Debug.Log("Output device changed to: " + selectedDevice.DeviceName);
         }
 
-        public void ChangeMute(InputAction.CallbackContext context)
+        public static void ChangeMute(InputAction.CallbackContext context)
         {
             if (UseToggleMute)
             {
@@ -108,12 +110,11 @@ namespace CLAPlus.ClapTalk
                 }
             }
         }
-
-        enum ChannelType
-        {
-            empty = -1,
-            OpenVC = 0,
-            TestChannel = 1
-        }
+    }
+    public enum ChannelType
+    {
+        empty = -1,
+        OpenVC = 0,
+        TestChannel = 1
     }
 }
