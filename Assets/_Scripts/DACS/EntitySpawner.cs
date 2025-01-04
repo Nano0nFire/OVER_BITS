@@ -173,39 +173,39 @@ namespace DACS.Entities
         }
 
         [ServerRpc]
-        public void LoadSpawnerServerRpc(ulong nwID)
+        public void LoadSpawnerServerRpc(ulong clientID)
         {
             if (!IsServer)
                 return;
 
-            NearbyPalyersTransformList.Add(NetworkManager.SpawnManager.SpawnedObjects[nwID].transform);
-            // loadedPlayerNWIDs.Add(nwID);
+            NearbyPalyersTransformList.Add(NetworkManager.SpawnManager.SpawnedObjects[clientID].transform);
+            // loadedPlayerNWIDs.Add(clientID);
             // foreach (var entity in Entities)
             // {
-            //     entity.GetComponent<NetworkObject>().NetworkShow(nwID);
+            //     entity.GetComponent<NetworkObject>().NetworkShow(clientID);
             // }
         }
         [ServerRpc]
-        public void UnLoadSpawnerServerRpc(ulong nwID)
+        public void UnLoadSpawnerServerRpc(ulong clientID)
         {
             if (!IsServer)
                 return;
 
-            NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedObjects[nwID].transform);
-            // loadedPlayerNWIDs.Remove(nwID);
+            NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedObjects[clientID].transform);
+            // loadedPlayerNWIDs.Remove(clientID);
             // foreach (var entity in Entities)
             // {
-            //     entity.GetComponent<NetworkObject>().NetworkHide(nwID);
+            //     entity.GetComponent<NetworkObject>().NetworkHide(clientID);
             // }
         }
         // [ServerRpc]
-        // public void DespawnOrderServerRpc(ulong nwID)
+        // public void DespawnOrderServerRpc(ulong clientID)
         // {
         //     if (!IsServer)
         //         return;
-        //     DespawnForClient(Entities.ToArray(), nwID);
-        //     NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedSpawnMarker[nwID].transform);
-        //     NearbyPalyersNWIDsList.Remove(nwID);
+        //     DespawnForClient(Entities.ToArray(), clientID);
+        //     NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedSpawnMarker[clientID].transform);
+        //     NearbyPalyersNWIDsList.Remove(clientID);
         // }
         // public void SpawnForClient(GameObject[] entities, ulong targetClientId) // このスポナーをクライアントが読み込んだ場合にServerRPCを通して呼び出される
         // {

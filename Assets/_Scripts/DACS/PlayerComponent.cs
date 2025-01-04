@@ -96,7 +96,7 @@ namespace DACS.Entities
         {
 
         }
-        public override void OnDamage(DamageData damage, ulong nwID = 0)
+        public override void OnDamage(DamageData damage, ulong clientID = 0)
         {
 
         }

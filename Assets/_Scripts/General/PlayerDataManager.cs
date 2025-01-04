@@ -10,13 +10,13 @@ using Unity.Netcode;
 using Newtonsoft.Json;
 using System.Linq;
 using DACS.Inventory;
-using Unity.Services.Vivox;
+using CLAPlus.ClapTalk;
 
 public class PlayerDataManager : NetworkBehaviour
 {
     public static PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
     [HideInInspector] public static Action<int> OnItemAdded;
-    [HideInInspector] public SingleCommunication singleCommunication;
+    public SingleCommunication singleCommunication;
 
     // シングルトンインスタンス
     private static PlayerDataManager instance;
@@ -46,7 +46,6 @@ public class PlayerDataManager : NetworkBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // シーンを跨いでも破棄されないようにする
         }
         else if (instance != this)
         {
@@ -58,7 +57,6 @@ public class PlayerDataManager : NetworkBehaviour
     {
         await UnityServicesManager.InitUnityServices();
         PlayerAccountService.Instance.SignedIn += SignedIn;
-        DontDestroyOnLoad(gameObject);
     }
 
     public static async UniTask InitSignIn()
@@ -91,7 +89,7 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
 
-    private async UniTask SignInWithUnityAsync(string accessToken)
+    async UniTask SignInWithUnityAsync(string accessToken)
     {
         try
         {
@@ -107,8 +105,36 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
 
+    // async UniTask LinkWithUnityAsync(string accessToken)
+    // {
+    //     try
+    //     {
+    //         await AuthenticationService.Instance.LinkWithUnityAsync(accessToken);
+    //         Debug.Log("Link is successful.");
+    //     }
+    //     catch (AuthenticationException ex) when (ex.ErrorCode == AuthenticationErrorCodes.AccountAlreadyLinked)
+    //     {
+    //         // Prompt the player with an error message.
+    //         Debug.LogError("This user is already linked with another account. Log in instead.");
+    //     }
+
+    //     catch (AuthenticationException ex)
+    //     {
+    //         // Compare error code to AuthenticationErrorCodes
+    //         // Notify the player with the proper error message
+    //         Debug.LogException(ex);
+    //     }
+    //     catch (RequestFailedException ex)
+    //     {
+    //         // Compare error code to CommonErrorCodes
+    //         // Notify the player with the proper error message
+    //         Debug.LogException(ex);
+    //     }
+    // }
+
     private void OnDestroy()
     {
+        // UnityServicesManager.Logout();
         PlayerAccountService.Instance.SignedIn -= SignedIn;
     }
 
@@ -229,39 +255,18 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
     #region AddItemData
-    public void AddItem(ItemData itemData, ulong nwID, int amount = 0)
+    public void AddItem(ItemData itemData, ulong clientID, int amount = 0)
     {
         if (!IsServer)
             return;
 
-        Debug.Log("AddItem");
-
-        ClientRpcParams rpcParams = new() // ClientRPCを送る対象を選択
-        {
-            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { nwID } }
-        };
-        singleCommunication.AddItemOrderClientRpc(JsonConvert.SerializeObject(itemData), amount, rpcParams);
-        Debug.Log("AddasetasdItem");
-    }
-
-    [ClientRpc]
-    public void AddItemOrderClientRpc(string data, int amount, ClientRpcParams rpcParams = default)
-    {
-        Debug.Log("start");
-        if (!IsClient)
-            return;
-
-        Debug.Log("AddItemOrderClientRpc");
-
-        AddItem(data, amount);
+        singleCommunication.AddItem(JsonConvert.SerializeObject(itemData), amount, clientID);
     }
 
     public static async void AddItem(string data, int amount = 0)
     {
         // if (!IsClient)
         //     return;
-
-        Debug.Log("AddadddaaadddItem");
 
         var itemData = JsonConvert.DeserializeObject<ItemData>(data); // Jsonから変換
         string key = InventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
@@ -297,15 +302,15 @@ public class PlayerDataManager : NetworkBehaviour
     /// ServerOnly
     /// </summary>
     /// <param name="itemData"></param>
-    /// <param name="wnID"></param>
-    public void RemoveItem(ItemData itemData, ulong wnID, int amount)
+    /// <param name="clientID"></param>
+    public void RemoveItem(ItemData itemData, ulong clientID, int amount)
     {
         if (!IsServer)
             return;
 
         ClientRpcParams rpcParams = new() // ClientRPCを送る対象を選択
         {
-            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { wnID } }
+            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { clientID } }
         };
         RemoveItemOrderClientRpc(JsonConvert.SerializeObject(itemData), amount, rpcParams);
     }

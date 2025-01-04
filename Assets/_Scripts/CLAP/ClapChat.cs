@@ -1,9 +1,9 @@
-using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Unity.Services.Vivox;
 
 namespace CLAPlus
 {
@@ -17,7 +17,48 @@ namespace CLAPlus
         [SerializeField] InputField inputField;
         [SerializeField] GameObject TextPrefab;
         public int MaxMessageAmount; // -1で無限に保存する
-        int messageCount = 0;
+        static int messageCount = 0;
+
+        // シングルトンインスタンス
+        private static ClapChat instance;
+
+        // インスタンスへのプロパティ
+        public static ClapChat Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindFirstObjectByType<ClapChat>();
+
+                    if (instance == null)
+                    {
+                        GameObject singletonObject = new(typeof(ClapChat).Name);
+                        instance = singletonObject.AddComponent<ClapChat>();
+                    }
+                }
+                return instance;
+            }
+        }
+
+        // シングルトンの初期化
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else if (instance != this)
+            {
+                Destroy(gameObject); // 重複するインスタンスを破棄
+            }
+
+            if (!IsServer)
+                return;
+
+            VivoxService.Instance.ParticipantAddedToChannel += (VivoxParticipant participant) => SendMassage($"{participant.DisplayName} just joined !!", "", Color.black);
+            VivoxService.Instance.ParticipantRemovedFromChannel += (VivoxParticipant participant) => SendMassage($"{participant.DisplayName} has left.", "", Color.black);;
+        }
 
         public void ShowChatSpace(InputAction.CallbackContext context)
         {
@@ -54,6 +95,29 @@ namespace CLAPlus
             }
 
             ScrollToBottom(); // スクロールビューの最下を表示させる
+
+            canvas.SetActive(false);
+            cgManager.UseInput = true;
+        }
+
+        public void SendMassage(string text, string Sender = "", UnityEngine.Color color = default)
+        {
+            if (messageCount <= MaxMessageAmount)
+            {
+                var obj = Instantiate(TextPrefab, Content);
+                var component = obj.GetComponentInChildren<TextMeshProUGUI>();
+                component.color = color;
+                obj.GetComponentInChildren<TextMeshProUGUI>().text = Sender == "" ? $"{text}" : $"{Sender} : {text}";
+            }
+            else
+            {
+                Transform obj = Content.GetChild(0); // 親の3番目の子を取得
+                obj.SetSiblingIndex(Content.childCount - 1); // 最初の位置に移動
+                obj.GetComponentInChildren<TextMeshProUGUI>().color = color;
+                obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{Sender} : {text}";
+            }
+
+            ScrollToBottom(); // スクロールビューの最下を表示させる
         }
 
         public void SendMessage(string text, string playerName)
@@ -71,7 +135,6 @@ namespace CLAPlus
             }
 
             ScrollToBottom(); // スクロールビューの最下を表示させる
-            inputField.text = "";
         }
 
         public void ScrollToBottom()

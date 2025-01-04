@@ -4,78 +4,116 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Vivox;
 using Cysharp.Threading.Tasks;
-public class ClapTalk : MonoBehaviour
+using UnityEngine.InputSystem;
+
+namespace CLAPlus.ClapTalk
 {
-    static string OpenVCChannelName = "OpenVC";
-    static string TestChannelName = "TestChannel";
-    [SerializeField] bool Join = false;
-    [SerializeField] bool isReady = false;
-    static ChannelType joinnedChannel = ChannelType.empty;
-    Channel3DProperties channel3DProperties = new(10, 1, 1, AudioFadeModel.InverseByDistance);
-
-
-    async void Start()
+    public class ClapTalk : MonoBehaviour
     {
-        await UnityServicesManager.InitUnityServices();
-        isReady = true;
-    }
-    void Update()
-    {
-        if (Join)
+        static string OpenVCChannelName = "OpenVC";
+        static string TestChannelName = "TestChannel";
+        public static bool isMuted = false;
+        public static bool UseToggleMute = false;
+        static ChannelType joinnedChannel = ChannelType.empty;
+        Channel3DProperties channel3DProperties = new(10, 1, 1, AudioFadeModel.InverseByDistance);
+
+        public async void JoinEchoChannelAsync()
         {
-            JoinEchoChannelAsync();
-            Join = false;
+            await LeaveChannnelAsync();
+            await VivoxService.Instance.JoinEchoChannelAsync(TestChannelName, ChatCapability.TextAndAudio);
+            joinnedChannel = ChannelType.TestChannel;
         }
-    }
-    public async void JoinEchoChannelAsync()
-    {
-        await LeaveChannnelAsync();
-        await VivoxService.Instance.JoinEchoChannelAsync(TestChannelName, ChatCapability.TextAndAudio);
-        joinnedChannel = ChannelType.TestChannel;
-    }
 
-    public async void JoinOpenChannelAsync()
-    {
-        await LeaveChannnelAsync();
-        await VivoxService.Instance.JoinGroupChannelAsync(OpenVCChannelName, ChatCapability.TextAndAudio);
-        joinnedChannel = ChannelType.OpenVC;
-    }
-
-    public static async void LoginToVivoxAsync()
-    {
-        LoginOptions options = new()
+        public async void JoinOpenChannelAsync()
         {
-            // DisplayName = PlayerDataManager.LoadedPlayerProfileData.PlayerName,
-            DisplayName = "nano_on_fire",
-            EnableTTS = true
-        };
-        await VivoxService.Instance.LoginAsync(options);
-    }
-
-    public static async UniTask LeaveChannnelAsync()
-    {
-        switch ((int)joinnedChannel)
-        {
-            case 0:
-                await VivoxService.Instance.LeaveChannelAsync(OpenVCChannelName);
-                break;
-
-            case 1:
-                await VivoxService.Instance.LeaveChannelAsync(TestChannelName);
-                break;
-
-            default:
-                break;
+            await LeaveChannnelAsync();
+            await VivoxService.Instance.JoinGroupChannelAsync(OpenVCChannelName, ChatCapability.TextAndAudio);
+            joinnedChannel = ChannelType.OpenVC;
         }
-    }
 
-    public void LogIn() => UnityServicesManager.InitUnityServices();
-    public void Logout() => UnityServicesManager.Logout();
+        public static async void LoginToVivoxAsync()
+        {
+            LoginOptions options = new()
+            {
+                DisplayName = PlayerDataManager.LoadedPlayerProfileData.PlayerName,
 
-    enum ChannelType
-    {
-        empty = -1,
-        OpenVC = 0,
-        TestChannel = 1
+                EnableTTS = true
+            };
+            await VivoxService.Instance.LoginAsync(options);
+        }
+
+        public static async UniTask LeaveChannnelAsync()
+        {
+            switch ((int)joinnedChannel)
+            {
+                case 0:
+                    await VivoxService.Instance.LeaveChannelAsync(OpenVCChannelName);
+                    break;
+
+                case 1:
+                    await VivoxService.Instance.LeaveChannelAsync(TestChannelName);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public void LogIn() => UnityServicesManager.InitUnityServices();
+        public void Logout() => UnityServicesManager.Logout();
+
+        public static void OnInputDeviceChanged(int index)
+        {
+            var selectedDevice = VivoxService.Instance.AvailableInputDevices[index];
+            VivoxService.Instance.SetActiveInputDeviceAsync(selectedDevice);
+            Debug.Log("Input device changed to: " + selectedDevice.DeviceName);
+        }
+
+        public static void OnOutputDeviceChanged(int index)
+        {
+            var selectedDevice = VivoxService.Instance.AvailableOutputDevices[index];
+            VivoxService.Instance.SetActiveOutputDeviceAsync(selectedDevice);
+            Debug.Log("Output device changed to: " + selectedDevice.DeviceName);
+        }
+
+        public void ChangeMute(InputAction.CallbackContext context)
+        {
+            if (UseToggleMute)
+            {
+                if (!context.performed)
+                    return;
+
+                if (isMuted)
+                {
+                    VivoxService.Instance.UnmuteInputDevice();
+                    isMuted = false;
+                }
+                else
+                {
+                    VivoxService.Instance.MuteInputDevice();
+                    isMuted = true;
+                }
+            }
+            else
+            {
+                if (context.started)
+                {
+                    VivoxService.Instance.MuteInputDevice();
+                    isMuted = true;
+                }
+                else if (context.canceled)
+                {
+                    VivoxService.Instance.UnmuteInputDevice();
+                    isMuted = false;
+                }
+            }
+        }
+
+        enum ChannelType
+        {
+            empty = -1,
+            OpenVC = 0,
+            TestChannel = 1
+        }
     }
 }

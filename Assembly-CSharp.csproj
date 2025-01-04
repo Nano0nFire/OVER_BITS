@@ -93,6 +93,7 @@
     <Compile Include="Assets\_Scripts\Old\DACSManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\_Scripts\DACS\PlayerComponent.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_Face2Face.cs" />
     <Compile Include="Assets\_Scripts\CLAP\Face2Face.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_Hotbar.cs" />
     <Compile Include="Assets\_Scripts\Old\DACS_WeaponObjectInfo.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_ClapTalk.cs" />
     <Compile Include="Assets\_Scripts\General\UnityServices.cs" />
     <Compile Include="Assets\_Scripts\CLAP\AnimationControl.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
@@ -166,7 +168,6 @@
     <Compile Include="Assets\_Scripts\CLAP\ClapTalk.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
-    <Compile Include="Assets\_Scripts\CLAP\UI_Face2Face.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem_SlotComponent.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />

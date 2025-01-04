@@ -28,7 +28,7 @@ public class ClientGeneralManager : NetworkBehaviour
     public HotbarSystem hotbarSystem;
     public PlayerDataManager pdManager{get; private set;}
     Projectile projectile;
-    public ulong nwID{get; private set;}
+    public ulong clientID{get; private set;}
     States KeepState;
     public bool UseInput
     {
@@ -81,7 +81,7 @@ public class ClientGeneralManager : NetworkBehaviour
         invSystem.Setup();
 
         // Network
-        nwID = nwObject.NetworkObjectId;
+        clientID = nwObject.OwnerClientId;
 
         var LocalGM = masterObj.GetComponent<LocalGeneralManager>();
         // UI
@@ -108,7 +108,8 @@ public class ClientGeneralManager : NetworkBehaviour
 
         GetComponent<Rigidbody>().useGravity = true;
         projectile = masterObj.GetComponent<Projectile>();
-        projectile.nwID = nwID;
+        projectile.clientID = clientID;
+        projectile.nwoID = nwObject.NetworkObjectId;
         projectile.CameraPos = CameraPos;
         projectile.Setup();
         hotbarSystem.ChangeActionPoint += (xform) => projectile.ShotPos = xform;
