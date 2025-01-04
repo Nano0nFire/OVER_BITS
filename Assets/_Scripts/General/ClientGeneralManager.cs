@@ -61,6 +61,40 @@ public class ClientGeneralManager : NetworkBehaviour
     CinemachineVirtualCamera CVCamera;
     public bool InvertAim; //垂直方向の視点操作の反転
     public bool FirstPersonMode;
+
+    static ClientGeneralManager instance;
+
+    // インスタンスへのプロパティ
+    public static ClientGeneralManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindFirstObjectByType<ClientGeneralManager>();
+
+                if (instance == null)
+                {
+                    GameObject singletonObject = new(typeof(ClientGeneralManager).Name);
+                    instance = singletonObject.AddComponent<ClientGeneralManager>();
+                }
+            }
+            return instance;
+        }
+    }
+
+    // シングルトンの初期化
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject); // 重複するインスタンスを破棄
+        }
+    }
     public override async void OnNetworkSpawn()
     {
         Debug.Log("ClientGeneralManager : Loading");
@@ -93,11 +127,6 @@ public class ClientGeneralManager : NetworkBehaviour
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
         var PlayerName = PlayerDataManager.LoadedPlayerProfileData.PlayerName;
         var lastDot = PlayerName.LastIndexOf('#');
-        var chatComponent = masterObj.GetComponent<ClapChat>();
-        if (lastDot != -1)
-            chatComponent.PlayerName = PlayerName[..lastDot];
-        chatComponent.cgManager = this;
-        ChatSpace = chatComponent.canvas;
 
         // カメラ
         CVCamera = LocalGM.CVCamera;
@@ -208,7 +237,7 @@ public class ClientGeneralManager : NetworkBehaviour
         }
     }
 
-    public void CleatInput()
+    public void ClearInput()
     {
         clap_m.HzInput = 0;
         clap_m.VInput = 0;

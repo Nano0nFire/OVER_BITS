@@ -15,6 +15,7 @@ namespace CLAPlus.ClapTalk
         public static bool isMuted = false;
         public static bool UseToggleMute = false;
         static ChannelType joinnedChannel = ChannelType.empty;
+        public static string JoinnedChannelName;
         Channel3DProperties channel3DProperties = new(10, 1, 1, AudioFadeModel.InverseByDistance);
 
         public static async void JoinVoiceChatChannel(ChannelType channelType)
@@ -24,10 +25,12 @@ namespace CLAPlus.ClapTalk
             {
                 case 0:
                     await VivoxService.Instance.JoinGroupChannelAsync(OpenVCChannelName, ChatCapability.TextAndAudio);
+                    JoinnedChannelName = OpenVCChannelName;
                     break;
 
                 case 1:
                     await VivoxService.Instance.JoinEchoChannelAsync(TestChannelName, ChatCapability.TextAndAudio);
+                    JoinnedChannelName = TestChannelName;
                     break;
 
                 default:

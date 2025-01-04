@@ -1,0 +1,281 @@
+Using pre-set license
+Built from '6000.0/staging' branch; Version is '6000.0.30f1 (62b05ba0686a) revision 6467675'; Using compiler version '193933523'; Build Type 'Release'
+OS: 'Windows 11  (10.0.22631) 64bit Professional' Language: 'ja' Physical Memory: 65445 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+D:\application\Unity\Unity Editer\6000.0.30f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker4
+-projectPath
+D:/Unity Projects/OVER_BITS
+-logFile
+Logs/AssetImportWorker4.log
+-srvPort
+61294
+-job-worker-count
+15
+-background-job-worker-count
+8
+-asset-garbage-collectors
+1
+Successfully changed project path to: D:/Unity Projects/OVER_BITS
+D:/Unity Projects/OVER_BITS
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [43232]  Target information:
+
+Player connection [43232]  * "[IP] 192.168.0.17 [Port] 0 [Flags] 2 [Guid] 2154647818 [EditorId] 2154647818 [Version] 1048832 [Id] WindowsEditor(7,Server) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [43232] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [43232] Host joined alternative multi-casting on [225.0.0.222:34997]...
+JobSystem: Creating JobQueue using job-worker-count value 15
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Refreshing native plugins compatible for Editor in 11.81 ms, found 10 plugins.
+Preloading 1 native plugins for Editor in 2.12 ms.
+Initialize engine version: 6000.0.30f1 (62b05ba0686a)
+[Subsystems] Discovering subsystems at path D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path D:/Unity Projects/OVER_BITS/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3090 (ID=0x2204)
+    Vendor:   NVIDIA
+    VRAM:     24326 MB
+    Driver:   32.0.15.6603
+Initialize mono
+Mono path[0] = 'D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/Managed'
+Mono path[1] = 'D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56232
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.003224 seconds.
+- Loaded All Assemblies, in  0.482 seconds
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.504 seconds
+Domain Reload Profiling: 986ms
+	BeginReloadAssembly (206ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (40ms)
+	RebuildNativeTypeToScriptingClass (12ms)
+	initialDomainReloadingComplete (45ms)
+	LoadAllAssembliesAndSetupDomain (179ms)
+		LoadAssemblies (205ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (175ms)
+			TypeCache.Refresh (173ms)
+				TypeCache.ScanAssembly (161ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (504ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (435ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (76ms)
+			SetLoadedEditorAssemblies (7ms)
+			BeforeProcessingInitializeOnLoad (71ms)
+			ProcessInitializeOnLoadAttributes (204ms)
+			ProcessInitializeOnLoadMethodAttributes (77ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
+========================================================================
+Worker process is ready to serve import requests
+Import Worker Mode flag is 0x00
+Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
+Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  1.537 seconds
+Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
+Refreshing native plugins compatible for Editor in 8.69 ms, found 10 plugins.
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-OVER_BITS
+Refreshing native plugins compatible for Editor in 7.67 ms, found 10 plugins.
+TypeManager.Initialize took: 665ms
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.560 seconds
+Domain Reload Profiling: 4095ms
+	BeginReloadAssembly (249ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (9ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (46ms)
+	RebuildCommonClasses (50ms)
+	RebuildNativeTypeToScriptingClass (13ms)
+	initialDomainReloadingComplete (60ms)
+	LoadAllAssembliesAndSetupDomain (1162ms)
+		LoadAssemblies (738ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (582ms)
+			TypeCache.Refresh (404ms)
+				TypeCache.ScanAssembly (376ms)
+			BuildScriptInfoCaches (154ms)
+			ResolveRequiredComponents (19ms)
+	FinalizeReload (2560ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (2329ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (16ms)
+			SetLoadedEditorAssemblies (7ms)
+			BeforeProcessingInitializeOnLoad (486ms)
+			ProcessInitializeOnLoadAttributes (1534ms)
+			ProcessInitializeOnLoadMethodAttributes (281ms)
+			AfterProcessingInitializeOnLoad (4ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (8ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.01 seconds
+Refreshing native plugins compatible for Editor in 11.38 ms, found 10 plugins.
+Preloading 1 native plugins for Editor in 0.05 ms.
+Unloading 304 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 10495 unused Assets / (24.5 MB). Loaded Objects now: 11146.
+Memory consumption went from 260.2 MB to 235.8 MB.
+Total: 40.611100 ms (FindLiveObjects: 1.924400 ms CreateObjectMapping: 1.037800 ms MarkObjects: 19.918700 ms  DeleteObjects: 17.726500 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 43580.518536 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Game/Target.png
+  artifactKey: Guid(b578ad41002ba4de1b1542697106c06e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Game/Target.png using Guid(b578ad41002ba4de1b1542697106c06e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '21fd360fe4ac32f3cbe52174b043aff0') in 0.1583023 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000042 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Sprites/SpeakerIconMuted.png
+  artifactKey: Guid(643b7e6b269039e46b23502f57922b84) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Sprites/SpeakerIconMuted.png using Guid(643b7e6b269039e46b23502f57922b84) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '8fcff1c3fe04aeb30a4f559f8283a5eb') in 0.0352156 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000024 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Game/PauseButton.png
+  artifactKey: Guid(778efdbe43151402aa93178988973064) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Game/PauseButton.png using Guid(778efdbe43151402aa93178988973064) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '2b848c0162495dde4eac8b638e1f82d1') in 0.0270668 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Shared/panelClean.png
+  artifactKey: Guid(5cd8b1f5e7726412e83880425d2ce65a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Shared/panelClean.png using Guid(5cd8b1f5e7726412e83880425d2ce65a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '29553a61b3932e38477b2561b09ef14d') in 0.0275932 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000025 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Menu/lockedClean.png
+  artifactKey: Guid(2e59260c5ec144304bf9ff5cbde81256) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Menu/lockedClean.png using Guid(2e59260c5ec144304bf9ff5cbde81256) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '1f55889963e56ee056a7cfb904f2d67e') in 0.0375227 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Menu/locked.png
+  artifactKey: Guid(322781518ee644c8c97ba31f7ded5eb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Menu/locked.png using Guid(322781518ee644c8c97ba31f7ded5eb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '88b5255b2be28088555bc1855368d017') in 0.0285275 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/DecorationButtons/MoustacheIcon.png
+  artifactKey: Guid(528cb202238ff467cb179c07d5c47c6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/DecorationButtons/MoustacheIcon.png using Guid(528cb202238ff467cb179c07d5c47c6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'd58817627b848304a23838b80a750a31') in 0.0268046 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000331 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/DecorationButtons/StarBalloonsIcon.png
+  artifactKey: Guid(05649756568114c98a4cc2ee5cbb3aee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/DecorationButtons/StarBalloonsIcon.png using Guid(05649756568114c98a4cc2ee5cbb3aee) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '31d933b744c2f78020d3d337db686bc9') in 0.025873 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000022 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Shared/iconTank.png
+  artifactKey: Guid(f7ebe390691f34925a99a5e23b338396) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Textures/UI/Shared/iconTank.png using Guid(f7ebe390691f34925a99a5e23b338396) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'cf589b6a9c6bee768c8086b69656813a') in 0.026738 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Sprites/SpeakerIconWhite.png
+  artifactKey: Guid(53e58ede9ee604a32afcd03ddada2978) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Vivox/16.5.4/Chat Channel Sample/Assets/ChatChannelSample/Sprites/SpeakerIconWhite.png using Guid(53e58ede9ee604a32afcd03ddada2978) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'def3cc65b76ce791af290ca6394c80fb') in 0.0287174 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
+
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0

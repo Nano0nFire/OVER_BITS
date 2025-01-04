@@ -5,15 +5,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using CLAPlus;
 using DACS.Inventory;
+using CLAPlus.ClapChat;
 
 public class UIGeneral : MonoBehaviour
 {
     ClientGeneralManager cgManager;
     CustomLifeAvatar cla;
     [HideInInspector] public UI_PlayerSettings uI_PlayerSettings;
-    PlayerDataManager pdManager;
     [SerializeField] ItemDataBase itemDataBase;
-    [SerializeField] GameObject ChatSpace;
     public UI_Hotbar uiHotbar;
     [SerializeField] UI_InfomationPanel infomationPanelController;
     [HideInInspector] public InventorySystem invSystem; // ClientGeneralManagerが設定
@@ -28,7 +27,6 @@ public class UIGeneral : MonoBehaviour
     public void Setup(ClientGeneralManager cgManager)
     {
         this.cgManager = cgManager;
-        pdManager = cgManager.pdManager;
         invSystem = cgManager.GetComponent<InventorySystem>();
         uiHotbar.inventorySystem = invSystem;
         uiHotbar.hotbarSystem = cgManager.GetComponent<HotbarSystem>();
@@ -59,7 +57,7 @@ public class UIGeneral : MonoBehaviour
             return;
         gameObject.SetActive(false);
         cgManager.UseInput = true;
-        ChatSpace.SetActive(false);
+        UI_ClapChat.CloseChatSpace();
     }
 
     public void ShowHideMenu(InputAction.CallbackContext context)
@@ -68,8 +66,8 @@ public class UIGeneral : MonoBehaviour
             return;
         gameObject.SetActive(!gameObject.activeSelf);
         cgManager.UseInput = !gameObject.activeSelf;
-        cgManager.CleatInput();
-        ChatSpace.SetActive(false);
+        cgManager.ClearInput();
+        UI_ClapChat.CloseChatSpace();
     }
 
     /// <summary>

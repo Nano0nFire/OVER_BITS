@@ -95,6 +95,7 @@
     <Compile Include="Assets\_Scripts\DACS\PlayerComponent.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_Face2Face.cs" />
     <Compile Include="Assets\_Scripts\CLAP\Face2Face.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_ClapChat.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_Hotbar.cs" />
     <Compile Include="Assets\_Scripts\Old\DACS_WeaponObjectInfo.cs" />
     <Compile Include="Assets\_Scripts\DACS\BulletControl_Basic.cs" />
