@@ -17,6 +17,18 @@ namespace CLAPlus.ClapTalk
             LoadDropdowns();
         }
 
+        void Awake()
+        {
+            UIGeneral.action += SyncDataToUI;
+        }
+        public void SyncDataToUI()
+        {
+            inputDropdown.value = PlayerDataManager.PlayerSettingsData.InputDeviceIndex;
+            ClapTalk.OnInputDeviceChanged(inputDropdown.value);
+            outputDropdown.value = PlayerDataManager.PlayerSettingsData.OutputDeviceIndex;
+            ClapTalk.OnOutputDeviceChanged(outputDropdown.value);
+        }
+
         void LoadDropdowns()
         {
             // 入力デバイスのドロップダウンを設定
@@ -36,8 +48,16 @@ namespace CLAPlus.ClapTalk
             }
         }
 
-        public void OnInputDeviceChanged(int index) => ClapTalk.OnInputDeviceChanged(index);
-        public void OnOutputDeviceChanged(int index) => ClapTalk.OnOutputDeviceChanged(index);
+        public void OnInputDeviceChanged(int index)
+        {
+            ClapTalk.OnInputDeviceChanged(index);
+            PlayerDataManager.PlayerSettingsData.InputDeviceIndex = index;
+        }
+        public void OnOutputDeviceChanged(int index)
+        {
+            ClapTalk.OnOutputDeviceChanged(index);
+            PlayerDataManager.PlayerSettingsData.OutputDeviceIndex = index;
+        }
         public void UseToggleMute(bool value) => ClapTalk.UseToggleMute = !value;
         public void JoinVoiceChatChannel(int index) => ClapTalk.JoinVoiceChatChannel((ChannelType)index);
         public void Mute(InputAction.CallbackContext context)

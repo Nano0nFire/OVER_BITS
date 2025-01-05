@@ -15,6 +15,6 @@ public class UI_Component : MonoBehaviour
     void OnEnable()
     {
         if (uiGeneral != null)
-            uiGeneral.ActivePanelIndex = panelID;
+            UIGeneral.ActivePanelIndex = panelID;
     }
 }

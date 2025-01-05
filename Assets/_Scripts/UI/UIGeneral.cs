@@ -6,23 +6,29 @@ using UnityEngine.InputSystem;
 using CLAPlus;
 using DACS.Inventory;
 using CLAPlus.ClapChat;
+using System;
 
 public class UIGeneral : MonoBehaviour
 {
     ClientGeneralManager cgManager;
     CustomLifeAvatar cla;
+    public static Action action;
     [HideInInspector] public UI_PlayerSettings uI_PlayerSettings;
     [SerializeField] ItemDataBase itemDataBase;
     public UI_Hotbar uiHotbar;
     [SerializeField] UI_InfomationPanel infomationPanelController;
     [HideInInspector] public InventorySystem invSystem; // ClientGeneralManagerが設定
     [SerializeField] GameObject SlotPrefab;
-    UI_Component[] UIComponents;
+    static UI_Component[] UIComponents;
     public UI_SlotLoader[] InventoryParents;
     bool[] InventoryIsUpdated;
     List<Transform> SlotXforms = new();
     int activatedSlotIndex = 0;
-    public int ActivePanelIndex;
+    public static int ActivePanelIndex;
+    public static UIType ActiveUIType
+    {
+        get => UIComponents[ActivePanelIndex].uiType;
+    }
 
     public void Setup(ClientGeneralManager cgManager)
     {
@@ -33,7 +39,7 @@ public class UIGeneral : MonoBehaviour
         PlayerDataManager.OnItemAdded += Load;
         cla = cgManager.GetComponent<CustomLifeAvatar>();
 
-        UIComponents = GetComponentsInChildren<UI_Component>(true);
+        UIComponents = FindObjectsByType<UI_Component>(FindObjectsSortMode.None);
         int max = itemDataBase.ItemListCount;
         InventoryParents = new UI_SlotLoader[max];
         int i = 0;
@@ -69,6 +75,8 @@ public class UIGeneral : MonoBehaviour
         cgManager.ClearInput();
         UI_ClapChat.CloseChatSpace();
     }
+
+    public static void SyncDataToUI() => action.Invoke();
 
     /// <summary>
     /// 引数分のSlotをリストで返す <br />
@@ -121,8 +129,7 @@ public class UIGeneral : MonoBehaviour
                 break;
 
             case UIType.Settings:
-                var data = uI_PlayerSettings.data;
-                await PlayerDataManager.SaveData(data);
+                await PlayerDataManager.SaveData(PlayerDataManager.PlayerSettingsData);
                 cgManager.LoadSettings();
                 break;
         }
@@ -153,5 +160,7 @@ public enum UIType
     Null,
     PlayerProfile,
     Settings,
-    Inventory
+    Inventory,
+    Chat,
+    Loading
 }

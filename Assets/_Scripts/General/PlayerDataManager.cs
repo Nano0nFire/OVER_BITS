@@ -18,6 +18,7 @@ using CLAPlus.ClapTalk;
 public class PlayerDataManager : NetworkBehaviour
 {
     public static PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
+    public static SettingsData PlayerSettingsData;
     [HideInInspector] public static Action<int> OnItemAdded;
     public SingleCommunication singleCommunication;
 
@@ -388,4 +389,7 @@ public struct SettingsData
     public bool InvertAim; //垂直方向の視点操作の反転
     public float HzCameraSens; //水平方向の視点感度
     public float VCameraSens; //水s直方向の視点感度
+    public int InputDeviceIndex;
+    public int OutputDeviceIndex;
+    public bool UseToggleMute;
 }

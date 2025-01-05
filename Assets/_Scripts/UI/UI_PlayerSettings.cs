@@ -1,26 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class UI_PlayerSettings : MonoBehaviour
 {
-    public SettingsData data;
     bool Loaded = false;
     [SerializeField] Slider Sli_HzCameraSens;
     [SerializeField] TMP_InputField Inp_HzCameraSens;
     [SerializeField] Slider Sli_VCameraSens;
     [SerializeField] TMP_InputField Inp_VCameraSens;
 
-    public async void Setup()
+    void Awake()
     {
-        data = await PlayerDataManager.LoadData<SettingsData>();
-        Inp_HzCameraSens.text = data.HzCameraSens.ToString();
-        Sli_HzCameraSens.value = data.HzCameraSens;
-        Inp_VCameraSens.text = data.VCameraSens.ToString();
-        Sli_VCameraSens.value = data.VCameraSens;
+        UIGeneral.action += SyncDataToUI;
+    }
+    public void SyncDataToUI()
+    {
+        Inp_HzCameraSens.text = PlayerDataManager.PlayerSettingsData.HzCameraSens.ToString();
+        Sli_HzCameraSens.value = PlayerDataManager.PlayerSettingsData.HzCameraSens;
+        Inp_VCameraSens.text = PlayerDataManager.PlayerSettingsData.VCameraSens.ToString();
+        Sli_VCameraSens.value = PlayerDataManager.PlayerSettingsData.VCameraSens;
 
         Loaded = true;
     }
+
     public void HzCameraSens(bool IsSlider)
     {
         if (!Loaded)
@@ -28,13 +32,13 @@ public class UI_PlayerSettings : MonoBehaviour
 
         if (IsSlider)
         {
-            data.HzCameraSens = Sli_HzCameraSens.value;
-            Inp_HzCameraSens.text = data.HzCameraSens.ToString();
+            PlayerDataManager.PlayerSettingsData.HzCameraSens = Sli_HzCameraSens.value;
+            Inp_HzCameraSens.text = PlayerDataManager.PlayerSettingsData.HzCameraSens.ToString();
         }
         else
         {
-            data.HzCameraSens = float.Parse(Inp_HzCameraSens.text);
-            Sli_HzCameraSens.value = data.HzCameraSens;
+            PlayerDataManager.PlayerSettingsData.HzCameraSens = float.Parse(Inp_HzCameraSens.text);
+            Sli_HzCameraSens.value = PlayerDataManager.PlayerSettingsData.HzCameraSens;
         }
     }
     public void VCameraSens(bool IsSlider)
@@ -44,13 +48,13 @@ public class UI_PlayerSettings : MonoBehaviour
 
         if (IsSlider)
         {
-            data.VCameraSens = Sli_VCameraSens.value;
-            Inp_VCameraSens.text = data.VCameraSens.ToString();
+            PlayerDataManager.PlayerSettingsData.VCameraSens = Sli_VCameraSens.value;
+            Inp_VCameraSens.text = PlayerDataManager.PlayerSettingsData.VCameraSens.ToString();
         }
         else
         {
-            data.VCameraSens = float.Parse(Inp_VCameraSens.text);
-            Sli_VCameraSens.value = data.VCameraSens;
+            PlayerDataManager.PlayerSettingsData.VCameraSens = float.Parse(Inp_VCameraSens.text);
+            Sli_VCameraSens.value = PlayerDataManager.PlayerSettingsData.VCameraSens;
         }
     }
 }

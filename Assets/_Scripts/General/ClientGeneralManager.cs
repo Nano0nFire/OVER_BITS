@@ -17,7 +17,6 @@ using CLAPlus.ClapChat;
 public class ClientGeneralManager : NetworkBehaviour
 {
     [HideInInspector] public GameObject MainMenu;
-    GameObject ChatSpace;
     [SerializeField] UIGeneral uiGeneral;
     [SerializeField] CharactorMovement clap_m;
     [SerializeField] AnimationControl clap_a;
@@ -28,7 +27,6 @@ public class ClientGeneralManager : NetworkBehaviour
     [SerializeField] NetworkObject nwObject;
     public InventorySystem invSystem;
     public HotbarSystem hotbarSystem;
-    public PlayerDataManager pdManager{get; private set;}
     Projectile projectile;
     public ulong clientID{get; private set;}
     States KeepState;
@@ -118,7 +116,8 @@ public class ClientGeneralManager : NetworkBehaviour
         }
 
         // データ系
-        pdManager = FindFirstObjectByType<PlayerDataManager>();
+
+        PlayerDataManager.PlayerSettingsData = await PlayerDataManager.LoadData<SettingsData>();
         invSystem.Setup();
 
         // Network
@@ -130,7 +129,6 @@ public class ClientGeneralManager : NetworkBehaviour
         uiGeneral = MainMenu.GetComponent<UIGeneral>();
         uiGeneral.invSystem = invSystem;
         uiGeneral.Setup(this);
-        LocalGM.UI_playerSettings.Setup();
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
         var PlayerName = PlayerDataManager.LoadedPlayerProfileData.PlayerName;
         var lastDot = PlayerName.LastIndexOf('#');

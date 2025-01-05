@@ -5312,7 +5312,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 707d97c1c62dcc748a54d593daf66f28, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8ad7e07277d0c9846ad5d8cfd0645fb5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6771,7 +6771,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 41e791e89c2d98a4fa53abe619c0f994, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cd4dfd934e88ee5409c76e91b134d239, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11999,10 +11999,10 @@ MonoBehaviour:
   - {fileID: 1382859017}
   - {fileID: 1720560060}
   DefObject: {fileID: 2052662893}
-  DefPanelColor: {r: 0, g: 0, b: 0, a: 1}
-  DefTextColor: {r: 1, g: 1, b: 1, a: 1}
-  ActPanelColor: {r: 1, g: 1, b: 1, a: 1}
-  ActTextColor: {r: 0, g: 0, b: 0, a: 1}
+  DefPanelColor: {r: 0.3019608, g: 0.5254902, b: 0.6117647, a: 1}
+  DefTextColor: {r: 0.8039216, g: 0.9098039, b: 0.8980392, a: 1}
+  ActPanelColor: {r: 0.8039216, g: 0.9098039, b: 0.8980392, a: 1}
+  ActTextColor: {r: 0.3019608, g: 0.5254902, b: 0.6117647, a: 1}
 --- !u!222 &1082631862
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19796,7 +19796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dfd6f1226037aac4f8d27c394455783f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bb2f5288bdca6674396f9007a341eda8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20400,7 +20400,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 63dead5c94a8473468a2320d28478b1a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 081aac0fcb7d3814ab76511f045f36c4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -27087,7 +27087,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 732905016}
+  m_TargetGraphic: {fileID: 2052662894}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -31167,10 +31167,10 @@ MonoBehaviour:
   - {fileID: 5327844290924981550}
   - {fileID: 5052426216670736958}
   DefObject: {fileID: 1233201089070897371}
-  DefPanelColor: {r: 0, g: 0, b: 0, a: 1}
-  DefTextColor: {r: 1, g: 1, b: 1, a: 1}
-  ActPanelColor: {r: 1, g: 1, b: 1, a: 1}
-  ActTextColor: {r: 0, g: 0, b: 0, a: 1}
+  DefPanelColor: {r: 0.3019608, g: 0.5254902, b: 0.6117647, a: 1}
+  DefTextColor: {r: 0.8039216, g: 0.9098039, b: 0.8980392, a: 1}
+  ActPanelColor: {r: 0.8039216, g: 0.9098039, b: 0.8980392, a: 1}
+  ActTextColor: {r: 0.3019608, g: 0.5254902, b: 0.6117647, a: 1}
 --- !u!114 &2730878361245246296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35232,7 +35232,6 @@ MonoBehaviour:
   SlotPrefab: {fileID: 7010182367815685158, guid: eddcfc7fb4d52744ebaa87e0adb0ef92,
     type: 3}
   InventoryParents: []
-  ActivePanelIndex: 0
 --- !u!224 &5910240133207433627
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36903,6 +36902,7 @@ GameObject:
   - component: {fileID: 9021113518477548205}
   - component: {fileID: 1821718986576371406}
   - component: {fileID: 6675431626854905409}
+  - component: {fileID: 9021113518477548206}
   m_Layer: 5
   m_Name: InputField
   m_TagString: Untagged
@@ -37112,12 +37112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d7bf7e2e479b54d80076f0664311a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    ToggleDash: 0
-    ToggleCrouch: 0
-    InvertAim: 0
-    HzCameraSens: 0
-    VCameraSens: 0
   Sli_HzCameraSens: {fileID: 1915451410}
   Inp_HzCameraSens: {fileID: 486315199}
   Sli_VCameraSens: {fileID: 1603319072}
@@ -38845,6 +38839,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7574544046312322141}
   m_CullTransparentMesh: 1
+--- !u!114 &9021113518477548206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7574544046312322141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b7e347e23a77e42803809b6c815541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiGeneral: {fileID: 0}
+  panelID: 0
+  _UIType: 4
 --- !u!222 &9054310644056502455
 CanvasRenderer:
   m_ObjectHideFlags: 0

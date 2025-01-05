@@ -83,6 +83,9 @@ namespace CLAPlus.ClapTalk
 
         public static void ChangeMute(InputAction.CallbackContext context)
         {
+            if (UIGeneral.ActiveUIType == UIType.Chat)
+                return;
+
             if (UseToggleMute)
             {
                 if (!context.performed)
