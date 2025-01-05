@@ -813,6 +813,7 @@
 0x64d0a6cc97cca118 -    7264489596598919448 - Unity.Transforms.LocalTransform
 0x64d1c4fff0ac694a -    7264804277458856266 - TMPro.Examples.VertexZoom
 0x64ebbbe0b007b495 -    7272112597020161173 - UnityEditor.MainView
+0x6549a0b3fb69be47 -    7298541366008200775 - CLAPlus.ClapChat.UI_ClapChat
 0x65715e19fa142d10 -    7309727135861845264 - UnityEngine.SpringJoint
 0x65828db2b1f503c6 -    7314564543432426438 - UnityEditor.Rendering.Universal.TonemappingEditor
 0x659a2678d51f0057 -    7321206444657672279 - UnityEngine.ProBuilder.Entity
@@ -1057,6 +1058,7 @@
 0x84aa3d5358b9354e -    9559520587227411790 - UnityEditor.Rendering.Universal.UniversalProjectSettings
 0x850676f9fc0de4c9 -    9585479672952382665 - UnityEditor.Search.ASIEI0E
 0x851583d85616bccb -    9589715946735844555 - Unity.VisualScripting.UnityOnMouseEnterMessageListener
+0x8520f44752c62e01 -    9592935793467731457 - SingleCommunication
 0x853f9acc8b99f296 -    9601563133883314838 - Unity.Transforms.LocalToWorld
 0x857ecc865d62e9a8 -    9619350731574405544 - UnityEditor.TreeViewExamples.TreeViewTestWindow
 0x85a082aaa55bf529 -    9628839672748438825 - UnityEditor.Rendering.Fullscreen.ShaderGraph.FullscreenMetaData
@@ -1186,7 +1188,6 @@
 0x925986cf545e14da -   10545608227496531162 - Unity.UI.Builder.BuilderNewClassWindow
 0x925b9e5ce1999ddf -   10546197074177269215 - Cinemachine.CinemachinePOV
 0x927c1c894fb63d32 -   10555343002723040562 - UnityEditor.Rendering.VolumeProfileEditor
-0x92a600d43a30d50a -   10567134487180793098 - CLAPlus.ClapChat
 0x92ac1541ab895d1a -   10568845797326675226 - UnityEditor.SketchUpImporter
 0x92c12ad104057070 -   10574780477246632048 - UnityEditor.U2D.SpriteAtlasImporter
 0x92e1c1ed82bb700d -   10583953825142108173 - AudioTapsManager
@@ -1621,6 +1622,7 @@
 0xc6f35c654d78091c -   14335903629011585308 - Unity.Entities.CompanionReference
 0xc6fa44c71730c447 -   14337847985565647943 - Cysharp.Threading.Tasks.Triggers.AsyncApplicationQuitTrigger
 0xc6fb6e8165ebde35 -   14338175340703899189 - Unity.PlasticSCM.Editor.Views.PendingChanges.Dialogs.CreateChangelistDialog
+0xc70615fdc66782a7 -   14341174243107504807 - CLAPlus.ClapTalk.UI_ClapTalk
 0xc70d0e0ececc9f31 -   14343135845006745393 - UnityEditor.PackageManager.UI.Internal.PackageManifestImporterEditor
 0xc75b22ce8cc8c77b -   14365113706948904827 - Unity.Transforms.Static
 0xc7881299989a9955 -   14377762261279873365 - UnityEngine.BuoyancyEffector2D
@@ -1863,7 +1865,6 @@
 0xe4b332ca1b37842b -   16479571305100182571 - UnityEditor.ConfigurableJointEditor
 0xe4be5c5490ac1d56 -   16482713204496801110 - UnityEditor.MonoScriptImporterInspector
 0xe4f647565e64433a -   16498452721194779450 - Unity.VisualScripting.StateGraphAsset
-0xe4f9d56e62e2a413 -   16499453379930661907 - ClapTalk
 0xe51549e1623574ea -   16507181241560560874 - TMPro.TMP_SerializedPropertyHolder
 0xe5359ebb0fadf56a -   16516281734710293866 - DACS_ItemManagementSystem
 0xe53d706a86912083 -   16518482611091349635 - UnityEditor.DefaultAssetInspector
@@ -1913,6 +1914,7 @@
 0xea64cc2cf508cf8f -   16889848996007825295 - UnityEditor.TextCore.Text.TextColorGradientEditor
 0xea70aca94eaa11a3 -   16893192045435949475 - UnityEngine.VFX.VisualEffect
 0xea75a25a43a888c0 -   16894588085716158656 - Unity.PlasticSCM.Editor.Views.PendingChanges.Dialogs.DependenciesDialog
+0xeaa35fa24d8f0ad4 -   16907462576769534676 - CLAPlus.ClapChat.ClapChat
 0xeaad853d29596489 -   16910318673579304073 - EnvMapAnimator
 0xeac067da6f3b44f4 -   16915634388270269684 - UnityEngine.TextCore.Text.TextSettings
 0xeae358d736e5caa2 -   16925469505950698146 - Unity.Entities.TransformAuthoring

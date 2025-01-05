@@ -11,6 +11,8 @@ using DACS;
 using DACS.Projectile;
 using DACS.Inventory;
 using CLAPlus.Face2Face;
+using CLAPlus.ClapTalk;
+using CLAPlus.ClapChat;
 
 public class ClientGeneralManager : NetworkBehaviour
 {
@@ -83,18 +85,6 @@ public class ClientGeneralManager : NetworkBehaviour
         }
     }
 
-    // シングルトンの初期化
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject); // 重複するインスタンスを破棄
-        }
-    }
     public override async void OnNetworkSpawn()
     {
         Debug.Log("ClientGeneralManager : Loading");
@@ -108,7 +98,24 @@ public class ClientGeneralManager : NetworkBehaviour
         var masterObj = GameObject.Find("Master");
 
         if (!isOwner)
+        {
+            Destroy(this); // 重複するインスタンスを破棄
             return;
+        }
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            var objectsWithComponent = FindObjectsByType<ClientGeneralManager>(FindObjectsSortMode.None);
+            foreach (var obj in objectsWithComponent)
+            {
+                if (obj != this)
+                    Destroy(obj);
+            }
+        }
 
         // データ系
         pdManager = FindFirstObjectByType<PlayerDataManager>();
@@ -148,6 +155,7 @@ public class ClientGeneralManager : NetworkBehaviour
         InputSetUp(masterObj.GetComponent<PlayerInput>());
         clap_a.isOwner = isOwner;
         faceSync.tracker = masterObj.GetComponent<Face2Face>();
+        ClapChat.Setup();
 
         // 設定
         LoadSettings();

@@ -15,7 +15,6 @@ namespace CLAPlus.ClapTalk
         public static bool isMuted = false;
         public static bool UseToggleMute = false;
         static ChannelType joinnedChannel = ChannelType.empty;
-        public static string JoinnedChannelName;
         Channel3DProperties channel3DProperties = new(10, 1, 1, AudioFadeModel.InverseByDistance);
 
         public static async void JoinVoiceChatChannel(ChannelType channelType)
@@ -24,13 +23,11 @@ namespace CLAPlus.ClapTalk
             switch ((int)channelType)
             {
                 case 0:
-                    await VivoxService.Instance.JoinGroupChannelAsync(OpenVCChannelName, ChatCapability.TextAndAudio);
-                    JoinnedChannelName = OpenVCChannelName;
+                    await VivoxService.Instance.JoinGroupChannelAsync(OpenVCChannelName, ChatCapability.AudioOnly);
                     break;
 
                 case 1:
-                    await VivoxService.Instance.JoinEchoChannelAsync(TestChannelName, ChatCapability.TextAndAudio);
-                    JoinnedChannelName = TestChannelName;
+                    await VivoxService.Instance.JoinEchoChannelAsync(TestChannelName, ChatCapability.AudioOnly);
                     break;
 
                 default:
@@ -41,10 +38,13 @@ namespace CLAPlus.ClapTalk
 
         public static async void LoginToVivoxAsync()
         {
+            string name = AuthenticationService.Instance.PlayerName;
+            var lastDot = name.LastIndexOf('#');
+            if (lastDot != -1)
+                name = name[..lastDot]; // #以降を消す
             LoginOptions options = new()
             {
-                DisplayName = PlayerDataManager.LoadedPlayerProfileData.PlayerName,
-
+                DisplayName = name,
                 EnableTTS = true
             };
             await VivoxService.Instance.LoginAsync(options);

@@ -12,12 +12,14 @@ using System.Linq;
 using DACS.Inventory;
 using CLAPlus.ClapTalk;
 
+/// <summary>
+/// LocalOnly(DontDestory)
+/// </summary>
 public class PlayerDataManager : NetworkBehaviour
 {
     public static PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
     [HideInInspector] public static Action<int> OnItemAdded;
     public SingleCommunication singleCommunication;
-    bool isReady = false;
 
     // シングルトンインスタンス
     private static PlayerDataManager instance;
@@ -44,6 +46,7 @@ public class PlayerDataManager : NetworkBehaviour
     // シングルトンの初期化
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         if (instance == null)
         {
             instance = this;

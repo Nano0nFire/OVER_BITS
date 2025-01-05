@@ -34,7 +34,7 @@ public class UI_PlayerDataManager : MonoBehaviour
         PlayerID.text = PlayerDataManager.LoadedPlayerProfileData.PlayerID;
         var lastDot = PlayerName.text.LastIndexOf('#');
         if (lastDot != -1)
-            PlayerNameField.text = PlayerName.text[..lastDot]; // 型名のネームスペース部分を消す
+            PlayerNameField.text = PlayerName.text[..lastDot]; // #以降を消す
     }
 
     public void SignOut()

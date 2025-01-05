@@ -10,30 +10,36 @@ namespace CLAPlus.ClapChat
     public class UI_ClapChat : NetworkBehaviour
     {
         [SerializeField] ScrollRect scrollRect;
-        [SerializeField] InputField inputField;
-        static InputField _inputField;
-        static RectTransform _scrollRect;
+        [SerializeField] InputField chatField;
+        [SerializeField] Slider slider;
+        [SerializeField] TMP_InputField maxMessageField;
+        static InputField _chatField;
+        static RectTransform _scrollRectTransform;
+        static ScrollRect _scrollRect;
 
         void Awake()
         {
-            _scrollRect = scrollRect.GetComponent<RectTransform>();
-            _inputField = inputField;
+            _scrollRectTransform = scrollRect.GetComponent<RectTransform>();
+            _scrollRect = scrollRect;
+            _chatField = chatField;
         }
         public void ShowChatSpace(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                inputField.gameObject.SetActive(true);
+                chatField.gameObject.SetActive(true);
                 ClientGeneralManager.Instance.UseInput = false;
                 ClientGeneralManager.Instance.ClearInput();
-                _scrollRect.sizeDelta = new Vector2(_scrollRect.sizeDelta.x, 700); // チャットスペースを広げる
+                _scrollRectTransform.sizeDelta = new Vector2(_scrollRectTransform.sizeDelta.x, 700); // チャットスペースを広げる
+                ScrollToBottom();
             }
         }
 
         public static void CloseChatSpace()
         {
-            _inputField.gameObject.SetActive(false);
-            _scrollRect.sizeDelta = new Vector2(_scrollRect.sizeDelta.x, 300); // デフォルトの大きさに戻す
+            _chatField.gameObject.SetActive(false);
+            _scrollRectTransform.sizeDelta = new Vector2(_scrollRectTransform.sizeDelta.x, 300); // デフォルトの大きさに戻す
+            ScrollToBottom();
         }
 
         public void SendTextMessage(string text)
@@ -45,15 +51,31 @@ namespace CLAPlus.ClapChat
             ClientGeneralManager.Instance.UseInput = true;
         }
 
-        public void ScrollToBottom()
+        public static void ScrollToBottom()
         {
             Canvas.ForceUpdateCanvases(); // レイアウトを更新して位置を確定
-            scrollRect.verticalNormalizedPosition = 0f; // 一番下に設定
+            _scrollRect.verticalNormalizedPosition = 0f; // 一番下に設定
         }
 
         public void Clear()
         {
-            inputField.text = "";
+            chatField.text = "";
+        }
+
+        public void MaxMessageAmountSli(bool IsSlider)
+        {
+            if (IsSlider)
+                ClapChat.MaxMessageAmount = (int)slider.value;
+            else
+                ClapChat.MaxMessageAmount = int.Parse(maxMessageField.text);
+
+            if (ClapChat.MaxMessageAmount > 100)
+                ClapChat.MaxMessageAmount = 100;
+            if (ClapChat.MaxMessageAmount < 0)
+                ClapChat.MaxMessageAmount = 0;
+
+            maxMessageField.text = ClapChat.MaxMessageAmount.ToString();
+            slider.value = ClapChat.MaxMessageAmount;
         }
     }
 }

@@ -2,7 +2,6 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using Unity.Services.Vivox;
-using Unity.Services.Authentication;
 
 namespace CLAPlus.ClapChat
 {
@@ -10,8 +9,9 @@ namespace CLAPlus.ClapChat
     {
         [SerializeField] Transform Content;
         [SerializeField] GameObject TextPrefab;
-        public int MaxMessageAmount; // -1で無限に保存する
+        public static int MaxMessageAmount = 20; // 0無限に保存する
         static int messageCount = 0;
+        static string TextChannelName = "OpenTextChat";
 
         // シングルトンインスタンス
         private static ClapChat instance;
@@ -47,13 +47,16 @@ namespace CLAPlus.ClapChat
                 Destroy(gameObject); // 重複するインスタンスを破棄
             }
 
-            if (!IsServer)
-                return;
-
             VivoxService.Instance.ParticipantAddedToChannel += (VivoxParticipant participant) => AddMessageToChat($"{participant.DisplayName} just joined !!", "", Color.black);
             VivoxService.Instance.ParticipantRemovedFromChannel += (VivoxParticipant participant) => AddMessageToChat($"{participant.DisplayName} has left.", "", Color.black);
 
             VivoxService.Instance.ChannelMessageReceived += OnMessageReceived;
+        }
+
+        public static void Setup()
+        {
+            VivoxService.Instance.JoinGroupChannelAsync(TextChannelName, ChatCapability.TextOnly);
+            Debug.Log("aaaaaaaaaekrlkasujhdfglklkasjehr");
         }
 
         private void OnDestroy()
@@ -64,10 +67,10 @@ namespace CLAPlus.ClapChat
             VivoxService.Instance.ChannelMessageReceived -= OnMessageReceived;
         }
 
-        private void OnMessageReceived(VivoxMessage participant)
+        public void OnMessageReceived(VivoxMessage participant)
         {
-            Debug.Log($"Message received from {participant.SenderDisplayName}: {participant.MessageText}");
             AddMessageToChat($"{participant.SenderDisplayName} : {participant.MessageText}");
+            UI_ClapChat.ScrollToBottom();
         }
 
         public void SendMessageToChannel(string text)
@@ -75,14 +78,18 @@ namespace CLAPlus.ClapChat
             if (string.IsNullOrEmpty(text))
                 return;
 
-            VivoxService.Instance.SendChannelTextMessageAsync(ClapTalk.ClapTalk.JoinnedChannelName, text);
-            AddMessageToChat(text, AuthenticationService.Instance.PlayerName);
+            VivoxService.Instance.SendChannelTextMessageAsync(TextChannelName, text);
+            // string name = AuthenticationService.Instance.PlayerName;
+            // var lastDot = name.LastIndexOf('#');
+            // if (lastDot != -1)
+            //     name = name[..lastDot]; // #以降を消す
+            // AddMessageToChat(text, name);
         }
 
         public void AddMessageToChat(string text, string Sender = "", Color color = default)
         {
             Transform obj;
-            if (messageCount != -1 && messageCount <= MaxMessageAmount)
+            if (messageCount == 0 || messageCount <= MaxMessageAmount)
             {
                 obj = Instantiate(TextPrefab, Content).transform;
                 messageCount++;
@@ -94,8 +101,7 @@ namespace CLAPlus.ClapChat
             }
 
             var component = obj.GetComponentInChildren<TextMeshProUGUI>();
-            if (color != default)
-                component.color = color;
+            component.color = color == default ? Color.white : color;
             component.text = Sender == "" ? $"{text}" : $"{Sender} : {text}";
         }
 

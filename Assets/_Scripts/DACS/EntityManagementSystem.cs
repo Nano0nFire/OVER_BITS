@@ -30,7 +30,7 @@ namespace DACS.Entities
         {
             if (IsServer)
             {
-                pdManager = FindFirstObjectByType<PlayerDataManager>();
+                pdManager = PlayerDataManager.Instance;
                 DisabledEntities = new Queue<GameObject>[EntitiesSO.EntityTypeNum][];
                 for (int i = 0; i < EntitiesSO.EntityTypeNum; i++)
                 {
