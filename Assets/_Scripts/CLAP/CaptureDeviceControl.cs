@@ -8,7 +8,7 @@ using Cysharp.Threading.Tasks;
 namespace CLAPlus.Face2Face
 {
     [DefaultExecutionOrder(-1)]
-    public class CaptureDeviceControl : MonoBehaviour, IDisposable
+    public class CaptureDeviceControl : MonoBehaviour
     {
         private WebCamTexture webcam;
 
@@ -81,14 +81,9 @@ namespace CLAPlus.Face2Face
             return mat;
         }
 
-        public void Dispose()
-        {
-            webcam.Stop();
-        }
-
         void OnDestroy()
         {
-            Dispose();
+            webcam.Stop();
         }
     }
 }

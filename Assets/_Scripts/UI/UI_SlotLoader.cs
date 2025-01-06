@@ -10,9 +10,9 @@ public class UI_SlotLoader : MonoBehaviour
     //[SerializeField] UIType uiType = UIType.Null;
     [SerializeField] int IndexToReference;
 
-    public void Setup(UIGeneral uiGeneral)
+    public void Setup()
     {
-        this.uiGeneral = uiGeneral;
+        uiGeneral = UIGeneral.Instance;
         uiGeneral.InventoryParents[IndexToReference] = this;
     }
     void OnEnable()

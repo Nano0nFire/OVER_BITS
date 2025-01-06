@@ -4,14 +4,16 @@ namespace DACS.Projectile
 {
     public class Projectile : MonoBehaviour // LocalOnly
     {
-        [HideInInspector] public ulong nwID;
+        public ulong clientID;
+        public ulong nwoID;
         [HideInInspector] public Transform ShotPos;
         [HideInInspector] public Transform CameraPos;
         [SerializeField] BulletControl_Basic bcNormal;
 
         public void Setup()
         {
-            bcNormal.ownID = nwID;
+            bcNormal.ownID = clientID;
+            bcNormal.nwoID = nwoID;
             bcNormal.PlayerTransform = CameraPos;
         }
         public void StartShooting(int ProjectileType, int id, int amount)

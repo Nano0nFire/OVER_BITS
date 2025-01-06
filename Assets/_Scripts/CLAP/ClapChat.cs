@@ -1,107 +1,148 @@
-using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
+using Unity.Services.Vivox;
 
-namespace CLAPlus
+namespace CLAPlus.ClapChat
 {
     public class ClapChat : NetworkBehaviour
     {
-        [HideInInspector] public string PlayerName;
-        [HideInInspector] public ClientGeneralManager cgManager;
-        public GameObject canvas;
         [SerializeField] Transform Content;
-        [SerializeField] ScrollRect scrollRect;
-        [SerializeField] InputField inputField;
         [SerializeField] GameObject TextPrefab;
-        public int MaxMessageAmount; // -1で無限に保存する
-        int messageCount = 0;
+        public static int MaxMessageAmount = 20; // 0無限に保存する
+        static int messageCount = 0;
+        static string TextChannelName = "OpenTextChat";
 
-        public void ShowChatSpace(InputAction.CallbackContext context)
+        // シングルトンインスタンス
+        private static ClapChat instance;
+
+        // インスタンスへのプロパティ
+        public static ClapChat Instance
         {
-            if (context.performed)
+            get
             {
-                canvas.SetActive(true);
-                cgManager.UseInput = false;
-                cgManager.CleatInput();
+                if (instance == null)
+                {
+                    instance = FindFirstObjectByType<ClapChat>();
+
+                    if (instance == null)
+                    {
+                        GameObject singletonObject = new(typeof(ClapChat).Name);
+                        instance = singletonObject.AddComponent<ClapChat>();
+                    }
+                }
+                return instance;
             }
         }
 
-        public void SendMessage()
+        // シングルトンの初期化
+        private void Awake()
         {
-            if (inputField.text == "")
+            if (instance == null)
             {
-                canvas.SetActive(false);
-                cgManager.UseInput = true;
-                return;
+                instance = this;
+            }
+            else if (instance != this)
+            {
+                Destroy(gameObject); // 重複するインスタンスを破棄
             }
 
-            SendMessageServerRpc(PlayerName, inputField.text);
+            VivoxService.Instance.ParticipantAddedToChannel += (VivoxParticipant participant) => AddMessageToChat($"{participant.DisplayName} just joined !!", "", Color.black);
+            VivoxService.Instance.ParticipantRemovedFromChannel += (VivoxParticipant participant) => AddMessageToChat($"{participant.DisplayName} has left.", "", Color.black);
 
-            if (messageCount <= MaxMessageAmount)
+            VivoxService.Instance.ChannelMessageReceived += OnMessageReceived;
+        }
+
+        public static void Setup()
+        {
+            VivoxService.Instance.JoinGroupChannelAsync(TextChannelName, ChatCapability.TextOnly);
+            Debug.Log("aaaaaaaaaekrlkasujhdfglklkasjehr");
+        }
+
+        private void OnDestroy()
+        {
+            VivoxService.Instance.ParticipantAddedToChannel -= (VivoxParticipant participant) => AddMessageToChat($"{participant.DisplayName} just joined !!", "", Color.black);
+            VivoxService.Instance.ParticipantRemovedFromChannel -= (VivoxParticipant participant) => AddMessageToChat($"{participant.DisplayName} has left.", "", Color.black);
+
+            VivoxService.Instance.ChannelMessageReceived -= OnMessageReceived;
+        }
+
+        public void OnMessageReceived(VivoxMessage participant)
+        {
+            AddMessageToChat($"{participant.SenderDisplayName} : {participant.MessageText}");
+            UI_ClapChat.ScrollToBottom();
+        }
+
+        public void SendMessageToChannel(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return;
+
+            VivoxService.Instance.SendChannelTextMessageAsync(TextChannelName, text);
+            // string name = AuthenticationService.Instance.PlayerName;
+            // var lastDot = name.LastIndexOf('#');
+            // if (lastDot != -1)
+            //     name = name[..lastDot]; // #以降を消す
+            // AddMessageToChat(text, name);
+        }
+
+        public void AddMessageToChat(string text, string Sender = "", Color color = default)
+        {
+            Transform obj;
+            if (messageCount == 0 || messageCount <= MaxMessageAmount)
             {
-                var obj = Instantiate(TextPrefab, Content);
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{PlayerName} : {inputField.text}";
-                messageCount ++;
+                obj = Instantiate(TextPrefab, Content).transform;
+                messageCount++;
             }
             else
             {
-                Transform obj = Content.GetChild(0); // 親の3番目の子を取得
+                obj = Content.GetChild(0); // 親の3番目の子を取得
                 obj.SetSiblingIndex(Content.childCount - 1); // 最初の位置に移動
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{PlayerName} : {inputField.text}";
             }
 
-            ScrollToBottom(); // スクロールビューの最下を表示させる
+            var component = obj.GetComponentInChildren<TextMeshProUGUI>();
+            component.color = color == default ? Color.white : color;
+            component.text = Sender == "" ? $"{text}" : $"{Sender} : {text}";
         }
 
-        public void SendMessage(string text, string playerName)
-        {
-            if (messageCount <= MaxMessageAmount)
-            {
-                var obj = Instantiate(TextPrefab, Content);
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{playerName} : {text}";
-            }
-            else
-            {
-                Transform obj = Content.GetChild(0); // 親の3番目の子を取得
-                obj.SetSiblingIndex(Content.childCount - 1); // 最初の位置に移動
-                obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{playerName} : {text}";
-            }
+        // public void ShowChatSpace(InputAction.CallbackContext context)
+        // {
+        //     if (context.performed)
+        //     {
+        //         canvas.SetActive(true);
+        //         cgManager.UseInput = false;
+        //         cgManager.CleatInput();
+        //     }
+        // }
 
-            ScrollToBottom(); // スクロールビューの最下を表示させる
-            inputField.text = "";
-        }
+        // public void SendMessage()
+        // {
+        //     if (inputField.text == "")
+        //     {
+        //         canvas.SetActive(false);
+        //         cgManager.UseInput = true;
+        //         return;
+        //     }
 
-        public void ScrollToBottom()
-        {
-            Canvas.ForceUpdateCanvases(); // レイアウトを更新して位置を確定
-            scrollRect.verticalNormalizedPosition = 0f; // 一番下に設定
-        }
+        //     SendMessageServerRpc(PlayerName, inputField.text);
 
-        public void Clear()
-        {
-            inputField.text = "";
-        }
+        //     if (messageCount <= MaxMessageAmount)
+        //     {
+        //         var obj = Instantiate(TextPrefab, Content);
+        //         obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{PlayerName} : {inputField.text}";
+        //         messageCount ++;
+        //     }
+        //     else
+        //     {
+        //         Transform obj = Content.GetChild(0); // 親の3番目の子を取得
+        //         obj.SetSiblingIndex(Content.childCount - 1); // 最初の位置に移動
+        //         obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{PlayerName} : {inputField.text}";
+        //     }
 
-        [ServerRpc(RequireOwnership = false)]
-        void SendMessageServerRpc(string playerName, string text)
-        {
-            if (IsServer)
-                SendMessageClientRpc(playerName, text);
+        //     ScrollToBottom(); // スクロールビューの最下を表示させる
 
-            Debug.Log("server rpc");
-        }
-
-        [ClientRpc]
-        void SendMessageClientRpc(string playerName, string text)
-        {
-            if (playerName == PlayerName) // 自分のメッセージは処理しない
-                return;
-
-            SendMessage(text, playerName);
-            Debug.Log("cluent rpc");
-        }
+        //     canvas.SetActive(false);
+        //     cgManager.UseInput = true;
+        // }
     }
 }

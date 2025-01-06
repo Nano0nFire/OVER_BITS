@@ -66,7 +66,7 @@ namespace DACS.Entities
         List<AttackPattern> AttackPatterns = new();
         List<EntityDrop> dropTable;
         float TotalDropChanceAmount = 0;
-        ulong AttackerNWID; // 最後に攻撃したプレイヤーのNetworkID
+        ulong AttackerClientID; // 最後に攻撃したプレイヤーのNetworkID
 
         public void OnActivate(EntityConfigs entityConfig)
         {
@@ -122,7 +122,7 @@ namespace DACS.Entities
             // }
         }
 
-        public override void OnDamage(DamageData damage, ulong nwID = 0)
+        public override void OnDamage(DamageData damage, ulong clientID = 0)
         {
             if (DodgeChance - damage.HitChance > UnityEngine.Random.Range(0.0f, 100.0f)) // 回避処理
             {
@@ -130,8 +130,10 @@ namespace DACS.Entities
                 return;
             }
 
-            if (nwID != 0)
-                AttackerNWID = nwID;
+            if (clientID != 0)
+                AttackerClientID = clientID;
+
+            Debug.Log(clientID);
 
             float DmgReceived = damage.Dmg - (Def - damage.Penetration > 0 ? Def - damage.Penetration : 0) * damage.DefMagnification;
             HP -= DmgReceived > 0 ? DmgReceived : 0;
@@ -203,11 +205,11 @@ namespace DACS.Entities
                 {
                     dropItem = dropTable[i].itemData;
                     if (dropItem.FirstIndex != -1) // -1の場合はドロップ無し
-                        Spawner.OnDrop(dropItem, AttackerNWID);
+                        Spawner.OnDrop(dropItem, AttackerClientID);
                     break;
                 }
             }
-            Spawner.OnDead(gameObject, AttackerNWID);
+            Spawner.OnDead(gameObject, AttackerClientID);
             IsActive = false;
         }
 
@@ -347,7 +349,7 @@ namespace DACS.Entities
         public virtual float CritDamage{get; set;}
         public virtual float Penetration{get; set;}
         public virtual float HitChance{get; set;}
-        public virtual void OnDamage(DamageData damage, ulong nwID = 0){}
+        public virtual void OnDamage(DamageData damage, ulong clientID = 0){}
         public virtual void OnDead(){}
         public virtual void OnDodge(){}
         public virtual async void DoTDamage(EffectConfig effectConfig){}

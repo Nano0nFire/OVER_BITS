@@ -10,30 +10,72 @@ using Unity.Netcode;
 using Newtonsoft.Json;
 using System.Linq;
 using DACS.Inventory;
+using CLAPlus.ClapTalk;
 
+/// <summary>
+/// LocalOnly(DontDestory)
+/// </summary>
 public class PlayerDataManager : NetworkBehaviour
 {
-    public PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
-    [HideInInspector] public InventorySystem inventorySystem; // ClientGeneralManagerから設定(ClientOnly)
-    [HideInInspector] public Action<int> OnItemAdded;
+    public static PlayerProfileData LoadedPlayerProfileData{get ; private set ;}
+    public static SettingsData PlayerSettingsData;
+    [HideInInspector] public static Action<int> OnItemAdded;
+    public SingleCommunication singleCommunication;
+
+    // シングルトンインスタンス
+    private static PlayerDataManager instance;
+
+    // インスタンスへのプロパティ
+    public static PlayerDataManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindAnyObjectByType<PlayerDataManager>();
+
+                if (instance == null)
+                {
+                    GameObject singletonObject = new GameObject(typeof(PlayerDataManager).Name);
+                    instance = singletonObject.AddComponent<PlayerDataManager>();
+                }
+            }
+            return instance;
+        }
+    }
+
+    // シングルトンの初期化
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject); // 重複するインスタンスを破棄
+        }
+    }
 
     async void Start()
     {
-        await UnityServices.InitializeAsync();
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        await UnityServicesManager.InitUnityServices();
         PlayerAccountService.Instance.SignedIn += SignedIn;
-        DontDestroyOnLoad(gameObject);
     }
 
-    public async UniTask InitSignIn()
+    public static async UniTask InitSignIn()
     {
         if (AuthenticationService.Instance.IsSignedIn) // 以前ログインしていたならロードだけする
             LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
         else // 履歴がないならログインする
         {
             await PlayerAccountService.Instance.StartSignInAsync();
-            Debug.Log("SignIn Start");
+            await UniTask.WaitUntil(() => AuthenticationService.Instance.IsSignedIn); // ログインが終わるまで待機
         }
+
+        ClapTalk.LoginToVivoxAsync();
+        await UniTask.Delay(500); // 全体の読み込みに余裕を持たせる
     }
 
     async void SignedIn() // SignIn開始
@@ -42,8 +84,13 @@ public class PlayerDataManager : NetworkBehaviour
         {
             var accessToken = PlayerAccountService.Instance.AccessToken;
             await SignInWithUnityAsync(accessToken);
-            LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
-            Debug.Log("SignIn Done");
+            // LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
+            LoadedPlayerProfileData = new()
+            {
+                PlayerID = AuthenticationService.Instance.PlayerInfo.Id,
+                PlayerName = await LoadData<PlayerProfileData>().ContinueWith(x => x.PlayerName) // ロードが終わるまで待機
+            };
+            await SaveData(LoadedPlayerProfileData);
         }
         catch (Exception ex)
         {
@@ -51,12 +98,11 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
 
-    private async UniTask SignInWithUnityAsync(string accessToken)
+    async UniTask SignInWithUnityAsync(string accessToken)
     {
         try
         {
             await AuthenticationService.Instance.SignInWithUnityAsync(accessToken);
-            Debug.Log("SignInWithUnity Done");
         }
         catch (AuthenticationException ex)
         {
@@ -68,17 +114,40 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
 
-    public void InitSignOut()
-    {
-        AuthenticationService.Instance.SignOut(true);
-    }
+    // async UniTask LinkWithUnityAsync(string accessToken)
+    // {
+    //     try
+    //     {
+    //         await AuthenticationService.Instance.LinkWithUnityAsync(accessToken);
+    //         Debug.Log("Link is successful.");
+    //     }
+    //     catch (AuthenticationException ex) when (ex.ErrorCode == AuthenticationErrorCodes.AccountAlreadyLinked)
+    //     {
+    //         // Prompt the player with an error message.
+    //         Debug.LogError("This user is already linked with another account. Log in instead.");
+    //     }
+
+    //     catch (AuthenticationException ex)
+    //     {
+    //         // Compare error code to AuthenticationErrorCodes
+    //         // Notify the player with the proper error message
+    //         Debug.LogException(ex);
+    //     }
+    //     catch (RequestFailedException ex)
+    //     {
+    //         // Compare error code to CommonErrorCodes
+    //         // Notify the player with the proper error message
+    //         Debug.LogException(ex);
+    //     }
+    // }
 
     private void OnDestroy()
     {
+        // UnityServicesManager.Logout();
         PlayerAccountService.Instance.SignedIn -= SignedIn;
     }
 
-    public async UniTask SetPlayerNameAsync(string newName)
+    public static async UniTask SetPlayerNameAsync(string newName)
     {
         try
         {
@@ -94,7 +163,7 @@ public class PlayerDataManager : NetworkBehaviour
             Debug.LogError("Request failed: " + ex.Message);
         }
     }
-    public async UniTask SaveData<T>(T SaveData, string CustomKey = null)
+    public static async UniTask SaveData<T>(T SaveData, string CustomKey = null)
     {
         string jsonData = JsonConvert.SerializeObject(SaveData); // データをJsonに変換
 
@@ -128,7 +197,7 @@ public class PlayerDataManager : NetworkBehaviour
     /// <param name="CustomKey">任意のKey名(省略で保存するデータの型名が使用される)</param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public async UniTask<T> LoadData<T>(string CustomKey = null) where T : new()
+    public static async UniTask<T> LoadData<T>(string CustomKey = null) where T : new()
     {
         try
         {
@@ -161,7 +230,7 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
 
-    public async UniTask CreateAndSaveNewData<T>(string CustomKey) where T : new() // 初期値の設定はここで行う
+    public static async UniTask CreateAndSaveNewData<T>(string CustomKey) where T : new() // 初期値の設定はここで行う
     {
         if (typeof(T) == typeof(SettingsData))
         {
@@ -172,6 +241,14 @@ public class PlayerDataManager : NetworkBehaviour
                 InvertAim = false,
                 HzCameraSens = 50,
                 VCameraSens = 50,
+            };
+            await SaveData(data); // 新規データの作成
+        }
+        else if (typeof(T) == typeof(PlayerProfileData))
+        {
+            PlayerProfileData data = new()
+            {
+                PlayerName = "Player" + UnityEngine.Random.Range(1000, 9999),
             };
             await SaveData(data); // 新規データの作成
         }
@@ -187,38 +264,25 @@ public class PlayerDataManager : NetworkBehaviour
         }
     }
     #region AddItemData
-    public void AddItem(ItemData itemData, ulong wnID, int amount = 0)
+    public void AddItem(ItemData itemData, ulong clientID, int amount = 0)
     {
         if (!IsServer)
             return;
 
-        ClientRpcParams rpcParams = new() // ClientRPCを送る対象を選択
-        {
-            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { wnID } }
-        };
-        AddItemOrderClientRpc(JsonConvert.SerializeObject(itemData), amount, rpcParams);
+        singleCommunication.AddItem(JsonConvert.SerializeObject(itemData), amount, clientID);
     }
 
-    [ClientRpc]
-    public void AddItemOrderClientRpc(string data, int amount, ClientRpcParams rpcParams = default)
+    public static async void AddItem(string data, int amount = 0)
     {
-        if (!IsClient)
-            return;
-
-        AddItem(data, amount);
-    }
-
-    async void AddItem(string data, int amount = 0)
-    {
-        if (!IsClient)
-            return;
+        // if (!IsClient)
+        //     return;
 
         var itemData = JsonConvert.DeserializeObject<ItemData>(data); // Jsonから変換
-        string key = inventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
+        string key = InventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
         var PlayerInventoryData = await LoadData<List<ItemData>>(key); // Keyを元にインベントリデータを取得
         if (amount == 0) {
             PlayerInventoryData.Add(itemData);
-            inventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
+            InventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
         } else {
             int itemIndex;
             int secondIndex = itemData.SecondIndex;
@@ -230,12 +294,12 @@ public class PlayerDataManager : NetworkBehaviour
             if (length == itemIndex){ // アイテムがリスト内に存在しなかった場合
                 itemData.Amount += amount;
                 PlayerInventoryData.Add(itemData);
-                inventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
+                InventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
             } else {
                 itemData = PlayerInventoryData[itemIndex];
                 itemData.Amount += amount;
                 PlayerInventoryData[itemIndex] = itemData;
-                inventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
+                InventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
             }
         }
         await SaveData(PlayerInventoryData, key); // 追加した後のインベントリデータを保存
@@ -247,15 +311,15 @@ public class PlayerDataManager : NetworkBehaviour
     /// ServerOnly
     /// </summary>
     /// <param name="itemData"></param>
-    /// <param name="wnID"></param>
-    public void RemoveItem(ItemData itemData, ulong wnID, int amount)
+    /// <param name="clientID"></param>
+    public void RemoveItem(ItemData itemData, ulong clientID, int amount)
     {
         if (!IsServer)
             return;
 
         ClientRpcParams rpcParams = new() // ClientRPCを送る対象を選択
         {
-            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { wnID } }
+            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { clientID } }
         };
         RemoveItemOrderClientRpc(JsonConvert.SerializeObject(itemData), amount, rpcParams);
     }
@@ -280,11 +344,11 @@ public class PlayerDataManager : NetworkBehaviour
             return;
 
         var itemData = JsonConvert.DeserializeObject<ItemData>(data); // Jsonから変換
-        string key = inventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
+        string key = InventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
         var PlayerInventoryData = await LoadData<List<ItemData>>(key); // Keyを元にインベントリデータを取得
         if (amount == 0) {
             PlayerInventoryData.Remove(itemData);
-            inventorySystem.GetInventoryData(itemData.FirstIndex).Remove(itemData);
+            InventorySystem.GetInventoryData(itemData.FirstIndex).Remove(itemData);
         } else {
             int itemIndex;
             int secondIndex = itemData.SecondIndex;
@@ -296,12 +360,12 @@ public class PlayerDataManager : NetworkBehaviour
             if (length == itemIndex){ // アイテムがリスト内に存在しなかった場合
                 itemData.Amount += amount;
                 PlayerInventoryData.Add(itemData);
-                inventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
+                InventorySystem.GetInventoryData(itemData.FirstIndex).Add(itemData);
             } else {
                 itemData = PlayerInventoryData[itemIndex];
                 itemData.Amount += amount;
                 PlayerInventoryData[itemIndex] = itemData;
-                inventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
+                InventorySystem.GetInventoryData(itemData.FirstIndex)[itemIndex] = itemData;
             }
         }
         await SaveData(PlayerInventoryData, key); // 追加した後のインベントリデータを保存
@@ -325,4 +389,7 @@ public struct SettingsData
     public bool InvertAim; //垂直方向の視点操作の反転
     public float HzCameraSens; //水平方向の視点感度
     public float VCameraSens; //水s直方向の視点感度
+    public int InputDeviceIndex;
+    public int OutputDeviceIndex;
+    public bool UseToggleMute;
 }

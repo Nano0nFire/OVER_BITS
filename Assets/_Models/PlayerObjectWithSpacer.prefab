@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 2974271652213683632}
   - component: {fileID: -7599055933827522201}
   - component: {fileID: 6296186416508094674}
+  - component: {fileID: -5411646087602032303}
   m_Layer: 0
   m_Name: PlayerObjectWithSpacer
   m_TagString: Player
@@ -185,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 243907195
+  GlobalObjectIdHash: 3774752910
   InScenePlacedSourceGlobalObjectIdHash: 239926996
   DeferredDespawnTick: 0
   Ownership: 1
@@ -533,42 +534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260674443cc10804bbba6d78b705bdad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pdManager: {fileID: 0}
   SelectedSlotIndex: 0
-  testItemInventoryData: []
-  AxeInventoryData: []
-  PicaxeInventoryData: []
-  DrillInventoryData: []
-  HammerInventoryData: []
-  ShieldInventoryData: []
-  ConsumablesInventoryData: []
-  GranadeInventoryData: []
-  MagicInventoryData: []
-  FishingRodInventoryData: []
-  LongSwordInventoryData: []
-  ShortSwordInventoryData: []
-  SpearInventoryData: []
-  HandgunInventoryData: []
-  RifleInventoryData: []
-  SMGInventoryData: []
-  ShotgunInventoryData: []
-  LMGInventoryData: []
-  SniperRifleInventoryData: []
-  BaseBodyList: []
-  FaceInventoryData: []
-  TopsInventoryData: []
-  BottomsInventoryData: []
-  ShoesInventoryData: []
-  HairInventoryData: []
-  AccessoryInventoryData: []
-  HelmetInventoryData: []
-  ChestArmorInventoryData: []
-  LegArmorInventoryData: []
-  BootsArmorInventoryData: []
-  PotionInventoryData: []
-  MaterialInventoryData: []
-  FoodInventoryData: []
-  HotbarData: []
 --- !u!114 &-7599055933827522201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,6 +563,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   tracker: {fileID: 0}
   smr: {fileID: 4909360540775930956}
+--- !u!114 &-5411646087602032303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3288742083618601568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bcc707180d1ec948ab9cea7967cf7b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &3759549174565842990
 GameObject:
   m_ObjectHideFlags: 0

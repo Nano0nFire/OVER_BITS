@@ -15,6 +15,7 @@ namespace DACS.Projectile
         [SerializeField] GameObject bulletPrefab;
         [HideInInspector] public Transform PlayerTransform; // ClientGeneralManagerから設定
         [HideInInspector] public ulong ownID = 0; // ClientOnly
+        [HideInInspector] public ulong nwoID = 0; // ClientOnly
         List<Transform> transformsList = new(); // 生成された弾を全て登録
         NativeList<BulletControl_Config> bulletConfigsList; // 弾のデータを格納(データの内容は変更可能)
         List<DamageConfigs> bulletDmgConfigList = new();
@@ -153,11 +154,11 @@ namespace DACS.Projectile
             int seed = Random.Range(-10000, 10000);
             if (IsServer) // ServerまたはHostが呼び出した場合は直接サーバー操作させる
             {
-                SetBulletServer(shotPos, forward, seed, id, amount, ownID);
+                SetBulletServer(shotPos, forward, seed, id, amount, nwoID, ownID);
                 return;
             }
             else
-                ShotServerRpc(shotPos, forward, seed, id, amount, ownID);
+                ShotServerRpc(shotPos, forward, seed, id, amount, nwoID, ownID);
 
             var config = configsSO.P_ScriptableObject[id];
             for (int i = 0; i < amount; i++)
@@ -220,7 +221,7 @@ namespace DACS.Projectile
         /// <summary>
         /// サーバー側に弾をセットする
         /// </summary>
-        public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed, int id, int amount, ulong nwID)
+        public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed, int id, int amount, ulong nwID, ulong clientID)
         {
             Entity EntityData;
 
@@ -232,7 +233,7 @@ namespace DACS.Projectile
                 return;
             }
 
-            SetBulletClientRpc(shotPos, forward, seed, id, amount, nwID); // Clientに反映
+            SetBulletClientRpc(shotPos, forward, seed, id, amount, clientID); // Clientに反映
             var config = configsSO.P_ScriptableObject[id];
             DamageConfigs dmgConfig = config.DamageConfig;
             dmgConfig.Dmg += dmgConfig.DefMagnification == 1 ? EntityData.Atk : EntityData.MaxMP / 10;
@@ -272,7 +273,7 @@ namespace DACS.Projectile
         /// <summary>
         /// サーバー側に弾をセットする
         /// </summary>
-        public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed,int id, int amount, EntityStatusData EntityData)
+        public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed, int id, int amount, EntityStatusData EntityData)
         {
             SetBulletClientRpc(shotPos, forward, seed, id, amount, 0); // Clientに反映
 
@@ -506,15 +507,15 @@ namespace DACS.Projectile
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void ShotServerRpc(Vector3 position, Vector3 forward, int seed, int id, int amount, ulong nwID)
+        public void ShotServerRpc(Vector3 position, Vector3 forward, int seed, int id, int amount, ulong nwID,ulong clientID)
         {
-            SetBulletServer(position, forward, seed, id, amount, nwID);
+            SetBulletServer(position, forward, seed, id, amount, nwID, clientID);
         }
 
         [ClientRpc]
-        public void SetBulletClientRpc(Vector3 position, Vector3 forward, int seed,int id, int amount, ulong nwID)
+        public void SetBulletClientRpc(Vector3 position, Vector3 forward, int seed,int id, int amount, ulong clientID)
         {
-            if (IsServer || nwID == ownID)
+            if (IsServer || clientID == ownID)
                 return;
 
             var config = configsSO.P_ScriptableObject[id];

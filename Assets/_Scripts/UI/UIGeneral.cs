@@ -5,37 +5,71 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using CLAPlus;
 using DACS.Inventory;
+using CLAPlus.ClapChat;
+using System;
 
 public class UIGeneral : MonoBehaviour
 {
     ClientGeneralManager cgManager;
     CustomLifeAvatar cla;
+    public static Action action;
     [HideInInspector] public UI_PlayerSettings uI_PlayerSettings;
-    PlayerDataManager pdManager;
     [SerializeField] ItemDataBase itemDataBase;
-    [SerializeField] GameObject ChatSpace;
     public UI_Hotbar uiHotbar;
     [SerializeField] UI_InfomationPanel infomationPanelController;
     [HideInInspector] public InventorySystem invSystem; // ClientGeneralManagerが設定
     [SerializeField] GameObject SlotPrefab;
-    UI_Component[] UIComponents;
+    static UI_Component[] UIComponents;
     public UI_SlotLoader[] InventoryParents;
     bool[] InventoryIsUpdated;
     List<Transform> SlotXforms = new();
     int activatedSlotIndex = 0;
-    public int ActivePanelIndex;
+    public static int ActivePanelIndex;
+    public static UIType ActiveUIType
+    {
+        get => UIComponents[ActivePanelIndex].uiType;
+    }
+    // シングルトンインスタンス
+    private static UIGeneral instance;
+
+    // インスタンスへのプロパティ
+    public static UIGeneral Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindAnyObjectByType<UIGeneral>();
+
+                if (instance == null)
+                {
+                    GameObject singletonObject = new GameObject(typeof(PlayerDataManager).Name);
+                    instance = singletonObject.AddComponent<UIGeneral>();
+                }
+            }
+            return instance;
+        }
+    }
 
     public void Setup(ClientGeneralManager cgManager)
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject); // 重複するインスタンスを破棄
+        }
+
         this.cgManager = cgManager;
-        pdManager = cgManager.pdManager;
         invSystem = cgManager.GetComponent<InventorySystem>();
         uiHotbar.inventorySystem = invSystem;
         uiHotbar.hotbarSystem = cgManager.GetComponent<HotbarSystem>();
-        pdManager.OnItemAdded += Load;
+        PlayerDataManager.OnItemAdded += Load;
         cla = cgManager.GetComponent<CustomLifeAvatar>();
 
-        UIComponents = GetComponentsInChildren<UI_Component>(true);
+        UIComponents = FindObjectsByType<UI_Component>(FindObjectsSortMode.None);
         int max = itemDataBase.ItemListCount;
         InventoryParents = new UI_SlotLoader[max];
         int i = 0;
@@ -44,8 +78,9 @@ public class UIGeneral : MonoBehaviour
             component.uiGeneral = this;
             component.panelID = i;
             i ++;
-            component.Setup();
         }
+        foreach (var component in GetComponentsInChildren<UI_SlotLoader>())
+            component.Setup();
         InventoryIsUpdated = new bool[max];
         for (i = 0; i < max; i ++)
         {
@@ -59,7 +94,7 @@ public class UIGeneral : MonoBehaviour
             return;
         gameObject.SetActive(false);
         cgManager.UseInput = true;
-        ChatSpace.SetActive(false);
+        UI_ClapChat.CloseChatSpace();
     }
 
     public void ShowHideMenu(InputAction.CallbackContext context)
@@ -68,9 +103,11 @@ public class UIGeneral : MonoBehaviour
             return;
         gameObject.SetActive(!gameObject.activeSelf);
         cgManager.UseInput = !gameObject.activeSelf;
-        cgManager.CleatInput();
-        ChatSpace.SetActive(false);
+        cgManager.ClearInput();
+        UI_ClapChat.CloseChatSpace();
     }
+
+    public static void SyncDataToUI() => action.Invoke();
 
     /// <summary>
     /// 引数分のSlotをリストで返す <br />
@@ -123,8 +160,7 @@ public class UIGeneral : MonoBehaviour
                 break;
 
             case UIType.Settings:
-                var data = uI_PlayerSettings.data;
-                await pdManager.SaveData(data);
+                await PlayerDataManager.SaveData(PlayerDataManager.PlayerSettingsData);
                 cgManager.LoadSettings();
                 break;
         }
@@ -140,7 +176,7 @@ public class UIGeneral : MonoBehaviour
     {
         if (!InventoryParents[index].enabled) // 非アクティブ状態なら更新はしない
             return;
-        InventoryParents[index].LoadSlot(invSystem.GetInventoryData(index)); // スロットを更新
+        InventoryParents[index].LoadSlot(InventorySystem.GetInventoryData(index)); // スロットを更新
     }
 
     public void CLACombine()
@@ -155,5 +191,7 @@ public enum UIType
     Null,
     PlayerProfile,
     Settings,
-    Inventory
+    Inventory,
+    Chat,
+    Loading
 }

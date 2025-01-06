@@ -11,11 +11,12 @@ using DACS;
 using DACS.Projectile;
 using DACS.Inventory;
 using CLAPlus.Face2Face;
+using CLAPlus.ClapTalk;
+using CLAPlus.ClapChat;
 
 public class ClientGeneralManager : NetworkBehaviour
 {
     [HideInInspector] public GameObject MainMenu;
-    GameObject ChatSpace;
     [SerializeField] UIGeneral uiGeneral;
     [SerializeField] CharactorMovement clap_m;
     [SerializeField] AnimationControl clap_a;
@@ -26,9 +27,8 @@ public class ClientGeneralManager : NetworkBehaviour
     [SerializeField] NetworkObject nwObject;
     public InventorySystem invSystem;
     public HotbarSystem hotbarSystem;
-    public PlayerDataManager pdManager{get; private set;}
     Projectile projectile;
-    public ulong nwID{get; private set;}
+    public ulong clientID{get; private set;}
     States KeepState;
     public bool UseInput
     {
@@ -61,6 +61,28 @@ public class ClientGeneralManager : NetworkBehaviour
     CinemachineVirtualCamera CVCamera;
     public bool InvertAim; //垂直方向の視点操作の反転
     public bool FirstPersonMode;
+
+    static ClientGeneralManager instance;
+
+    // インスタンスへのプロパティ
+    public static ClientGeneralManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindFirstObjectByType<ClientGeneralManager>();
+
+                if (instance == null)
+                {
+                    GameObject singletonObject = new(typeof(ClientGeneralManager).Name);
+                    instance = singletonObject.AddComponent<ClientGeneralManager>();
+                }
+            }
+            return instance;
+        }
+    }
+
     public override async void OnNetworkSpawn()
     {
         Debug.Log("ClientGeneralManager : Loading");
@@ -74,15 +96,32 @@ public class ClientGeneralManager : NetworkBehaviour
         var masterObj = GameObject.Find("Master");
 
         if (!isOwner)
+        {
+            Destroy(this); // 重複するインスタンスを破棄
             return;
+        }
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            var objectsWithComponent = FindObjectsByType<ClientGeneralManager>(FindObjectsSortMode.None);
+            foreach (var obj in objectsWithComponent)
+            {
+                if (obj != this)
+                    Destroy(obj);
+            }
+        }
 
         // データ系
-        pdManager = FindFirstObjectByType<PlayerDataManager>();
-        pdManager.inventorySystem = invSystem;
-        invSystem.Setup(this);
+
+        PlayerDataManager.PlayerSettingsData = await PlayerDataManager.LoadData<SettingsData>();
+        invSystem.Setup();
 
         // Network
-        nwID = nwObject.NetworkObjectId;
+        clientID = nwObject.OwnerClientId;
 
         var LocalGM = masterObj.GetComponent<LocalGeneralManager>();
         // UI
@@ -90,15 +129,9 @@ public class ClientGeneralManager : NetworkBehaviour
         uiGeneral = MainMenu.GetComponent<UIGeneral>();
         uiGeneral.invSystem = invSystem;
         uiGeneral.Setup(this);
-        LocalGM.UI_playerSettings.Setup(this);
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
-        var PlayerName = pdManager.LoadedPlayerProfileData.PlayerName;
+        var PlayerName = PlayerDataManager.LoadedPlayerProfileData.PlayerName;
         var lastDot = PlayerName.LastIndexOf('#');
-        var chatComponent = masterObj.GetComponent<ClapChat>();
-        if (lastDot != -1)
-            chatComponent.PlayerName = PlayerName[..lastDot];
-        chatComponent.cgManager = this;
-        ChatSpace = chatComponent.canvas;
 
         // カメラ
         CVCamera = LocalGM.CVCamera;
@@ -109,7 +142,8 @@ public class ClientGeneralManager : NetworkBehaviour
 
         GetComponent<Rigidbody>().useGravity = true;
         projectile = masterObj.GetComponent<Projectile>();
-        projectile.nwID = nwID;
+        projectile.clientID = clientID;
+        projectile.nwoID = nwObject.NetworkObjectId;
         projectile.CameraPos = CameraPos;
         projectile.Setup();
         hotbarSystem.ChangeActionPoint += (xform) => projectile.ShotPos = xform;
@@ -119,6 +153,7 @@ public class ClientGeneralManager : NetworkBehaviour
         InputSetUp(masterObj.GetComponent<PlayerInput>());
         clap_a.isOwner = isOwner;
         faceSync.tracker = masterObj.GetComponent<Face2Face>();
+        ClapChat.Setup();
 
         // 設定
         LoadSettings();
@@ -144,7 +179,7 @@ public class ClientGeneralManager : NetworkBehaviour
 
     public async void LoadSettings()
     {
-        var loadedData = await pdManager.LoadData<SettingsData>();
+        var loadedData = await PlayerDataManager.LoadData<SettingsData>();
         ToggleDash = loadedData.ToggleDash; //ダッシュ切り替え or 長押しダッシュ
         ToggleCrouch = loadedData.ToggleCrouch; //しゃがみ切り替え or 長押ししゃがみ
         InvertAim = loadedData.InvertAim; //垂直方向の視点操作の反転
@@ -208,7 +243,7 @@ public class ClientGeneralManager : NetworkBehaviour
         }
     }
 
-    public void CleatInput()
+    public void ClearInput()
     {
         clap_m.HzInput = 0;
         clap_m.VInput = 0;

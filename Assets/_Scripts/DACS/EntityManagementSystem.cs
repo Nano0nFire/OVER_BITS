@@ -14,7 +14,7 @@ namespace DACS.Entities
         PlayerDataManager pdManager;
         [SerializeField] BulletControl_Basic bcNormal;
         Transform PlayerTransform; // ClientGeneralManagerから設定
-        public ulong nwID; // ClientGeneralManagerから設定
+        public ulong clientID; // ClientGeneralManagerから設定
         public float MaxSimulationDistance = 300;
         Queue<GameObject>[][] DisabledEntities; // 待機中のEntityをキューで把握
         [SerializeField] List<Transform> SpawnerTransformList = new(); // 読み込み範囲外のEntityを無効化する用のTransformList
@@ -24,12 +24,13 @@ namespace DACS.Entities
         NativeArray<int> DeactivateEntitiesIDArray;
         NativeQueue<int> ActivateEntitiesIDQueue;
         NativeArray<int> ActivateEntitiesIDArray;
+        bool isReady = false;
 
         void Start()
         {
             if (IsServer)
             {
-                pdManager = FindFirstObjectByType<PlayerDataManager>();
+                pdManager = PlayerDataManager.Instance;
                 DisabledEntities = new Queue<GameObject>[EntitiesSO.EntityTypeNum][];
                 for (int i = 0; i < EntitiesSO.EntityTypeNum; i++)
                 {
@@ -55,13 +56,18 @@ namespace DACS.Entities
                 return;
 
             PlayerTransform = cgManager.transform;
-            nwID = cgManager.nwID;
+            clientID = cgManager.clientID;
             DeactivateEntitiesIDQueue = new(Allocator.Persistent);
             ActivateEntitiesIDQueue = new(Allocator.Persistent);
             IsActiveArray = new(SpawnerTransformList.Count, Allocator.Persistent);
+
+            isReady = true;
         }
         void Update()
         {
+            if (!isReady)
+                return;
+
             if (!IsServer) // Spawnerがシュミレーション距離内かチェック
             {
                 transformAccessArray = new(SpawnerTransformList.ToArray());
@@ -80,7 +86,7 @@ namespace DACS.Entities
                     if (IsActiveArray[index])
                         continue;
 
-                    SpawnerTransformList[index].GetComponent<EntitySpawner>().LoadSpawnerServerRpc(nwID);;
+                    SpawnerTransformList[index].GetComponent<EntitySpawner>().LoadSpawnerServerRpc(clientID);;
                     IsActiveArray[index] = true;
                 }
                 foreach (var index in DeactivateEntitiesIDArray) // スポナーに読み込み範囲外であることを通知
@@ -88,7 +94,7 @@ namespace DACS.Entities
                     if (!IsActiveArray[index])
                         continue;
 
-                    SpawnerTransformList[index].GetComponent<EntitySpawner>().UnLoadSpawnerServerRpc(nwID);;
+                    SpawnerTransformList[index].GetComponent<EntitySpawner>().UnLoadSpawnerServerRpc(clientID);;
                     IsActiveArray[index] = false;
                 }
 
