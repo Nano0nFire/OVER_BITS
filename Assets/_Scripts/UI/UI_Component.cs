@@ -8,10 +8,6 @@ public class UI_Component : MonoBehaviour
     public UIType uiType{get => _UIType;}
     [SerializeField] UIType _UIType = UIType.Null;
 
-    public void Setup()
-    {
-        GetComponent<UI_SlotLoader>()?.Setup(uiGeneral);
-    }
     void OnEnable()
     {
         if (uiGeneral != null)

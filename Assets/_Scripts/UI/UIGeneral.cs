@@ -29,9 +29,39 @@ public class UIGeneral : MonoBehaviour
     {
         get => UIComponents[ActivePanelIndex].uiType;
     }
+    // シングルトンインスタンス
+    private static UIGeneral instance;
+
+    // インスタンスへのプロパティ
+    public static UIGeneral Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindAnyObjectByType<UIGeneral>();
+
+                if (instance == null)
+                {
+                    GameObject singletonObject = new GameObject(typeof(PlayerDataManager).Name);
+                    instance = singletonObject.AddComponent<UIGeneral>();
+                }
+            }
+            return instance;
+        }
+    }
 
     public void Setup(ClientGeneralManager cgManager)
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject); // 重複するインスタンスを破棄
+        }
+
         this.cgManager = cgManager;
         invSystem = cgManager.GetComponent<InventorySystem>();
         uiHotbar.inventorySystem = invSystem;
@@ -48,8 +78,9 @@ public class UIGeneral : MonoBehaviour
             component.uiGeneral = this;
             component.panelID = i;
             i ++;
-            component.Setup();
         }
+        foreach (var component in GetComponentsInChildren<UI_SlotLoader>())
+            component.Setup();
         InventoryIsUpdated = new bool[max];
         for (i = 0; i < max; i ++)
         {
