@@ -67,16 +67,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilEditorParameters.cs" />
-    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\assembly-info.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilToonPropertyDrawer.cs" />
-    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilConstants.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilShaderContainerImporter.cs" />
-    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilEnumeration.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilLanguageManager.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilTextureUtils.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilPropertyNameChecker.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilOptimizer.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilStartup.cs" />
+    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilRenderPipelineReader.cs" />
+    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilSemVerParser.cs" />
+    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilToonSetting.cs" />
+    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\assembly-info.cs" />
+    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilConstants.cs" />
+    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilEnumeration.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilToonEditorUtils.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilEditorGUI.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilInspector.cs" />
@@ -84,12 +87,9 @@
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilDirectoryManager.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilShaderManager.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilToonPreset.cs" />
-    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilRenderPipelineReader.cs" />
-    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilSemVerParser.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilMaterialUtils.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilShaderAPI.cs" />
     <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilToonAssetPostprocessor.cs" />
-    <Compile Include="Packages\jp.lilxyzw.liltoon\Editor\lilToonSetting.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Packages\jp.lilxyzw.liltoon\Editor\CurrentRP.txt" />

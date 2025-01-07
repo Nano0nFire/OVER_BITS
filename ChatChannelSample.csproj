@@ -67,17 +67,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\Managers\AudioTapsManager.cs" />
+    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\TextChatUI.cs" />
+    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\MainMenuOptions.cs" />
+    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\MessageObjectUI.cs" />
+    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\Managers\VivoxVoiceManager.cs" />
+    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\AudioDeviceSettings.cs" />
     <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\RosterManager.cs" />
     <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\EchoTest\JoinEchoChannel.cs" />
     <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\LoginScreenUI.cs" />
     <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\LobbyScreenUI.cs" />
-    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\TextChatUI.cs" />
-    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\MainMenuOptions.cs" />
-    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\MessageObjectUI.cs" />
     <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\RosterItem.cs" />
-    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\Managers\VivoxVoiceManager.cs" />
     <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\VoiceMeter.cs" />
-    <Compile Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\UI\AudioDeviceSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Samples\Vivox\16.5.4\Chat Channel Sample\Assets\ChatChannelSample\Scripts\ChatChannelSample.asmdef" />
