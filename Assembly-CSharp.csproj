@@ -139,6 +139,7 @@
     <Compile Include="Assets\_Scripts\UI\UI_Face2Face.cs" />
     <Compile Include="Assets\_Scripts\CLAP\Face2Face.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_ClapChat.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\Extensions.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_Hotbar.cs" />
     <Compile Include="Assets\_Scripts\DACS\BulletControl_Basic.cs" />
     <Compile Include="Assets\_Scripts\DACS\EntitySpawner.cs" />
@@ -160,7 +161,6 @@
     <Compile Include="Assets\_Scripts\CLAP\ClapChat.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_SlotLoader.cs" />
     <Compile Include="Assets\_Scripts\ClientNetworkTransform.cs" />
-    <Compile Include="Assets\_Scripts\FaceTrack\Video_Inspector.cs" />
     <Compile Include="Assets\_Scripts\DACS\EnemyDataSO.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\_Scripts\General\PlayerDataManager.cs" />
@@ -191,7 +191,6 @@
     <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\runtimes\win-x86\native\DlibDotNetNativeDnn.dll" />
     <None Include="Assets\TerrainSampleAssets\ThirdPartyNotices.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-    <None Include="Assets\_Scripts\FaceTrack\haarcascade_frontalface_default.xml" />
     <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\runtimes\win-x64\native\DlibDotNetNative.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\LICENSE.txt" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using DACS.Inventory;
+using CLAPlus.Extension;
 
 namespace CLAPlus.AnimationControl
 {
@@ -189,7 +190,7 @@ namespace CLAPlus.AnimationControl
             if (ItemXform != null)
             {
                 ItemXform.localPosition = Vector3.Lerp(ItemXform.localPosition, itemTargetPos, t * Speed);
-                ItemXform.localEulerAngles = Vector3.Lerp(SimplifyRotation(ItemXform.localEulerAngles), SimplifyRotation(itemTargetRot), t * Speed);
+                ItemXform.localEulerAngles = Vector3.Lerp(Extensions.SimplifyRotation(ItemXform.localEulerAngles), Extensions.SimplifyRotation(itemTargetRot), t * Speed);
             }
         }
 
@@ -281,8 +282,8 @@ namespace CLAPlus.AnimationControl
             {
                 target = targetRotations[i];
                 // xform.localEulerAngles = Vector3.Lerp(rotation[i], targetRotations[i], t * Speed);
-                xform.localEulerAngles = Vector3.Lerp(rotation[i], SimplifyRotation(target), t * Speed);
-                rotation[i] = SimplifyRotation(xform.localEulerAngles);
+                xform.localEulerAngles = Vector3.Lerp(rotation[i], Extensions.SimplifyRotation(target), t * Speed);
+                rotation[i] = Extensions.SimplifyRotation(xform.localEulerAngles);
                 i ++;
             }
         }
@@ -304,15 +305,6 @@ namespace CLAPlus.AnimationControl
                 isRight ? AvatarIKHint.RightElbow : AvatarIKHint.LeftElbow,
                 volume
             );
-        }
-        Vector3 SimplifyRotation(Vector3 input)
-        {
-            return new Vector3
-                    (
-                        (input.x>180) ? input.x-360 : input.x,
-                        (input.y>180) ? input.y-360 : input.y,
-                        (input.z>180) ? input.z-360 : input.z
-                    );
         }
 
         [Serializable]

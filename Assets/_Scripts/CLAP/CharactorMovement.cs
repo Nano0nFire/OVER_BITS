@@ -29,12 +29,12 @@ namespace CLAPlus
                 if (Mathf.Abs(SlopeAngle) > 0.5)
                 {
                     OnSlope = true;
-                    PublicGroundCheckDistance =  Mathf.Abs(col.radius * (1 / Mathf.Cos(SlopeAngle * Mathf.Deg2Rad) - 1));
+                    PublicGroundCheckDistance =  Mathf.Abs(col.radius * (1 / Mathf.Cos(SlopeAngle * Mathf.Deg2Rad) - 1)) + testAdjust;
                 }
                 else
                 {
                     OnSlope = false;
-                    PublicGroundCheckDistance =  0.01f;
+                    PublicGroundCheckDistance =  0.02f;
                 }
 
                 return PublicGroundCheckDistance;
@@ -42,6 +42,7 @@ namespace CLAPlus
         }
 
         public float PublicGroundCheckDistance;
+        [SerializeField] float testAdjust = 0.01f;
         float SlopeAngle
         {
             get
@@ -73,7 +74,7 @@ namespace CLAPlus
                 }
             }
         }
-        bool _isGrounded;
+        [SerializeField] bool _isGrounded;
         bool GroundedCheck;
         [SerializeField] bool _onSlope;
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using CLAPlus.Extension;
 
 namespace CLAPlus.AnimationControl
 {
@@ -24,6 +25,7 @@ namespace CLAPlus.AnimationControl
         [SerializeField] float UpperLegToHeelLength;
         [SerializeField] float heelHight;
         [SerializeField] float rayRange = 0;
+        [SerializeField] float lerpSpeed = 5;
 
         [Header("Others")]
         public bool UseIKCon;
@@ -108,7 +110,7 @@ namespace CLAPlus.AnimationControl
 
                 Quaternion yRotation = new(0, hipCashed.y, 0, hipCashed.w); // Y成分のみを持つQuaternionを作成
 
-                anim.SetIKRotation(avatarIKGoal, Quaternion.FromToRotation(transform.up, hit.normal) * yRotation); //  * yRotation
+                anim.SetIKRotation(avatarIKGoal, Quaternion.Lerp(anim.GetIKRotation(avatarIKGoal), Quaternion.FromToRotation(transform.up, hit.normal) * yRotation, Time.deltaTime * lerpSpeed)); //  * yRotation
             }
         }
     }
