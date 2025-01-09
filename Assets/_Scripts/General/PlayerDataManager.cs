@@ -68,7 +68,13 @@ public class PlayerDataManager : NetworkBehaviour
     {
         if (AuthenticationService.Instance.IsSignedIn) // 以前ログインしていたならロードだけする
             LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
-        else // 履歴がないならログインする
+        else if (AuthenticationService.Instance.SessionTokenExists) // セッションが有効なら再度サインイン
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            await UniTask.WaitUntil(() => AuthenticationService.Instance.IsSignedIn); // ログインが終わるまで待機
+            LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
+        }
+        else
         {
             await PlayerAccountService.Instance.StartSignInAsync();
             await UniTask.WaitUntil(() => AuthenticationService.Instance.IsSignedIn); // ログインが終わるまで待機
