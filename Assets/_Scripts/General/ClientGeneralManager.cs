@@ -29,6 +29,7 @@ public class ClientGeneralManager : NetworkBehaviour
     public HotbarSystem hotbarSystem;
     Projectile projectile;
     public ulong clientID{get; private set;}
+    public ulong nwID{get; private set;}
     States KeepState;
     public bool UseInput
     {
@@ -122,6 +123,7 @@ public class ClientGeneralManager : NetworkBehaviour
 
         // Network
         clientID = nwObject.OwnerClientId;
+        nwID = nwObject.NetworkObjectId;
 
         var LocalGM = masterObj.GetComponent<LocalGeneralManager>();
         // UI

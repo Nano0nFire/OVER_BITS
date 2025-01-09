@@ -56,7 +56,7 @@ namespace DACS.Entities
         int ReviveNumber = 0;
         int AttackCount = 0;
         [SerializeField] CapsuleCollider col;
-        EntityState entityState;
+        [SerializeField] EntityState entityState;
         [SerializeField] Transform ProjectilePoint;
         [SerializeField] EntityConfigs entityConfig;
         Transform Target;

@@ -14,7 +14,7 @@ namespace DACS.Entities
         PlayerDataManager pdManager;
         [SerializeField] BulletControl_Basic bcNormal;
         Transform PlayerTransform; // ClientGeneralManagerから設定
-        public ulong clientID; // ClientGeneralManagerから設定
+        public ulong nwID; // ClientGeneralManagerから設定
         public float MaxSimulationDistance = 300;
         Queue<GameObject>[][] DisabledEntities; // 待機中のEntityをキューで把握
         [SerializeField] List<Transform> SpawnerTransformList = new(); // 読み込み範囲外のEntityを無効化する用のTransformList
@@ -28,35 +28,35 @@ namespace DACS.Entities
 
         void Start()
         {
-            if (IsServer)
-            {
-                pdManager = PlayerDataManager.Instance;
-                DisabledEntities = new Queue<GameObject>[EntitiesSO.EntityTypeNum][];
-                for (int i = 0; i < EntitiesSO.EntityTypeNum; i++)
-                {
-                    DisabledEntities[i] = new Queue<GameObject>[EntitiesSO.GetList(i).Count];
-                    for (int j = 0; j < DisabledEntities[i].Length; j++)
-                        DisabledEntities[i][j] = new();
-                }
+            if (!IsOwner)
+                return;
 
-                foreach (var spawner in SpawnerTransformList)
-                {
-                    var component = spawner.GetComponent<EntitySpawner>();
-                    component.bcNormal = bcNormal;
-                    component.emSystem = this;
-                    component.EntitiesSO = EntitiesSO;
-                    component.pdManager = pdManager;
-                    component.Setup();
-                }
+            pdManager = PlayerDataManager.Instance;
+            DisabledEntities = new Queue<GameObject>[EntitiesSO.EntityTypeNum][];
+            for (int i = 0; i < EntitiesSO.EntityTypeNum; i++)
+            {
+                DisabledEntities[i] = new Queue<GameObject>[EntitiesSO.GetList(i).Count];
+                for (int j = 0; j < DisabledEntities[i].Length; j++)
+                    DisabledEntities[i][j] = new();
+            }
+
+            foreach (var spawner in SpawnerTransformList)
+            {
+                var component = spawner.GetComponent<EntitySpawner>();
+                component.bcNormal = bcNormal;
+                component.emSystem = this;
+                component.EntitiesSO = EntitiesSO;
+                component.pdManager = pdManager;
+                component.Setup();
             }
         }
         public void Setup(ClientGeneralManager cgManager)
         {
-            if (!IsClient)
+            if (IsOwner && !IsHost)
                 return;
 
             PlayerTransform = cgManager.transform;
-            clientID = cgManager.clientID;
+            nwID = cgManager.nwID;
             DeactivateEntitiesIDQueue = new(Allocator.Persistent);
             ActivateEntitiesIDQueue = new(Allocator.Persistent);
             IsActiveArray = new(SpawnerTransformList.Count, Allocator.Persistent);
@@ -68,42 +68,40 @@ namespace DACS.Entities
             if (!isReady)
                 return;
 
-            if (!IsServer) // Spawnerがシュミレーション距離内かチェック
+            transformAccessArray = new(SpawnerTransformList.ToArray());
+            var checkJob = new EntityDistanceCheckJob()
             {
-                transformAccessArray = new(SpawnerTransformList.ToArray());
-                var checkJob = new EntityDistanceCheckJob()
-                {
-                    playerPos = PlayerTransform.position,
-                    maxDistance = MaxSimulationDistance,
-                    DisableQueue = DeactivateEntitiesIDQueue.AsParallelWriter(),
-                    ActiveQueue = ActivateEntitiesIDQueue.AsParallelWriter(),
-                    IsActive = IsActiveArray
-                }.Schedule(transformAccessArray);
-                checkJob.Complete();
-                DeactivateEntitiesIDArray = DeactivateEntitiesIDQueue.ToArray(Allocator.TempJob);
-                foreach (var index in ActivateEntitiesIDArray) // スポナーに読み込み範囲内であることを通知
-                {
-                    if (IsActiveArray[index])
-                        continue;
+                playerPos = PlayerTransform.position,
+                maxDistance = MaxSimulationDistance,
+                DisableQueue = DeactivateEntitiesIDQueue.AsParallelWriter(),
+                ActiveQueue = ActivateEntitiesIDQueue.AsParallelWriter(),
+                IsActive = IsActiveArray
+            }.Schedule(transformAccessArray);
+            checkJob.Complete();
+            ActivateEntitiesIDArray = ActivateEntitiesIDQueue.ToArray(Allocator.TempJob);
+            DeactivateEntitiesIDArray = DeactivateEntitiesIDQueue.ToArray(Allocator.TempJob);
+            foreach (var index in ActivateEntitiesIDArray) // スポナーに読み込み範囲内であることを通知
+            {
+                if (IsActiveArray[index])
+                    continue;
 
-                    SpawnerTransformList[index].GetComponent<EntitySpawner>().LoadSpawnerServerRpc(clientID);;
-                    IsActiveArray[index] = true;
-                }
-                foreach (var index in DeactivateEntitiesIDArray) // スポナーに読み込み範囲外であることを通知
-                {
-                    if (!IsActiveArray[index])
-                        continue;
-
-                    SpawnerTransformList[index].GetComponent<EntitySpawner>().UnLoadSpawnerServerRpc(clientID);;
-                    IsActiveArray[index] = false;
-                }
-
-                DeactivateEntitiesIDArray.Dispose();
-                DeactivateEntitiesIDQueue.Clear();
-                ActivateEntitiesIDArray.Dispose();
-                ActivateEntitiesIDQueue.Clear();
-                transformAccessArray.Dispose();
+                SpawnerTransformList[index].GetComponent<EntitySpawner>().LoadSpawnerServerRpc(nwID);
+                IsActiveArray[index] = true;
             }
+            foreach (var index in DeactivateEntitiesIDArray) // スポナーに読み込み範囲外であることを通知
+            {
+                if (!IsActiveArray[index])
+                    continue;
+
+                SpawnerTransformList[index].GetComponent<EntitySpawner>().UnLoadSpawnerServerRpc(nwID);;
+                IsActiveArray[index] = false;
+            }
+
+            DeactivateEntitiesIDArray.Dispose();
+            DeactivateEntitiesIDQueue.Clear();
+            ActivateEntitiesIDArray.Dispose();
+            ActivateEntitiesIDQueue.Clear();
+            transformAccessArray.Dispose();
         }
         public GameObject GetEntity(int FirstIndex, int SecondIndex)
         {
