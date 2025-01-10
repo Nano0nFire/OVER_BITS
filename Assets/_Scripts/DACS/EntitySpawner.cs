@@ -173,7 +173,7 @@ namespace DACS.Entities
             pdManager.AddItem(itemData, attackerID);
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void LoadSpawnerServerRpc(ulong nwID)
         {
             if (!IsServer)
@@ -187,7 +187,7 @@ namespace DACS.Entities
             //     entity.GetComponent<NetworkObject>().NetworkShow(nwID);
             // }
         }
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void UnLoadSpawnerServerRpc(ulong nwID)
         {
             if (!IsServer)

@@ -56,7 +56,6 @@ namespace CLAPlus.ClapChat
         public static void Setup()
         {
             VivoxService.Instance.JoinGroupChannelAsync(TextChannelName, ChatCapability.TextOnly);
-            Debug.Log("aaaaaaaaaekrlkasujhdfglklkasjehr");
         }
 
         private void OnDestroy()
