@@ -181,11 +181,6 @@ public class EntityConfigs
     public float AttackRange;
     public float SearceRange;
     public float Speed;
-    public List<AttackPattern> AttackPatterns;
-    public bool UseRandomAttack = true;
-    [Tooltip("デフォルト値(0)の場合、AttackPatterns内のすべてのパターンがランダム攻撃の抽選対象となる。<br />例えば、このパラメータの値を3にした場合はAttackPatterns内の0~3のパターンが対象となる。それ以降のパターンは特殊攻撃パターンとして扱われ、UseSpecialAttackCountの値の回数だけ攻撃したら、特殊パターンのうちからランダムで攻撃される")]
-    public int RandomAttackPatternRange = 0;
-    public int UseSpecialAttackCount = 0;
     public List<EntityDrop> DropTable;
 }
 

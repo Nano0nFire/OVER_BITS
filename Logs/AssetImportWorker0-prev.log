@@ -15,7 +15,7 @@ D:/Unity Projects/OVER_BITS
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-57479
+54078
 -job-worker-count
 15
 -background-job-worker-count
@@ -59,12 +59,12 @@ D:/Unity Projects/OVER_BITS
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [7880]  Target information:
+Player connection [34336]  Target information:
 
-Player connection [7880]  * "[IP] 192.168.0.17 [Port] 0 [Flags] 2 [Guid] 3625741967 [EditorId] 3625741967 [Version] 1048832 [Id] WindowsEditor(7,Server) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [34336]  * "[IP] 192.168.0.17 [Port] 0 [Flags] 2 [Guid] 2835878601 [EditorId] 2835878601 [Version] 1048832 [Id] WindowsEditor(7,Server) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [7880] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [7880] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [34336] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [34336] Host joined alternative multi-casting on [225.0.0.222:34997]...
 JobSystem: Creating JobQueue using job-worker-count value 15
 [Physics::Module] Initialized fallback backend.
 [Physics::Module] Id: 0xdecafbad
@@ -75,8 +75,8 @@ Library Redirect Path: Library/
 [Physics::Module] SDK Version: 4.1.2
 [Physics::Module] Integration Version: 1.0.0
 [Physics::Module] Threading Mode: Multi-Threaded
-Refreshing native plugins compatible for Editor in 12.31 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 1.77 ms.
+Refreshing native plugins compatible for Editor in 1028.93 ms, found 10 plugins.
+Preloading 1 native plugins for Editor in 1.87 ms.
 Initialize engine version: 6000.0.30f1 (62b05ba0686a)
 [Subsystems] Discovering subsystems at path D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path D:/Unity Projects/OVER_BITS/Assets
@@ -91,45 +91,45 @@ Initialize mono
 Mono path[0] = 'D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/Managed'
 Mono path[1] = 'D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56760
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56472
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
-Registered in 0.004066 seconds.
-- Loaded All Assemblies, in  0.491 seconds
+Registered in 0.339889 seconds.
+- Loaded All Assemblies, in 10.788 seconds
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.495 seconds
-Domain Reload Profiling: 987ms
-	BeginReloadAssembly (193ms)
+- Finished resetting the current domain, in  0.704 seconds
+Domain Reload Profiling: 11492ms
+	BeginReloadAssembly (8457ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (41ms)
-	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (48ms)
-	LoadAllAssembliesAndSetupDomain (195ms)
-		LoadAssemblies (194ms)
+	RebuildCommonClasses (620ms)
+	RebuildNativeTypeToScriptingClass (17ms)
+	initialDomainReloadingComplete (390ms)
+	LoadAllAssembliesAndSetupDomain (1303ms)
+		LoadAssemblies (8459ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (191ms)
-			TypeCache.Refresh (189ms)
-				TypeCache.ScanAssembly (174ms)
+		AnalyzeDomain (1297ms)
+			TypeCache.Refresh (1295ms)
+				TypeCache.ScanAssembly (950ms)
 			BuildScriptInfoCaches (0ms)
 			ResolveRequiredComponents (1ms)
-	FinalizeReload (496ms)
+	FinalizeReload (705ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (401ms)
+		SetupLoadedEditorAssemblies (629ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (76ms)
-			SetLoadedEditorAssemblies (17ms)
-			BeforeProcessingInitializeOnLoad (70ms)
-			ProcessInitializeOnLoadAttributes (177ms)
-			ProcessInitializeOnLoadMethodAttributes (61ms)
+			InitializePlatformSupportModulesInManaged (111ms)
+			SetLoadedEditorAssemblies (15ms)
+			BeforeProcessingInitializeOnLoad (119ms)
+			ProcessInitializeOnLoadAttributes (299ms)
+			ProcessInitializeOnLoadMethodAttributes (85ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -142,1311 +142,206 @@ Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Pro
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.366 seconds
+- Loaded All Assemblies, in 21.326 seconds
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 9.74 ms, found 10 plugins.
+Refreshing native plugins compatible for Editor in 7.75 ms, found 10 plugins.
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
 [MODES] Loading mode Default (0) for mode-current-id-OVER_BITS
-Refreshing native plugins compatible for Editor in 8.50 ms, found 10 plugins.
-TypeManager.Initialize took: 791ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.466 seconds
-Domain Reload Profiling: 3830ms
-	BeginReloadAssembly (238ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (44ms)
-	RebuildCommonClasses (45ms)
-	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (47ms)
-	LoadAllAssembliesAndSetupDomain (1021ms)
-		LoadAssemblies (647ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (530ms)
-			TypeCache.Refresh (374ms)
-				TypeCache.ScanAssembly (350ms)
-			BuildScriptInfoCaches (135ms)
-			ResolveRequiredComponents (16ms)
-	FinalizeReload (2466ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2240ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (14ms)
-			SetLoadedEditorAssemblies (10ms)
-			BeforeProcessingInitializeOnLoad (340ms)
-			ProcessInitializeOnLoadAttributes (1614ms)
-			ProcessInitializeOnLoadMethodAttributes (258ms)
-			AfterProcessingInitializeOnLoad (3ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (7ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.01 seconds
-Refreshing native plugins compatible for Editor in 16.73 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.05 ms.
-Unloading 567 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12195 unused Assets / (46.7 MB). Loaded Objects now: 12814.
-Memory consumption went from 375.2 MB to 328.5 MB.
-Total: 30.155500 ms (FindLiveObjects: 1.654700 ms CreateObjectMapping: 1.723400 ms MarkObjects: 9.795500 ms  DeleteObjects: 16.978600 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 16065.564645 seconds.
-  path: Assets/_Scripts/General/LocalGeneralManager.cs
-  artifactKey: Guid(e37d737bc2aa0ea4487cb7f700a9e6bf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/General/LocalGeneralManager.cs using Guid(e37d737bc2aa0ea4487cb7f700a9e6bf) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6a74408faede1450ba13fda18facf538') in 0.0068877 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
-
-========================================================================
-Received Import Request.
-  Time since last request: 5.963670 seconds.
-  path: Assets/Scenes/MainWorld.unity
-  artifactKey: Guid(2545459a845156c41b49999c3c103d61) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/MainWorld.unity using Guid(2545459a845156c41b49999c3c103d61) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'f89bb8ab4c91760ce55ae43d1044d842') in 0.000504 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
-
-========================================================================
-Received Import Request.
-  Time since last request: 34.559450 seconds.
-  path: Assets/_Scripts/DACS/EntityManagementSystem.cs
-  artifactKey: Guid(ab5cb1ff96212ac49b6d8d0dafcaab7f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/DACS/EntityManagementSystem.cs using Guid(ab5cb1ff96212ac49b6d8d0dafcaab7f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '0950adcdfb479659221f6273cdc87bd0') in 0.0005634 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
-
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.388 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.86 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 744ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.522 seconds
-Domain Reload Profiling: 3914ms
-	BeginReloadAssembly (331ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (124ms)
-	RebuildCommonClasses (47ms)
-	RebuildNativeTypeToScriptingClass (14ms)
-	initialDomainReloadingComplete (37ms)
-	LoadAllAssembliesAndSetupDomain (962ms)
-		LoadAssemblies (631ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (472ms)
-			TypeCache.Refresh (20ms)
-				TypeCache.ScanAssembly (5ms)
-			BuildScriptInfoCaches (422ms)
-			ResolveRequiredComponents (24ms)
-	FinalizeReload (2523ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2141ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (40ms)
-			SetLoadedEditorAssemblies (10ms)
-			BeforeProcessingInitializeOnLoad (364ms)
-			ProcessInitializeOnLoadAttributes (1476ms)
-			ProcessInitializeOnLoadMethodAttributes (249ms)
-			AfterProcessingInitializeOnLoad (2ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (13ms)
-Refreshing native plugins compatible for Editor in 7.46 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.05 ms.
-Unloading 218 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12200 unused Assets / (46.7 MB). Loaded Objects now: 12826.
-Memory consumption went from 317.7 MB to 271.0 MB.
-Total: 30.649600 ms (FindLiveObjects: 1.256200 ms CreateObjectMapping: 1.208700 ms MarkObjects: 9.148300 ms  DeleteObjects: 19.035100 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (2.1 MB). Loaded Objects now: 12826.
-Memory consumption went from 271.0 MB to 268.8 MB.
-Total: 12.328000 ms (FindLiveObjects: 0.758700 ms CreateObjectMapping: 0.467700 ms MarkObjects: 10.127100 ms  DeleteObjects: 0.972800 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.433 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.16 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 917ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.872 seconds
-Domain Reload Profiling: 4310ms
-	BeginReloadAssembly (344ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (126ms)
-	RebuildCommonClasses (40ms)
-	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (39ms)
-	LoadAllAssembliesAndSetupDomain (1000ms)
-		LoadAssemblies (691ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (457ms)
-			TypeCache.Refresh (11ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (412ms)
-			ResolveRequiredComponents (16ms)
-	FinalizeReload (2873ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2572ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (19ms)
-			SetLoadedEditorAssemblies (13ms)
-			BeforeProcessingInitializeOnLoad (430ms)
-			ProcessInitializeOnLoadAttributes (1806ms)
-			ProcessInitializeOnLoadMethodAttributes (301ms)
-			AfterProcessingInitializeOnLoad (3ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (15ms)
-Refreshing native plugins compatible for Editor in 10.19 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.06 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.0 MB). Loaded Objects now: 12827.
-Memory consumption went from 316.0 MB to 271.0 MB.
-Total: 37.731900 ms (FindLiveObjects: 1.502500 ms CreateObjectMapping: 1.346700 ms MarkObjects: 11.411800 ms  DeleteObjects: 23.469700 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (3.8 MB). Loaded Objects now: 12827.
-Memory consumption went from 270.9 MB to 267.2 MB.
-Total: 13.916100 ms (FindLiveObjects: 0.898900 ms CreateObjectMapping: 0.517500 ms MarkObjects: 11.426500 ms  DeleteObjects: 1.071600 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Refreshing native plugins compatible for Editor in 10.95 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.04 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 209 unused Assets / (27.4 MB). Loaded Objects now: 12827.
-Memory consumption went from 307.2 MB to 279.7 MB.
-Total: 25.355900 ms (FindLiveObjects: 1.556600 ms CreateObjectMapping: 0.999900 ms MarkObjects: 13.192500 ms  DeleteObjects: 9.605800 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Import Request.
-  Time since last request: 2106.347337 seconds.
-  path: Assets/_Models/PlayerObjectWithSpacer.prefab
-  artifactKey: Guid(88177b9d949e3e94590fdadc4fd8d09b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Models/PlayerObjectWithSpacer.prefab using Guid(88177b9d949e3e94590fdadc4fd8d09b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '4f0bb55e3d7e35bf56490517ee6686fd') in 1.7216637 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1926
-
-========================================================================
-Received Import Request.
-  Time since last request: 11.840988 seconds.
-  path: Assets/_Models/PlayerObjectWithSpacer.prefab
-  artifactKey: Guid(88177b9d949e3e94590fdadc4fd8d09b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Models/PlayerObjectWithSpacer.prefab using Guid(88177b9d949e3e94590fdadc4fd8d09b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'e29d854c1dc5caf6a52877b4ee658880') in 0.3089793 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1597
-
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.432 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 11.25 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 865ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.657 seconds
-Domain Reload Profiling: 4092ms
-	BeginReloadAssembly (409ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (29ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (161ms)
-	RebuildCommonClasses (42ms)
-	RebuildNativeTypeToScriptingClass (27ms)
-	initialDomainReloadingComplete (46ms)
-	LoadAllAssembliesAndSetupDomain (912ms)
-		LoadAssemblies (668ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (395ms)
-			TypeCache.Refresh (19ms)
-				TypeCache.ScanAssembly (5ms)
-			BuildScriptInfoCaches (356ms)
-			ResolveRequiredComponents (16ms)
-	FinalizeReload (2657ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2322ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (22ms)
-			SetLoadedEditorAssemblies (12ms)
-			BeforeProcessingInitializeOnLoad (382ms)
-			ProcessInitializeOnLoadAttributes (1624ms)
-			ProcessInitializeOnLoadMethodAttributes (278ms)
-			AfterProcessingInitializeOnLoad (3ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (19ms)
-Refreshing native plugins compatible for Editor in 7.88 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.04 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12218 unused Assets / (47.3 MB). Loaded Objects now: 12839.
-Memory consumption went from 324.9 MB to 277.6 MB.
-Total: 30.421400 ms (FindLiveObjects: 1.646000 ms CreateObjectMapping: 1.419600 ms MarkObjects: 9.476400 ms  DeleteObjects: 17.878500 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (1.6 MB). Loaded Objects now: 12839.
-Memory consumption went from 277.6 MB to 276.0 MB.
-Total: 9.151400 ms (FindLiveObjects: 0.690700 ms CreateObjectMapping: 0.333200 ms MarkObjects: 7.736200 ms  DeleteObjects: 0.390000 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.297 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.64 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 861ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.766 seconds
-Domain Reload Profiling: 4068ms
-	BeginReloadAssembly (321ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (10ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (114ms)
-	RebuildCommonClasses (45ms)
-	RebuildNativeTypeToScriptingClass (16ms)
-	initialDomainReloadingComplete (32ms)
-	LoadAllAssembliesAndSetupDomain (888ms)
-		LoadAssemblies (636ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (399ms)
-			TypeCache.Refresh (9ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (366ms)
-			ResolveRequiredComponents (19ms)
-	FinalizeReload (2767ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2454ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (18ms)
-			SetLoadedEditorAssemblies (13ms)
-			BeforeProcessingInitializeOnLoad (462ms)
-			ProcessInitializeOnLoadAttributes (1680ms)
-			ProcessInitializeOnLoadMethodAttributes (278ms)
-			AfterProcessingInitializeOnLoad (3ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (19ms)
-Refreshing native plugins compatible for Editor in 14.62 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.08 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (47.1 MB). Loaded Objects now: 12840.
-Memory consumption went from 324.7 MB to 277.6 MB.
-Total: 45.302200 ms (FindLiveObjects: 1.720600 ms CreateObjectMapping: 2.034800 ms MarkObjects: 12.146500 ms  DeleteObjects: 29.399000 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (1.6 MB). Loaded Objects now: 12840.
-Memory consumption went from 277.4 MB to 275.8 MB.
-Total: 12.733000 ms (FindLiveObjects: 0.921600 ms CreateObjectMapping: 1.156100 ms MarkObjects: 9.976300 ms  DeleteObjects: 0.677300 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.408 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 10.94 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 780ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.367 seconds
-Domain Reload Profiling: 3773ms
-	BeginReloadAssembly (367ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (8ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (1ms)
-		CreateAndSetChildDomain (146ms)
-	RebuildCommonClasses (44ms)
-	RebuildNativeTypeToScriptingClass (18ms)
-	initialDomainReloadingComplete (42ms)
-	LoadAllAssembliesAndSetupDomain (934ms)
-		LoadAssemblies (668ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (428ms)
-			TypeCache.Refresh (18ms)
-				TypeCache.ScanAssembly (4ms)
-			BuildScriptInfoCaches (389ms)
-			ResolveRequiredComponents (16ms)
-	FinalizeReload (2368ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2094ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (31ms)
-			SetLoadedEditorAssemblies (8ms)
-			BeforeProcessingInitializeOnLoad (339ms)
-			ProcessInitializeOnLoadAttributes (1483ms)
-			ProcessInitializeOnLoadMethodAttributes (229ms)
-			AfterProcessingInitializeOnLoad (2ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (14ms)
-Refreshing native plugins compatible for Editor in 7.99 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.04 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.3 MB). Loaded Objects now: 12841.
-Memory consumption went from 324.7 MB to 279.4 MB.
-Total: 33.049900 ms (FindLiveObjects: 1.286500 ms CreateObjectMapping: 0.939700 ms MarkObjects: 9.233900 ms  DeleteObjects: 21.588500 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (3.5 MB). Loaded Objects now: 12841.
-Memory consumption went from 279.3 MB to 275.9 MB.
-Total: 11.083000 ms (FindLiveObjects: 1.033700 ms CreateObjectMapping: 0.541100 ms MarkObjects: 8.530700 ms  DeleteObjects: 0.976000 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.368 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.12 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 861ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.815 seconds
-Domain Reload Profiling: 4188ms
-	BeginReloadAssembly (341ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (125ms)
-	RebuildCommonClasses (38ms)
-	RebuildNativeTypeToScriptingClass (14ms)
-	initialDomainReloadingComplete (33ms)
-	LoadAllAssembliesAndSetupDomain (947ms)
-		LoadAssemblies (689ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (415ms)
-			TypeCache.Refresh (9ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (383ms)
-			ResolveRequiredComponents (18ms)
-	FinalizeReload (2816ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2484ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (18ms)
-			SetLoadedEditorAssemblies (14ms)
-			BeforeProcessingInitializeOnLoad (443ms)
-			ProcessInitializeOnLoadAttributes (1733ms)
-			ProcessInitializeOnLoadMethodAttributes (273ms)
-			AfterProcessingInitializeOnLoad (2ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (18ms)
-Refreshing native plugins compatible for Editor in 7.97 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.04 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (46.0 MB). Loaded Objects now: 12842.
-Memory consumption went from 324.6 MB to 278.6 MB.
-Total: 28.708800 ms (FindLiveObjects: 1.336800 ms CreateObjectMapping: 1.116000 ms MarkObjects: 9.425000 ms  DeleteObjects: 16.829200 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (2.7 MB). Loaded Objects now: 12842.
-Memory consumption went from 278.6 MB to 275.9 MB.
-Total: 10.357900 ms (FindLiveObjects: 0.725600 ms CreateObjectMapping: 0.370700 ms MarkObjects: 8.421700 ms  DeleteObjects: 0.837800 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.480 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.48 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Error loading file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path D:\Unity Projects\OVER_BITS\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
+Refreshing native plugins compatible for Editor in 11.24 ms, found 10 plugins.
+TypeManager.Initialize took: 729ms
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.IO.IOException: Sharing violation on path D:\Unity Projects\OVER_BITS\Packages\jp.lilxyzw.liltoon\Editor\CurrentRP.txt
   at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <ed969b0e627d471da4848289f9c322df>:0 
   at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
   at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding, System.Boolean detectEncodingFromByteOrderMarks, System.Int32 bufferSize) [0x00055] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding, System.Boolean detectEncodingFromByteOrderMarks) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamReader..ctor(string,System.Text.Encoding,bool)
-  at System.IO.File.InternalReadAllText (System.String path, System.Text.Encoding encoding) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.File.ReadAllText (System.String path, System.Text.Encoding encoding) [0x00034] in <ed969b0e627d471da4848289f9c322df>:0 
-  at UnityEditor.StateCache`1[T].GetState (UnityEngine.Hash128 key, T defaultValue) [0x00041] in <4e9c48eedf6f482fa439ccf335631481>:0 
+  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <ed969b0e627d471da4848289f9c322df>:0 
+  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append) [0x00008] in <ed969b0e627d471da4848289f9c322df>:0 
+  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool)
+  at lilToon.lilStartup.lilStartupMethod () [0x000c8] in .\Packages\jp.lilxyzw.liltoon\Editor\lilStartup.cs:93 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <ed969b0e627d471da4848289f9c322df>:0 
+   --- End of inner exception stack trace ---
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00083] in <ed969b0e627d471da4848289f9c322df>:0 
+  at System.Reflection.MethodBase.Invoke (System.Object obj, System.Object[] parameters) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
+  at UnityEditor.EditorAssemblies.ProcessInitializeOnLoadMethodAttributes () [0x00056] in <4e9c48eedf6f482fa439ccf335631481>:0 
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace ()
 UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
 UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
 UnityEngine.Logger:Log (UnityEngine.LogType,object)
 UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:GetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:OnEnable ()
-UnityEngine.ScriptableObject:CreateScriptableObjectInstanceFromType (System.Type,bool)
-UnityEngine.ScriptableObject:CreateInstance (System.Type)
-UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
-UnityEditor.Tools:get_get ()
-UnityEditor.Tools:get_visibleLayers ()
-UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at ./Library/PackageCache/com.unity.animation.rigging/Editor/Utils/BoneRendererUtils.cs:121)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
 
-(Filename: ./Library/PackageCache/com.unity.animation.rigging/Editor/Utils/BoneRendererUtils.cs Line: 121)
-
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 797ms
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.426 seconds
-Domain Reload Profiling: 3912ms
-	BeginReloadAssembly (345ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (122ms)
-	RebuildCommonClasses (62ms)
-	RebuildNativeTypeToScriptingClass (16ms)
-	initialDomainReloadingComplete (34ms)
-	LoadAllAssembliesAndSetupDomain (1027ms)
-		LoadAssemblies (691ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (491ms)
-			TypeCache.Refresh (19ms)
-				TypeCache.ScanAssembly (4ms)
-			BuildScriptInfoCaches (446ms)
-			ResolveRequiredComponents (21ms)
-	FinalizeReload (2427ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2133ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (14ms)
-			SetLoadedEditorAssemblies (8ms)
-			BeforeProcessingInitializeOnLoad (346ms)
-			ProcessInitializeOnLoadAttributes (1483ms)
-			ProcessInitializeOnLoadMethodAttributes (278ms)
-			AfterProcessingInitializeOnLoad (3ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (20ms)
-Refreshing native plugins compatible for Editor in 8.54 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.04 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.8 MB). Loaded Objects now: 12843.
-Memory consumption went from 324.6 MB to 278.8 MB.
-Total: 30.128700 ms (FindLiveObjects: 1.447400 ms CreateObjectMapping: 2.095300 ms MarkObjects: 9.062700 ms  DeleteObjects: 17.522100 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (2.9 MB). Loaded Objects now: 12843.
-Memory consumption went from 278.8 MB to 275.9 MB.
-Total: 12.866400 ms (FindLiveObjects: 0.832700 ms CreateObjectMapping: 0.449000 ms MarkObjects: 10.622200 ms  DeleteObjects: 0.961000 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.308 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.32 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 936ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.945 seconds
-Domain Reload Profiling: 4258ms
-	BeginReloadAssembly (336ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (130ms)
-	RebuildCommonClasses (36ms)
-	RebuildNativeTypeToScriptingClass (14ms)
-	initialDomainReloadingComplete (38ms)
-	LoadAllAssembliesAndSetupDomain (889ms)
-		LoadAssemblies (644ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (390ms)
-			TypeCache.Refresh (8ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (358ms)
-			ResolveRequiredComponents (17ms)
-	FinalizeReload (2946ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2586ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (19ms)
-			SetLoadedEditorAssemblies (12ms)
-			BeforeProcessingInitializeOnLoad (427ms)
-			ProcessInitializeOnLoadAttributes (1825ms)
-			ProcessInitializeOnLoadMethodAttributes (296ms)
-			AfterProcessingInitializeOnLoad (3ms)
-			EditorAssembliesLoaded (4ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (20ms)
-Refreshing native plugins compatible for Editor in 9.54 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.05 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (46.1 MB). Loaded Objects now: 12844.
-Memory consumption went from 324.8 MB to 278.6 MB.
-Total: 36.022700 ms (FindLiveObjects: 1.302000 ms CreateObjectMapping: 1.260400 ms MarkObjects: 12.811200 ms  DeleteObjects: 20.647600 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (2.7 MB). Loaded Objects now: 12844.
-Memory consumption went from 278.6 MB to 275.9 MB.
-Total: 11.377400 ms (FindLiveObjects: 0.755000 ms CreateObjectMapping: 0.429000 ms MarkObjects: 9.322200 ms  DeleteObjects: 0.869900 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.447 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.54 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 772ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.448 seconds
-Domain Reload Profiling: 3898ms
-	BeginReloadAssembly (369ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (128ms)
-	RebuildCommonClasses (52ms)
-	RebuildNativeTypeToScriptingClass (24ms)
-	initialDomainReloadingComplete (46ms)
-	LoadAllAssembliesAndSetupDomain (961ms)
-		LoadAssemblies (668ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (459ms)
-			TypeCache.Refresh (27ms)
-				TypeCache.ScanAssembly (4ms)
-			BuildScriptInfoCaches (412ms)
-			ResolveRequiredComponents (16ms)
-	FinalizeReload (2448ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2140ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (21ms)
-			SetLoadedEditorAssemblies (10ms)
-			BeforeProcessingInitializeOnLoad (351ms)
-			ProcessInitializeOnLoadAttributes (1494ms)
-			ProcessInitializeOnLoadMethodAttributes (261ms)
-			AfterProcessingInitializeOnLoad (2ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (16ms)
-Refreshing native plugins compatible for Editor in 9.21 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.05 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.4 MB). Loaded Objects now: 12845.
-Memory consumption went from 324.7 MB to 279.3 MB.
-Total: 32.680400 ms (FindLiveObjects: 1.400400 ms CreateObjectMapping: 1.128200 ms MarkObjects: 11.236500 ms  DeleteObjects: 18.913800 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (3.4 MB). Loaded Objects now: 12845.
-Memory consumption went from 279.3 MB to 275.9 MB.
-Total: 11.151400 ms (FindLiveObjects: 0.776400 ms CreateObjectMapping: 0.377400 ms MarkObjects: 9.087000 ms  DeleteObjects: 0.909600 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.394 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.32 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 857ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.839 seconds
-Domain Reload Profiling: 4239ms
-	BeginReloadAssembly (341ms)
+- Finished resetting the current domain, in  2.883 seconds
+Domain Reload Profiling: 24208ms
+	BeginReloadAssembly (255ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (8ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (141ms)
-	RebuildCommonClasses (54ms)
-	RebuildNativeTypeToScriptingClass (15ms)
-	initialDomainReloadingComplete (37ms)
-	LoadAllAssembliesAndSetupDomain (953ms)
-		LoadAssemblies (641ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (446ms)
-			TypeCache.Refresh (9ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (405ms)
-			ResolveRequiredComponents (26ms)
-	FinalizeReload (2839ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2488ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (21ms)
-			SetLoadedEditorAssemblies (12ms)
-			BeforeProcessingInitializeOnLoad (451ms)
-			ProcessInitializeOnLoadAttributes (1719ms)
-			ProcessInitializeOnLoadMethodAttributes (282ms)
-			AfterProcessingInitializeOnLoad (2ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (22ms)
-Refreshing native plugins compatible for Editor in 9.90 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.09 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (46.0 MB). Loaded Objects now: 12846.
-Memory consumption went from 324.7 MB to 278.7 MB.
-Total: 32.389500 ms (FindLiveObjects: 1.695200 ms CreateObjectMapping: 0.741200 ms MarkObjects: 10.958300 ms  DeleteObjects: 18.993600 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (2.8 MB). Loaded Objects now: 12846.
-Memory consumption went from 278.7 MB to 275.9 MB.
-Total: 12.876500 ms (FindLiveObjects: 1.896500 ms CreateObjectMapping: 1.788700 ms MarkObjects: 8.431000 ms  DeleteObjects: 0.759600 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.351 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.65 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 702ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.273 seconds
-Domain Reload Profiling: 3630ms
-	BeginReloadAssembly (330ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (13ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (125ms)
-	RebuildCommonClasses (39ms)
+		CreateAndSetChildDomain (56ms)
+	RebuildCommonClasses (50ms)
 	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (49ms)
-	LoadAllAssembliesAndSetupDomain (924ms)
-		LoadAssemblies (637ms)
+	initialDomainReloadingComplete (51ms)
+	LoadAllAssembliesAndSetupDomain (20955ms)
+		LoadAssemblies (19574ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (425ms)
-			TypeCache.Refresh (19ms)
-				TypeCache.ScanAssembly (4ms)
-			BuildScriptInfoCaches (382ms)
-			ResolveRequiredComponents (20ms)
-	FinalizeReload (2273ms)
+		AnalyzeDomain (1537ms)
+			TypeCache.Refresh (1351ms)
+				TypeCache.ScanAssembly (1274ms)
+			BuildScriptInfoCaches (156ms)
+			ResolveRequiredComponents (24ms)
+	FinalizeReload (2884ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (1965ms)
+		SetupLoadedEditorAssemblies (2449ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (14ms)
-			SetLoadedEditorAssemblies (8ms)
-			BeforeProcessingInitializeOnLoad (320ms)
-			ProcessInitializeOnLoadAttributes (1396ms)
-			ProcessInitializeOnLoadMethodAttributes (224ms)
+			SetLoadedEditorAssemblies (11ms)
+			BeforeProcessingInitializeOnLoad (324ms)
+			ProcessInitializeOnLoadAttributes (1667ms)
+			ProcessInitializeOnLoadMethodAttributes (430ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (1ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (19ms)
-Refreshing native plugins compatible for Editor in 9.21 ms, found 10 plugins.
+		AwakeInstancesAfterBackupRestoration (6ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Refreshing native plugins compatible for Editor in 8.10 ms, found 10 plugins.
+Preloading 1 native plugins for Editor in 0.04 ms.
+Unloading 567 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 12195 unused Assets / (48.1 MB). Loaded Objects now: 12810.
+Memory consumption went from 388.5 MB to 340.4 MB.
+Total: 34.141400 ms (FindLiveObjects: 1.547200 ms CreateObjectMapping: 1.736400 ms MarkObjects: 10.753700 ms  DeleteObjects: 20.101300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 13706.718548 seconds.
+  path: Assets/Scenes/TestWorld.unity
+  artifactKey: Guid(99c9720ab356a0642a771bea13969a05) Importer(2089858483,b4928d63cba0eb686c52b1d693c2cc83)
+Start importing Assets/Scenes/TestWorld.unity using Guid(99c9720ab356a0642a771bea13969a05) Importer(2089858483,b4928d63cba0eb686c52b1d693c2cc83) (ScriptedImporter)Opening scene 'Assets/Scenes/TestWorld.unity additively'
+Loaded scene 'Assets/Scenes/TestWorld.unity'
+	Deserialize:            1298.859 ms
+	Integration:            212.109 ms
+	Integration of assets:  120.438 ms
+	Thread Wait Time:       -0.443 ms
+	Total Operation Time:   1630.963 ms
+ -> (artifact id: '5a47df50b18442c050afe67d96b5bc8b') in 3.0773711 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1163
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/Scenes/ClapTalkTest.unity
+  artifactKey: Guid(5f89a9fecf5500249be9facb37ec3815) Importer(2089858483,b4928d63cba0eb686c52b1d693c2cc83)
+Start importing Assets/Scenes/ClapTalkTest.unity using Guid(5f89a9fecf5500249be9facb37ec3815) Importer(2089858483,b4928d63cba0eb686c52b1d693c2cc83) (ScriptedImporter)Opening scene 'Assets/Scenes/ClapTalkTest.unity additively'
+'CLAPlus.ClapTalk.ClapTalk' is missing the class attribute 'ExtensionOfNativeClass'!
+GameObject (named 'Test') references runtime script in scene file. Fixing!
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+Unity.Scenes.Editor.GameObjectSceneMetaDataImporter:OnImportAsset (UnityEditor.AssetImporters.AssetImportContext) (at ./Library/PackageCache/com.unity.entities/Unity.Scenes.Editor/GameObjectSceneMetaDataImporter.cs:94)
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+[./Library/PackageCache/com.unity.entities/Unity.Scenes.Editor/GameObjectSceneMetaDataImporter.cs line 94]
+
+'CLAPlus.ClapTalk.ClapTalk' is missing the class attribute 'ExtensionOfNativeClass'!
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+Unity.Scenes.Editor.GameObjectSceneMetaDataImporter:OnImportAsset (UnityEditor.AssetImporters.AssetImportContext) (at ./Library/PackageCache/com.unity.entities/Unity.Scenes.Editor/GameObjectSceneMetaDataImporter.cs:94)
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+[./Library/PackageCache/com.unity.entities/Unity.Scenes.Editor/GameObjectSceneMetaDataImporter.cs line 94]
+
+Loaded scene 'Assets/Scenes/ClapTalkTest.unity'
+	Deserialize:            831.009 ms
+	Integration:            12.831 ms
+	Integration of assets:  17.530 ms
+	Thread Wait Time:       -0.215 ms
+	Total Operation Time:   861.155 ms
+ -> (artifact id: '577bd7d6c3fff949f707e7ce50421b7d') in 1.3332364 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 22
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 10.08 ms, found 10 plugins.
 Preloading 1 native plugins for Editor in 0.04 ms.
 Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.9 MB). Loaded Objects now: 12847.
-Memory consumption went from 324.8 MB to 278.9 MB.
-Total: 39.718800 ms (FindLiveObjects: 1.346000 ms CreateObjectMapping: 1.930400 ms MarkObjects: 19.104800 ms  DeleteObjects: 17.336500 ms)
+Unloading 213 unused Assets / (27.3 MB). Loaded Objects now: 12818.
+Memory consumption went from 308.1 MB to 280.8 MB.
+Total: 32.011900 ms (FindLiveObjects: 1.323400 ms CreateObjectMapping: 0.602300 ms MarkObjects: 16.457900 ms  DeleteObjects: 13.626900 ms)
 
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (3.0 MB). Loaded Objects now: 12847.
-Memory consumption went from 278.9 MB to 275.9 MB.
-Total: 14.277100 ms (FindLiveObjects: 0.806300 ms CreateObjectMapping: 0.403200 ms MarkObjects: 12.220400 ms  DeleteObjects: 0.845700 ms)
-
-Prepare: number of updated asset objects reloaded= 0
+Prepare: number of updated asset objects reloaded= 1
 ========================================================================
 Received Prepare
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.356 seconds
+- Loaded All Assemblies, in  1.390 seconds
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.36 ms, found 10 plugins.
+Refreshing native plugins compatible for Editor in 17.21 ms, found 10 plugins.
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 912ms
+TypeManager.Initialize took: 837ms
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.820 seconds
-Domain Reload Profiling: 4186ms
+- Finished resetting the current domain, in  2.628 seconds
+Domain Reload Profiling: 4023ms
 	BeginReloadAssembly (378ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (8ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (179ms)
-	RebuildCommonClasses (45ms)
-	RebuildNativeTypeToScriptingClass (17ms)
-	initialDomainReloadingComplete (33ms)
-	LoadAllAssembliesAndSetupDomain (893ms)
-		LoadAssemblies (624ms)
+		CreateAndSetChildDomain (139ms)
+	RebuildCommonClasses (37ms)
+	RebuildNativeTypeToScriptingClass (14ms)
+	initialDomainReloadingComplete (37ms)
+	LoadAllAssembliesAndSetupDomain (930ms)
+		LoadAssemblies (704ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
 		AnalyzeDomain (403ms)
-			TypeCache.Refresh (8ms)
+			TypeCache.Refresh (9ms)
 				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (370ms)
-			ResolveRequiredComponents (19ms)
-	FinalizeReload (2821ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2472ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (22ms)
-			SetLoadedEditorAssemblies (10ms)
-			BeforeProcessingInitializeOnLoad (396ms)
-			ProcessInitializeOnLoadAttributes (1731ms)
-			ProcessInitializeOnLoadMethodAttributes (309ms)
-			AfterProcessingInitializeOnLoad (3ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (22ms)
-Refreshing native plugins compatible for Editor in 8.10 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.04 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (46.5 MB). Loaded Objects now: 12848.
-Memory consumption went from 324.9 MB to 278.4 MB.
-Total: 29.114300 ms (FindLiveObjects: 1.299000 ms CreateObjectMapping: 0.881100 ms MarkObjects: 9.230900 ms  DeleteObjects: 17.701800 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (2.5 MB). Loaded Objects now: 12848.
-Memory consumption went from 278.3 MB to 275.9 MB.
-Total: 9.938700 ms (FindLiveObjects: 0.753500 ms CreateObjectMapping: 0.437400 ms MarkObjects: 8.085600 ms  DeleteObjects: 0.661200 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.244 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 7.97 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 794ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.343 seconds
-Domain Reload Profiling: 3592ms
-	BeginReloadAssembly (318ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (12ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (121ms)
-	RebuildCommonClasses (41ms)
-	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (39ms)
-	LoadAllAssembliesAndSetupDomain (838ms)
-		LoadAssemblies (585ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (386ms)
-			TypeCache.Refresh (16ms)
-				TypeCache.ScanAssembly (4ms)
-			BuildScriptInfoCaches (350ms)
-			ResolveRequiredComponents (15ms)
-	FinalizeReload (2343ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2062ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (14ms)
-			SetLoadedEditorAssemblies (12ms)
-			BeforeProcessingInitializeOnLoad (315ms)
-			ProcessInitializeOnLoadAttributes (1487ms)
-			ProcessInitializeOnLoadMethodAttributes (232ms)
-			AfterProcessingInitializeOnLoad (2ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (18ms)
-Refreshing native plugins compatible for Editor in 9.30 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.05 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (46.9 MB). Loaded Objects now: 12849.
-Memory consumption went from 324.7 MB to 277.8 MB.
-Total: 42.918900 ms (FindLiveObjects: 2.104000 ms CreateObjectMapping: 6.175700 ms MarkObjects: 11.738000 ms  DeleteObjects: 22.899600 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (1.8 MB). Loaded Objects now: 12849.
-Memory consumption went from 277.7 MB to 275.9 MB.
-Total: 16.260100 ms (FindLiveObjects: 1.471300 ms CreateObjectMapping: 1.555400 ms MarkObjects: 12.519500 ms  DeleteObjects: 0.712500 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.418 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 15.85 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path D:\Unity Projects\OVER_BITS\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <ed969b0e627d471da4848289f9c322df>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <4e9c48eedf6f482fa439ccf335631481>:0 
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-UnityEngine.ScriptableObject:CreateScriptableObjectInstanceFromType (System.Type,bool)
-UnityEngine.ScriptableObject:CreateInstance (System.Type)
-UnityEngine.ScriptableObject:CreateInstance<UnityEditor.Tools> ()
-UnityEditor.Tools:get_get ()
-UnityEditor.Tools:get_visibleLayers ()
-UnityEditor.Animations.Rigging.BoneRendererUtils:.cctor () (at ./Library/PackageCache/com.unity.animation.rigging/Editor/Utils/BoneRendererUtils.cs:121)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: ./Library/PackageCache/com.unity.animation.rigging/Editor/Utils/BoneRendererUtils.cs Line: 121)
-
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 838ms
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path D:\Unity Projects\OVER_BITS\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <ed969b0e627d471da4848289f9c322df>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <4e9c48eedf6f482fa439ccf335631481>:0 
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.797 seconds
-Domain Reload Profiling: 4220ms
-	BeginReloadAssembly (386ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (147ms)
-	RebuildCommonClasses (49ms)
-	RebuildNativeTypeToScriptingClass (16ms)
-	initialDomainReloadingComplete (43ms)
-	LoadAllAssembliesAndSetupDomain (929ms)
-		LoadAssemblies (717ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (391ms)
-			TypeCache.Refresh (8ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (363ms)
-			ResolveRequiredComponents (16ms)
-	FinalizeReload (2798ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2435ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (24ms)
-			SetLoadedEditorAssemblies (13ms)
-			BeforeProcessingInitializeOnLoad (451ms)
-			ProcessInitializeOnLoadAttributes (1664ms)
-			ProcessInitializeOnLoadMethodAttributes (280ms)
-			AfterProcessingInitializeOnLoad (2ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (25ms)
-Refreshing native plugins compatible for Editor in 7.86 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.04 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.9 MB). Loaded Objects now: 12850.
-Memory consumption went from 324.7 MB to 278.9 MB.
-Total: 30.577800 ms (FindLiveObjects: 1.321200 ms CreateObjectMapping: 4.971900 ms MarkObjects: 8.739000 ms  DeleteObjects: 15.544900 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (2.9 MB). Loaded Objects now: 12850.
-Memory consumption went from 278.8 MB to 275.9 MB.
-Total: 8.775400 ms (FindLiveObjects: 0.685300 ms CreateObjectMapping: 0.317900 ms MarkObjects: 7.200800 ms  DeleteObjects: 0.570200 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.240 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 9.63 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 857ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.834 seconds
-Domain Reload Profiling: 4080ms
-	BeginReloadAssembly (320ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (121ms)
-	RebuildCommonClasses (39ms)
-	RebuildNativeTypeToScriptingClass (18ms)
-	initialDomainReloadingComplete (42ms)
-	LoadAllAssembliesAndSetupDomain (826ms)
-		LoadAssemblies (591ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (375ms)
-			TypeCache.Refresh (8ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (347ms)
-			ResolveRequiredComponents (16ms)
-	FinalizeReload (2835ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2506ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (31ms)
-			SetLoadedEditorAssemblies (15ms)
-			BeforeProcessingInitializeOnLoad (444ms)
-			ProcessInitializeOnLoadAttributes (1742ms)
-			ProcessInitializeOnLoadMethodAttributes (270ms)
-			AfterProcessingInitializeOnLoad (3ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (26ms)
-Refreshing native plugins compatible for Editor in 9.18 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.04 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.0 MB). Loaded Objects now: 12851.
-Memory consumption went from 324.8 MB to 279.7 MB.
-Total: 34.434900 ms (FindLiveObjects: 1.937000 ms CreateObjectMapping: 2.431100 ms MarkObjects: 10.451000 ms  DeleteObjects: 19.614100 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (3.8 MB). Loaded Objects now: 12851.
-Memory consumption went from 279.7 MB to 275.9 MB.
-Total: 12.442300 ms (FindLiveObjects: 0.817600 ms CreateObjectMapping: 0.422400 ms MarkObjects: 10.197500 ms  DeleteObjects: 1.003500 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.324 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 7.53 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 724ms
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.429 seconds
-Domain Reload Profiling: 3757ms
-	BeginReloadAssembly (343ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (141ms)
-	RebuildCommonClasses (40ms)
-	RebuildNativeTypeToScriptingClass (14ms)
-	initialDomainReloadingComplete (42ms)
-	LoadAllAssembliesAndSetupDomain (889ms)
-		LoadAssemblies (627ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (404ms)
-			TypeCache.Refresh (17ms)
-				TypeCache.ScanAssembly (4ms)
-			BuildScriptInfoCaches (355ms)
-			ResolveRequiredComponents (24ms)
-	FinalizeReload (2429ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2121ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (21ms)
-			SetLoadedEditorAssemblies (15ms)
-			BeforeProcessingInitializeOnLoad (346ms)
-			ProcessInitializeOnLoadAttributes (1500ms)
-			ProcessInitializeOnLoadMethodAttributes (236ms)
-			AfterProcessingInitializeOnLoad (2ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (27ms)
-Refreshing native plugins compatible for Editor in 9.28 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.24 ms.
-Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.5 MB). Loaded Objects now: 12852.
-Memory consumption went from 324.7 MB to 279.2 MB.
-Total: 31.389100 ms (FindLiveObjects: 1.303900 ms CreateObjectMapping: 0.955100 ms MarkObjects: 9.371800 ms  DeleteObjects: 19.757200 ms)
-
-Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (3.2 MB). Loaded Objects now: 12852.
-Memory consumption went from 279.1 MB to 275.9 MB.
-Total: 10.374600 ms (FindLiveObjects: 0.731800 ms CreateObjectMapping: 0.335700 ms MarkObjects: 8.444400 ms  DeleteObjects: 0.861800 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-========================================================================
-Received Prepare
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-Begin MonoManager ReloadAssembly
-Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.443 seconds
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 7.91 ms, found 10 plugins.
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
-[MODES] ModeService[none].Initialize
-[MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 775ms
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path D:\Unity Projects\OVER_BITS\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <ed969b0e627d471da4848289f9c322df>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <4e9c48eedf6f482fa439ccf335631481>:0 
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.462 seconds
-Domain Reload Profiling: 3910ms
-	BeginReloadAssembly (351ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (11ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (146ms)
-	RebuildCommonClasses (47ms)
-	RebuildNativeTypeToScriptingClass (15ms)
-	initialDomainReloadingComplete (36ms)
-	LoadAllAssembliesAndSetupDomain (997ms)
-		LoadAssemblies (683ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (449ms)
-			TypeCache.Refresh (10ms)
-				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (416ms)
+			BuildScriptInfoCaches (372ms)
 			ResolveRequiredComponents (18ms)
-	FinalizeReload (2463ms)
+	FinalizeReload (2628ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2166ms)
+		SetupLoadedEditorAssemblies (2319ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (17ms)
-			SetLoadedEditorAssemblies (10ms)
-			BeforeProcessingInitializeOnLoad (367ms)
-			ProcessInitializeOnLoadAttributes (1521ms)
-			ProcessInitializeOnLoadMethodAttributes (249ms)
+			SetLoadedEditorAssemblies (11ms)
+			BeforeProcessingInitializeOnLoad (357ms)
+			ProcessInitializeOnLoadAttributes (1659ms)
+			ProcessInitializeOnLoadMethodAttributes (272ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (1ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (29ms)
-Refreshing native plugins compatible for Editor in 8.93 ms, found 10 plugins.
+		AwakeInstancesAfterBackupRestoration (17ms)
+Refreshing native plugins compatible for Editor in 9.59 ms, found 10 plugins.
 Preloading 1 native plugins for Editor in 0.04 ms.
 Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.4 MB). Loaded Objects now: 12853.
-Memory consumption went from 324.6 MB to 279.2 MB.
-Total: 32.844400 ms (FindLiveObjects: 1.438200 ms CreateObjectMapping: 1.210900 ms MarkObjects: 9.746000 ms  DeleteObjects: 20.448200 ms)
+Unloading 12205 unused Assets / (47.0 MB). Loaded Objects now: 12827.
+Memory consumption went from 330.9 MB to 284.0 MB.
+Total: 37.902900 ms (FindLiveObjects: 1.551600 ms CreateObjectMapping: 1.094400 ms MarkObjects: 11.345300 ms  DeleteObjects: 23.910500 ms)
 
 Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (3.3 MB). Loaded Objects now: 12853.
-Memory consumption went from 279.2 MB to 275.9 MB.
-Total: 14.945100 ms (FindLiveObjects: 0.775700 ms CreateObjectMapping: 0.364000 ms MarkObjects: 12.576500 ms  DeleteObjects: 1.227500 ms)
+Unloading 0 unused Assets / (1.9 MB). Loaded Objects now: 12827.
+Memory consumption went from 283.9 MB to 282.1 MB.
+Total: 12.729600 ms (FindLiveObjects: 0.957900 ms CreateObjectMapping: 0.864800 ms MarkObjects: 10.396300 ms  DeleteObjects: 0.509400 ms)
 
 Prepare: number of updated asset objects reloaded= 0
 ========================================================================
@@ -1455,165 +350,438 @@ Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Pro
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.376 seconds
+- Loaded All Assemblies, in  1.380 seconds
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 7.72 ms, found 10 plugins.
+Refreshing native plugins compatible for Editor in 7.85 ms, found 10 plugins.
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 801ms
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path D:\Unity Projects\OVER_BITS\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <ed969b0e627d471da4848289f9c322df>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <4e9c48eedf6f482fa439ccf335631481>:0 
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
+TypeManager.Initialize took: 748ms
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.470 seconds
-Domain Reload Profiling: 3854ms
-	BeginReloadAssembly (353ms)
+- Finished resetting the current domain, in  2.461 seconds
+Domain Reload Profiling: 3845ms
+	BeginReloadAssembly (361ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (9ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (144ms)
-	RebuildCommonClasses (43ms)
-	RebuildNativeTypeToScriptingClass (14ms)
-	initialDomainReloadingComplete (36ms)
-	LoadAllAssembliesAndSetupDomain (937ms)
-		LoadAssemblies (666ms)
+		CreateAndSetChildDomain (140ms)
+	RebuildCommonClasses (44ms)
+	RebuildNativeTypeToScriptingClass (15ms)
+	initialDomainReloadingComplete (34ms)
+	LoadAllAssembliesAndSetupDomain (930ms)
+		LoadAssemblies (648ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (416ms)
-			TypeCache.Refresh (26ms)
+		AnalyzeDomain (433ms)
+			TypeCache.Refresh (22ms)
 				TypeCache.ScanAssembly (4ms)
-			BuildScriptInfoCaches (370ms)
+			BuildScriptInfoCaches (390ms)
 			ResolveRequiredComponents (16ms)
-	FinalizeReload (2471ms)
+	FinalizeReload (2462ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2175ms)
+		SetupLoadedEditorAssemblies (2170ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (14ms)
-			SetLoadedEditorAssemblies (8ms)
-			BeforeProcessingInitializeOnLoad (332ms)
-			ProcessInitializeOnLoadAttributes (1549ms)
-			ProcessInitializeOnLoadMethodAttributes (269ms)
+			InitializePlatformSupportModulesInManaged (15ms)
+			SetLoadedEditorAssemblies (12ms)
+			BeforeProcessingInitializeOnLoad (397ms)
+			ProcessInitializeOnLoadAttributes (1489ms)
+			ProcessInitializeOnLoadMethodAttributes (255ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (1ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (32ms)
-Refreshing native plugins compatible for Editor in 7.90 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.04 ms.
+		AwakeInstancesAfterBackupRestoration (14ms)
+Refreshing native plugins compatible for Editor in 7.79 ms, found 10 plugins.
+Preloading 1 native plugins for Editor in 0.05 ms.
 Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (45.3 MB). Loaded Objects now: 12854.
-Memory consumption went from 324.7 MB to 279.4 MB.
-Total: 27.815300 ms (FindLiveObjects: 1.380400 ms CreateObjectMapping: 0.819900 ms MarkObjects: 9.355200 ms  DeleteObjects: 16.257800 ms)
+Unloading 12197 unused Assets / (45.7 MB). Loaded Objects now: 12828.
+Memory consumption went from 330.9 MB to 285.1 MB.
+Total: 28.684500 ms (FindLiveObjects: 1.322800 ms CreateObjectMapping: 1.707900 ms MarkObjects: 10.085000 ms  DeleteObjects: 15.567500 ms)
 
 Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (3.5 MB). Loaded Objects now: 12854.
-Memory consumption went from 279.4 MB to 275.9 MB.
-Total: 17.955800 ms (FindLiveObjects: 0.810800 ms CreateObjectMapping: 8.149800 ms MarkObjects: 8.024400 ms  DeleteObjects: 0.969600 ms)
+Unloading 0 unused Assets / (2.8 MB). Loaded Objects now: 12828.
+Memory consumption went from 284.8 MB to 282.1 MB.
+Total: 10.957900 ms (FindLiveObjects: 0.703800 ms CreateObjectMapping: 0.728700 ms MarkObjects: 8.746900 ms  DeleteObjects: 0.777400 ms)
 
 Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Import Request.
+  Time since last request: 2789.035481 seconds.
+  path: Assets/Scenes/TestWorld.unity
+  artifactKey: Guid(99c9720ab356a0642a771bea13969a05) Importer(2089858483,b4928d63cba0eb686c52b1d693c2cc83)
+Start importing Assets/Scenes/TestWorld.unity using Guid(99c9720ab356a0642a771bea13969a05) Importer(2089858483,b4928d63cba0eb686c52b1d693c2cc83) (ScriptedImporter)Opening scene 'Assets/Scenes/TestWorld.unity additively'
+Loaded scene 'Assets/Scenes/TestWorld.unity'
+	Deserialize:            1321.366 ms
+	Integration:            98.458 ms
+	Integration of assets:  318.213 ms
+	Thread Wait Time:       -269.789 ms
+	Total Operation Time:   1468.247 ms
+ -> (artifact id: '9cb06ada1eccdc5cd71dd80481f37092') in 2.3265531 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1163
+
 ========================================================================
 Received Prepare
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.344 seconds
+- Loaded All Assemblies, in  1.295 seconds
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 8.15 ms, found 10 plugins.
+Refreshing native plugins compatible for Editor in 8.56 ms, found 10 plugins.
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
-TypeManager.Initialize took: 853ms
-Error saving file Library/StateCache/LayerSettings/9e/9ecc5c3c162a7aba29bafa64c8b94b7c.json. Error: System.IO.IOException: Sharing violation on path D:\Unity Projects\OVER_BITS\Library\StateCache\LayerSettings\9e\9ecc5c3c162a7aba29bafa64c8b94b7c.json
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding, System.Int32 bufferSize) [0x00055] in <ed969b0e627d471da4848289f9c322df>:0 
-  at System.IO.StreamWriter..ctor (System.String path, System.Boolean append, System.Text.Encoding encoding) [0x00000] in <ed969b0e627d471da4848289f9c322df>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.StreamWriter..ctor(string,bool,System.Text.Encoding)
-  at System.IO.File.WriteAllText (System.String path, System.String contents, System.Text.Encoding encoding) [0x00034] in <ed969b0e627d471da4848289f9c322df>:0 
-  at UnityEditor.StateCache`1[T].SetState (UnityEngine.Hash128 key, T obj) [0x0004b] in <4e9c48eedf6f482fa439ccf335631481>:0 
-UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-UnityEditor.StateCache`1<UnityEditor.Tools/LayerSettings>:SetState (UnityEngine.Hash128,UnityEditor.Tools/LayerSettings)
-UnityEditor.Tools:set_lockedLayers (int)
-UnityEditor.Tools:OnEnable ()
-
+TypeManager.Initialize took: 905ms
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.813 seconds
-Domain Reload Profiling: 4160ms
-	BeginReloadAssembly (345ms)
+- Finished resetting the current domain, in  2.810 seconds
+Domain Reload Profiling: 4109ms
+	BeginReloadAssembly (337ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (7ms)
+		DisableScriptedObjects (8ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (129ms)
-	RebuildCommonClasses (49ms)
-	RebuildNativeTypeToScriptingClass (14ms)
-	initialDomainReloadingComplete (35ms)
-	LoadAllAssembliesAndSetupDomain (905ms)
-		LoadAssemblies (626ms)
+		CreateAndSetChildDomain (135ms)
+	RebuildCommonClasses (38ms)
+	RebuildNativeTypeToScriptingClass (15ms)
+	initialDomainReloadingComplete (34ms)
+	LoadAllAssembliesAndSetupDomain (874ms)
+		LoadAssemblies (625ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (434ms)
-			TypeCache.Refresh (13ms)
+		AnalyzeDomain (393ms)
+			TypeCache.Refresh (9ms)
 				TypeCache.ScanAssembly (0ms)
-			BuildScriptInfoCaches (396ms)
-			ResolveRequiredComponents (20ms)
-	FinalizeReload (2814ms)
+			BuildScriptInfoCaches (363ms)
+			ResolveRequiredComponents (17ms)
+	FinalizeReload (2811ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2459ms)
+		SetupLoadedEditorAssemblies (2473ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (20ms)
+			InitializePlatformSupportModulesInManaged (19ms)
 			SetLoadedEditorAssemblies (10ms)
-			BeforeProcessingInitializeOnLoad (415ms)
-			ProcessInitializeOnLoadAttributes (1730ms)
-			ProcessInitializeOnLoadMethodAttributes (281ms)
+			BeforeProcessingInitializeOnLoad (410ms)
+			ProcessInitializeOnLoadAttributes (1756ms)
+			ProcessInitializeOnLoadMethodAttributes (274ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (1ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (42ms)
-Refreshing native plugins compatible for Editor in 10.34 ms, found 10 plugins.
-Preloading 1 native plugins for Editor in 0.05 ms.
+		AwakeInstancesAfterBackupRestoration (22ms)
+Refreshing native plugins compatible for Editor in 9.39 ms, found 10 plugins.
+Preloading 1 native plugins for Editor in 0.07 ms.
 Unloading 209 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12197 unused Assets / (46.2 MB). Loaded Objects now: 12855.
-Memory consumption went from 324.8 MB to 278.6 MB.
-Total: 37.952000 ms (FindLiveObjects: 1.698000 ms CreateObjectMapping: 1.641500 ms MarkObjects: 13.696600 ms  DeleteObjects: 20.914600 ms)
+Unloading 12205 unused Assets / (45.8 MB). Loaded Objects now: 12829.
+Memory consumption went from 331.0 MB to 285.2 MB.
+Total: 36.836500 ms (FindLiveObjects: 1.618700 ms CreateObjectMapping: 1.757000 ms MarkObjects: 12.118800 ms  DeleteObjects: 21.340900 ms)
 
 Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 0 unused Assets / (2.7 MB). Loaded Objects now: 12855.
-Memory consumption went from 278.6 MB to 275.9 MB.
-Total: 12.013600 ms (FindLiveObjects: 0.944100 ms CreateObjectMapping: 0.619900 ms MarkObjects: 9.554700 ms  DeleteObjects: 0.893500 ms)
+Unloading 0 unused Assets / (3.1 MB). Loaded Objects now: 12829.
+Memory consumption went from 285.2 MB to 282.1 MB.
+Total: 11.903400 ms (FindLiveObjects: 0.812500 ms CreateObjectMapping: 0.529300 ms MarkObjects: 9.770500 ms  DeleteObjects: 0.789800 ms)
 
-Prepare: number of updated asset objects reloaded= 0
+Prepare: number of updated asset objects reloaded= 1
+========================================================================
+Received Import Request.
+  Time since last request: 4995.008098 seconds.
+  path: Assets/_Models
+  artifactKey: Guid(be0dd27ecb12a684caa0f1b4ad5eabbc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models using Guid(be0dd27ecb12a684caa0f1b4ad5eabbc) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '8ea3c3e335d21d0c54708e9d02e074ef') in 0.0245992 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.362939 seconds.
+  path: Assets/_Models/Entity
+  artifactKey: Guid(8d83514f33e56cf41b5fac5a39a97f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity using Guid(8d83514f33e56cf41b5fac5a39a97f9d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6ba3f7c601a4c275482338424fab6c3d') in 0.0005608 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 44.243890 seconds.
+  path: Assets/_Models/Entity/Adminis 1.fbx
+  artifactKey: Guid(66040806520923f468c192a40125748c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis 1.fbx using Guid(66040806520923f468c192a40125748c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '9da4d4bb9263deab4a9bca2fb4bda0bc') in 1.4457153 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 894
+
+========================================================================
+Received Import Request.
+  Time since last request: 46.125641 seconds.
+  path: Assets/_Models/Entity/Adminis.fbx
+  artifactKey: Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis.fbx using Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'fbbf580175c0ec76e06a7e0f067d502a') in 0.1205572 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 565
+
+========================================================================
+Received Import Request.
+  Time since last request: 13.774377 seconds.
+  path: Assets/_Models/Entity/AuroraNoMotion.fbx
+  artifactKey: Guid(69c1c3da7ef452841b6eb35b1110bb9f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/AuroraNoMotion.fbx using Guid(69c1c3da7ef452841b6eb35b1110bb9f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '332ece5973383ed710f5a735583dd812') in 0.0622625 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 18
+
+========================================================================
+Received Import Request.
+  Time since last request: 12.797299 seconds.
+  path: Assets/_Models/Entity/Mat
+  artifactKey: Guid(41c164b454706724f8849d67ebc97a6c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Mat using Guid(41c164b454706724f8849d67ebc97a6c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'f42c6833d8e1dacf500fb5414a19fac2') in 0.0006483 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.527647 seconds.
+  path: Assets/_Models/Entity/Tex
+  artifactKey: Guid(3e7a5a656ce59ac45949095311d8d2e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex using Guid(3e7a5a656ce59ac45949095311d8d2e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '71870e9eaf27401b01ef4d86c8282169') in 0.0007706 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 13.483779 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00001.png
+  artifactKey: Guid(6c32e988a0406694b96dd611a67b6d23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00001.png using Guid(6c32e988a0406694b96dd611a67b6d23) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'b9567345351a9bd2bd485384596bfbbc') in 0.0237511 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 25.492138 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00001.png
+  artifactKey: Guid(6c32e988a0406694b96dd611a67b6d23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00001.png using Guid(6c32e988a0406694b96dd611a67b6d23) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'd70711cd390d19958413f2833ee0a3a7') in 0.0189341 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.905542 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00002.png
+  artifactKey: Guid(66fafe1387c14f04696e3e65e0d65891) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00002.png using Guid(66fafe1387c14f04696e3e65e0d65891) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'c060042649e54671eb43ae4628287dbf') in 0.0148425 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 14.360650 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00002.png
+  artifactKey: Guid(66fafe1387c14f04696e3e65e0d65891) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00002.png using Guid(66fafe1387c14f04696e3e65e0d65891) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'e8821d0ebf6e33b7de1f98a877c9648a') in 0.01526 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.078516 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00003.png
+  artifactKey: Guid(7899d8d1c43674247b38b25405637ece) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00003.png using Guid(7899d8d1c43674247b38b25405637ece) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '94a862d376280dfbde41fe293e7e1a71') in 0.0152595 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 11.793305 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00003.png
+  artifactKey: Guid(7899d8d1c43674247b38b25405637ece) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00003.png using Guid(7899d8d1c43674247b38b25405637ece) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '4452b295a97b9acc1ba93b7aeb2b04bc') in 0.0180843 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.420430 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00004.png
+  artifactKey: Guid(a47fae7856e549f42a0dfc33496c7cc3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00004.png using Guid(a47fae7856e549f42a0dfc33496c7cc3) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '360ff7582c576ab7078165dc4542fa1e') in 0.0142617 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.805329 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00004.png
+  artifactKey: Guid(a47fae7856e549f42a0dfc33496c7cc3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00004.png using Guid(a47fae7856e549f42a0dfc33496c7cc3) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '56134968dfc5f163fd10ea4424213dbf') in 0.0087516 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 122.927992 seconds.
+  path: Assets/_Models/Entity/Adminis.fbx
+  artifactKey: Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis.fbx using Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '89ed738d69732a9d02d5dd401f5980b2') in 0.0691606 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 565
+
+========================================================================
+Received Import Request.
+  Time since last request: 20.034894 seconds.
+  path: Assets/_Models/Entity/Adminis.fbx
+  artifactKey: Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis.fbx using Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'f2c3ac84662363ca0687209a496b7435') in 0.0727489 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 564
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.153809 seconds.
+  path: Assets/_Models/Entity/Adminis.fbx
+  artifactKey: Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis.fbx using Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '5b0ac6e9dd6c00ed8a4a71af49072533') in 0.0797016 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 564
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.199246 seconds.
+  path: Assets/_Models/Entity/Adminis.fbx
+  artifactKey: Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis.fbx using Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '02afb695cec3178bd4ebc6bb4e282a76') in 0.073616 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 563
+
+========================================================================
+Received Import Request.
+  Time since last request: 672.931793 seconds.
+  path: Assets/_Models/Entity/Adminis.fbx
+  artifactKey: Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis.fbx using Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '67455f0ec49c4eeb54bb956c68b1e279') in 0.1117924 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 565
+
+========================================================================
+Received Import Request.
+  Time since last request: 289.823382 seconds.
+  path: Assets/_Models/Entity/Adminis.fbx
+  artifactKey: Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis.fbx using Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '5da29b55cd56f88f023c5462404c3a2e') in 0.1430494 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 570
+
+========================================================================
+Received Import Request.
+  Time since last request: 60.391842 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00001.png
+  artifactKey: Guid(79c61618e1c50f648803a60982f080f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00001.png using Guid(79c61618e1c50f648803a60982f080f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '2f4eec23309b784fd54d525901e24190') in 0.0128979 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.905462 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00001.png
+  artifactKey: Guid(79c61618e1c50f648803a60982f080f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00001.png using Guid(79c61618e1c50f648803a60982f080f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '8ef44ea84d7086765e2fceae4ce9d4bf') in 0.022785 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.612324 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00002.png
+  artifactKey: Guid(da5c0a373598d114591c76bfed7b5da2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00002.png using Guid(da5c0a373598d114591c76bfed7b5da2) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6a9ef200edc3464d3b372ae4ed7989b3') in 0.0093514 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.769803 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00002.png
+  artifactKey: Guid(da5c0a373598d114591c76bfed7b5da2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00002.png using Guid(da5c0a373598d114591c76bfed7b5da2) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'b03f0cf1a8d31ed3ebf3ae814f59ef0d') in 0.0355906 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.453493 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00003.png
+  artifactKey: Guid(9ae7ab8442882cd4c8680c0d42b0b9cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00003.png using Guid(9ae7ab8442882cd4c8680c0d42b0b9cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'acd8dcb1cdef35f2ef19932ec2b2c784') in 0.0142716 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.774327 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00003.png
+  artifactKey: Guid(9ae7ab8442882cd4c8680c0d42b0b9cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00003.png using Guid(9ae7ab8442882cd4c8680c0d42b0b9cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'dfaa7de7043535b5d3a45eba5676f5c1') in 0.0089283 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.359135 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00004.png
+  artifactKey: Guid(512712db0d8692e40ad4091baaffc579) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00004.png using Guid(512712db0d8692e40ad4091baaffc579) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'f88ec267fdda57700d9ac6b2aafbe2cf') in 0.0164215 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.270077 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00004.png
+  artifactKey: Guid(512712db0d8692e40ad4091baaffc579) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00004.png using Guid(512712db0d8692e40ad4091baaffc579) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '30ad11fbb8f298955efbd614a66faecc') in 0.0085216 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.494902 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00005.png
+  artifactKey: Guid(97de4d8beb6195f4aaf7bffd113f9450) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00005.png using Guid(97de4d8beb6195f4aaf7bffd113f9450) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '5f3b5f5c4baccd14eb897a25232f6db3') in 0.013915 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.620181 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00005.png
+  artifactKey: Guid(97de4d8beb6195f4aaf7bffd113f9450) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00005.png using Guid(97de4d8beb6195f4aaf7bffd113f9450) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '15dc610b317895b106881e330c37947c') in 0.0066395 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.790071 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00006.png
+  artifactKey: Guid(3db1395285f2ce74a9da1339c347a3a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00006.png using Guid(3db1395285f2ce74a9da1339c347a3a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '17bfa4e72526f613d559941e210dbc9c') in 0.018069 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.123449 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00006.png
+  artifactKey: Guid(3db1395285f2ce74a9da1339c347a3a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00006.png using Guid(3db1395285f2ce74a9da1339c347a3a7) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'fc347b225f70c13d0245cd44b1897bed') in 0.0175225 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.293544 seconds.
+  path: Assets/_Models/Entity/Tex/Atlas_00007.png
+  artifactKey: Guid(8f53d838c8b02704f87b7ec8142ed1ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Atlas_00007.png using Guid(8f53d838c8b02704f87b7ec8142ed1ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '298692b8cea68287d1c6ce1ca74f15e9') in 0.0191076 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.869848 seconds.
+  path: Assets/_Models/Entity/Tex/Adminis_Atlas_00007.png
+  artifactKey: Guid(8f53d838c8b02704f87b7ec8142ed1ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Tex/Adminis_Atlas_00007.png using Guid(8f53d838c8b02704f87b7ec8142ed1ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '2d7f882f894daa8506b2e9775645c7cd') in 0.009883 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 112.520022 seconds.
+  path: Assets/_Models/Entity/Adminis.fbx
+  artifactKey: Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis.fbx using Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'f98a08ba4122ef1e489d38e1fe852d67') in 0.1243961 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 569
+
+========================================================================
+Received Import Request.
+  Time since last request: 17.350854 seconds.
+  path: Assets/_Models/Entity/Adminis.fbx
+  artifactKey: Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Models/Entity/Adminis.fbx using Guid(3503a1456bb831b4688a3051aa8289c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '92f9622816389fd82335e758adce0527') in 0.3206389 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 567
+

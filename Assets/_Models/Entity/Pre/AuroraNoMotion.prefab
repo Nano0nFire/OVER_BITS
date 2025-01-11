@@ -95,6 +95,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6699066346000267111}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 69c1c3da7ef452841b6eb35b1110bb9f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4811638878502636388}
   m_SourcePrefab: {fileID: 100100000, guid: 69c1c3da7ef452841b6eb35b1110bb9f, type: 3}
 --- !u!1 &6731350387294126823 stripped
 GameObject:
@@ -114,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3383198105
+  GlobalObjectIdHash: 3322066811
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -264,27 +268,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b062102a841544e91aec8b6fff9447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityStatusData:
-    MaxHP: 0
-    HP: 0
-    Def: 0
-    Abno: 0
-    DodgeChance: 0
-    Atk: 0
-    MaxMP: 0
-    MP: 0
-    CritChance: 0
-    CritDamage: 0
-    Penetration: 0
-    HitChance: 0
+  ShowTopMostFoldoutHeaderGroup: 1
   Spawner: {fileID: 0}
   bcNormal: {fileID: 0}
   rb: {fileID: 230108662145802277}
   entityID_FirstIndex: 0
   entityID_SecondIndex: 0
   lvl: 0
-  col: {fileID: 6267895446215035980}
-  ProjectilePoint: {fileID: 0}
+  entityState: 0
   entityConfig:
     EntityStatus:
       BaseLevel: 0
@@ -299,12 +290,25 @@ MonoBehaviour:
     AttackRange: 0
     SearceRange: 0
     Speed: 0
-    AttackPatterns: []
-    UseRandomAttack: 1
-    RandomAttackPatternRange: 0
-    UseSpecialAttackCount: 0
+    DropTable: []
   navMeshAgent: {fileID: 1261386688961759746}
+  AttackPatternsCount: 2
   isAttacking: 0
-  MaxDistance: 0
-  MinDistance: 0
-  testcount: 0
+  UseRandomAttack: 0
+  RandomAttackPatternRange: 0
+  UseSpecialAttackCount: 0
+  CustomActionComponent: {fileID: 4811638878502636388}
+--- !u!114 &4811638878502636388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6731350387294126823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb952aaf991f544797c83b494d100c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 1261386688961759746}
+  rb: {fileID: 230108662145802277}

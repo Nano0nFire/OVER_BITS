@@ -6,6 +6,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 using DACS.Projectile;
+using DACS.Extensions;
 
 namespace DACS.Entities
 {
@@ -54,16 +55,19 @@ namespace DACS.Entities
         public override float Atk{get; set;}
         public override float DodgeChance{get; set;}
         int ReviveNumber = 0;
-        int AttackCount = 0;
-        [SerializeField] CapsuleCollider col;
+        [SerializeField]int AttackCount = 0;
+
         [SerializeField] EntityState entityState;
-        [SerializeField] Transform ProjectilePoint;
         [SerializeField] EntityConfigs entityConfig;
         Transform Target;
         [SerializeField] NavMeshAgent navMeshAgent;
         [SerializeField] bool isAttacking = false;
-        [SerializeField] float MaxDistance, MinDistance;
-        List<AttackPattern> AttackPatterns = new();
+        [SerializeField] int AttackPatternsCount;
+        [SerializeField] bool UseRandomAttack = true;
+        [Tooltip("デフォルト値(0)の場合、AttackPatterns内のすべてのパターンがランダム攻撃の抽選対象となる。<br />例えば、このパラメータの値を3にした場合はAttackPatterns内の0~3のパターンが対象となる。それ以降のパターンは特殊攻撃パターンとして扱われ、UseSpecialAttackCountの値の回数だけ攻撃したら、特殊パターンのうちからランダムで攻撃される")]
+        [SerializeField] int RandomAttackPatternRange = 0;
+        [SerializeField] int UseSpecialAttackCount = 0;
+        [SerializeField] CustomAction CustomActionComponent;
         List<EntityDrop> dropTable;
         float TotalDropChanceAmount = 0;
         ulong AttackerClientID; // 最後に攻撃したプレイヤーのNetworkID
@@ -82,7 +86,6 @@ namespace DACS.Entities
             Atk = entityData.AtkperLevel * lvl;
             DodgeChance = entityData.DodgeChance;
             ReviveNumber = entityData.ReviveNumber;
-            AttackPatterns = entityConfig.AttackPatterns;
             dropTable = this.entityConfig.DropTable;
             TotalDropChanceAmount = 0;
             foreach (var dropdata in dropTable)
@@ -133,8 +136,6 @@ namespace DACS.Entities
             if (clientID != 0)
                 AttackerClientID = clientID;
 
-            Debug.Log(clientID);
-
             float DmgReceived = damage.Dmg - (Def - damage.Penetration > 0 ? Def - damage.Penetration : 0) * damage.DefMagnification;
             HP -= DmgReceived > 0 ? DmgReceived : 0;
 
@@ -155,40 +156,31 @@ namespace DACS.Entities
             navMeshAgent.enabled = false;
             rb.isKinematic = false;
 
-            AttackPattern pattern;
-            if (entityConfig.UseRandomAttack)
+            if (UseRandomAttack)
             {
-                if (entityConfig.UseSpecialAttackCount <= AttackCount)
+                if (UseSpecialAttackCount <= AttackCount)
                 {
-                    pattern = AttackPatterns[UnityEngine.Random.Range(entityConfig.RandomAttackPatternRange + 1, AttackPatterns.Count - 1)];
-                    rb.AddForce(transform.forward * pattern.AddForce_Before.x + transform.up * pattern.AddForce_Before.y + transform.right * pattern.AddForce_Before.z);
-                    await Attack(pattern);
+                    await CustomActionComponent.Action(UnityEngine.Random.Range(RandomAttackPatternRange + 1, AttackPatternsCount - 1));
                     AttackCount = 0;
                 }
                 else
                 {
-                    pattern = AttackPatterns[UnityEngine.Random.Range(0, entityConfig.RandomAttackPatternRange)];
-                    rb.AddForce(transform.forward * pattern.AddForce_Before.x + transform.up * pattern.AddForce_Before.y + transform.right * pattern.AddForce_Before.z);
-                    await Attack(pattern);
+                    await CustomActionComponent.Action(UnityEngine.Random.Range(0, RandomAttackPatternRange));
                     AttackCount ++;
                 }
             }
             else
             {
-                pattern = AttackPatterns[UnityEngine.Random.Range(0, AttackPatterns.Count)];
-                rb.AddForce(transform.forward * pattern.AddForce_Before.x + transform.up * pattern.AddForce_Before.y + transform.right * pattern.AddForce_Before.z);
-                await Attack(pattern);
+                await CustomActionComponent.Action(AttackCount);
+                AttackCount = AttackPatternsCount == AttackCount ? 0 : AttackCount ++;
             }
-
-            rb.AddForce(transform.forward * pattern.AddForce_After.x + transform.up * pattern.AddForce_After.y + transform.right * pattern.AddForce_After.z);
-
-            await UniTask.WaitUntil(() =>  NavMesh.SamplePosition(navMeshAgent.transform.localPosition, out var navHit, 0.1f, NavMesh.AllAreas) == false, cancellationToken : destroyCancellationToken);
 
             isAttacking = false; // 攻撃終了
             navMeshAgent.enabled = true;
             rb.isKinematic = true;
             entityState = EntityState.Chase;
         }
+
         public async UniTask Attack(AttackPattern attackPattern)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(attackPattern.AttackDuration), cancellationToken : destroyCancellationToken);

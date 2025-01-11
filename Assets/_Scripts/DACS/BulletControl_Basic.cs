@@ -272,9 +272,12 @@ namespace DACS.Projectile
 
         /// <summary>
         /// サーバー側に弾をセットする
+        /// サーバー側で管理しているEntityはこちらを使う
         /// </summary>
-        public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed, int id, int amount, EntityStatusData EntityData)
+        public void SetBulletServer(Vector3 shotPos, Vector3 forward, int id, int amount, EntityStatusData EntityData)
         {
+            int seed = Random.Range(-10000, 10000);
+
             SetBulletClientRpc(shotPos, forward, seed, id, amount, 0); // Clientに反映
 
             var config = configsSO.P_ScriptableObject[id];

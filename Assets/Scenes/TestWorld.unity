@@ -14487,7 +14487,7 @@ MonoBehaviour:
   EntitiesSO: {fileID: 11400000, guid: 7c580173527213747bb1366619380a05, type: 2}
   pdManager: {fileID: 0}
   SpawnTargetFirstIndex: 0
-  SpawnTargetSecondIndex: 0
+  SpawnTargetSecondIndex: 1
   EntityLevel: 0
   MaxSpawnAmount: 5
   SpawnSpan: 10
@@ -16856,7 +16856,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   EntitiesSO: {fileID: 11400000, guid: 7c580173527213747bb1366619380a05, type: 2}
   bcNormal: {fileID: 1358839087}
-  clientID: 0
+  nwID: 0
   MaxSimulationDistance: 300
   SpawnerTransformList:
   - {fileID: 1215305164}
@@ -31593,6 +31593,13 @@ MonoBehaviour:
     GateFit: 2
     FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
+    Iso: 200
+    ShutterSpeed: 0.005
+    Aperture: 16
+    BladeCount: 5
+    Curvature: {x: 2, y: 11}
+    BarrelClipping: 0.25
+    Anamorphism: 0
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

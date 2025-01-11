@@ -9,11 +9,11 @@ D:\application\Unity\Unity Editer\6000.0.30f1\Editor\Unity.exe
 -batchMode
 -noUpm
 -name
-AssetImportWorker0
+AssetImportWorker3
 -projectPath
 D:/Unity Projects/OVER_BITS
 -logFile
-Logs/AssetImportWorker0.log
+Logs/AssetImportWorker3.log
 -srvPort
 54757
 -job-worker-count
@@ -59,12 +59,12 @@ D:/Unity Projects/OVER_BITS
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [42680]  Target information:
+Player connection [44968]  Target information:
 
-Player connection [42680]  * "[IP] 192.168.0.17 [Port] 0 [Flags] 2 [Guid] 3496090906 [EditorId] 3496090906 [Version] 1048832 [Id] WindowsEditor(7,Server) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [44968]  * "[IP] 192.168.0.17 [Port] 0 [Flags] 2 [Guid] 2327789371 [EditorId] 2327789371 [Version] 1048832 [Id] WindowsEditor(7,Server) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [42680] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [42680] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [44968] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [44968] Host joined alternative multi-casting on [225.0.0.222:34997]...
 JobSystem: Creating JobQueue using job-worker-count value 15
 [Physics::Module] Initialized fallback backend.
 [Physics::Module] Id: 0xdecafbad
@@ -75,7 +75,7 @@ Library Redirect Path: Library/
 [Physics::Module] SDK Version: 4.1.2
 [Physics::Module] Integration Version: 1.0.0
 [Physics::Module] Threading Mode: Multi-Threaded
-Refreshing native plugins compatible for Editor in 10.68 ms, found 10 plugins.
+Refreshing native plugins compatible for Editor in 11.20 ms, found 10 plugins.
 Preloading 1 native plugins for Editor in 2.25 ms.
 Initialize engine version: 6000.0.30f1 (62b05ba0686a)
 [Subsystems] Discovering subsystems at path D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/Resources/UnitySubsystems
@@ -91,45 +91,45 @@ Initialize mono
 Mono path[0] = 'D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/Managed'
 Mono path[1] = 'D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56304
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56648
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: D:/application/Unity/Unity Editer/6000.0.30f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
-Registered in 0.002920 seconds.
-- Loaded All Assemblies, in  0.519 seconds
+Registered in 0.003242 seconds.
+- Loaded All Assemblies, in  0.499 seconds
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.489 seconds
-Domain Reload Profiling: 1008ms
-	BeginReloadAssembly (217ms)
+- Finished resetting the current domain, in  0.485 seconds
+Domain Reload Profiling: 984ms
+	BeginReloadAssembly (214ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (48ms)
-	RebuildNativeTypeToScriptingClass (16ms)
-	initialDomainReloadingComplete (55ms)
-	LoadAllAssembliesAndSetupDomain (182ms)
-		LoadAssemblies (216ms)
+	RebuildCommonClasses (39ms)
+	RebuildNativeTypeToScriptingClass (12ms)
+	initialDomainReloadingComplete (54ms)
+	LoadAllAssembliesAndSetupDomain (179ms)
+		LoadAssemblies (213ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (179ms)
-			TypeCache.Refresh (177ms)
-				TypeCache.ScanAssembly (162ms)
+		AnalyzeDomain (175ms)
+			TypeCache.Refresh (174ms)
+				TypeCache.ScanAssembly (157ms)
 			BuildScriptInfoCaches (0ms)
-			ResolveRequiredComponents (1ms)
-	FinalizeReload (489ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (485ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (405ms)
+		SetupLoadedEditorAssemblies (409ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (75ms)
 			SetLoadedEditorAssemblies (6ms)
 			BeforeProcessingInitializeOnLoad (69ms)
-			ProcessInitializeOnLoadAttributes (195ms)
-			ProcessInitializeOnLoadMethodAttributes (59ms)
+			ProcessInitializeOnLoadAttributes (197ms)
+			ProcessInitializeOnLoadMethodAttributes (61ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -142,100 +142,124 @@ Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Pro
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.964 seconds
+- Loaded All Assemblies, in  1.899 seconds
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.UIElement.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Configuration.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
 'Packages/com.unity.render-pipelines.high-definition/Editor/Wizard/HDWizard.Window.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
-Refreshing native plugins compatible for Editor in 7.44 ms, found 10 plugins.
+Refreshing native plugins compatible for Editor in 10.88 ms, found 10 plugins.
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Assembly reference Packages/com.unity.entities/Unity.Scenes.Editor/Internals/Properties/Unity.Properties.Internals.asmref has no target assembly definition
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
 [MODES] Loading mode Default (0) for mode-current-id-OVER_BITS
-Refreshing native plugins compatible for Editor in 8.22 ms, found 10 plugins.
-TypeManager.Initialize took: 812ms
+Refreshing native plugins compatible for Editor in 7.50 ms, found 10 plugins.
+TypeManager.Initialize took: 735ms
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.617 seconds
-Domain Reload Profiling: 4579ms
-	BeginReloadAssembly (248ms)
+- Finished resetting the current domain, in  2.471 seconds
+Domain Reload Profiling: 4368ms
+	BeginReloadAssembly (245ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (8ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (36ms)
-	RebuildCommonClasses (39ms)
+		CreateAndSetChildDomain (37ms)
+	RebuildCommonClasses (37ms)
 	RebuildNativeTypeToScriptingClass (12ms)
-	initialDomainReloadingComplete (52ms)
-	LoadAllAssembliesAndSetupDomain (1610ms)
-		LoadAssemblies (943ms)
+	initialDomainReloadingComplete (46ms)
+	LoadAllAssembliesAndSetupDomain (1556ms)
+		LoadAssemblies (853ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (839ms)
-			TypeCache.Refresh (655ms)
-				TypeCache.ScanAssembly (619ms)
-			BuildScriptInfoCaches (160ms)
-			ResolveRequiredComponents (20ms)
-	FinalizeReload (2617ms)
+		AnalyzeDomain (866ms)
+			TypeCache.Refresh (661ms)
+				TypeCache.ScanAssembly (621ms)
+			BuildScriptInfoCaches (182ms)
+			ResolveRequiredComponents (19ms)
+	FinalizeReload (2472ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2397ms)
+		SetupLoadedEditorAssemblies (2215ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (14ms)
-			SetLoadedEditorAssemblies (9ms)
-			BeforeProcessingInitializeOnLoad (345ms)
-			ProcessInitializeOnLoadAttributes (1715ms)
-			ProcessInitializeOnLoadMethodAttributes (312ms)
-			AfterProcessingInitializeOnLoad (2ms)
+			InitializePlatformSupportModulesInManaged (16ms)
+			SetLoadedEditorAssemblies (12ms)
+			BeforeProcessingInitializeOnLoad (323ms)
+			ProcessInitializeOnLoadAttributes (1567ms)
+			ProcessInitializeOnLoadMethodAttributes (290ms)
+			AfterProcessingInitializeOnLoad (5ms)
 			EditorAssembliesLoaded (1ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (6ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
-Refreshing native plugins compatible for Editor in 19.86 ms, found 10 plugins.
+		AwakeInstancesAfterBackupRestoration (9ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.02 seconds
+Refreshing native plugins compatible for Editor in 12.17 ms, found 10 plugins.
 Preloading 1 native plugins for Editor in 0.08 ms.
 Unloading 567 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 12195 unused Assets / (47.4 MB). Loaded Objects now: 12814.
-Memory consumption went from 375.3 MB to 328.0 MB.
-Total: 72.696000 ms (FindLiveObjects: 3.644000 ms CreateObjectMapping: 5.066800 ms MarkObjects: 26.657700 ms  DeleteObjects: 37.322800 ms)
+Unloading 12195 unused Assets / (45.5 MB). Loaded Objects now: 12814.
+Memory consumption went from 381.1 MB to 335.5 MB.
+Total: 62.580400 ms (FindLiveObjects: 3.003200 ms CreateObjectMapping: 3.206600 ms MarkObjects: 19.934200 ms  DeleteObjects: 36.430200 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 10750.439808 seconds.
-  path: Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Back_Ad.FBX
-  artifactKey: Guid(d5ad602f381618d488cfa2cd31698aa1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Back_Ad.FBX using Guid(d5ad602f381618d488cfa2cd31698aa1) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'c4677dcee59fbf48582bfe2ea03bf89f') in 0.9522244 seconds
+  Time since last request: 10748.695898 seconds.
+  path: Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/Controller/CLazy@Esc_BoostDash_Air_Back.controller
+  artifactKey: Guid(23060622204c4544aa1f544a318bb5c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/Controller/CLazy@Esc_BoostDash_Air_Back.controller using Guid(23060622204c4544aa1f544a318bb5c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '7a4389365b1e4bdad15bb7a5f7f5e643') in 0.0442443 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 4
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000067 seconds.
+  path: Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Back_L45.FBX
+  artifactKey: Guid(a8878a77e0536fd45ac6f6545e21a72a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Back_L45.FBX using Guid(a8878a77e0536fd45ac6f6545e21a72a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'cec62985824615f4c18d0407941ba85f') in 1.1375474 seconds
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 476
 
 ========================================================================
 Received Import Request.
-  Time since last request: 8.931827 seconds.
-  path: Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Front_R45_Root.FBX
-  artifactKey: Guid(52b4c72e4b2527e4e8975dbfcb03c2c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Front_R45_Root.FBX using Guid(52b4c72e4b2527e4e8975dbfcb03c2c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'acc7ef17ae0b9c8ef346d836c477637e') in 0.0474312 seconds
+  Time since last request: 0.000064 seconds.
+  path: Assets/_Animations/TraversalAnims_FBX_Only_v2.0/Traversal_InPlace_Anims/AnimSeq_Traversal_Platform_JumpAcross_InTheAir_Loop.FBX
+  artifactKey: Guid(9408288ce80e43244ba141ba61922640) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Animations/TraversalAnims_FBX_Only_v2.0/Traversal_InPlace_Anims/AnimSeq_Traversal_Platform_JumpAcross_InTheAir_Loop.FBX using Guid(9408288ce80e43244ba141ba61922640) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '31819e2d87be2bc8b1ae4846de6420ce') in 0.0126679 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 141
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000071 seconds.
+  path: Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Back_R45.FBX
+  artifactKey: Guid(9736d4ceb8a7ac64b8c017a83d850b0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Back_R45.FBX using Guid(9736d4ceb8a7ac64b8c017a83d850b0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '5541b9ac7d9ea8311c0dc465ad2d6faa') in 0.0496704 seconds
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 147
 
 ========================================================================
 Received Import Request.
-  Time since last request: 3.664262 seconds.
-  path: Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Left_Root.FBX
-  artifactKey: Guid(c31018bafb7ead447bfe8d7ed1de72ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Left_Root.FBX using Guid(c31018bafb7ead447bfe8d7ed1de72ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '161c36132c48526b96ed0b5ef6a639c0') in 0.0377931 seconds
+  Time since last request: 0.000072 seconds.
+  path: Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Back_L45_Root.FBX
+  artifactKey: Guid(170cf293fdce4b3448a1a35435b2d30c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Back_L45_Root.FBX using Guid(170cf293fdce4b3448a1a35435b2d30c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '75b310ca2be7198887b35c7480c79d42') in 0.0516947 seconds
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 147
 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000034 seconds.
-  path: Assets/CLazyRunnerActionAnimPack/Animations/P4_CLazyAttack/Attack_Jump_Air/CLazy@JAttack_AirDrop_All_Root.FBX
-  artifactKey: Guid(78b8d637bdc45f44a8df7923b1da411d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/CLazyRunnerActionAnimPack/Animations/P4_CLazyAttack/Attack_Jump_Air/CLazy@JAttack_AirDrop_All_Root.FBX using Guid(78b8d637bdc45f44a8df7923b1da411d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'ac6fab9e2bfb0173e84160f1a0c34d91') in 0.0444105 seconds
+  Time since last request: 0.000052 seconds.
+  path: Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Front_L45.FBX
+  artifactKey: Guid(1f27983b925d43a4188c111c3ee2e917) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CLazyRunnerActionAnimPack/Animations/P2_CLazyEscape/Esc_8way_BoostDash_Air/CLazy@Esc_BoostDash_Air_Front_L45.FBX using Guid(1f27983b925d43a4188c111c3ee2e917) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '5dd54a6e169036b0464390400fde5ff4') in 0.0420481 seconds
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 147
 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000032 seconds.
-  path: Assets/CLazyRunnerActionAnimPack/Animations/P4_CLazyAttack/Attack_Jump_Air/CLazy@JAttack_AirFront_All.FBX
-  artifactKey: Guid(1e37a3d8db76a744daf6ae5deff7f10a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/CLazyRunnerActionAnimPack/Animations/P4_CLazyAttack/Attack_Jump_Air/CLazy@JAttack_AirFront_All.FBX using Guid(1e37a3d8db76a744daf6ae5deff7f10a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '80a8c362035a01a5703db22b19e8641f') in 0.0346331 seconds
+  Time since last request: 13.671996 seconds.
+  path: Assets/CLazyRunnerActionAnimPack/Animations/P4_CLazyAttack/Attack_Jump_Air/CLazy@JAttack_AirFront.FBX
+  artifactKey: Guid(68e385d5e0efa16419f6f07462c47cb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CLazyRunnerActionAnimPack/Animations/P4_CLazyAttack/Attack_Jump_Air/CLazy@JAttack_AirFront.FBX using Guid(68e385d5e0efa16419f6f07462c47cb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'ae3d70a654e8a5d041add70ba2c8f552') in 0.0496797 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 147
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000035 seconds.
+  path: Assets/CLazyRunnerActionAnimPack/Animations/P3_CLazyJump/Jmp_Back_Air/CLazy@Jmp_BackAir.FBX
+  artifactKey: Guid(c812fbe1f44440042944f903d78c2057) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CLazyRunnerActionAnimPack/Animations/P3_CLazyJump/Jmp_Back_Air/CLazy@Jmp_BackAir.FBX using Guid(c812fbe1f44440042944f903d78c2057) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '489e71f2c56da8eb79c6e6dcfe628211') in 0.0470662 seconds
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 147
 
 Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
