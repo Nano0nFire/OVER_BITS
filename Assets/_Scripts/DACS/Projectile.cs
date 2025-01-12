@@ -9,6 +9,7 @@ namespace DACS.Projectile
         [HideInInspector] public Transform ShotPos;
         [HideInInspector] public Transform CameraPos;
         [SerializeField] BulletControl_Basic bcNormal;
+        [SerializeField] BulletControl_Homing bcHoming;
 
         static Projectile instance;
 
@@ -56,6 +57,16 @@ namespace DACS.Projectile
             {
                 case 0:
                     bcNormal.SetBulletServer(shotPos, forward, id, amount, EntityData);
+                    break;
+            }
+        }
+
+        public void StartShooting(Vector3 shotPos, Vector3 forward, int ProjectileType, int id, int amount, EntityStatusData EntityData, ulong targetNetworkObjectID, Transform target)
+        {
+            switch (ProjectileType)
+            {
+                case 1:
+                    bcHoming.SetBulletServer(shotPos, forward, id, amount, EntityData, targetNetworkObjectID, target);
                     break;
             }
         }

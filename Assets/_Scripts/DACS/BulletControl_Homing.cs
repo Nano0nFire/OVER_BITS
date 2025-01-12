@@ -9,7 +9,7 @@ using DACS.Entities;
 
 namespace DACS.Projectile
 {
-    public class BulletControl_Basic : NetworkBehaviour
+    public class BulletControl_Homing : NetworkBehaviour
     {
         [SerializeField] ProjectileSO configsSO; // データベース
         [SerializeField] GameObject bulletPrefab;
@@ -17,7 +17,7 @@ namespace DACS.Projectile
         [HideInInspector] public ulong ownID = 0; // ClientOnly
         [HideInInspector] public ulong nwoID = 0; // ClientOnly
         List<Transform> transformsList = new(); // 生成された弾を全て登録
-        NativeList<BulletControl_Config> bulletConfigsList; // 弾のデータを格納(データの内容は変更可能)
+        NativeList<Bullet_Homing_Config> bulletConfigsList; // 弾のデータを格納(データの内容は変更可能)
         List<DamageConfigs> bulletDmgConfigList = new();
         NativeList<float> bulletsElapsedList; // 各弾の着弾予想時間を格納
         NativeList<bool> bulletsIsActiveList; // 弾の状態を登録
@@ -29,6 +29,9 @@ namespace DACS.Projectile
         NativeArray<RaycastHit> sphereCastResults; // ヒット情報を格納
         NativeArray<SpherecastCommand> sphereCastCommands;
         NativeList<float> TargetDistanceList; // Rayのヒットしたポイントとの距離(ヒットしなかった場合は0)
+        List<Transform> Targets = new();
+        NativeList<Vector3> TargetPositions;
+        NativeList<Vector3> angularVelocitys; // 角速度
         TransformAccessArray transformAccessArray;
         int currentSpawnedBulletsAmount = 0; // 処理対象の増減を感知する
         float AccessArrayUpdateTiming = 0; // 定期的にAccessArrayの更新をする
@@ -46,6 +49,8 @@ namespace DACS.Projectile
             sphereCastResults = new(1, Allocator.Persistent);
             sphereCastCommands = new(1, Allocator.Persistent);
             TargetDistanceList = new(Allocator.Persistent);
+            TargetPositions = new(Allocator.Persistent);
+            angularVelocitys = new(Allocator.Persistent);
 
             for(int i = 0; i < 50; i++)
             {
@@ -57,6 +62,8 @@ namespace DACS.Projectile
                 bulletsElapsedList.Add(0);
                 bulletIndexQueue_SecondHalf.Enqueue(index);
                 TargetDistanceList.Add(-1);
+                TargetPositions.Add(Vector3.zero);
+                angularVelocitys.Add(Vector3.zero);
                 if (IsServer)
                     bulletDmgConfigList.Add(new());
             }
@@ -86,7 +93,9 @@ namespace DACS.Projectile
                 DeactivateBulletIndexQueue = DeactivateBulletIndexQueue.AsParallelWriter(),
                 sphereCastCommands = sphereCastCommands,
                 queryParameters = queryParameters,
-                TargetDistance = TargetDistanceList.AsArray()
+                TargetDistance = TargetDistanceList.AsArray(),
+                targetPositions = TargetPositions.AsArray(),
+                angularVelocitys = angularVelocitys.AsArray()
             }.Schedule(transformAccessArray); // 並列で処理(生成した弾の親が共通の親だと並列で処理されないので注意)
 
             controlJobHandle.Complete(); // 全ての弾の移動完了を待つ
@@ -107,6 +116,14 @@ namespace DACS.Projectile
             }
             DeactivateBulletIndexArray.Dispose();
             DeactivateBulletIndexQueue.Clear();
+
+            for (int i = 0; i < transformAccessArray.length; i++)
+            {
+                if (!bulletsIsActiveList[i])
+                    continue;
+
+                TargetPositions[i] = Targets[i].position;
+            }
 
             sphereCastCommandJobHandle.Complete();
             var resultLoadJobHandle = new SphereCastResultsLoad()
@@ -145,104 +162,57 @@ namespace DACS.Projectile
             DeactivateBulletIndexArray.Dispose();
             DeactivateBulletIndexQueue.Clear();
         }
-        /// <summary>
-        /// 発射したクライアント側に弾をセットする <br />
-        /// サーバーが管理するEntityが使用する場合はSetBulletServerを使用するように
-        /// </summary>
-        public void SetBulletLocal(Vector3 shotPos, Vector3 forward, int id, int amount)
+        // /// <summary>
+        // /// 発射したクライアント側に弾をセットする <br />
+        // /// サーバーが管理するEntityが使用する場合はSetBulletServerを使用するように
+        // /// </summary>
+        // public void SetBulletLocal(Vector3 shotPos, Vector3 forward, int id, int amount)
+        // {
+        //     int seed = Random.Range(-10000, 10000);
+        //     if (IsServer) // ServerまたはHostが呼び出した場合は直接サーバー操作させる
+        //     {
+        //         SetBulletServer(shotPos, forward, seed, id, amount, nwoID, ownID);
+        //         return;
+        //     }
+        //     else
+        //         ShotServerRpc(shotPos, forward, seed, id, amount, nwoID, ownID);
+
+        //     var config = configsSO.P_ScriptableObject[id];
+
+        //     var spreadHz = config.ProjectileSpreadHz;
+        //     var spreadV = config.ProjectileSpreadV;
+        //     for (int i = 0; i < amount; i++)
+        //     {
+        //         var index = GetBullet(shotPos);
+
+        //         System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
+        //         int rX = random.Next(-10000, 10000);
+        //         int rY = random.Next(-10000, 10000);
+
+        //         Vector3 dir = // 弾の進行方向を計算
+        //             Quaternion.Euler(
+        //                 spreadHz * rX / 10000,
+        //                 spreadV * rY / 10000, // 拡散率を適応
+        //                 0)
+        //             * forward;
+
+        //         InitBullet(index, dir, target, config);
+        //     }
+        // }
+
+        public void SetBulletClient(Vector3 shotPos, Vector3 forward, int seed, DACS_P_Configs config, int amount, ulong nwID)
         {
-            int seed = Random.Range(-10000, 10000);
-            if (IsServer) // ServerまたはHostが呼び出した場合は直接サーバー操作させる
-            {
-                SetBulletServer(shotPos, forward, seed, id, amount, nwoID, ownID);
-                return;
-            }
-            else
-                ShotServerRpc(shotPos, forward, seed, id, amount, nwoID, ownID);
-
-            var config = configsSO.P_ScriptableObject[id];
-            for (int i = 0; i < amount; i++)
-            {
-                var index = GetBullet(shotPos);
-
-                var spreadHz = config.ProjectileSpreadHz;
-                var spreadV = config.ProjectileSpreadV;
-
-                System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
-                int rX = random.Next(-10000, 10000);
-                int rY = random.Next(-10000, 10000);
-
-                Vector3 dir = // 弾の進行方向を計算
-                    Quaternion.Euler(
-                        spreadHz * rX / 10000,
-                        spreadV * rY / 10000, // 拡散率を適応
-                        0)
-                    * forward;
-
-                bulletConfigsList[index] = new()
-                {
-                    Speed = config.ProjectileSpeed, // データベース内の弾速を参照
-                    DropForce = config.ProjectileDrop, // 弾の落下を参照
-                    Estimate = config.MaxRange / config.ProjectileSpeed, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする)
-                    Dir = dir.normalized // 進行方向を設定
-                };
-            }
-        }
-
-        public void SetBulletClient(Vector3 shotPos, Vector3 forward, int seed, DACS_P_Configs config, int amount)
-        {
-            for (int i = 0; i < amount; i++)
-            {
-                var index = GetBullet(shotPos);
-
-                var spreadHz = config.ProjectileSpreadHz;
-                var spreadV = config.ProjectileSpreadV;
-
-                System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
-                int rX = random.Next(-10000, 10000);
-                int rY = random.Next(-10000, 10000);
-
-                Vector3 dir = // 弾の進行方向を計算
-                    Quaternion.Euler(
-                        spreadHz * rX / 10000,
-                        spreadV * rY / 10000, // 拡散率を適応
-                        0)
-                    * forward;
-
-                bulletConfigsList[index] = new BulletControl_Config()
-                {
-                    Speed = config.ProjectileSpeed, // データベース内の弾速を参照
-                    DropForce = config.ProjectileDrop, // 弾の落下を参照
-                    Estimate = config.MaxRange / config.ProjectileSpeed, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする)
-                    Dir = dir.normalized // 進行方向を設定
-                };
-            }
-        }
-        /// <summary>
-        /// サーバー側に弾をセットする
-        /// </summary>
-        public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed, int id, int amount, ulong nwID, ulong clientID)
-        {
-            Entity EntityData;
-
+            Transform target;
             if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(nwID, out var networkObject))
-                EntityData = networkObject.gameObject.GetComponent<Entity>();
+                target = networkObject.transform;
             else
             {
                 Debug.LogWarning($"NetworkID:{nwID}\nError:Can't find PlayerObject\ncorrespondence:Stop SetBullet");
                 return;
             }
-
-            SetBulletClientRpc(shotPos, forward, seed, id, amount, clientID); // Clientに反映
-            var config = configsSO.P_ScriptableObject[id];
-            DamageConfigs dmgConfig = config.DamageConfig;
-            dmgConfig.Dmg += dmgConfig.DefMagnification == 1 ? EntityData.Atk : EntityData.MaxMP / 10;
-            dmgConfig.CritChance += EntityData.CritChance;
-            dmgConfig.CritDmg += EntityData.CritDamage;
-            dmgConfig.Penetration += EntityData.Penetration;
-            dmgConfig.HitChance += EntityData.HitChance;
             var spreadHz = config.ProjectileSpreadHz;
             var spreadV = config.ProjectileSpreadV;
+
             for (int i = 0; i < amount; i++)
             {
                 var index = GetBullet(shotPos);
@@ -258,27 +228,64 @@ namespace DACS.Projectile
                         0)
                     * forward;
 
-                bulletConfigsList[index] = new BulletControl_Config()
-                {
-                    Speed = config.ProjectileSpeed, // データベース内の弾速を参照
-                    DropForce = config.ProjectileDrop, // 弾の落下を参照
-                    Estimate = config.MaxRange / config.ProjectileSpeed, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする)
-                    Dir = dir.normalized // 進行方向を設定
-                };
-
-                bulletDmgConfigList[index] = dmgConfig;
+                InitBullet(index, dir, target, config);
             }
         }
+        // /// <summary>
+        // /// サーバー側に弾をセットする
+        // /// </summary>
+        // public void SetBulletServer(Vector3 shotPos, Vector3 forward, int seed, int id, int amount, ulong nwID, ulong clientID)
+        // {
+        //     Entity EntityData;
+
+        //     if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(nwID, out var networkObject))
+        //         EntityData = networkObject.gameObject.GetComponent<Entity>();
+        //     else
+        //     {
+        //         Debug.LogWarning($"NetworkID:{nwID}\nError:Can't find PlayerObject\ncorrespondence:Stop SetBullet");
+        //         return;
+        //     }
+
+        //     SetBulletClientRpc(shotPos, forward, seed, id, amount, clientID); // Clientに反映
+        //     var config = configsSO.P_ScriptableObject[id];
+        //     DamageConfigs dmgConfig = config.DamageConfig;
+        //     dmgConfig.Dmg += dmgConfig.DefMagnification == 1 ? EntityData.Atk : EntityData.MaxMP / 10;
+        //     dmgConfig.CritChance += EntityData.CritChance;
+        //     dmgConfig.CritDmg += EntityData.CritDamage;
+        //     dmgConfig.Penetration += EntityData.Penetration;
+        //     dmgConfig.HitChance += EntityData.HitChance;
+        //     var spreadHz = config.ProjectileSpreadHz;
+        //     var spreadV = config.ProjectileSpreadV;
+        //     for (int i = 0; i < amount; i++)
+        //     {
+        //         var index = GetBullet(shotPos);
+
+        //         System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
+        //         int rX = random.Next(-10000, 10000);
+        //         int rY = random.Next(-10000, 10000);
+
+        //         Vector3 dir = // 弾の進行方向を計算
+        //             Quaternion.Euler(
+        //                 spreadHz * rX / 10000,
+        //                 spreadV * rY / 10000, // 拡散率を適応
+        //                 0)
+        //             * forward;
+
+        //         InitBullet(index, dir, target, config);
+
+        //         bulletDmgConfigList[index] = dmgConfig;
+        //     }
+        // }
 
         /// <summary>
         /// サーバー側に弾をセットする
         /// サーバー側で管理しているEntityはこちらを使う
         /// </summary>
-        public void SetBulletServer(Vector3 shotPos, Vector3 forward, int id, int amount, EntityStatusData EntityData)
+        public void SetBulletServer(Vector3 shotPos, Vector3 forward, int id, int amount, EntityStatusData EntityData, ulong targetNetworkObjectID, Transform target)
         {
             int seed = Random.Range(-10000, 10000);
 
-            SetBulletClientRpc(shotPos, forward, seed, id, amount, 0); // Clientに反映
+            SetBulletClientRpc(shotPos, forward, seed, id, amount, 0, targetNetworkObjectID); // Clientに反映
 
             var config = configsSO.P_ScriptableObject[id];
             DamageConfigs dmgConfig = config.DamageConfig;
@@ -304,13 +311,7 @@ namespace DACS.Projectile
                         0)
                     * forward;
 
-                bulletConfigsList[index] = new BulletControl_Config()
-                {
-                    Speed = config.ProjectileSpeed, // データベース内の弾速を参照
-                    DropForce = config.ProjectileDrop, // 弾の落下を参照
-                    Estimate = config.MaxRange / config.ProjectileSpeed, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする)
-                    Dir = dir.normalized // 進行方向を設定
-                };
+                InitBullet(index, dir, target, config);
 
                 bulletDmgConfigList[index] = dmgConfig;
             }
@@ -336,6 +337,9 @@ namespace DACS.Projectile
                 bulletsElapsedList.Add(0);
                 bulletsIsActiveList.Add(true);
                 TargetDistanceList.Add(-1); // 値が-1の時は移動処理が省略される
+                Targets.Add(transform);
+                TargetPositions.Add(Vector3.zero);
+                angularVelocitys.Add(Vector3.zero);
                 if (IsServer)
                 {
                     bulletDmgConfigList.Add(new());
@@ -367,6 +371,22 @@ namespace DACS.Projectile
             {
                 bulletIndexQueue_FirstHalf.Enqueue(index);
             }
+        }
+
+        void InitBullet(int index, Vector3 dir, Transform target, DACS_P_Configs config)
+        {
+            transformsList[index].rotation = Quaternion.Euler(dir.normalized);
+            Targets[index] = target;
+            TargetPositions[index] = Vector3.zero;
+            angularVelocitys[index] = Vector3.zero;
+
+            bulletConfigsList[index] = new Bullet_Homing_Config()
+            {
+                Speed = config.ProjectileSpeed, // データベース内の弾速を参照
+                springConstant = config.springConstant, // 弾の落下を参照
+                damping = config.damping,
+                Estimate = Vector3.Distance(transformsList[index].position, target.position) / config.ProjectileSpeed, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする)
+            };
         }
 
         void SetArrays()
@@ -414,18 +434,22 @@ namespace DACS.Projectile
             sphereCastResults.Dispose();
             sphereCastCommands.Dispose();
             TargetDistanceList.Dispose();
+            TargetPositions.Dispose();
+            angularVelocitys.Dispose();
         }
 
-        [BurstCompile]
+        // [BurstCompile]
         struct ControlJob : IJobParallelForTransform
         {
             [ReadOnly] public float t;
             public NativeArray<bool> bulletsIsActiveArray;
-            [ReadOnly] public NativeArray<BulletControl_Config> bulletConfigsArray;
+            [ReadOnly] public NativeArray<Bullet_Homing_Config> bulletConfigsArray;
             public NativeArray<float> elapsedArray;
             public NativeQueue<int>.ParallelWriter DeactivateBulletIndexQueue;
             public NativeArray<float> TargetDistance;
             public NativeArray<SpherecastCommand> sphereCastCommands;
+            [ReadOnly] public NativeArray<Vector3> targetPositions; // 標的の座標
+            public NativeArray<Vector3> angularVelocitys; // 角速度
             [ReadOnly] public QueryParameters queryParameters;
 
             public void Execute(int index, TransformAccess xform)
@@ -450,16 +474,19 @@ namespace DACS.Projectile
 
                 Vector3 v = Vector3.zero;
                 float dis = TargetDistance[index];
+                var dir = xform.rotation * Vector3.forward;
                 if (dis > 0) // Rayがヒットした場合はヒットした地点の直前まで移動させる
                 {
-                    v = 0.95f * dis * config.Dir;
+                    v = 0.95f * dis * dir;
                 }
                 else if (dis == 0)
                 {
-                    v = config.Dir * config.Speed;
-                    v.y -= config.DropForce * elapsed * elapsed / 2;
-                    v += Mathf.PerlinNoise(index * t * 10, 0) * 0.01f * config.Dir;
-                    v *= t;
+                    Vector3 torque = config.springConstant * (Quaternion.LookRotation((targetPositions[index] - xform.position).normalized) * Quaternion.Inverse(xform.rotation)).eulerAngles - config.damping * angularVelocitys[index];
+                    angularVelocitys[index] += torque * t;
+                    xform.rotation = Quaternion.Euler(xform.rotation.eulerAngles + angularVelocitys[index] * t);
+
+                    // 目標の方向に移動
+                    xform.position += t * config.Speed * dir;
                 }
 
                 xform.position += v; // 位置の更新
@@ -467,7 +494,7 @@ namespace DACS.Projectile
                 sphereCastCommands[index] = new SpherecastCommand(
                         xform.position,
                         0.05f,
-                        config.Dir,
+                        dir,
                         queryParameters,
                         config.Speed * t * 1.5f);
 
@@ -510,14 +537,8 @@ namespace DACS.Projectile
             }
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        public void ShotServerRpc(Vector3 position, Vector3 forward, int seed, int id, int amount, ulong nwID,ulong clientID)
-        {
-            SetBulletServer(position, forward, seed, id, amount, nwID, clientID);
-        }
-
         [ClientRpc]
-        public void SetBulletClientRpc(Vector3 position, Vector3 forward, int seed,int id, int amount, ulong clientID)
+        public void SetBulletClientRpc(Vector3 position, Vector3 forward, int seed,int id, int amount, ulong clientID, ulong nwID)
         {
             if (IsServer || clientID == ownID)
                 return;
@@ -531,7 +552,7 @@ namespace DACS.Projectile
             if (Vector3.Distance(playerPos, forward * maxRange) < maxDistance || // 終点
                 Vector3.Distance(playerPos, 0.5f * maxRange * forward) < maxDistance || // 中間点
                 Vector3.Distance(playerPos, position) < maxDistance) // 始点
-                SetBulletClient(position, forward, seed, config, amount);
+                SetBulletClient(position, forward, seed, config, amount, nwID);
         }
     }
 }

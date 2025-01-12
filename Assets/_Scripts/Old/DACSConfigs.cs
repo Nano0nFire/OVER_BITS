@@ -75,7 +75,8 @@ public class DACS_P_Configs
     public bool UseHoming;
     public HomingTypes HomingType;
     public float HomingRange;
-    public float RotationSpeed;
+    public float springConstant;
+    public float damping;
 
     #endregion
     #region Charge Options
@@ -169,6 +170,14 @@ public struct BulletControl_Config
     public float DropForce; // 弾の落下
     public float Estimate; // 着弾予測時間
     public Vector3 Dir; // 進行方向
+}
+
+public struct Bullet_Homing_Config
+{
+    public float Speed; // 弾速
+    public float springConstant; // バネ定数
+    public float damping; // 減衰定数
+    public float Estimate; // 着弾予測時間
 }
 
 [System.Serializable]

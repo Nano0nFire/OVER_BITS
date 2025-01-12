@@ -2,56 +2,36 @@ using UnityEngine;
 
 public class particletest : MonoBehaviour
 {
-    public ParticleSystem particleSystem; // パーティクルシステム
-    private ParticleSystem.Particle[] particles; // パーティクルデータ
-    private Vector3[] velocities; // 各パーティクルの速度
+    public Transform target; // 目標オブジェクト
+    public float speed;
+    public float springConstant = 50.0f; // バネ定数
+    public float damping = 5.0f; // 減衰定数
+    private Vector3 angularVelocity = Vector3.zero; // 角速度
 
-    private void Start()
-    {
-        int maxParticles = particleSystem.main.maxParticles;
-        particles = new ParticleSystem.Particle[maxParticles];
-        velocities = new Vector3[maxParticles];
-    }
+
 
     private void Update()
     {
-        // 現在のパーティクル数を取得
-        int particleCount = particleSystem.GetParticles(particles);
 
-        for (int i = 0; i < particleCount; i++)
-        {
-            // パーティクルに速度を適用
-            velocities[i] += Physics.gravity * Time.deltaTime; // 重力を適用
-            particles[i].position += velocities[i] * Time.deltaTime;
-        }
 
-        // 更新後のパーティクルデータを反映
-        particleSystem.SetParticles(particles, particleCount);
+        // 目標の方向を計算
+        Vector3 direction = target.position - transform.position;
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpawnParticle(transform.position, transform.forward);
-            Debug.Log("hi");
-        }
-            
-   }
+        // 現在の向きと目標の向きの間の角度を計算
+        Quaternion deltaRotation = Quaternion.LookRotation(direction.normalized) * Quaternion.Inverse(transform.rotation);
 
-    public void SpawnParticle(Vector3 position, Vector3 initialVelocity)
-    {
-        // 新しいパーティクルを生成
-        int particleCount = particleSystem.GetParticles(particles);
-        if (particleCount < particles.Length)
-        {
-            particles[particleCount].position = position;
-            particles[particleCount].startLifetime = 5.0f; // 寿命を設定
-            particles[particleCount].remainingLifetime = 5.0f;
-            particles[particleCount].startSize = 0.2f;
-            particles[particleCount].startColor = Color.white;
+        // バネトルクを計算
+        Vector3 torque = springConstant * deltaRotation.eulerAngles - damping * angularVelocity;
 
-            velocities[particleCount] = initialVelocity;
+        // 角速度を更新
+        angularVelocity += torque * Time.deltaTime;
 
-            particleCount++;
-            particleSystem.SetParticles(particles, particleCount);
-        }
+        // 回転を更新
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + angularVelocity * Time.deltaTime);
+
+        // 目標の方向に移動
+        Vector3 moveDirection = transform.rotation * Vector3.forward;
+        transform.position += moveDirection * speed * Time.deltaTime;
+
     }
 }

@@ -54,7 +54,7 @@ namespace DACS.Entities
             if (!IsServer) // Serverのみ呼び出し可能
                 return;
 
-            if (Entities.Count >= MaxSpawnAmount)
+            if (Entities.Count == MaxSpawnAmount)
                 return;
 
             await UniTask.Delay(TimeSpan.FromSeconds(UnityEngine.Random.Range((SpawnSpan - 5) > 0 ? SpawnSpan - 5 : 0, (SpawnSpan + 5) > 0 ? SpawnSpan + 5 : 5)), cancellationToken : destroyCancellationToken); // スポーンの間隔を設定から+-5秒にする

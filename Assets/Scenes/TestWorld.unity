@@ -14489,7 +14489,7 @@ MonoBehaviour:
   SpawnTargetFirstIndex: 0
   SpawnTargetSecondIndex: 1
   EntityLevel: 0
-  MaxSpawnAmount: 5
+  MaxSpawnAmount: 1
   SpawnSpan: 10
   SpawnMarker:
   - {fileID: 524552042}
@@ -16456,6 +16456,7 @@ GameObject:
   - component: {fileID: 1358839088}
   - component: {fileID: 1358839091}
   - component: {fileID: 1358839087}
+  - component: {fileID: 1358839098}
   - component: {fileID: 1358839090}
   - component: {fileID: 1358839089}
   - component: {fileID: 1358839092}
@@ -16893,6 +16894,7 @@ MonoBehaviour:
   ShotPos: {fileID: 0}
   CameraPos: {fileID: 0}
   bcNormal: {fileID: 1358839087}
+  bcHoming: {fileID: 1358839098}
 --- !u!114 &1358839095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16948,6 +16950,25 @@ MonoBehaviour:
   eye_ratio_l_l: 0.2
   mouth_ratio_h: 0.1
   mouth_ratio_l: 0.5
+--- !u!114 &1358839098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358839086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1542003241366604087eed3786b0eb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  configsSO: {fileID: 11400000, guid: 8473b56af8885f8459f8d0aec7512d87, type: 2}
+  bulletPrefab: {fileID: 4191097979630892103, guid: 47d3974e940cb64428c1730a547e6f0a,
+    type: 3}
+  PlayerTransform: {fileID: 0}
+  ownID: 0
+  nwoID: 0
 --- !u!1 &1368093765
 GameObject:
   m_ObjectHideFlags: 0

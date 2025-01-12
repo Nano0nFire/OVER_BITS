@@ -59,7 +59,18 @@ namespace DACS.Entities
 
         [SerializeField] EntityState entityState;
         [SerializeField] EntityConfigs entityConfig;
-        Transform Target;
+        [HideInInspector] public Transform target
+        {
+            get => _target;
+            set
+            {
+                _target = value;
+                if (value != null)
+                    targetNetworkObjectID = value.GetComponent<NetworkObject>().NetworkObjectId;
+            }
+        }
+        Transform _target;
+        [HideInInspector] public ulong targetNetworkObjectID;
         [SerializeField] NavMeshAgent navMeshAgent;
         [SerializeField] bool isAttacking = false;
         [SerializeField] int AttackPatternsCount;
@@ -133,8 +144,7 @@ namespace DACS.Entities
                 return;
             }
 
-            if (clientID != 0)
-                AttackerClientID = clientID;
+            AttackerClientID = clientID;
 
             float DmgReceived = damage.Dmg - (Def - damage.Penetration > 0 ? Def - damage.Penetration : 0) * damage.DefMagnification;
             HP -= DmgReceived > 0 ? DmgReceived : 0;
@@ -190,6 +200,12 @@ namespace DACS.Entities
             float random = UnityEngine.Random.Range(0, TotalDropChanceAmount);
             float cumulative = 0;
             ItemData dropItem;
+            if (AttackerClientID == 0)
+            {
+                Spawner.OnDead(gameObject, AttackerClientID);
+                IsActive = false;
+                return;
+            }
             for (int i = 0; i < dropTable.Count; i ++)
             {
                 cumulative += dropTable[i].DropChance;
@@ -263,7 +279,7 @@ namespace DACS.Entities
             if (Spawner.NearbyPalyersTransformList.Count == 0)
                 return;
 
-            Target = null;
+            target = null;
 
             float tempDistance = entityConfig.SearceRange;
             foreach (var player in Spawner.NearbyPalyersTransformList)
@@ -272,21 +288,21 @@ namespace DACS.Entities
                 if (distance < tempDistance && distance < entityConfig.SearceRange) // 一番近いプレイヤーをターゲットとする
                 {
                     tempDistance = distance;
-                    Target = player;
+                    target = player;
                 }
             }
 
-            if (Target != null)
+            if (target != null)
                 entityState = EntityState.Chase;
         }
 
         void Chasing()
         {
-            var distance = Vector3.Distance(transform.position, Target.position);
+            var distance = Vector3.Distance(transform.position, target.position);
             if (distance < entityConfig.AttackRange)
                 entityState = EntityState.Attack;
             else
-                navMeshAgent.SetDestination(Target.transform.position);
+                navMeshAgent.SetDestination(target.transform.position);
         }
 
         // private void OnTriggerEnter(Collider other) // 索敵範囲内のプレイヤーを攻撃対象として認識する
@@ -305,7 +321,7 @@ namespace DACS.Entities
 
         private void StartChace()
         {
-            navMeshAgent.SetDestination(Target.transform.position);
+            navMeshAgent.SetDestination(target.transform.position);
             navMeshAgent.isStopped = false;
         }
         private void StopChace()
@@ -315,7 +331,7 @@ namespace DACS.Entities
         private void LockOn()
         {
             // ターゲットの方向を向くための方向ベクトルを計算
-            Vector3 targetDirection = Target.transform.position - transform.position;
+            Vector3 targetDirection = target.transform.position - transform.position;
 
             // ターゲットの方向に向かって徐々に回転
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
