@@ -6,7 +6,7 @@ public class particletest : MonoBehaviour
     public float speed;
     public float springConstant = 50.0f; // バネ定数
     public float damping = 5.0f; // 減衰定数
-    private Vector3 angularVelocity = Vector3.zero; // 角速度
+    public Vector3 angularVelocity = Vector3.zero; // 角速度
 
 
 

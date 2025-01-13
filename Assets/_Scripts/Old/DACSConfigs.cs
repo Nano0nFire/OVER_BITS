@@ -16,7 +16,7 @@ public class DACS_P_Configs
     [Header("Trail Options")]
     [Space]
     public bool UseTrail;
-    public Material TrailMaterial;
+    public Gradient TrailColor;
     public float TrailTime;
     public AnimationCurve TrailCurve;
 

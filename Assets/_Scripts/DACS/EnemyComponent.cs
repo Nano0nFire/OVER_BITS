@@ -182,7 +182,9 @@ namespace DACS.Entities
             else
             {
                 await CustomActionComponent.Action(AttackCount);
-                AttackCount = AttackPatternsCount == AttackCount ? 0 : AttackCount ++;
+                AttackCount ++;
+                if (AttackCount == AttackPatternsCount)
+                    AttackCount = 0;
             }
 
             isAttacking = false; // 攻撃終了
