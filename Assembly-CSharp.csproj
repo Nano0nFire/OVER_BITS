@@ -125,6 +125,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\_Scripts\DACS\EntitiesSO.cs" />
+    <Compile Include="Assets\vfxTest.cs" />
     <Compile Include="Assets\_Scripts\DACS\ItemComponent.cs" />
     <Compile Include="Assets\_Scripts\Old\CLAPlus_NetworkAnimation.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_PlayerDataManager.cs" />
