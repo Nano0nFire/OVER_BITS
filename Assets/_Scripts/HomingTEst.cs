@@ -75,7 +75,7 @@ public class HomingTEst : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.G))
             {
-                SetBulletServer(transform.position, transform.forward, 2, 1, targetOBJECT);
+                SetBulletServer(transform.position, transform.forward, 2, 10, targetOBJECT);
             }
         }
 
@@ -158,21 +158,13 @@ public class HomingTEst : MonoBehaviour
                 var index = GetBullet();
 
                 System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
-                float rX = random.Next(-10000, 10000);
-                float rY = random.Next(-10000, 10000);
-
-                // spreadHzとspreadVの値を適切に反映
-                float horizontalSpread = spreadHz * rX / 10000f;
-                float verticalSpread = spreadV * rY / 10000f;
 
                 Vector3 dir = // 弾の進行方向を計算
                     Quaternion.Euler(
-                        horizontalSpread,
-                        verticalSpread, // 拡散率を適応
-                        0)
+                        0,
+                        spreadHz * random.Next(-10000, 10000) / 10000f, // 拡散率を適応
+                        spreadV * random.Next(-10000, 10000) / 10000f)
                     * forward;
-
-                Debug.Log(dir);
 
                 InitBullet(index, shotPos, dir, target, config);
             }
@@ -224,7 +216,7 @@ public class HomingTEst : MonoBehaviour
             var t = transformsList[index];
 
             t.gameObject.SetActive(true);
-            t.SetPositionAndRotation(pos, Quaternion.Euler(dir));
+            t.SetPositionAndRotation(pos, Quaternion.LookRotation(dir));
             var trail = t.GetComponent<TrailRenderer>();
             trail.Clear();
             trail.colorGradient = config.TrailColor;
@@ -240,7 +232,7 @@ public class HomingTEst : MonoBehaviour
                 Speed = config.ProjectileSpeed, // データベース内の弾速を参照
                 springConstant = config.springConstant, // 弾の落下を参照
                 damping = config.damping,
-                Estimate = Vector3.Distance(pos, target.position) / config.ProjectileSpeed * 1.5f, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする) Changed
+                Estimate = Vector3.Distance(pos, target.position) / config.ProjectileSpeed * 1.1f, // 着弾予測時間を設定(この値を超えてもRayがヒットしなかった場合は非アクティブにする) Changed
             };
         }
 
@@ -334,23 +326,23 @@ public class HomingTEst : MonoBehaviour
                 }
                 else if (dis == 0)
                 {
-                    if (Vector3.Distance(targetPositions[index], xform.position) > 3)
-                    {
+                    // if (Vector3.Distance(targetPositions[index], xform.position) > 3)
+                    // {
 
                         // 目標の方向を計算
                         Vector3 targetDirection = (targetPositions[index] - xform.position).normalized;
 
                         // 回転を更新
-                        xform.rotation = Quaternion.Slerp(xform.rotation, Quaternion.LookRotation(targetDirection), t * config.springConstant);
+                        xform.rotation = Quaternion.Slerp(xform.rotation, Quaternion.LookRotation(targetDirection), t * Vector3.Distance(targetPositions[index], xform.position) / config.springConstant);
 
-                        // バネトルクの影響を受けた方向に移動
+                        // 移動
                         dir = xform.rotation * Vector3.forward;
                         v = t * config.Speed * dir;
-                    }
-                    else
-                    {
-                        v = t * config.Speed * dir;
-                    }
+                    // }
+                    // else
+                    // {
+                    //     v = t * config.Speed * dir;
+                    // }
                 }
 
                 xform.position += v; // 位置の更新
