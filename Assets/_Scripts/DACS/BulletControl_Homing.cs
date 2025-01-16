@@ -29,9 +29,8 @@ namespace DACS.Projectile
         NativeArray<RaycastHit> sphereCastResults; // ヒット情報を格納
         NativeArray<SpherecastCommand> sphereCastCommands;
         NativeList<float> TargetDistanceList; // Rayのヒットしたポイントとの距離(ヒットしなかった場合は0)
-        List<Transform> Targets = new();
+        [SerializeField]List<Transform> Targets = new();
         NativeList<Vector3> TargetPositions;
-        NativeList<Vector3> angularVelocitys; // 角速度
         TransformAccessArray transformAccessArray;
         int currentSpawnedBulletsAmount = 0; // 処理対象の増減を感知する
         float AccessArrayUpdateTiming = 0; // 定期的にAccessArrayの更新をする
@@ -50,7 +49,6 @@ namespace DACS.Projectile
             sphereCastCommands = new(1, Allocator.Persistent);
             TargetDistanceList = new(Allocator.Persistent);
             TargetPositions = new(Allocator.Persistent);
-            angularVelocitys = new(Allocator.Persistent);
 
             for(int i = 0; i < 50; i++)
             {
@@ -64,7 +62,6 @@ namespace DACS.Projectile
                 TargetDistanceList.Add(-1);
                 Targets.Add(transform);
                 TargetPositions.Add(Vector3.zero);
-                angularVelocitys.Add(Vector3.zero);
                 if (IsServer)
                     bulletDmgConfigList.Add(new());
             }
@@ -96,7 +93,6 @@ namespace DACS.Projectile
                 queryParameters = queryParameters,
                 TargetDistance = TargetDistanceList.AsArray(),
                 targetPositions = TargetPositions.AsArray(),
-                angularVelocitys = angularVelocitys.AsArray()
             }.Schedule(transformAccessArray); // 並列で処理(生成した弾の親が共通の親だと並列で処理されないので注意)
 
             controlJobHandle.Complete(); // 全ての弾の移動完了を待つ
@@ -219,14 +215,11 @@ namespace DACS.Projectile
                 var index = GetBullet(shotPos);
 
                 System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
-                int rX = random.Next(-10000, 10000);
-                int rY = random.Next(-10000, 10000);
-
                 Vector3 dir = // 弾の進行方向を計算
                     Quaternion.Euler(
-                        spreadHz * rX / 10000,
-                        spreadV * rY / 10000, // 拡散率を適応
-                        0)
+                        0,
+                        spreadHz * random.Next(-10000, 10000) / 10000f, // 拡散率を適応
+                        spreadV * random.Next(-10000, 10000) / 10000f)
                     * forward;
 
                 InitBullet(index, dir, target, config);
@@ -302,14 +295,11 @@ namespace DACS.Projectile
                 var index = GetBullet(shotPos);
 
                 System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
-                int rX = random.Next(-10000, 10000);
-                int rY = random.Next(-10000, 10000);
-
                 Vector3 dir = // 弾の進行方向を計算
                     Quaternion.Euler(
-                        spreadHz * rX / 10000,
-                        spreadV * rY / 10000, // 拡散率を適応
-                        0)
+                        0,
+                        spreadHz * random.Next(-10000, 10000) / 10000f, // 拡散率を適応
+                        spreadV * random.Next(-10000, 10000) / 10000f)
                     * forward;
 
                 InitBullet(index, dir, target, config);
@@ -340,7 +330,6 @@ namespace DACS.Projectile
                 TargetDistanceList.Add(-1); // 値が-1の時は移動処理が省略される
                 Targets.Add(transform);
                 TargetPositions.Add(Vector3.zero);
-                angularVelocitys.Add(Vector3.zero);
                 if (IsServer)
                 {
                     bulletDmgConfigList.Add(new());
@@ -379,7 +368,6 @@ namespace DACS.Projectile
             transformsList[index].rotation = Quaternion.Euler(dir.normalized);
             Targets[index] = target;
             TargetPositions[index] = Vector3.zero;
-            angularVelocitys[index] = Vector3.zero;
 
             bulletConfigsList[index] = new Bullet_Homing_Config()
             {
@@ -436,10 +424,9 @@ namespace DACS.Projectile
             sphereCastCommands.Dispose();
             TargetDistanceList.Dispose();
             TargetPositions.Dispose();
-            angularVelocitys.Dispose();
         }
 
-        // [BurstCompile]
+        [BurstCompile]
         struct ControlJob : IJobParallelForTransform
         {
             [ReadOnly] public float t;
@@ -450,7 +437,6 @@ namespace DACS.Projectile
             public NativeArray<float> TargetDistance;
             public NativeArray<SpherecastCommand> sphereCastCommands;
             [ReadOnly] public NativeArray<Vector3> targetPositions; // 標的の座標
-            public NativeArray<Vector3> angularVelocitys; // 角速度
             [ReadOnly] public QueryParameters queryParameters;
 
             public void Execute(int index, TransformAccess xform)
@@ -482,12 +468,23 @@ namespace DACS.Projectile
                 }
                 else if (dis == 0)
                 {
-                    Vector3 torque = config.springConstant * (Quaternion.LookRotation((targetPositions[index] - xform.position).normalized) * Quaternion.Inverse(xform.rotation)).eulerAngles - config.damping * angularVelocitys[index];
-                    angularVelocitys[index] += torque * t;
-                    xform.rotation = Quaternion.Euler(xform.rotation.eulerAngles + angularVelocitys[index] * t);
+                    // if (Vector3.Distance(targetPositions[index], xform.position) > 3)
+                    // {
 
-                    // 目標の方向に移動
-                    xform.position += t * config.Speed * dir;
+                        // 目標の方向を計算
+                        Vector3 targetDirection = (targetPositions[index] - xform.position).normalized;
+
+                        // 回転を更新
+                        xform.rotation = Quaternion.Slerp(xform.rotation, Quaternion.LookRotation(targetDirection), t * Vector3.Distance(targetPositions[index], xform.position) / config.springConstant);
+
+                        // 移動
+                        dir = xform.rotation * Vector3.forward;
+                        v = t * config.Speed * dir;
+                    // }
+                    // else
+                    // {
+                    //     v = t * config.Speed * dir;
+                    // }
                 }
 
                 xform.position += v; // 位置の更新
@@ -498,8 +495,6 @@ namespace DACS.Projectile
                         dir,
                         queryParameters,
                         config.Speed * t * 1.5f);
-
-                // Debug.DrawRay(xform.position, config.Dir * config.Speed * t * 1.5f, Color.red, 0.01f, true);
 
                 TargetDistance[index] = 0;
             }

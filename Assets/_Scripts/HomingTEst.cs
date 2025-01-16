@@ -11,10 +11,9 @@ public class HomingTEst : MonoBehaviour
 {
         [SerializeField] ProjectileSO configsSO; // データベース
         [SerializeField] GameObject bulletPrefab;
-        [SerializeField] Transform targetOBJECT;
-        [HideInInspector] public Transform PlayerTransform; // ClientGeneralManagerから設定
-        [HideInInspector] public ulong ownID = 0; // ClientOnly
-        [HideInInspector] public ulong nwoID = 0; // ClientOnly
+        // [HideInInspector] public Transform PlayerTransform; // ClientGeneralManagerから設定
+        // [HideInInspector] public ulong ownID = 0; // ClientOnly
+        // [HideInInspector] public ulong nwoID = 0; // ClientOnly
         List<Transform> transformsList = new(); // 生成された弾を全て登録
         NativeList<Bullet_Homing_Config> bulletConfigsList; // 弾のデータを格納(データの内容は変更可能)
         NativeList<float> bulletsElapsedList; // 各弾の着弾予想時間を格納
@@ -69,14 +68,6 @@ public class HomingTEst : MonoBehaviour
                 hitTriggers = QueryTriggerInteraction.UseGlobal,
                 hitBackfaces = false
             };
-        }
-
-        void FixedUpdate()
-        {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                SetBulletServer(transform.position, transform.forward, 2, 10, targetOBJECT);
-            }
         }
 
         void Update()

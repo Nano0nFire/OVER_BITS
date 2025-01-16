@@ -169,14 +169,11 @@ namespace DACS.Projectile
                 var spreadV = config.ProjectileSpreadV;
 
                 System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
-                int rX = random.Next(-10000, 10000);
-                int rY = random.Next(-10000, 10000);
-
                 Vector3 dir = // 弾の進行方向を計算
                     Quaternion.Euler(
-                        spreadHz * rX / 10000,
-                        spreadV * rY / 10000, // 拡散率を適応
-                        0)
+                        0,
+                        spreadHz * random.Next(-10000, 10000) / 10000f, // 拡散率を適応
+                        spreadV * random.Next(-10000, 10000) / 10000f)
                     * forward;
 
                 bulletConfigsList[index] = new()
@@ -199,14 +196,11 @@ namespace DACS.Projectile
                 var spreadV = config.ProjectileSpreadV;
 
                 System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
-                int rX = random.Next(-10000, 10000);
-                int rY = random.Next(-10000, 10000);
-
                 Vector3 dir = // 弾の進行方向を計算
                     Quaternion.Euler(
-                        spreadHz * rX / 10000,
-                        spreadV * rY / 10000, // 拡散率を適応
-                        0)
+                        0,
+                        spreadHz * random.Next(-10000, 10000) / 10000f, // 拡散率を適応
+                        spreadV * random.Next(-10000, 10000) / 10000f)
                     * forward;
 
                 bulletConfigsList[index] = new BulletControl_Config()
@@ -248,14 +242,11 @@ namespace DACS.Projectile
                 var index = GetBullet(shotPos);
 
                 System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
-                int rX = random.Next(-10000, 10000);
-                int rY = random.Next(-10000, 10000);
-
                 Vector3 dir = // 弾の進行方向を計算
                     Quaternion.Euler(
-                        spreadHz * rX / 10000,
-                        spreadV * rY / 10000, // 拡散率を適応
-                        0)
+                        0,
+                        spreadHz * random.Next(-10000, 10000) / 10000f, // 拡散率を適応
+                        spreadV * random.Next(-10000, 10000) / 10000f)
                     * forward;
 
                 bulletConfigsList[index] = new BulletControl_Config()
@@ -294,14 +285,11 @@ namespace DACS.Projectile
                 var index = GetBullet(shotPos);
 
                 System.Random random = new(seed + i); // クライアント間でランダムの結果を共通化したいのでシードを共通にする
-                int rX = random.Next(-10000, 10000);
-                int rY = random.Next(-10000, 10000);
-
                 Vector3 dir = // 弾の進行方向を計算
                     Quaternion.Euler(
-                        spreadHz * rX / 10000,
-                        spreadV * rY / 10000, // 拡散率を適応
-                        0)
+                        0,
+                        spreadHz * random.Next(-10000, 10000) / 10000f, // 拡散率を適応
+                        spreadV * random.Next(-10000, 10000) / 10000f)
                     * forward;
 
                 bulletConfigsList[index] = new BulletControl_Config()
