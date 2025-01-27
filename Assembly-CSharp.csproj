@@ -111,6 +111,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\_Scripts\Old\DACSMainController.cs" />
     <Compile Include="Assets\buruburul.cs" />
+    <Compile Include="Assets\_Scripts\General\LobbyAnimation\JobSystemSample.cs" />
     <Compile Include="Assets\_Scripts\Data\ItemDataBase.cs" />
     <Compile Include="Assets\_Scripts\DACS\HotbarSystem.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CharactorMovement.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Assets\_Scripts\Old\DACS_ItemManagementSystem.cs" />
     <Compile Include="Assets\_Scripts\CLAP\PartsSO.cs" />
     <Compile Include="Assets\_Scripts\CLAP\ClapTalk.cs" />
+    <Compile Include="Assets\_Scripts\General\LobbyAnimation\RMeshAPI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem_SlotComponent.cs" />
     <Compile Include="Assets\_Scripts\DACS\InventorySystem.cs" />
