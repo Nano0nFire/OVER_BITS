@@ -10,7 +10,8 @@ public class LobbyLogoPush : MonoBehaviour
 {
     [SerializeField] Mesh _mesh = null;
     [SerializeField] Material _material = null;
-    public float push = 0;
+    float push = 0;
+    float target = 0;
 
     PositionBuffer _buffer;
 
@@ -22,8 +23,12 @@ public class LobbyLogoPush : MonoBehaviour
     void OnDestroy()
       => _buffer.Dispose();
 
+    public void Play(float target)
+      => this.target = target;
+
     void Update()
     {
+        push = Mathf.Lerp(push, target, Time.deltaTime);
         _buffer.Update(push);
 
         var rparams = new RenderParams(_material)

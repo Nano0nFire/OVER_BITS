@@ -81,6 +81,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\_Scripts\CLAP\HandControl.cs" />
     <Compile Include="Assets\_Scripts\Old\DACSObjectPooler.cs" />
+    <Compile Include="Assets\CameraPathController.cs" />
     <Compile Include="Assets\_Scripts\General\PlayerInputManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\_Scripts\Old\DACS_WeaponObjectInfo.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Assets\_Scripts\Old\DACS_HotbarSystem.cs" />
     <Compile Include="Assets\_Scripts\Old\DACS_CheckVisibility.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
+    <Compile Include="Assets\LobbyAnimationEvent.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />

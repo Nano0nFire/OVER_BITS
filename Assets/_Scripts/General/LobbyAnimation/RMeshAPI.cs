@@ -12,6 +12,9 @@ public class RMeshAPI : MonoBehaviour
     [SerializeField] Material _material = null, material2 = null;
     [SerializeField] Vector2Int _counts = new Vector2Int(10, 10);
 
+    bool isEnable = false;
+    float t = 0;
+    float stop = 0;
     PositionBuffer _buffer;
 
     void Start()
@@ -20,9 +23,20 @@ public class RMeshAPI : MonoBehaviour
     void OnDestroy()
       => _buffer.Dispose();
 
+    public void Play(float stop)
+    {
+        this.stop = stop;
+        isEnable = true;
+    }
+
     void Update()
     {
-        _buffer.Update(Time.time);
+        if (t > stop)
+            isEnable = false;
+        else
+            t += Time.deltaTime;
+
+        _buffer.Update(t, isEnable);
 
         var rparams = new RenderParams(_material)
           { receiveShadows = true,
@@ -55,6 +69,7 @@ public class RMeshAPI : MonoBehaviour
         public NativeArray<Matrix4x4> Matrices => _arrays.m.Reinterpret<Matrix4x4>();
         public NativeArray<Matrix4x4> Matrices2, Matrices3;
         public NativeArray<float3> scales;
+        NativeArray<float> zScale;
 
         (NativeArray<float3> p, NativeArray<float4x4> m) _arrays;
         (int x, int y) _dims;
@@ -65,6 +80,7 @@ public class RMeshAPI : MonoBehaviour
             _arrays = (new NativeArray<float3>(_dims.x * _dims.y, Allocator.Persistent),
                     new NativeArray<float4x4>(_dims.x * _dims.y, Allocator.Persistent));
             scales = new NativeArray<float3>(_dims.x * _dims.y, Allocator.Persistent);
+            zScale = new NativeArray<float>(_dims.x * _dims.y, Allocator.Persistent);
             Matrices2 = new NativeArray<Matrix4x4>(_dims.x * _dims.y, Allocator.Persistent);
             Matrices3 = new NativeArray<Matrix4x4>(_dims.x / 10 * _dims.y / 10, Allocator.Persistent);
             var offs = 0;
@@ -76,7 +92,9 @@ public class RMeshAPI : MonoBehaviour
                     var z = j - _dims.y * 0.2f;
                     var p = math.float3(x + UnityEngine.Random.Range(-0.2f, 0.2f), UnityEngine.Random.Range(-10f, 1f), z + UnityEngine.Random.Range(-0.4f, 0.4f));
                     _arrays.p[offs] = p;
-                    var scale = math.float3(UnityEngine.Random.Range(0.1f, 0.5f), UnityEngine.Random.Range(1f, 1.5f), UnityEngine.Random.Range(0.5f, 1.5f));
+                    float zs = UnityEngine.Random.Range(0.5f, 1.5f);
+                    var scale = math.float3(UnityEngine.Random.Range(0.1f, 0.5f), UnityEngine.Random.Range(1f, 1.5f), zs);
+                    zScale[offs] = zs;
                     scales[offs] = scale;
 
                     var transformMatrix = math.mul(float4x4.Translate(p), float4x4.Scale(scale));
@@ -124,9 +142,10 @@ public class RMeshAPI : MonoBehaviour
             if (scales.IsCreated) scales.Dispose();
             if (Matrices2.IsCreated) Matrices2.Dispose();
             if (Matrices3.IsCreated) Matrices3.Dispose();
+            if (zScale.IsCreated) zScale.Dispose();
         }
 
-        public void Update(float time)
+        public void Update(float time, bool isEnable)
         {
             var t = time;
             var handle = new CalJob
@@ -134,6 +153,8 @@ public class RMeshAPI : MonoBehaviour
                 Positions = _arrays.p,
                 Matrices = _arrays.m,
                 scales = scales,
+                isEnable = isEnable,
+                zScale = zScale,
                 t = t
             }.Schedule(_arrays.p.Length, 64);
 
@@ -146,11 +167,14 @@ public class RMeshAPI : MonoBehaviour
             public NativeArray<float3> Positions;
             public NativeArray<float4x4> Matrices;
             public NativeArray<float3> scales;
+            public NativeArray<float> zScale;
             public float t;
+            public bool isEnable;
             public void Execute(int index)
             {
                 // z方向のスケールを計算（sinカーブを使用）
-                float scaleZ = 0.1f + Math.Abs(math.sin(t) * scales[index].z);
+                float scaleZ = isEnable ? 0.1f + Math.Abs(math.sin(t) * scales[index].z * 2.0f) : zScale[index];
+                zScale[index] = scaleZ;
                 var position = new float3(Positions[index].x, Positions[index].y, Positions[index].z + scaleZ / 2.0f);
 
                 // 位置とスケールを掛け合わせて最終行列を計算
