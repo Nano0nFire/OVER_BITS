@@ -208,7 +208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &91445289
 Transform:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 0.504717, g: 0.74049443, b: 1, a: 1}
-  m_Intensity: 3049.4
+  m_Intensity: 500
   m_Range: 40
   m_SpotAngle: 179
   m_InnerSpotAngle: 0
@@ -609,7 +609,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 175210519}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.029243534, y: 0.40471292, z: -0.012950473, w: 0.91388434}
+  m_LocalRotation: {x: 0.029243523, y: 0.40471292, z: -0.012950468, w: 0.91388434}
   m_LocalPosition: {x: -137.97464, y: 12.437133, z: -107.229645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -854,13 +854,13 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: -137.97464, y: 12.437133, z: -107.229645}
     roll: 0
-  - position: {x: -28.88195, y: 2.647472, z: -23.443424}
+  - position: {x: 27.245989, y: 25.354563, z: -1.3603153}
     roll: 0
-  - position: {x: 20.506815, y: 18.627766, z: 2.4973388}
+  - position: {x: 23.017563, y: 25.275856, z: 49.56391}
     roll: 0
-  - position: {x: 50.530754, y: 22.31222, z: 45.82258}
+  - position: {x: 22.240194, y: 20.195362, z: 110.76456}
     roll: 0
-  - position: {x: 1.6119475, y: 17.018984, z: 310.78244}
+  - position: {x: 1.6479656, y: 17.018984, z: 310.78244}
     roll: 0
 --- !u!4 &352096753
 Transform:
@@ -1944,7 +1944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  _material: {fileID: 2100000, guid: 9bbbdde5915792d44824c1004e40322f, type: 2}
+  _material: {fileID: 2100000, guid: 2d8814dd4f5ec794badfe32f485a2321, type: 2}
   material2: {fileID: 2100000, guid: e062a56dbbe330040874336455891c8d, type: 2}
   _counts: {x: 100, y: 100}
 --- !u!1 &661344635
@@ -1999,27 +1999,37 @@ MonoBehaviour:
   logoPush: {fileID: 194220363}
   animationEvents:
   - speed: 30
-    pos: 172
+    pos: 180
     delay: 0
     target: {fileID: 1365794625}
     ActionIndex: -1
-  - speed: 1
-    pos: 181
+  - speed: 15
+    pos: 216
     delay: 0
     target: {fileID: 1365794625}
     ActionIndex: 0
-  - speed: 1
-    pos: 190
+  - speed: 15
+    pos: 256
     delay: 0
     target: {fileID: 1365794625}
     ActionIndex: 1
   - speed: 100
-    pos: 532.3026
+    pos: 442.1
+    delay: 0
+    target: {fileID: 1365794625}
+    ActionIndex: -1
+  - speed: 100
+    pos: 519.4542
     delay: 0
     target: {fileID: 797147579}
-    ActionIndex: 0
+    ActionIndex: -1
   - speed: 100
-    pos: 532.3026
+    pos: 519.4542
+    delay: 1
+    target: {fileID: 797147579}
+    ActionIndex: -1
+  - speed: 100
+    pos: 519.4542
     delay: 5
     target: {fileID: 797147579}
     ActionIndex: 2
@@ -2665,7 +2675,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882358860}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.049175516, y: 0.44035998, z: -0.024164462, w: 0.89614785}
+  m_LocalRotation: {x: -0.028462363, y: 0.5045144, z: 0.016643615, w: 0.86277354}
   m_LocalPosition: {x: -146.46443, y: 4.158925, z: -125.25365}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2793,7 +2803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &944204115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3006,7 +3016,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000206799}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.02924353, y: 0.40471292, z: -0.0129504725, w: 0.91388434}
+  m_LocalRotation: {x: 0.02924352, y: 0.40471286, z: -0.012950465, w: 0.9138844}
   m_LocalPosition: {x: -137.97464, y: 12.437133, z: -107.229645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3031,7 +3041,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1038657421
 Transform:
   m_ObjectHideFlags: 0
@@ -3081,7 +3091,7 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 0.504717, g: 0.74049443, b: 1, a: 1}
-  m_Intensity: 3049.4
+  m_Intensity: 500
   m_Range: 40
   m_SpotAngle: 179
   m_InnerSpotAngle: 0
@@ -3152,7 +3162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1332273819
 Transform:
   m_ObjectHideFlags: 0
@@ -3202,7 +3212,7 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 0.504717, g: 0.74049443, b: 1, a: 1}
-  m_Intensity: 3049.4
+  m_Intensity: 500
   m_Range: 40
   m_SpotAngle: 179
   m_InnerSpotAngle: 0
@@ -3322,8 +3332,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: -82}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 652973082}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3463,7 +3473,7 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 0.5555556, b: 0, a: 1}
-  m_Intensity: 3667.7
+  m_Intensity: 250
   m_Range: 36.2
   m_SpotAngle: 179
   m_InnerSpotAngle: 0
@@ -3899,8 +3909,8 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 0.504717, g: 0.74049443, b: 1, a: 1}
-  m_Intensity: 3049.4
-  m_Range: 40
+  m_Intensity: 6000
+  m_Range: 90
   m_SpotAngle: 179
   m_InnerSpotAngle: 0
   m_CookieSize: 10
@@ -4020,7 +4030,7 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 0, g: 0.6851852, b: 1, a: 1}
-  m_Intensity: 3667.7
+  m_Intensity: 250
   m_Range: 36.2
   m_SpotAngle: 179
   m_InnerSpotAngle: 0
@@ -4961,7 +4971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2028879560
 Transform:
   m_ObjectHideFlags: 0
@@ -5011,7 +5021,7 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 0.504717, g: 0.74049443, b: 1, a: 1}
-  m_Intensity: 3049.4
+  m_Intensity: 500
   m_Range: 40
   m_SpotAngle: 179
   m_InnerSpotAngle: 0

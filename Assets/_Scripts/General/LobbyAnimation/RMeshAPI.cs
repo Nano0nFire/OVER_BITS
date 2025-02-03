@@ -11,14 +11,20 @@ public class RMeshAPI : MonoBehaviour
     [SerializeField] Mesh _mesh = null;
     [SerializeField] Material _material = null, material2 = null;
     [SerializeField] Vector2Int _counts = new Vector2Int(10, 10);
+    GraphicsBuffer _colorBuffer;
 
     bool isEnable = false;
     float t = 0;
     float stop = 0;
     PositionBuffer _buffer;
+    MaterialPropertyBlock _matProps;
 
     void Start()
-      => _buffer = new PositionBuffer(_counts.x, _counts.y);
+    {
+        _buffer = new PositionBuffer(_counts.x, _counts.y);
+        _colorBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, _counts.x * _counts.y, sizeof(float) * 4);
+        _matProps = new MaterialPropertyBlock();
+    }
 
     void OnDestroy()
       => _buffer.Dispose();
@@ -34,20 +40,28 @@ public class RMeshAPI : MonoBehaviour
         if (t > stop)
             isEnable = false;
         else
-            t += Time.deltaTime;
+            t += Time.deltaTime / 2.0f;
 
         _buffer.Update(t, isEnable);
 
+        _colorBuffer.SetData(_buffer.Colors);
+        _material.SetBuffer("_InstanceColorBuffer", _colorBuffer);
+
         var rparams = new RenderParams(_material)
           { receiveShadows = true,
-            shadowCastingMode = ShadowCastingMode.On };
+            shadowCastingMode = ShadowCastingMode.On,
+            matProps = _matProps };
 
         var matrices = _buffer.Matrices;
         for (var offs = 0; offs < matrices.Length; offs += 1023)
         {
             var count = Mathf.Min(1023, matrices.Length - offs);
+            _matProps.SetInteger("_InstanceIDOffset", offs);
             Graphics.RenderMeshInstanced(rparams, _mesh, 0, matrices, count, offs);
         }
+        rparams = new RenderParams(_material)
+          { receiveShadows = true,
+            shadowCastingMode = ShadowCastingMode.On };
         matrices = _buffer.Matrices2;
         for (var offs = 0; offs < matrices.Length; offs += 1023)
         {
@@ -68,7 +82,9 @@ public class RMeshAPI : MonoBehaviour
     {
         public NativeArray<Matrix4x4> Matrices => _arrays.m.Reinterpret<Matrix4x4>();
         public NativeArray<Matrix4x4> Matrices2, Matrices3;
+        public NativeArray<Color> Colors;
         public NativeArray<float3> scales;
+
         NativeArray<float> zScale;
 
         (NativeArray<float3> p, NativeArray<float4x4> m) _arrays;
@@ -83,19 +99,24 @@ public class RMeshAPI : MonoBehaviour
             zScale = new NativeArray<float>(_dims.x * _dims.y, Allocator.Persistent);
             Matrices2 = new NativeArray<Matrix4x4>(_dims.x * _dims.y, Allocator.Persistent);
             Matrices3 = new NativeArray<Matrix4x4>(_dims.x / 10 * _dims.y / 10, Allocator.Persistent);
+            Colors = new NativeArray<Color>(_dims.x * _dims.y, Allocator.Persistent);
             var offs = 0;
+            int center = _dims.x * _dims.y / 2;
+            float colorBuffer;
             for (var i = 0; i < _dims.x; i++)
             {
                 var x = i - _dims.x * 0.5f;
                 for (var j = 0; j < _dims.y; j++)
                 {
                     var z = j - _dims.y * 0.2f;
-                    var p = math.float3(x + UnityEngine.Random.Range(-0.2f, 0.2f), UnityEngine.Random.Range(-10f, 1f), z + UnityEngine.Random.Range(-0.4f, 0.4f));
+                    var p = math.float3(x + UnityEngine.Random.Range(-0.2f, 0.2f), center == offs ? -10 : UnityEngine.Random.Range(-10f, 1f), z + UnityEngine.Random.Range(-0.4f, 0.4f));
                     _arrays.p[offs] = p;
                     float zs = UnityEngine.Random.Range(0.5f, 1.5f);
-                    var scale = math.float3(UnityEngine.Random.Range(0.1f, 0.5f), UnityEngine.Random.Range(1f, 1.5f), zs);
+                    colorBuffer = UnityEngine.Random.Range(0f, 1f);
+                    var scale = math.float3(UnityEngine.Random.Range(0.1f, 0.3f), UnityEngine.Random.Range(0.5f, 1f), zs);
                     zScale[offs] = zs;
                     scales[offs] = scale;
+                    Colors[offs] = new Color(colorBuffer, colorBuffer, colorBuffer, 1);
 
                     var transformMatrix = math.mul(float4x4.Translate(p), float4x4.Scale(scale));
 
@@ -111,7 +132,7 @@ public class RMeshAPI : MonoBehaviour
                 {
                     var z = j - _dims.y * 0.2f + 0.2f;
                     var p = math.float3(x, UnityEngine.Random.Range(-2f, 0), z);
-                    var scale = math.float3(UnityEngine.Random.Range(0.5f, 1.5f), UnityEngine.Random.Range(0.3f, 2), UnityEngine.Random.Range(0.5f, 1.5f));
+                    var scale = math.float3(UnityEngine.Random.Range(1f, 2f), UnityEngine.Random.Range(0.3f, 1.5f), UnityEngine.Random.Range(1f, 2f));
                     var transformMatrix = math.mul(float4x4.Translate(p), float4x4.Scale(scale));
 
                     Matrices2[offs] = transformMatrix;
@@ -173,7 +194,7 @@ public class RMeshAPI : MonoBehaviour
             public void Execute(int index)
             {
                 // z方向のスケールを計算（sinカーブを使用）
-                float scaleZ = isEnable ? 0.1f + Math.Abs(math.sin(t) * scales[index].z * 2.0f) : zScale[index];
+                float scaleZ = isEnable ? 0.1f + Math.Abs(math.sin(t) * scales[index].z * 2.5f) : zScale[index];
                 zScale[index] = scaleZ;
                 var position = new float3(Positions[index].x, Positions[index].y, Positions[index].z + scaleZ / 2.0f);
 

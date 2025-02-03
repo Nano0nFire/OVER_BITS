@@ -12,6 +12,7 @@ public class LobbyAnimationEvent : MonoBehaviour
     [SerializeField] LobbyLogoPush logoPush;
     [SerializeField] List<AnimationEvent> animationEvents;
     [SerializeField] int eventCounter = 0;
+    float speed = 0;
     bool delay = false;
 
 
@@ -20,7 +21,8 @@ public class LobbyAnimationEvent : MonoBehaviour
         if (eventCounter > animationEvents.Count || delay)
             return;
 
-        dollyCart.m_Position += animationEvents[eventCounter].speed * Time.deltaTime;
+        speed = math.lerp(speed, animationEvents[eventCounter].speed, 0.1f);
+        dollyCart.m_Position += speed * Time.deltaTime;
         if (dollyCart.m_Position >= animationEvents[eventCounter].pos)
         {
             delay = true;
