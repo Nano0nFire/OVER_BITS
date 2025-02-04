@@ -10,6 +10,7 @@ public class LobbyAnimationEvent : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera virtualCamera;
     [SerializeField] RMeshAPI rMeshAPI;
     [SerializeField] LobbyLogoPush logoPush;
+    [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] List<AnimationEvent> animationEvents;
     [SerializeField] int eventCounter = 0;
     float speed = 0;
@@ -48,8 +49,20 @@ public class LobbyAnimationEvent : MonoBehaviour
             case 2:
                 logoPush.Play(0.5f);
                 break;
+            case 3:
+                Fadein();
+                break;
             default:
                 break;
+        }
+    }
+
+    async void Fadein()
+    {
+        for (float i = 0; i < 1; i += 0.01f)
+        {
+            canvasGroup.alpha = i;
+            await UniTask.Delay(10, cancellationToken: this.GetCancellationTokenOnDestroy());
         }
     }
     [System.Serializable]

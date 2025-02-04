@@ -89,6 +89,7 @@
     <Compile Include="Assets\_Scripts\DACS\Extensions.cs" />
     <Compile Include="Assets\_Scripts\UI\SlotGenerator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
+    <Compile Include="Assets\_Scripts\btntest.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\_Scripts\General\PlayerStatus.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem.cs" />

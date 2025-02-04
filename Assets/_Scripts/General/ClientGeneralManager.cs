@@ -63,26 +63,8 @@ public class ClientGeneralManager : NetworkBehaviour
     public bool InvertAim; //垂直方向の視点操作の反転
     public bool FirstPersonMode;
 
-    static ClientGeneralManager instance;
+    public static ClientGeneralManager Instance;
 
-    // インスタンスへのプロパティ
-    public static ClientGeneralManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindFirstObjectByType<ClientGeneralManager>();
-
-                if (instance == null)
-                {
-                    GameObject singletonObject = new(typeof(ClientGeneralManager).Name);
-                    instance = singletonObject.AddComponent<ClientGeneralManager>();
-                }
-            }
-            return instance;
-        }
-    }
 
     public override async void OnNetworkSpawn()
     {
@@ -90,7 +72,7 @@ public class ClientGeneralManager : NetworkBehaviour
 
         UseInput = true;
 
-        await UniTask.Delay(500);
+        await UniTask.Delay(1000); // 1秒待機
 
         isOwner = nwObject.IsOwner;
 
@@ -102,11 +84,11 @@ public class ClientGeneralManager : NetworkBehaviour
             return;
         }
 
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
-        else if (instance != this)
+        else if (Instance != this)
         {
             var objectsWithComponent = FindObjectsByType<ClientGeneralManager>(FindObjectsSortMode.None);
             foreach (var obj in objectsWithComponent)
@@ -115,6 +97,7 @@ public class ClientGeneralManager : NetworkBehaviour
                     Destroy(obj);
             }
         }
+        Debug.Log("ClientGeneralManager : Setting Up");
 
         // データ系
 

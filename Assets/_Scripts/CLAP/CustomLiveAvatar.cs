@@ -238,7 +238,7 @@ namespace CLAPlus
             }
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         public void CombineServerRpc(int[] IDs)
         {
             CombineClientRpc(IDs);
