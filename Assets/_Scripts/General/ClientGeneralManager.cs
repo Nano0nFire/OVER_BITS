@@ -13,6 +13,7 @@ using DACS.Inventory;
 using CLAPlus.Face2Face;
 using CLAPlus.ClapTalk;
 using CLAPlus.ClapChat;
+using System.Collections.Generic;
 
 public class ClientGeneralManager : NetworkBehaviour
 {
@@ -28,7 +29,7 @@ public class ClientGeneralManager : NetworkBehaviour
     public InventorySystem invSystem;
     public HotbarSystem hotbarSystem;
     Projectile projectile;
-    public ulong clientID{get; private set;}
+    public static ulong clientID{get; private set;}
     public ulong nwID{get; private set;}
     States KeepState;
     public bool UseInput
@@ -64,26 +65,18 @@ public class ClientGeneralManager : NetworkBehaviour
     public bool FirstPersonMode;
 
     public static ClientGeneralManager Instance;
+    public static bool IsLoaded = false;
 
 
     public override async void OnNetworkSpawn()
     {
         Debug.Log("ClientGeneralManager : Loading");
 
-        UseInput = true;
-
-        await UniTask.Delay(1000); // 1秒待機
-
-        isOwner = nwObject.IsOwner;
-
-        var masterObj = GameObject.Find("Master");
-
-        if (!isOwner)
+        if (!nwObject.IsOwner)
         {
             Destroy(this); // 重複するインスタンスを破棄
             return;
         }
-
         if (Instance == null)
         {
             Instance = this;
@@ -97,6 +90,15 @@ public class ClientGeneralManager : NetworkBehaviour
                     Destroy(obj);
             }
         }
+
+        UseInput = true;
+
+        await UniTask.Delay(1000); // 1秒待機
+
+        isOwner = nwObject.IsOwner;
+
+        var masterObj = GameObject.Find("Master");
+
         Debug.Log("ClientGeneralManager : Setting Up");
 
         // データ系
@@ -139,9 +141,12 @@ public class ClientGeneralManager : NetworkBehaviour
         clap_a.isOwner = isOwner;
         faceSync.tracker = masterObj.GetComponent<Face2Face>();
         ClapChat.Setup();
+        GetComponent<CustomLifeAvatar>().ModelIDs = await PlayerDataManager.LoadData<List<int>>("CustomLifeAvatarParts");
 
         // 設定
         LoadSettings();
+
+        IsLoaded = true;
 
         Debug.Log("ClientGeneralManager : Complete");
     }

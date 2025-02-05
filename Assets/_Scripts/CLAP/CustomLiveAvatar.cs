@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using CLAPlus;
+using Cysharp.Threading.Tasks;
 
 /****************************************************************************
 
@@ -33,7 +34,7 @@ namespace CLAPlus
         [SerializeField] GameObject RootBone;
         [SerializeField] SpringSystem SpringSystem;
         [SerializeField] Transform skins;
-        [SerializeField] List<string> partsType = new(); // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
+        [SerializeField] List<string>partsType = new(); // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
         readonly List<GameObject> partsList = new(); // 装備するモデルデータ
         /// <summary>
         /// ベースモデルのボーンと装備するモデルのボーンを足したもの<br />
@@ -43,11 +44,20 @@ namespace CLAPlus
         readonly List<Transform> bonesList = new();
         int SpringSystemIndex = -1;
 
-        public void Combiner()
+        public override async void OnNetworkSpawn()
+        {
+            await UniTask.WaitUntil(() => ClientGeneralManager.IsLoaded);
+            CombineServerRpc((long)ClientGeneralManager.clientID);
+
+        }
+
+        public async void Combiner()
         {
             if (IsOwner)
             {
-                CombineServerRpc(ModelIDs.ToArray());
+                await PlayerDataManager.SaveData(ModelIDs, "CustomLifeAvatarParts");
+                UpdateDataServerRpc(ModelIDs.ToArray());
+                CombineServerRpc();
             }
         }
 
@@ -239,17 +249,35 @@ namespace CLAPlus
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void CombineServerRpc(int[] IDs)
+        public void CombineServerRpc(long clientID = -1)
         {
-            CombineClientRpc(IDs);
+            if (clientID == -1)
+            {
+                CombineClientRpc(ModelIDs.ToArray());
+                return;
+            }
+
+            ClientRpcParams rpcParams = new() // ClientRPCを送る対象を選択
+            {
+                Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { (ulong)clientID } }
+            };
+            CombineClientRpc(ModelIDs.ToArray(), rpcParams);
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void UpdateDataServerRpc(int[] IDs)
+        {
+            if (IsServer)
+                ModelIDs = new(IDs);
+        }
+
         [ClientRpc]
-        public void CombineClientRpc(int[] IDs)
+        public void CombineClientRpc(int[] IDs, ClientRpcParams rpcParams = default)
         {
             if (!IsOwner)
                 ModelIDs = new(IDs);
 
-            StartCombine(IsOwner);
+            StartCombine(true);
         }
     }
 }

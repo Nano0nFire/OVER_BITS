@@ -263,6 +263,11 @@ public class PlayerDataManager : NetworkBehaviour
             List<ItemData> data = new ItemData[5].ToList();
             await SaveData(data, CustomKey); // 新規データの作成
         }
+        else if (CustomKey == "CustomLifeAvatarParts")
+        {
+            List<int> data = new int[6]{0,0,0,0,0,0}.ToList();
+            await SaveData(data, CustomKey); // 新規データの作成
+        }
         else
         {
             var data = new T();
