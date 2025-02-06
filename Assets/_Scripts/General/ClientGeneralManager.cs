@@ -104,7 +104,9 @@ public class ClientGeneralManager : NetworkBehaviour
         // データ系
 
         PlayerDataManager.PlayerSettingsData = await PlayerDataManager.LoadData<SettingsData>();
-        invSystem.Setup();
+        Debug.Log("ClientGeneralManager : PlayerDataManager Loaded");
+        await invSystem.Setup();
+        Debug.Log("ClientGeneralManager : InventorySystem Loaded");
 
         // Network
         clientID = nwObject.OwnerClientId;

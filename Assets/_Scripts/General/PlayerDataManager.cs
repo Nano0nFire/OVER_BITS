@@ -260,7 +260,8 @@ public class PlayerDataManager : NetworkBehaviour
         }
         else if (CustomKey == "HotbarData")
         {
-            List<ItemData> data = new ItemData[5].ToList();
+            ItemData temp = new ItemData(){FirstIndex = -2};
+            List<ItemData> data = new ItemData[5]{temp, temp, temp, temp, temp}.ToList();
             await SaveData(data, CustomKey); // 新規データの作成
         }
         else if (CustomKey == "CustomLifeAvatarParts")

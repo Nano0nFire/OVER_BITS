@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace DACS.Inventory
@@ -14,7 +15,7 @@ namespace DACS.Inventory
             get
             {
                 if (SelectedSlotIndex >= HotbarData.Count)
-                    return new ItemData{FirstIndex = -1};
+                    return new ItemData{FirstIndex = -1}; // 範囲外エラー
                 else
                     return HotbarData[SelectedSlotIndex];
             }
@@ -22,21 +23,23 @@ namespace DACS.Inventory
         public int SelectedSlotIndex;
         readonly int InventoryCount = 33;
 
-        public async void Setup()
+        public async UniTask Setup()
         {
             HotbarData = await PlayerDataManager.LoadData<List<ItemData>>("HotbarData");
+            List<UniTask> tasks = new();
             for (int i = 0; i < InventoryCount; i ++) // インベントリのロード
             {
-                LoadInventory(i);
+                tasks.Add(LoadInventory(i));
             }
+            await UniTask.WhenAll(tasks);
         }
 
-        async void LoadInventory(int index)
+        async UniTask LoadInventory(int index)
         {
             GetInventoryData(index).AddRange(await PlayerDataManager.LoadData<List<ItemData>>(GetListName(index)));
         }
 
-        public void ChangeHotbar(int index, ItemData itemData) // ホットバーの使用状況を保存
+        public static void ChangeHotbar(int index, ItemData itemData) // ホットバーの使用状況を保存
         {
             HotbarData[index] = itemData;
             PlayerDataManager.SaveData(HotbarData, "HotbarData").Forget();

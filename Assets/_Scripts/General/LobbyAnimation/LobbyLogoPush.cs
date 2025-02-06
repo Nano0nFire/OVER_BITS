@@ -10,8 +10,8 @@ public class LobbyLogoPush : MonoBehaviour
 {
     [SerializeField] Mesh _mesh = null;
     [SerializeField] Material _material = null;
-    float push = 0;
-    float target = 0;
+    [SerializeField] float push = 0;
+    [SerializeField] float target = 0;
 
     PositionBuffer _buffer;
 

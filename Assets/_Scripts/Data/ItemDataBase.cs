@@ -109,6 +109,10 @@ public class ItemDataBase : ScriptableObject
 [System.Serializable]
 public struct ItemData
 {
+    /// <summary>
+    /// -1の場合は範囲外エラーを示す<br />
+    /// -2の場合はアイテムが存在しないことを示す
+    /// </summary>
     public int FirstIndex; // GetItemの最初のインデックスに該当するもの
     public int SecondIndex; // GetItemの二番目のインデックスに該当する
     public int Amount; // アイテムの数

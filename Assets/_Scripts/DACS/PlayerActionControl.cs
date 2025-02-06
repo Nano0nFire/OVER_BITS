@@ -16,7 +16,7 @@ namespace DACS
         {
             var itemData = invSystem.SelectedItem;
 
-            if (itemData.FirstIndex == -1) // 取得不良時はFirstIndexが-1になっているのでここで確認する
+            if (itemData.FirstIndex < 0) // 取得不良時はFirstIndexが-1になっているのでここで確認する
                 return;
 
             var data = itemDataBase.GetItem(itemData.FirstIndex, itemData.SecondIndex).R_Function;
@@ -42,7 +42,7 @@ namespace DACS
         {
             var itemData = invSystem.SelectedItem;
 
-            if (itemData.FirstIndex == -1) // 取得不良時はFirstIndexが-1になっているのでここで確認する
+            if (itemData.FirstIndex < 0) // 取得不良時はFirstIndexが-1になっているのでここで確認する
                 return;
 
             var data = itemDataBase.GetItem(itemData.FirstIndex, itemData.SecondIndex).L_Function;
