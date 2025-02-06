@@ -78,3 +78,31 @@ The following packages were 更新済み:
   com.unity.inputsystem をバージョン 1.9.0 から 1.11.2 へ
   com.unity.probuilder をバージョン 6.0.3 から 6.0.4 へ
   com.unity.visualscripting をバージョン 1.9.4 から 1.9.5 へ
+
+=== Tue Jan  7 22:38:58 2025
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were 更新済み:
+  com.unity.collab-proxy をバージョン 1.13.5 から 2.5.2 へ
+  com.unity.ide.rider をバージョン 3.0.7 から 3.0.31 へ
+  com.unity.ide.visualstudio をバージョン 2.0.11 から 2.0.22 へ
+  com.unity.render-pipelines.high-definition をバージョン 12.1.0 から 17.0.3 へ
+  com.unity.render-pipelines.universal をバージョン 12.1.0 から 17.0.3 へ
+  com.unity.shadergraph をバージョン 12.1.0 から 17.0.3 へ
+  com.unity.test-framework をバージョン 1.1.29 から 1.4.5 へ
+  com.unity.timeline をバージョン 1.6.2 から 1.8.7 へ
+  com.unity.ugui をバージョン 1.0.0 から 2.0.0 へ
+  com.unity.visualscripting をバージョン 1.7.2 から 1.9.5 へ
+The following packages were 削除済み:
+  com.unity.textmeshpro@3.0.6
+
+=== Tue Jan  7 22:38:58 2025
+
+Packages were changed.
+Update Mode: mergeDefaultDependencies
+
+The following packages were 追加済み:
+  com.unity.render-pipelines.high-definition@17.0.3
+  com.unity.shadergraph@17.0.3

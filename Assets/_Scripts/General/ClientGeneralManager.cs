@@ -13,6 +13,7 @@ using DACS.Inventory;
 using CLAPlus.Face2Face;
 using CLAPlus.ClapTalk;
 using CLAPlus.ClapChat;
+using System.Collections.Generic;
 
 public class ClientGeneralManager : NetworkBehaviour
 {
@@ -28,7 +29,8 @@ public class ClientGeneralManager : NetworkBehaviour
     public InventorySystem invSystem;
     public HotbarSystem hotbarSystem;
     Projectile projectile;
-    public ulong clientID{get; private set;}
+    public static ulong clientID{get; private set;}
+    public ulong nwID{get; private set;}
     States KeepState;
     public bool UseInput
     {
@@ -62,50 +64,24 @@ public class ClientGeneralManager : NetworkBehaviour
     public bool InvertAim; //垂直方向の視点操作の反転
     public bool FirstPersonMode;
 
-    static ClientGeneralManager instance;
+    public static ClientGeneralManager Instance;
+    public static bool IsLoaded = false;
 
-    // インスタンスへのプロパティ
-    public static ClientGeneralManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindFirstObjectByType<ClientGeneralManager>();
-
-                if (instance == null)
-                {
-                    GameObject singletonObject = new(typeof(ClientGeneralManager).Name);
-                    instance = singletonObject.AddComponent<ClientGeneralManager>();
-                }
-            }
-            return instance;
-        }
-    }
 
     public override async void OnNetworkSpawn()
     {
         Debug.Log("ClientGeneralManager : Loading");
 
-        UseInput = true;
-
-        await UniTask.Delay(500);
-
-        isOwner = nwObject.IsOwner;
-
-        var masterObj = GameObject.Find("Master");
-
-        if (!isOwner)
+        if (!nwObject.IsOwner)
         {
             Destroy(this); // 重複するインスタンスを破棄
             return;
         }
-
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
-        else if (instance != this)
+        else if (Instance != this)
         {
             var objectsWithComponent = FindObjectsByType<ClientGeneralManager>(FindObjectsSortMode.None);
             foreach (var obj in objectsWithComponent)
@@ -115,13 +91,26 @@ public class ClientGeneralManager : NetworkBehaviour
             }
         }
 
+        UseInput = true;
+
+        await UniTask.Delay(1000); // 1秒待機
+
+        isOwner = nwObject.IsOwner;
+
+        var masterObj = GameObject.Find("Master");
+
+        Debug.Log("ClientGeneralManager : Setting Up");
+
         // データ系
 
         PlayerDataManager.PlayerSettingsData = await PlayerDataManager.LoadData<SettingsData>();
-        invSystem.Setup();
+        Debug.Log("ClientGeneralManager : PlayerDataManager Loaded");
+        await invSystem.Setup();
+        Debug.Log("ClientGeneralManager : InventorySystem Loaded");
 
         // Network
         clientID = nwObject.OwnerClientId;
+        nwID = nwObject.NetworkObjectId;
 
         var LocalGM = masterObj.GetComponent<LocalGeneralManager>();
         // UI
@@ -154,9 +143,12 @@ public class ClientGeneralManager : NetworkBehaviour
         clap_a.isOwner = isOwner;
         faceSync.tracker = masterObj.GetComponent<Face2Face>();
         ClapChat.Setup();
+        GetComponent<CustomLifeAvatar>().ModelIDs = await PlayerDataManager.LoadData<List<int>>("CustomLifeAvatarParts");
 
         // 設定
         LoadSettings();
+
+        IsLoaded = true;
 
         Debug.Log("ClientGeneralManager : Complete");
     }

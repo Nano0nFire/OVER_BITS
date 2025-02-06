@@ -208,7 +208,7 @@ public class DACSMainController : MonoBehaviour
 
         trailRenderer.widthCurve = configs.TrailCurve;
         trailRenderer.time = configs.TrailTime;
-        trailRenderer.material = configs.TrailMaterial;
+        // trailRenderer.material = configs.TrailMaterial;
     }
 }
 

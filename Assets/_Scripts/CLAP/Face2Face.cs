@@ -30,7 +30,6 @@ namespace CLAPlus.Face2Face
         public bool LeftEyeCloseness = false;
         public bool RightEyeCloseness = false;
         public bool MouthCloseness = false;
-        
 
         //キャッシュ用の変数         Variable for cache -----------------------------------
         private LinkedList<int> elapt_time = new LinkedList<int>();                      /// <param name="elapt_time">検出にかかった時間の配列 Array of detecting time</param>

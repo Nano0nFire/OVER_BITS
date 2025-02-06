@@ -24,6 +24,8 @@ namespace DACS.Inventory
         }
         public void SpawnItemObjectLocal(int FirstIndex, int SecondIndex, int index)
         {
+            if (FirstIndex < 0)
+                return;
             var data = itemDataBase.GetItem(FirstIndex, SecondIndex);
             if (data.ItemModel == null)
                 return;
@@ -31,14 +33,10 @@ namespace DACS.Inventory
             if (IsOwner)
                 SpawnItemObjectServerRpc(FirstIndex, SecondIndex, index);
 
-            Debug.Log("Start");
-
             if (hotbarItemObjects[index] != null)
                 Destroy(hotbarItemObjects[index]);
 
-            Debug.Log("Destroy");
             hotbarItemObjects[index] = Instantiate(data.ItemModel);
-            Debug.Log("Instantiate");
 
             objInfos[index] = hotbarItemObjects[index].GetComponent<ItemComponent>();
             var itemXform = hotbarItemObjects[index].transform;

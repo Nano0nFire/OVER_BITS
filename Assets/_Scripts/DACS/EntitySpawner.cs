@@ -27,7 +27,7 @@ namespace DACS.Entities
         [SerializeField, Tooltip("スポーン範囲を設定\nランダムスポーンの場合は最低3つを指定する/n固定スポーンの場合は一つだけ指定する")]
         Transform[] SpawnMarker = new Transform[3];
         [SerializeField] List<GameObject> Entities = new(); // アクティブなEntityをキューで把握
-        [HideInInspector] public List<Transform> NearbyPalyersTransformList = new(); // スポナーを読み込んでいるプレイヤーのTransform
+        public List<Transform> NearbyPalyersTransformList = new(); // スポナーを読み込んでいるプレイヤーのTransform
         // List<ulong> loadedPlayerNWIDs = new();
         EntityConfigs entityData;
         bool isSpawning = false;
@@ -40,6 +40,8 @@ namespace DACS.Entities
         {
             center = CalculateCenter();
             rad = CalculateRadius();
+            entityData ??= EntitiesSO.GetEntity(SpawnTargetFirstIndex, SpawnTargetSecondIndex);
+
         }
 
         async void Update()
@@ -52,9 +54,8 @@ namespace DACS.Entities
             if (!IsServer) // Serverのみ呼び出し可能
                 return;
 
-            if (Entities.Count >= MaxSpawnAmount)
+            if (Entities.Count == MaxSpawnAmount)
                 return;
-            entityData ??= EntitiesSO.GetEntity(SpawnTargetFirstIndex, SpawnTargetSecondIndex);
 
             await UniTask.Delay(TimeSpan.FromSeconds(UnityEngine.Random.Range((SpawnSpan - 5) > 0 ? SpawnSpan - 5 : 0, (SpawnSpan + 5) > 0 ? SpawnSpan + 5 : 5)), cancellationToken : destroyCancellationToken); // スポーンの間隔を設定から+-5秒にする
             Spawn();
@@ -172,42 +173,44 @@ namespace DACS.Entities
             pdManager.AddItem(itemData, attackerID);
         }
 
-        [ServerRpc]
-        public void LoadSpawnerServerRpc(ulong clientID)
+        [ServerRpc(RequireOwnership = false)]
+        public void LoadSpawnerServerRpc(ulong nwID)
         {
             if (!IsServer)
                 return;
 
-            NearbyPalyersTransformList.Add(NetworkManager.SpawnManager.SpawnedObjects[clientID].transform);
-            // loadedPlayerNWIDs.Add(clientID);
+            NearbyPalyersTransformList.Add(NetworkManager.SpawnManager.SpawnedObjects[nwID].transform);
+            Debug.Log("Loaded : " + nwID);
+            // loadedPlayerNWIDs.Add(nwID);
             // foreach (var entity in Entities)
             // {
-            //     entity.GetComponent<NetworkObject>().NetworkShow(clientID);
+            //     entity.GetComponent<NetworkObject>().NetworkShow(nwID);
             // }
         }
-        [ServerRpc]
-        public void UnLoadSpawnerServerRpc(ulong clientID)
+        [ServerRpc(RequireOwnership = false)]
+        public void UnLoadSpawnerServerRpc(ulong nwID)
         {
             if (!IsServer)
                 return;
 
-            NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedObjects[clientID].transform);
-            // loadedPlayerNWIDs.Remove(clientID);
+            NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedObjects[nwID].transform);
+            Debug.Log("Unloaded : " + nwID);
+            // loadedPlayerNWIDs.Remove(nwID);
             // foreach (var entity in Entities)
             // {
-            //     entity.GetComponent<NetworkObject>().NetworkHide(clientID);
+            //     entity.GetComponent<NetworkObject>().NetworkHide(nwID);
             // }
         }
         // [ServerRpc]
-        // public void DespawnOrderServerRpc(ulong clientID)
+        // public void DespawnOrderServerRpc(ulong nwID)
         // {
         //     if (!IsServer)
         //         return;
-        //     DespawnForClient(Entities.ToArray(), clientID);
-        //     NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedSpawnMarker[clientID].transform);
-        //     NearbyPalyersNWIDsList.Remove(clientID);
+        //     DespawnForClient(Entities.ToArray(), nwID);
+        //     NearbyPalyersTransformList.Remove(NetworkManager.SpawnManager.SpawnedSpawnMarker[nwID].transform);
+        //     NearbyPalyersNWIDsList.Remove(nwID);
         // }
-        // public void SpawnForClient(GameObject[] entities, ulong targetClientId) // このスポナーをクライアントが読み込んだ場合にServerRPCを通して呼び出される
+        // public void SpawnForClient(GameObject[] entities, ulong targetnwID) // このスポナーをクライアントが読み込んだ場合にServerRPCを通して呼び出される
         // {
         //     if (IsServer)
         //         return;
@@ -219,7 +222,7 @@ namespace DACS.Entities
         //         if (networkObject != null && IsServer) // サーバー側でのみ実行
         //         {
         //             // 特定のクライアントのみに通知する
-        //             networkObject.CheckObjectVisibility = (clientId) => clientId == targetClientId;
+        //             networkObject.CheckObjectVisibility = (nwID) => nwID == targetnwID;
         //             networkObject.Spawn();
         //         }
         //     }
@@ -236,11 +239,11 @@ namespace DACS.Entities
         //     if (networkObject != null && IsServer) // サーバー側でのみ実行
         //     {
         //         // CheckObjectVisibilityデリゲートで指定クライアントのみ許可
-        //         networkObject.CheckObjectVisibility = (clientId) => allowedClients.Contains(clientId);
+        //         networkObject.CheckObjectVisibility = (nwID) => allowedClients.Contains(nwID);
         //         networkObject.Spawn();
         //     }
         // }
-        // public void DespawnForClient(GameObject[] entities, ulong targetClientId) // このスポナーがクライアントの読み込み範囲外になった場合にServerRPCを通して呼び出される
+        // public void DespawnForClient(GameObject[] entities, ulong targetnwID) // このスポナーがクライアントの読み込み範囲外になった場合にServerRPCを通して呼び出される
         // {
         //     foreach (GameObject entity in entities)
         //     {
@@ -249,7 +252,7 @@ namespace DACS.Entities
         //         if (networkObject != null && IsServer) // サーバー側でのみ実行
         //         {
         //             // 特定のクライアントのみに通知する
-        //             networkObject.CheckObjectVisibility = (clientId) => clientId == targetClientId;
+        //             networkObject.CheckObjectVisibility = (nwID) => nwID == targetnwID;
         //             networkObject.Despawn();
         //         }
         //     }
@@ -268,7 +271,7 @@ namespace DACS.Entities
         //     if (networkObject != null && IsServer) // サーバー側でのみ実行
         //     {
         //         // CheckObjectVisibilityデリゲートで指定クライアントのみ許可
-        //         networkObject.CheckObjectVisibility = (clientId) => allowedClients.Contains(clientId);
+        //         networkObject.CheckObjectVisibility = (nwID) => allowedClients.Contains(nwID);
         //         networkObject.Despawn();
         //     }
         // }

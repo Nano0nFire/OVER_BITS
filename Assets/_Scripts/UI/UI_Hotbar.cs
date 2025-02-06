@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DACS.Inventory;
+using System.Collections.Generic;
 
 public class UI_Hotbar : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class UI_Hotbar : MonoBehaviour
         }
     }
     ItemData _SelectedItem;
-    [HideInInspector] public InventorySystem inventorySystem;
     [HideInInspector] public HotbarSystem hotbarSystem;
     [SerializeField] ItemDataBase itemDataBase;
     [SerializeField] GameObject PriSelecter;
@@ -100,8 +100,9 @@ public class UI_Hotbar : MonoBehaviour
         });
     }
 
-    public void LoadHotbar(Span<ItemData> itemDatas)
+    public void LoadHotbar()
     {
+        List<ItemData> itemDatas = InventorySystem.HotbarData;
         for (int i = 0; i < 5; i ++)
         {
             SelectedItem = itemDatas[i];
@@ -111,8 +112,8 @@ public class UI_Hotbar : MonoBehaviour
 
     public void EquipItem(int slotNumber)
     {
-        inventorySystem.ChangeHotbar(slotNumber, SelectedItem);
-        var image = itemDataBase.GetItem(SelectedItem.FirstIndex, SelectedItem.SecondIndex).ItemImage;
+        InventorySystem.ChangeHotbar(slotNumber, SelectedItem);
+        var image = SelectedItem.FirstIndex >= 0 ? itemDataBase.GetItem(SelectedItem.FirstIndex, SelectedItem.SecondIndex).ItemImage : null;
         hotbarSystem.SpawnItemObjectLocal(SelectedItem.FirstIndex, SelectedItem.SecondIndex, slotNumber);
         switch (slotNumber)
         {

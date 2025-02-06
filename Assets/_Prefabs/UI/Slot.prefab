@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104552e92806ddb4d955de08a4326ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiGeneral: {fileID: 0}
+  uiInfo: {fileID: 0}
   itemData:
     FirstIndex: 0
     SecondIndex: 0
@@ -278,6 +278,7 @@ MonoBehaviour:
     PriAddon: 0
     SecAddon: 0
     Attributes: 
+  rectTransform: {fileID: 7135885807559786563}
   itemImage: {fileID: 1282979658886709779}
   rarityImage: {fileID: 8601307390179531574}
   itemCount: {fileID: 3731803322073527652}

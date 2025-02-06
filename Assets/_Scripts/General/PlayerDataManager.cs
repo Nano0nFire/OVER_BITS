@@ -68,7 +68,13 @@ public class PlayerDataManager : NetworkBehaviour
     {
         if (AuthenticationService.Instance.IsSignedIn) // 以前ログインしていたならロードだけする
             LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
-        else // 履歴がないならログインする
+        else if (AuthenticationService.Instance.SessionTokenExists) // セッションが有効なら再度サインイン
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            await UniTask.WaitUntil(() => AuthenticationService.Instance.IsSignedIn); // ログインが終わるまで待機
+            LoadedPlayerProfileData = await LoadData<PlayerProfileData>();
+        }
+        else
         {
             await PlayerAccountService.Instance.StartSignInAsync();
             await UniTask.WaitUntil(() => AuthenticationService.Instance.IsSignedIn); // ログインが終わるまで待機
@@ -254,7 +260,13 @@ public class PlayerDataManager : NetworkBehaviour
         }
         else if (CustomKey == "HotbarData")
         {
-            List<ItemData> data = new ItemData[5].ToList();
+            ItemData temp = new ItemData(){FirstIndex = -2};
+            List<ItemData> data = new ItemData[5]{temp, temp, temp, temp, temp}.ToList();
+            await SaveData(data, CustomKey); // 新規データの作成
+        }
+        else if (CustomKey == "CustomLifeAvatarParts")
+        {
+            List<int> data = new int[6]{0,0,0,0,0,0}.ToList();
             await SaveData(data, CustomKey); // 新規データの作成
         }
         else

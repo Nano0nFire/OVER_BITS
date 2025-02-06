@@ -293,6 +293,8 @@ MonoBehaviour:
   ExCrouchSpeed: 0
   MovePowerLimiter: 0
   PublicGroundCheckDistance: 0
+  testAdjust: 0.12
+  _isGrounded: 0
   _onSlope: 0
   ExJumpPower: 0
   MaxActioinPoint: 5
@@ -982,6 +984,7 @@ MonoBehaviour:
   UpperLegToHeelLength: 0.845
   heelHight: 0.085
   rayRange: 0.05
+  lerpSpeed: 5
   UseIKCon: 1
 --- !u!114 &7842648820294040041
 MonoBehaviour:

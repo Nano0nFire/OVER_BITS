@@ -2868,7 +2868,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1414564482}
   m_HandleRect: {fileID: 1414564481}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -14487,9 +14487,9 @@ MonoBehaviour:
   EntitiesSO: {fileID: 11400000, guid: 7c580173527213747bb1366619380a05, type: 2}
   pdManager: {fileID: 0}
   SpawnTargetFirstIndex: 0
-  SpawnTargetSecondIndex: 0
+  SpawnTargetSecondIndex: 1
   EntityLevel: 0
-  MaxSpawnAmount: 5
+  MaxSpawnAmount: 1
   SpawnSpan: 10
   SpawnMarker:
   - {fileID: 524552042}
@@ -16456,6 +16456,7 @@ GameObject:
   - component: {fileID: 1358839088}
   - component: {fileID: 1358839091}
   - component: {fileID: 1358839087}
+  - component: {fileID: 1358839098}
   - component: {fileID: 1358839090}
   - component: {fileID: 1358839089}
   - component: {fileID: 1358839092}
@@ -16856,7 +16857,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   EntitiesSO: {fileID: 11400000, guid: 7c580173527213747bb1366619380a05, type: 2}
   bcNormal: {fileID: 1358839087}
-  clientID: 0
+  nwID: 0
   MaxSimulationDistance: 300
   SpawnerTransformList:
   - {fileID: 1215305164}
@@ -16893,6 +16894,7 @@ MonoBehaviour:
   ShotPos: {fileID: 0}
   CameraPos: {fileID: 0}
   bcNormal: {fileID: 1358839087}
+  bcHoming: {fileID: 1358839098}
 --- !u!114 &1358839095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16948,6 +16950,25 @@ MonoBehaviour:
   eye_ratio_l_l: 0.2
   mouth_ratio_h: 0.1
   mouth_ratio_l: 0.5
+--- !u!114 &1358839098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358839086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1542003241366604087eed3786b0eb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  configsSO: {fileID: 11400000, guid: 8473b56af8885f8459f8d0aec7512d87, type: 2}
+  bulletPrefab: {fileID: 4191097979630892103, guid: 47d3974e940cb64428c1730a547e6f0a,
+    type: 3}
+  PlayerTransform: {fileID: 0}
+  ownID: 0
+  nwoID: 0
 --- !u!1 &1368093765
 GameObject:
   m_ObjectHideFlags: 0
@@ -30416,7 +30437,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1915, y: -115}
+  m_AnchoredPosition: {x: 1915, y: -173.93805}
   m_SizeDelta: {x: 400, y: 850}
   m_Pivot: {x: 1, y: 1}
 --- !u!224 &2199656218898429917
@@ -31593,6 +31614,13 @@ MonoBehaviour:
     GateFit: 2
     FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
+    Iso: 200
+    ShutterSpeed: 0.005
+    Aperture: 16
+    BladeCount: 5
+    Curvature: {x: 2, y: 11}
+    BarrelClipping: 0.25
+    Anamorphism: 0
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -34050,7 +34078,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1505, y: -115}
+  m_AnchoredPosition: {x: 1505, y: -173.93805}
   m_SizeDelta: {x: 1500, y: 850}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &5108517198081426156
@@ -34769,7 +34797,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Portion
+  m_text: Potion
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fd738973d25e8ae44bc2b276050362fb, type: 2}
   m_sharedMaterial: {fileID: 7034056570661834050, guid: fd738973d25e8ae44bc2b276050362fb,
@@ -36823,7 +36851,7 @@ GameObject:
   - component: {fileID: 6399794550424603249}
   - component: {fileID: 2709150015037910341}
   m_Layer: 5
-  m_Name: Btn_Inv_Portion
+  m_Name: Btn_Inv_Potion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38325,7 +38353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Stetas
+  m_text: Status
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fd738973d25e8ae44bc2b276050362fb, type: 2}
   m_sharedMaterial: {fileID: 7034056570661834050, guid: fd738973d25e8ae44bc2b276050362fb,

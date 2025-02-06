@@ -16,7 +16,7 @@ public class DACS_P_Configs
     [Header("Trail Options")]
     [Space]
     public bool UseTrail;
-    public Material TrailMaterial;
+    public Gradient TrailColor;
     public float TrailTime;
     public AnimationCurve TrailCurve;
 
@@ -75,7 +75,8 @@ public class DACS_P_Configs
     public bool UseHoming;
     public HomingTypes HomingType;
     public float HomingRange;
-    public float RotationSpeed;
+    public float springConstant;
+    public float damping;
 
     #endregion
     #region Charge Options
@@ -171,6 +172,14 @@ public struct BulletControl_Config
     public Vector3 Dir; // 進行方向
 }
 
+public struct Bullet_Homing_Config
+{
+    public float Speed; // 弾速
+    public float springConstant; // バネ定数
+    public float damping; // 減衰定数
+    public float Estimate; // 着弾予測時間
+}
+
 [System.Serializable]
 public class EntityConfigs
 {
@@ -181,11 +190,6 @@ public class EntityConfigs
     public float AttackRange;
     public float SearceRange;
     public float Speed;
-    public List<AttackPattern> AttackPatterns;
-    public bool UseRandomAttack = true;
-    [Tooltip("デフォルト値(0)の場合、AttackPatterns内のすべてのパターンがランダム攻撃の抽選対象となる。<br />例えば、このパラメータの値を3にした場合はAttackPatterns内の0~3のパターンが対象となる。それ以降のパターンは特殊攻撃パターンとして扱われ、UseSpecialAttackCountの値の回数だけ攻撃したら、特殊パターンのうちからランダムで攻撃される")]
-    public int RandomAttackPatternRange = 0;
-    public int UseSpecialAttackCount = 0;
     public List<EntityDrop> DropTable;
 }
 

@@ -63,9 +63,8 @@ public class UIGeneral : MonoBehaviour
         }
 
         this.cgManager = cgManager;
-        invSystem = cgManager.GetComponent<InventorySystem>();
-        uiHotbar.inventorySystem = invSystem;
         uiHotbar.hotbarSystem = cgManager.GetComponent<HotbarSystem>();
+        uiHotbar.LoadHotbar();
         PlayerDataManager.OnItemAdded += Load;
         cla = cgManager.GetComponent<CustomLifeAvatar>();
 
