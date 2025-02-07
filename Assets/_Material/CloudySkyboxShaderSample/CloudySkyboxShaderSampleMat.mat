@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5977338297430607416
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CloudySkyboxShaderSampleMat
+  m_Shader: {fileID: -6465566751694194690, guid: a7f8cee6b0936a042bfa75b87bc08b3f,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - Vector1_0301b5c1a68a4136880061bcf2cda4b0: 0
+    - Vector1_0a6047e152fe4f5c85f98228724ea962: 0.11
+    - Vector1_1: 0
+    - Vector1_10c2ce3cb65d405a873bb8913db4aa02: 0.12
+    - Vector1_12b900189700476b82c2770d45248d78: 0
+    - Vector1_178e177b6a314e949260505e3e178574: 0.12
+    - Vector1_1bd5e3d8f22b4eae9beecf5c66935f43: 0.07
+    - Vector1_1d2109550330472a9e214a473c9e1f1d: 1.05
+    - Vector1_2: 0
+    - Vector1_3: 0
+    - Vector1_353f40d2bb634f4f91d94bb8c115b207: 0.0005
+    - Vector1_4: 0
+    - Vector1_41552a30f34d4313a9fb8456f6eca2ff: 4
+    - Vector1_4dfb59d6f78e4aaaac6652405363f11c: 1.02
+    - Vector1_6610b9bfb6fa4941b23a9b347e442cbd: 2
+    - Vector1_6abed1a298894125928757645e16bf9e: 2.05
+    - Vector1_7d496b9dff7e458286361c17f5e22050: 1
+    - Vector1_8adabce8566341f384a97b953d12d496: 24.7
+    - Vector1_99a866183d1342cbb01cc73fbb121e6f: 6
+    - Vector1_cd15b52819fa4e438072137fc6b2a06b: 0.2
+    - Vector1_d391bc182c5d40b49b10046f8f8a5a54: 0.81
+    - Vector1_dd3d0c4a18584544aab586e957a97941: 0.015
+    - Vector1_e7583e8670cd48a3936dd9548a7c51b6: 1
+    - Vector1_f2b6a8e0446944b18128651f6693583b: 0.33
+    - Vector1_ffe89395106542959d36b584480518bb: 0.18
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    m_Colors:
+    - Color_7b2bb5f58d1d412bb0ea553b3554304c: {r: 0.090196066, g: 0.31372547, b: 0.5921568,
+        a: 1}
+    - Color_c185f7c9ed5a40e4b7538f482b488f28: {r: 0.6792453, g: 0.6792453, b: 0.6792453,
+        a: 1}
+    - Color_c8561f7efa1f4be380c1d0b2dd4c5975: {r: 0.572549, g: 0.95686275, b: 1, a: 1}
+    - Color_f1112aa55e154f27a169975fdf019b84: {r: 0.01960784, g: 0.08627448, b: 0.21568623,
+        a: 1}
+    - Vector2_adcabd6bfbf6401a8c5590c994e73cfb: {r: 3, g: 3, b: 0, a: 0}
+    - _CloudsOffset: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
