@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3774752910
+  GlobalObjectIdHash: 243907195
   InScenePlacedSourceGlobalObjectIdHash: 239926996
   DeferredDespawnTick: 0
   Ownership: 1
@@ -294,6 +294,8 @@ MonoBehaviour:
   MovePowerLimiter: 0
   PublicGroundCheckDistance: 0
   testAdjust: 0.12
+  SlopeAngleTest: 0
+  GroundDir: {x: 0, y: 0, z: 0}
   _isGrounded: 0
   _onSlope: 0
   ExJumpPower: 0
@@ -977,15 +979,18 @@ MonoBehaviour:
   lUpperLeg: {fileID: 8955998224763743767}
   rFoot: {fileID: 86563437834521682}
   lFoot: {fileID: 7824332841507700876}
+  rToe: {fileID: 5223083674649809048}
+  lToe: {fileID: 7250165181174358393}
   rIKWeightName: rFootIKWeight
   lIKWeightName: lFootIKWeight
   rIKHintOffset: {x: 0.09, y: 0.5, z: 0.5}
   lIKHintOffset: {x: 0.07, y: 0.5, z: 0.5}
-  UpperLegToHeelLength: 0.845
-  heelHight: 0.085
+  UpperLegToGroundLength: 0.8446591
+  heelHeight: 0.085
   rayRange: 0.05
-  lerpSpeed: 5
   UseIKCon: 1
+  rIsGrounded: 0
+  lIsGrounded: 0
 --- !u!114 &7842648820294040041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1114,6 +1119,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1977951419301627261}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &5223083674649809048 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5985009833279018469, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1977951419301627261}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5586325674004508152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6266061568930932869, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
@@ -1153,6 +1164,12 @@ Transform:
 --- !u!4 &7094575249011152245 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -502179053476605944, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1977951419301627261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7250165181174358393 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4826273394613244, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
     type: 3}
   m_PrefabInstance: {fileID: 1977951419301627261}
   m_PrefabAsset: {fileID: 0}

@@ -3,6 +3,8 @@ using Unity.Services.Authentication;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class UI_PlayerDataManager : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class UI_PlayerDataManager : MonoBehaviour
     [SerializeField] GameObject LoadingPanel;
     [SerializeField] GameObject PlayerSettingPanel;
     [SerializeField] GameObject StartGamePanel;
+    [SerializeField] TMP_Dropdown WorldDropdown;
+    [SerializeField] List<string> WorldNames;
     NetworkManager nwManager;
 
     void Start()
@@ -64,7 +68,7 @@ public class UI_PlayerDataManager : MonoBehaviour
     public void StartHost()
     {
         nwManager.StartHost();
-        SceneEventProgressStatus status = nwManager.SceneManager.LoadScene("TestWorld", LoadSceneMode.Single);
+        nwManager.SceneManager.LoadScene(WorldNames[WorldDropdown.value], LoadSceneMode.Single);
     }
 
     public void StartClient()

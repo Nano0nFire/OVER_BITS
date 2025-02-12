@@ -14,5 +14,15 @@ namespace CLAPlus.Extension
                         (input.z>180) ? input.z-360 : input.z
                     );
         }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="A">投射先</param>
+        /// <param name="B">投射させたいベクトル</param>
+        /// <returns></returns>
+        public static Vector3 ProjectVector(Vector3 A, Vector3 B)
+        {
+            return Vector3.Dot(B, A) / Vector3.Dot(A, A) * A;
+        }
     }
 }

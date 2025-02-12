@@ -59,7 +59,7 @@
     <UnityVersion>6000.0.30f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\nakah\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.0.5\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\nakah\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="D:\Unity Projects\OVER_BITS\Library\PackageCache\com.unity.transport\Analyzers\Unity.Transport.Analyzers.dll" />
     <Analyzer Include="D:\application\Unity\Unity Editer\6000.0.30f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="D:\application\Unity\Unity Editer\6000.0.30f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
@@ -96,6 +96,7 @@
     <Compile Include="Assets\_Scripts\General\PlayerStatus.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\_Scripts\Test\CMTest.cs" />
     <Compile Include="Assets\_Scripts\DACS\AdjacentController.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_InfomationPanel.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
@@ -127,13 +128,14 @@
     <Compile Include="Assets\_Scripts\Old\DACS_HotbarSystem.cs" />
     <Compile Include="Assets\_Scripts\Old\DACS_CheckVisibility.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
-    <Compile Include="Assets\LobbyAnimationEvent.cs" />
+    <Compile Include="Assets\Polytope Studio\Lowpoly_Demos\Environment_Free\Helpers\MouseLook.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\_Scripts\DACS\EntitiesSO.cs" />
     <Compile Include="Assets\vfxTest.cs" />
     <Compile Include="Assets\_Scripts\DACS\ItemComponent.cs" />
+    <Compile Include="Assets\Polytope Studio\Lowpoly_Demos\Environment_Free\Helpers\PlayerMovement.cs" />
     <Compile Include="Assets\_Scripts\Old\CLAPlus_NetworkAnimation.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_PlayerDataManager.cs" />
     <Compile Include="Assets\_Scripts\DACS\PlayerActionControl.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\_Scripts\Old\DACS_ItemManagementSystem.cs" />
     <Compile Include="Assets\_Scripts\CLAP\PartsSO.cs" />
+    <Compile Include="Assets\_Scripts\General\LobbyAnimation\LobbyAnimationEvent.cs" />
     <Compile Include="Assets\_Scripts\CLAP\ClapTalk.cs" />
     <Compile Include="Assets\_Scripts\General\LobbyAnimation\RMeshAPI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
@@ -214,6 +217,8 @@
     <None Include="Assets\Packages\DlibDotNet.19.20.0.20200725\LICENSE.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
+    <None Include="Assets\Game Buffs\Realistic Arctic Environment Textures\README.txt" />
+    <None Include="Assets\Polytope Studio\Lowpoly_Village\Sources\Shaders\PT_Buildings_Glass_PBR.shader" />
     <None Include="Assets\Mobility_Pro\Demo_Scene_Animation_README.txt" />
     <None Include="Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.Blob.dll" />
     <None Include="Assets\_Shader\Bullet_InstancedShader.shader" />
@@ -236,12 +241,15 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Packages\System.Drawing.Common.4.7.0\lib\netstandard2.0\System.Drawing.Common.dll" />
     <None Include="Assets\Packages\OpenCvSharp4.4.4.0.20200725\lib\netstandard2.1\OpenCvSharp.Extensions.xml" />
+    <None Include="Assets\Game Buffs\Realistic Mountain Environment Textures\README.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
     <None Include="Assets\Polytope Studio\Lowpoly_Environments\Sources\Shaders\PT_Vegetation_Opaque_Shader.shader" />
     <None Include="Assets\Packages\System.Drawing.Common.4.7.0\useSharedDesignerContext.txt" />
     <None Include="Assets\TextMesh Pro\japanese_full.txt" />
     <None Include="Assets\Packages\System.Runtime.CompilerServices.Unsafe.4.7.1\useSharedDesignerContext.txt" />
     <None Include="Assets\Polytope Studio\Lowpoly_Environments\Sources\Shaders\PT_Vegetation_Foliage_Shader.shader" />
+    <None Include="Assets\Game Buffs\Realistic Forest Environment Textures\README.txt" />
+    <None Include="Assets\Game Buffs\Realistic Desert Environment Textures\README.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\_UI\MainUI.uss" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
@@ -1287,6 +1295,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.TerrainTools.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.TerrainTools.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Networking.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Networking.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1539,8 +1551,8 @@
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UniTask.TextMeshPro">
-      <HintPath>Library\ScriptAssemblies\UniTask.TextMeshPro.dll</HintPath>
+    <Reference Include="Unity.TerrainTools">
+      <HintPath>Library\ScriptAssemblies\Unity.TerrainTools.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor.Shared">
@@ -1549,6 +1561,10 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UniTask.TextMeshPro">
+      <HintPath>Library\ScriptAssemblies\UniTask.TextMeshPro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Entities.UI.Editor">
@@ -1583,12 +1599,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.Netcode.Editor.PackageChecker.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Services.CloudSave.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.CloudSave.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UniTask.DOTween">
       <HintPath>Library\ScriptAssemblies\UniTask.DOTween.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Services.CloudSave.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Services.CloudSave.Editor.dll</HintPath>
+    <Reference Include="Unity.SurfaceGradientBumpMapping.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.SurfaceGradientBumpMapping.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.SurfaceGradientBumpMapping">
+      <HintPath>Library\ScriptAssemblies\Unity.SurfaceGradientBumpMapping.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualEffectGraph.Runtime">

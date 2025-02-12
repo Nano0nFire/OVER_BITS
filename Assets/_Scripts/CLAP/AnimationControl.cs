@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace CLAPlus.AnimationControl
         }
         [SerializeField] string parameterName_vSpeed, parameterName_hzSpeed, parameterName_ySpeed, parameterName_IsGrounded;
         [SerializeField] string triggerName_Jump, triggerName_Rush, triggerName_Dodge, triggerName_RWallrun, triggerName_LWallrun, triggerName_Climb, triggerName_Slide, triggerName_AnimationCancel;
-        float vSpeed, hzSpeed, ySpeed, tempVSpeed, tempHzSpeed, tempYSpeed;
+        [SerializeField] float vSpeed, hzSpeed, ySpeed, tempVSpeed, tempHzSpeed, tempYSpeed;
         int time;
         bool tempIsGrounded;
         public bool isOwner = false;
@@ -99,13 +100,13 @@ namespace CLAPlus.AnimationControl
         {
             if (UseAdjust)
             {
-                // 以下動作環境によって調整する必要あり
-                if (Mathf.Abs(value) <= 1.5)
-                    anim.SetFloat(name, 3 * value, damp, Time.deltaTime);
-                else if (value > 0)
-                    anim.SetFloat(name, 0.33333f * value + 2.33333f, damp, Time.deltaTime);
-                else
-                    anim.SetFloat(name, 0.33333f * value - 2.33333f, damp, Time.deltaTime);
+                // BlendTreeの推移に合わせて式を各自で変える必要がある
+                anim.SetFloat(name,
+                              value > 0 ?
+                                0.6f * math.sqrt(10*math.abs(value)) :
+                                -0.6f * math.sqrt(10*math.abs(value)),
+                              damp,
+                              Time.deltaTime);
             }
             else
             {

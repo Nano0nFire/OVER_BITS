@@ -16500,7 +16500,7 @@ Transform:
   m_GameObject: {fileID: 1358839086}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.0063407, y: -4000, z: 3.3954957}
+  m_LocalPosition: {x: 7.7, y: 1.77, z: 11.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16969,6 +16969,7 @@ MonoBehaviour:
   PlayerTransform: {fileID: 0}
   ownID: 0
   nwoID: 0
+  Targets: []
 --- !u!1 &1368093765
 GameObject:
   m_ObjectHideFlags: 0
@@ -27311,7 +27312,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a6e76ac3e8cb8848a6da3a3dea1a5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySystem: {fileID: 0}
   hotbarSystem: {fileID: 0}
   itemDataBase: {fileID: 11400000, guid: 9a9c66c6c84e94b4cbd3d92b0571c662, type: 2}
   PriSelecter: {fileID: 1210655680}
@@ -30141,7 +30141,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6472826907077158648}
   m_HandleRect: {fileID: 4121278478779509108}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -35254,7 +35254,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uI_PlayerSettings: {fileID: 0}
   itemDataBase: {fileID: 11400000, guid: 9a9c66c6c84e94b4cbd3d92b0571c662, type: 2}
-  uiHotbar: {fileID: 2067226882}
   infomationPanelController: {fileID: 7477204664979431644}
   invSystem: {fileID: 0}
   SlotPrefab: {fileID: 7010182367815685158, guid: eddcfc7fb4d52744ebaa87e0adb0ef92,

@@ -3,6 +3,8 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Unity.Netcode;
+using Unity.Mathematics;
+using CLAPlus.Extension;
 
 namespace CLAPlus
 {
@@ -20,7 +22,7 @@ namespace CLAPlus
         public float ExWalkSpeed, ExDashSpeed, ExCrouchSpeed; // 追加の移動速度
         [SerializeField] float MovePowerLimiter;
         static readonly float OnGroundMovePowerLimiter = 5, InAirMovePowerLimiter = 2;
-        public RaycastHit slopeHit;
+        public RaycastHit slopeHit1, slopeHit2;
         static readonly float maxSlopeAngle = 18;
         float MaxGroundCheckDistance
         {
@@ -43,12 +45,29 @@ namespace CLAPlus
 
         public float PublicGroundCheckDistance;
         [SerializeField] float testAdjust = 0.01f;
+        [SerializeField] float SlopeAngleTest;
+        float RayRange;
+        public Vector3 GroundDir;
         float SlopeAngle
         {
             get
             {
-                Physics.Raycast(col.bounds.center, Vector2.down, out slopeHit, GroundLayer);
-                return Vector3.Angle(Vector3.up, slopeHit.normal);
+                if (Physics.Raycast(new(transform.position.x, col.bounds.min.y + 0.1f, transform.position.z), Vector3.down, out slopeHit1, 0.5f))
+                {
+                    if (Physics.Raycast(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z) + transform.forward * 0.5f, Vector3.down, out slopeHit2, RayRange * 2f))
+                    {
+                        GroundDir = slopeHit2.point - slopeHit1.point;
+                    }
+                    else
+                    {
+                        GroundDir = Vector3.ProjectOnPlane(transform.forward, slopeHit1.normal).normalized;
+                    }
+                }
+                else
+                {
+                    GroundDir = Vector3.zero;
+                }
+                return Vector3.Angle(transform.forward, GroundDir);
             }
         }
         bool IsGrounded // 地面に接しているか
@@ -308,6 +327,7 @@ namespace CLAPlus
         public Vector3 tetsveb;
         public bool testBooool;
 
+
         void Start()
         {
             Gstate = States.walk;
@@ -316,10 +336,12 @@ namespace CLAPlus
             ActionPoint = MaxActioinPoint;
 
             OnDestroyToken = this.GetCancellationTokenOnDestroy();
+            RayRange  = 0.5f * math.sin(math.radians(maxSlopeAngle));
         }
 
         void FixedUpdate()
         {
+            rb.AddForce(tetsveb * rb.mass); // 重力を手動で適用
             if (!IsOwner)
                 return;
 
@@ -327,6 +349,7 @@ namespace CLAPlus
 
             test = State;
             testV = NowSpeed;
+            SlopeAngleTest = SlopeAngle;
 
             if (xForce == 0 && yForce == 0 && zForce == 0 && HzInput == 0 && VInput == 0 && State != States.wallRun && State != States.climb || State == States.dodge)
                 return;
@@ -350,23 +373,24 @@ namespace CLAPlus
                 case States.walk:
                 case States.dash:
                 case States.crouch:
-                    if (Mathf.Abs(SlopeAngle) > maxSlopeAngle) // 急な坂の時は登らない
+                    if (SlopeAngle > maxSlopeAngle) // 急な坂の時は登らない
                     {
                         moveDir = Vector3.zero;
                         break;
                     }
-                    else if (Mathf.Abs(SlopeAngle) < 0.5) // 平面に近い面は傾斜による調整を行わない
+                    else if (SlopeAngle < 0.5) // 平面に近い面は傾斜による調整を行わない
                     {
                         moveDir = Speed * (transformCashed.right * HzInput + transformCashed.forward * VInput);
                         break;
                     }
                     else
                     {
-                        moveDir = Speed * Vector3.ProjectOnPlane(transformCashed.right * HzInput + transformCashed.forward * VInput, slopeHit.normal);
+                        // 移動ベクトルを地面の法線ベクトルに投影
+                        moveDir = Extensions.ProjectVector(GroundDir, transformCashed.right * HzInput + transformCashed.forward * VInput).normalized * Speed;
 
                         if (MathF.Abs(rb.linearVelocity.y) < testHZ && (MathF.Abs(xForce) + MathF.Abs(zForce)) / 2 < testHZ)
                         {
-                            rb.AddForce(-testV * Mathf.Sin(SlopeAngle * Mathf.Deg2Rad) * rb.mass * Vector3.ProjectOnPlane(Vector3.down, slopeHit.normal), ForceMode.Force);
+                            rb.AddForce(-testV * Mathf.Sin(SlopeAngle * Mathf.Deg2Rad) * rb.mass * Vector3.ProjectOnPlane(Vector3.down, slopeHit1.normal), ForceMode.Force);
                         }
 
                         break;
@@ -391,6 +415,13 @@ namespace CLAPlus
 
             MoveDirCalculator(moveDir, State == States.climb);
             rb.AddForce(xForce, yForce, zForce);
+        }
+
+        void TestDraw()
+        {
+            Debug.DrawRay(new(transform.position.x, col.bounds.min.y, transform.position.z), slopeHit1.distance * Vector3.down, Color.red);
+            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y, transform.position.z) + transform.forward * 0.5f, slopeHit2.distance * Vector3.down, Color.blue);
+            Debug.DrawRay(slopeHit1.point, GroundDir * 2, Color.green);
         }
 
         public void Jump()
@@ -541,7 +572,7 @@ namespace CLAPlus
 
                 Gstate = States.slide;
 
-                rb.AddForce(slidePower * Vector3.ProjectOnPlane(transform.right * HzInput + transform.forward * VInput, slopeHit.normal));
+                rb.AddForce(slidePower * Vector3.ProjectOnPlane(transform.right * HzInput + transform.forward * VInput, slopeHit1.normal));
 
                 await UniTask.WaitUntil(() => NowSpeed < CanSlideSpeed, cancellationToken : token);
 
@@ -578,63 +609,63 @@ namespace CLAPlus
             switch (State)
             {
                 case States.falling:
-                    rb.useGravity = true;
+                    // rb.useGravity = true;
                     MovePowerLimiter = InAirMovePowerLimiter;
                     break;
 
                 case States.walk:
-                    rb.useGravity = true;
+                    // rb.useGravity = true;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefWalkSpeed + ExWalkSpeed;
                     break;
 
                 case States.dash:
-                    rb.useGravity = true;
+                    // rb.useGravity = true;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefDashSpeed + ExDashSpeed;
                     break;
 
                 case States.crouch:
-                    rb.useGravity = true;
+                    // rb.useGravity = true;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefCrouchSpeed + ExCrouchSpeed;
                     break;
 
                 case States.Jump:
-                    rb.useGravity = true;
+                    // rb.useGravity = true;
                     MovePowerLimiter = InAirMovePowerLimiter;
                     break;
 
                 case States.AirJump:
-                    rb.useGravity = true;
+                    // rb.useGravity = true;
                     MovePowerLimiter = InAirMovePowerLimiter;
                     break;
 
                 case States.climb:
-                    rb.useGravity = false;
+                    // rb.useGravity = false;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefWalkSpeed + ExWalkSpeed;
                     break;
 
                 case States.wallRun:
-                    rb.useGravity = false;
+                    // rb.useGravity = false;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefDashSpeed + ExDashSpeed;
                     break;
 
                 case States.dodge:
-                    rb.useGravity = true;
+                    // rb.useGravity = true;
                     Speed = dodgeSpeed;
                     break;
 
                 case States.rush:
-                    rb.useGravity = true;
+                    // rb.useGravity = true;
                     MovePowerLimiter = 10; // 移動制限緩和
                     Speed = rushSpeed;
                     break;
 
                 case States.slide:
-                    rb.useGravity = true;
+                    // rb.useGravity = true;
                     MovePowerLimiter = InAirMovePowerLimiter;
                     Speed = DefDashSpeed + ExDashSpeed;
                     break;

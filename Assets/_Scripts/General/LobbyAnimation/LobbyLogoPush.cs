@@ -5,17 +5,17 @@ using System;
 using UnityEngine.Rendering;
 using Unity.Jobs;
 using Unity.Burst;
+using Cysharp.Threading.Tasks;
 
 public class LobbyLogoPush : MonoBehaviour
 {
     [SerializeField] Mesh _mesh = null;
     [SerializeField] Material _material = null;
-    [SerializeField] float push = 0;
-    [SerializeField] float target = 0;
 
     PositionBuffer _buffer;
 
-    public int count;
+    int count;
+    [SerializeField] bool test, test1, test2;
 
     void Start()
       => _buffer = new PositionBuffer(transform);
@@ -24,13 +24,16 @@ public class LobbyLogoPush : MonoBehaviour
       => _buffer.Dispose();
 
     public void Play(float target)
-      => this.target = target;
+      => _buffer.Push(target);
+
+    public void Spread()
+      => _buffer.Spread();
+
+    public void Reset()
+      => _buffer.Reset();
 
     void Update()
     {
-        push = Mathf.Lerp(push, target, Time.deltaTime);
-        _buffer.Update(push);
-
         var rparams = new RenderParams(_material)
           { receiveShadows = true,
             shadowCastingMode = ShadowCastingMode.On };
@@ -49,7 +52,7 @@ public class LobbyLogoPush : MonoBehaviour
         public NativeArray<Matrix4x4> Matrices;
         public NativeArray<float3> positions;
         public NativeArray<int> logo;
-
+        NativeArray<float3> RandomVectors;
         int[] originalLogo = new int[] // 330, x50,
         {
             // 'over_bits_title', 330,  x 50,  px
@@ -104,13 +107,13 @@ public class LobbyLogoPush : MonoBehaviour
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
         };
-
-
+        float CurrentPushAmount;
         public PositionBuffer(Transform transform)
         {
             positions = new NativeArray<float3>(16500, Allocator.Persistent);
             Matrices = new NativeArray<Matrix4x4>(16500, Allocator.Persistent);
             logo = new NativeArray<int>(16500, Allocator.Persistent);
+            RandomVectors = new NativeArray<float3>(16500, Allocator.Persistent);
             var offs = 0;
             for (var i = 0; i < 50; i++)
             {
@@ -135,23 +138,71 @@ public class LobbyLogoPush : MonoBehaviour
             if (positions.IsCreated) positions.Dispose();
             if (Matrices.IsCreated) Matrices.Dispose();
             if (logo.IsCreated) logo.Dispose();
+            if (RandomVectors.IsCreated) RandomVectors.Dispose();
         }
 
-        public void Update(float push)
+        public async void Push(float target)
         {
-            var handle = new CalJob
+            for (float i = 0; i < 1; i += Time.deltaTime)
             {
-                Positions = positions,
-                Matrices = Matrices,
-                logo = logo,
-                push = push
-            }.Schedule(positions.Length, 64);
+                var handle = new PushJob
+                {
+                    Positions = positions,
+                    Matrices = Matrices,
+                    logo = logo,
+                    push = math.lerp(CurrentPushAmount, target, i)
+                }.Schedule(positions.Length, 64);
 
+                handle.Complete();
+
+                await UniTask.Delay((int)(Time.deltaTime * 1000));
+            }
+            CurrentPushAmount = target;
+        }
+
+        public async void Spread()
+        {
+            // ランダムな移動ベクトルを設定
+            var handle = new RandomJob
+            {
+                RandomDirs = RandomVectors,
+                seed = (uint)UnityEngine.Random.Range(1, 10000)
+            }.Schedule(RandomVectors.Length, 64);
             handle.Complete();
+
+            for(int i = 1; i <= 380; i++)
+            {
+                handle = new SpreadJob
+                {
+                    Positions = positions,
+                    Matrices = Matrices,
+                    count = i,
+                    RandomDirs = RandomVectors
+                }.Schedule(RandomVectors.Length, 64);
+                handle.Complete();
+                await UniTask.Delay(10); // 0.01秒の遅延
+            }
+        }
+
+        public async void Reset()
+        {
+            CurrentPushAmount = 0;
+            for(int i = 1; i <= 380; i++)
+            {
+                var handle = new ResetJob
+                {
+                    Positions = positions,
+                    Matrices = Matrices,
+                    count = i,
+                    RandomDirs = RandomVectors
+                }.Schedule(RandomVectors.Length, 64);
+                handle.Complete();
+                await UniTask.Delay(10); // 0.01秒の遅延
+            }
         }
 
         [BurstCompile]
-        struct CalJob : IJobParallelFor
+        struct PushJob : IJobParallelFor
         {
             public NativeArray<float3> Positions;
             public NativeArray<Matrix4x4> Matrices;
@@ -167,6 +218,64 @@ public class LobbyLogoPush : MonoBehaviour
 
                 // 結果を保存
                 Matrices[index] = math.mul(float4x4.Translate(position), float4x4.Scale(math.float3(0.05f, 0.25f, 0.05f)));
+            }
+        }
+
+        [BurstCompile]
+        struct ResetJob : IJobParallelFor
+        {
+            public NativeArray<float3> Positions;
+            [ReadOnly] public NativeArray<float3> RandomDirs;
+            public NativeArray<Matrix4x4> Matrices;
+            [ReadOnly] public int count;
+            public void Execute(int index)
+            {
+                int Column = index % 330;
+                if (Column < count && count < Column+50)
+                {
+                    Positions[index] -= RandomDirs[index];
+
+                    // 結果を保存
+                    Matrices[index] = math.mul(float4x4.Translate(Positions[index]), float4x4.Scale(math.float3(0.05f, 0.25f, 0.05f)));
+                }
+            }
+        }
+
+
+        [BurstCompile]
+        struct SpreadJob : IJobParallelFor
+        {
+            public NativeArray<float3> Positions;
+            [ReadOnly] public NativeArray<float3> RandomDirs;
+            public NativeArray<Matrix4x4> Matrices;
+            [ReadOnly] public int count;
+            public void Execute(int index)
+            {
+                int Column = index % 330;
+                if (Column < count && count < Column+50)
+                {
+                    Positions[index] += RandomDirs[index];
+
+                    // 結果を保存
+                    Matrices[index] = math.mul(float4x4.Translate(Positions[index]), float4x4.Scale(math.float3(0.05f, 0.25f, 0.05f)));
+                }
+            }
+        }
+
+        [BurstCompile]
+        struct RandomJob : IJobParallelFor
+        {
+            public NativeArray<float3> RandomDirs;
+            public uint seed;
+
+            public void Execute(int index)
+            {
+                Unity.Mathematics.Random random = new((uint)index + 1 + seed);
+                float3 randomDir = math.normalize(random.NextFloat3(-1.0f, 1.0f));
+                randomDir = new float3(randomDir.x * 2f,
+                                       randomDir.y,
+                                       randomDir.z * 0.2f);
+                RandomDirs[index] = randomDir / 50f; // 50回に分けてベクトルを与えるのであらかじめ50で割っておく
             }
         }
     }

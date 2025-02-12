@@ -61,7 +61,7 @@ namespace CLAPlus.AnimationControl
 
             Quaternion yRotation = new(0, rotCashed.y, 0, rotCashed.w); // Y成分のみを持つQuaternionを作成
 
-            transform.rotation = Quaternion.FromToRotation(clap_m.transform.up, clap_m.slopeHit.normal) * yRotation; //  * yRotation
+            transform.rotation = Quaternion.FromToRotation(clap_m.transform.up, clap_m.GroundDir) * yRotation; //  * yRotation
 
         }
 

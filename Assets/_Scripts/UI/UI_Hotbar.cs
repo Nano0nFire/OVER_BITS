@@ -33,6 +33,12 @@ public class UI_Hotbar : MonoBehaviour
     [SerializeField] Image GraFlameImage;
     [SerializeField] Image Sub0FlameImage;
     [SerializeField] Image Sub1FlameImage;
+    public static UI_Hotbar Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void SwitchSelecterState()
     {
@@ -106,6 +112,7 @@ public class UI_Hotbar : MonoBehaviour
         for (int i = 0; i < 5; i ++)
         {
             SelectedItem = itemDatas[i];
+            Debug.Log(i);
             EquipItem(i);
         }
     }

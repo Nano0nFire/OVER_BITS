@@ -15,7 +15,6 @@ public class UIGeneral : MonoBehaviour
     public static Action action;
     [HideInInspector] public UI_PlayerSettings uI_PlayerSettings;
     [SerializeField] ItemDataBase itemDataBase;
-    public UI_Hotbar uiHotbar;
     [SerializeField] UI_InfomationPanel infomationPanelController;
     [HideInInspector] public InventorySystem invSystem; // ClientGeneralManagerが設定
     [SerializeField] GameObject SlotPrefab;
@@ -63,8 +62,6 @@ public class UIGeneral : MonoBehaviour
         }
 
         this.cgManager = cgManager;
-        uiHotbar.hotbarSystem = cgManager.GetComponent<HotbarSystem>();
-        uiHotbar.LoadHotbar();
         PlayerDataManager.OnItemAdded += Load;
         cla = cgManager.GetComponent<CustomLifeAvatar>();
 

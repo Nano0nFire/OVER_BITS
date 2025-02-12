@@ -11,9 +11,9 @@ using DACS;
 using DACS.Projectile;
 using DACS.Inventory;
 using CLAPlus.Face2Face;
-using CLAPlus.ClapTalk;
 using CLAPlus.ClapChat;
 using System.Collections.Generic;
+using Unity.Netcode.Components;
 
 public class ClientGeneralManager : NetworkBehaviour
 {
@@ -119,6 +119,7 @@ public class ClientGeneralManager : NetworkBehaviour
         uiGeneral.invSystem = invSystem;
         uiGeneral.Setup(this);
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
+        UI_Hotbar.Instance.hotbarSystem = hotbarSystem;
         var PlayerName = PlayerDataManager.LoadedPlayerProfileData.PlayerName;
         var lastDot = PlayerName.LastIndexOf('#');
 
@@ -147,6 +148,12 @@ public class ClientGeneralManager : NetworkBehaviour
 
         // 設定
         LoadSettings();
+
+        // ホットバーの同期
+        UI_Hotbar.Instance.LoadHotbar();
+
+        // プレイヤーの初期位置にテレポート
+        GetComponent<NetworkTransform>().Teleport(masterObj.transform.position, masterObj.transform.rotation, transform.localScale);
 
         IsLoaded = true;
 
@@ -190,7 +197,7 @@ public class ClientGeneralManager : NetworkBehaviour
         if (callback.performed)
         {
             hotbarSystem.SelectedHotbarSlot(0);
-            uiGeneral.uiHotbar.SelectHotbarSlot(0);
+            UI_Hotbar.Instance.SelectHotbarSlot(0);
             invSystem.SelectedSlotIndex = 0;
         }
     }
@@ -200,7 +207,7 @@ public class ClientGeneralManager : NetworkBehaviour
         if (callback.performed)
         {
             hotbarSystem.SelectedHotbarSlot(1);
-            uiGeneral.uiHotbar.SelectHotbarSlot(1);
+            UI_Hotbar.Instance.SelectHotbarSlot(1);
             invSystem.SelectedSlotIndex = 1;
         }
     }
@@ -210,7 +217,7 @@ public class ClientGeneralManager : NetworkBehaviour
         if (callback.performed)
         {
             hotbarSystem.SelectedHotbarSlot(2);
-            uiGeneral.uiHotbar.SelectHotbarSlot(2);
+            UI_Hotbar.Instance.SelectHotbarSlot(2);
             invSystem.SelectedSlotIndex = 2;
         }
     }
@@ -220,7 +227,7 @@ public class ClientGeneralManager : NetworkBehaviour
         if (callback.performed)
         {
             hotbarSystem.SelectedHotbarSlot(3);
-            uiGeneral.uiHotbar.SelectHotbarSlot(3);
+            UI_Hotbar.Instance.SelectHotbarSlot(3);
             invSystem.SelectedSlotIndex = 3;
         }
     }
@@ -230,7 +237,7 @@ public class ClientGeneralManager : NetworkBehaviour
         if (callback.performed)
         {
             hotbarSystem.SelectedHotbarSlot(4);
-            uiGeneral.uiHotbar.SelectHotbarSlot(4);
+            UI_Hotbar.Instance.SelectHotbarSlot(4);
             invSystem.SelectedSlotIndex = 4;
         }
     }
