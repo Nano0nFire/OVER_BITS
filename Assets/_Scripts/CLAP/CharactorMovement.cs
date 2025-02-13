@@ -22,7 +22,7 @@ namespace CLAPlus
         public float ExWalkSpeed, ExDashSpeed, ExCrouchSpeed; // 追加の移動速度
         [SerializeField] float MovePowerLimiter;
         static readonly float OnGroundMovePowerLimiter = 5, InAirMovePowerLimiter = 2;
-        public RaycastHit slopeHit1, slopeHit2;
+        RaycastHit slopeHit1, slopeHit2;
         static readonly float maxSlopeAngle = 18;
         float MaxGroundCheckDistance
         {
@@ -267,6 +267,7 @@ namespace CLAPlus
         float _HzRotation, _VRotation;
         float xForce, yForce, zForce; // x方向とz方向に加える力(小数点以下3桁)
         Vector3 moveDir; // 動く方向(inputとSpeedから求められる)
+        Vector3 inputDir { get => transform.right * HzInput + transform.forward * VInput; }
         Vector3 beforeForwardVec, beforeRightVec; // アクション時にtransformの情報を保存する
         float beforeHzInput, beforeVInput; // アクション時にインプットの情報を保存する
         public float NowSpeed
@@ -302,7 +303,8 @@ namespace CLAPlus
             set
             {
                 _Astate = value;
-                StateController();
+                if (IsOwner)
+                    StateController();
             }
         }
         public States Gstate // IsGroundedState
@@ -314,7 +316,8 @@ namespace CLAPlus
             set
             {
                 _Gstate = value;
-                StateController();
+                if (IsOwner)
+                    StateController();
             }
         }
         [SerializeField] States _Astate, _Gstate;
@@ -324,8 +327,6 @@ namespace CLAPlus
 
         public States test;
         public float testHZ, testV;
-        public Vector3 tetsveb;
-        public bool testBooool;
 
 
         void Start()
@@ -341,14 +342,15 @@ namespace CLAPlus
 
         void FixedUpdate()
         {
-            rb.AddForce(tetsveb * rb.mass); // 重力を手動で適用
+            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z) + (inputDir == Vector3.zero ? transform.forward : inputDir.normalized) * 0.5f, Vector3.down, Color.red);
+            Debug.DrawRay(transform.position, moveDir.normalized * 0.5f, Color.green);
+            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z), GroundDir.normalized, Color.blue);
             if (!IsOwner)
                 return;
 
             CameraUpdate();
 
             test = State;
-            testV = NowSpeed;
             SlopeAngleTest = SlopeAngle;
 
             if (xForce == 0 && yForce == 0 && zForce == 0 && HzInput == 0 && VInput == 0 && State != States.wallRun && State != States.climb || State == States.dodge)
@@ -366,41 +368,19 @@ namespace CLAPlus
 
         void Movement()
         {
-            Transform transformCashed = transform;
-
             switch (State)
             {
                 case States.walk:
                 case States.dash:
                 case States.crouch:
-                    if (SlopeAngle > maxSlopeAngle) // 急な坂の時は登らない
-                    {
-                        moveDir = Vector3.zero;
-                        break;
-                    }
-                    else if (SlopeAngle < 0.5) // 平面に近い面は傾斜による調整を行わない
-                    {
-                        moveDir = Speed * (transformCashed.right * HzInput + transformCashed.forward * VInput);
-                        break;
-                    }
-                    else
-                    {
-                        // 移動ベクトルを地面の法線ベクトルに投影
-                        moveDir = Extensions.ProjectVector(GroundDir, transformCashed.right * HzInput + transformCashed.forward * VInput).normalized * Speed;
-
-                        if (MathF.Abs(rb.linearVelocity.y) < testHZ && (MathF.Abs(xForce) + MathF.Abs(zForce)) / 2 < testHZ)
-                        {
-                            rb.AddForce(-testV * Mathf.Sin(SlopeAngle * Mathf.Deg2Rad) * rb.mass * Vector3.ProjectOnPlane(Vector3.down, slopeHit1.normal), ForceMode.Force);
-                        }
-
-                        break;
-                    }
+                    Locomotion();
+                    break;
 
                 case States.falling:
                 case States.Jump:
                 case States.AirJump:
                 case States.slide:
-                    moveDir = Speed * (transformCashed.right * HzInput + transformCashed.forward * VInput);
+                    moveDir = inputDir;
                     break;
 
                 case States.wallRun:
@@ -409,19 +389,38 @@ namespace CLAPlus
                     break;
 
                 case States.rush:
-                    moveDir = Speed * (transformCashed.right * HzInput + transformCashed.forward * VInput);
+                    moveDir = inputDir;
                     break;
             };
 
-            MoveDirCalculator(moveDir, State == States.climb);
+            MoveDirCalculator(moveDir * Speed, State == States.climb);
             rb.AddForce(xForce, yForce, zForce);
         }
 
-        void TestDraw()
+        void Locomotion()
         {
-            Debug.DrawRay(new(transform.position.x, col.bounds.min.y, transform.position.z), slopeHit1.distance * Vector3.down, Color.red);
-            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y, transform.position.z) + transform.forward * 0.5f, slopeHit2.distance * Vector3.down, Color.blue);
-            Debug.DrawRay(slopeHit1.point, GroundDir * 2, Color.green);
+            if (SlopeAngle > maxSlopeAngle) // 急な坂の時は登らない
+            {
+                moveDir = Vector3.zero;
+                testHZ = 0;
+            }
+            else if (SlopeAngle < 0.5) // 平面に近い面は傾斜による調整を行わない
+            {
+                moveDir = inputDir;
+                testHZ = 1;
+            }
+            else
+            {
+                // 移動ベクトルを地面の法線ベクトルに投影
+                // moveDir = Extensions.ProjectVector(GroundDir, inputDir).normalized;
+                moveDir = Vector3.ProjectOnPlane(inputDir, GroundDir).normalized;
+                testHZ = 2;
+
+                // if (MathF.Abs(rb.linearVelocity.y) < testHZ && (MathF.Abs(xForce) + MathF.Abs(zForce)) / 2 < testHZ)
+                // {
+                //     rb.AddForce(-testV * Mathf.Sin(SlopeAngle * Mathf.Deg2Rad) * rb.mass * Vector3.ProjectOnPlane(Vector3.down, slopeHit1.normal), ForceMode.Force);
+                // }
+            }
         }
 
         public void Jump()
@@ -465,7 +464,7 @@ namespace CLAPlus
                 if ((raycastPos.forward - wallForward).magnitude > (raycastPos.forward - -wallForward).magnitude)
                     wallForward = -wallForward;
 
-                moveDir = Speed * (transform.right * HzInput + wallForward * VInput);
+                moveDir = transform.right * HzInput + wallForward * VInput;
 
                 if (!(InputDir > 60 && InputDir < 120 && IsWallLeft) && !(InputDir > -120 && InputDir < -60 && IsWallRight))
                     rb.AddForce(-wallNormal * 5); //壁への吸いつき
@@ -480,7 +479,7 @@ namespace CLAPlus
                 wallNormal = forwardWallHit.normal;
                 wallForward = Vector3.Cross(wallNormal, transform.up);
 
-                moveDir = Speed * (wallForward * HzInput + transform.up * VInput);
+                moveDir = wallForward * HzInput + transform.up * VInput;
 
                 rb.AddForce(-wallNormal * 5); //壁への吸いつき
             }
@@ -541,7 +540,7 @@ namespace CLAPlus
 
             ActionCoolTime(rushCT);
 
-            rb.AddForce((Speed * (transform.right * HzInput + transform.forward * VInput)) + Vector3.up * JumpPower / 2, ForceMode.Impulse);
+            rb.AddForce((Speed * (inputDir)) + Vector3.up * JumpPower / 2, ForceMode.Impulse);
 
             await UniTask.Delay(TimeSpan.FromSeconds(rushActiveTime), cancellationToken : OnDestroyToken);
 
@@ -572,7 +571,7 @@ namespace CLAPlus
 
                 Gstate = States.slide;
 
-                rb.AddForce(slidePower * Vector3.ProjectOnPlane(transform.right * HzInput + transform.forward * VInput, slopeHit1.normal));
+                rb.AddForce(slidePower * Vector3.ProjectOnPlane(inputDir, slopeHit1.normal));
 
                 await UniTask.WaitUntil(() => NowSpeed < CanSlideSpeed, cancellationToken : token);
 
