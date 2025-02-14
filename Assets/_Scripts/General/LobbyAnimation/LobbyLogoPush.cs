@@ -233,7 +233,7 @@ public class LobbyLogoPush : MonoBehaviour
                 int Column = index % 330;
                 if (Column < count && count < Column+50)
                 {
-                    Positions[index] -= RandomDirs[index];
+                    Positions[index] -= 2 * RandomDirs[index] / (count-Column);
 
                     // 結果を保存
                     Matrices[index] = math.mul(float4x4.Translate(Positions[index]), float4x4.Scale(math.float3(0.05f, 0.25f, 0.05f)));
@@ -254,7 +254,7 @@ public class LobbyLogoPush : MonoBehaviour
                 int Column = index % 330;
                 if (Column < count && count < Column+50)
                 {
-                    Positions[index] += RandomDirs[index];
+                    Positions[index] += 2 * RandomDirs[index] / (count-Column);
 
                     // 結果を保存
                     Matrices[index] = math.mul(float4x4.Translate(Positions[index]), float4x4.Scale(math.float3(0.05f, 0.25f, 0.05f)));
@@ -272,10 +272,10 @@ public class LobbyLogoPush : MonoBehaviour
             {
                 Unity.Mathematics.Random random = new((uint)index + 1 + seed);
                 float3 randomDir = math.normalize(random.NextFloat3(-1.0f, 1.0f));
-                randomDir = new float3(randomDir.x * 2f,
+                randomDir = new float3(randomDir.x * 20f,
                                        randomDir.y,
-                                       randomDir.z * 0.2f);
-                RandomDirs[index] = randomDir / 50f; // 50回に分けてベクトルを与えるのであらかじめ50で割っておく
+                                       randomDir.z * 0.5f);
+                RandomDirs[index] = randomDir / 50; // 50回に分けてベクトルを与えるのであらかじめ50で割っておく
             }
         }
     }

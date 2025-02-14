@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Unity.Netcode.Transports.UTP;
+using Cysharp.Threading.Tasks;
 
 public class UI_PlayerDataManager : MonoBehaviour
 {
@@ -16,6 +18,8 @@ public class UI_PlayerDataManager : MonoBehaviour
     [SerializeField] GameObject PlayerSettingPanel;
     [SerializeField] GameObject StartGamePanel;
     [SerializeField] TMP_Dropdown WorldDropdown;
+    [SerializeField] TMP_InputField AddressField;
+    [SerializeField] TMP_InputField PortField;
     [SerializeField] List<string> WorldNames;
     NetworkManager nwManager;
 
@@ -65,8 +69,15 @@ public class UI_PlayerDataManager : MonoBehaviour
         StartGamePanel.SetActive(true);
     }
 
-    public void StartHost()
+    public async void StartHost()
     {
+        var transport = nwManager.GetComponent<UnityTransport>();
+        transport.ConnectionData.Port = PortField.text == string.Empty ? (ushort)7777 : ushort.Parse(PortField.text);
+        transport.ConnectionData.Address = AddressField.text == string.Empty ? "127.0.0.1" : AddressField.text;
+
+        await UniTask.Delay(1000);
+
+        Debug.Log($"Start Host\nAddress : {transport.ConnectionData.Address}\nPort : {transport.ConnectionData.Port}");
         nwManager.StartHost();
         nwManager.SceneManager.LoadScene(WorldNames[WorldDropdown.value], LoadSceneMode.Single);
     }

@@ -20,7 +20,7 @@ public class LobbyAnimationEvent : MonoBehaviour
     float speed = 0;
     [SerializeField] bool isLoop = false;
     bool delay = false;
-    bool isLock = false;
+    bool isFaded = false;
 
 
     async void Update()
@@ -97,6 +97,11 @@ public class LobbyAnimationEvent : MonoBehaviour
 
     async void Fadein()
     {
+        if (isFaded)
+            return;
+        else
+            isFaded = true;
+
         for (float i = 0; i < 1; i += 0.01f)
         {
             canvasGroup.alpha = i;
