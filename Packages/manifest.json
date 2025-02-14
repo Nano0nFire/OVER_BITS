@@ -19,6 +19,7 @@
     "com.unity.render-pipelines.universal": "17.0.3",
     "com.unity.services.authentication": "3.3.3",
     "com.unity.services.cloudsave": "3.2.0",
+    "com.unity.services.multiplayer": "1.0.2",
     "com.unity.services.vivox": "16.5.4",
     "com.unity.shadergraph": "17.0.3",
     "com.unity.surface-gradient-bump-mapping": "0.2.1",
