@@ -1,9 +1,10 @@
 Library/
+Logs/*.log
 Build/
 Backups/
 Assets/TextMesh Pro/Fonts/
 Assets/Rocks and Vegetation Pack/Models/Rock 9.fbx
 TempFolder/
 Temp/
-Logs/
+
 .codegpt
