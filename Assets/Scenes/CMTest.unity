@@ -571,7 +571,12 @@ MonoBehaviour:
   RayRange2: 5
   SecondRayRange: 5
   MaxAngle: 45
-  Angle: 0
+  HzInput: 0
+  VInput: 0
+  Angle1: 0
+  Angle2: 0
+  InputDir: {x: 0, y: 0, z: 0}
+  MoveDir: {x: 0, y: 0, z: 0}
   Target: {fileID: 1568526501}
 --- !u!136 &1244471340
 CapsuleCollider:
@@ -661,7 +666,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 2.171, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1568526501}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1467483773
@@ -829,11 +835,11 @@ Transform:
   m_GameObject: {fileID: 1568526500}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.171, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1244471343}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1568526502
 BoxCollider:
@@ -1100,7 +1106,6 @@ SceneRoots:
   - {fileID: 1467483776}
   - {fileID: 1797087729}
   - {fileID: 904435637}
-  - {fileID: 1568526501}
   - {fileID: 1244471343}
   - {fileID: 2044041042}
   - {fileID: 402375538}

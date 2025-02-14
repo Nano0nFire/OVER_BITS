@@ -14,6 +14,7 @@ namespace CLAPlus
         [SerializeField] CapsuleCollider col;
         [SerializeField] Transform CameraPos;
         [SerializeField] Transform raycastPos;
+        [SerializeField] Transform groundNormalChecker;
         [SerializeField] LayerMask GroundLayer; // 地面のレイヤー
 
         [Header("Movement Speed")]
@@ -47,7 +48,7 @@ namespace CLAPlus
         [SerializeField] float testAdjust = 0.01f;
         [SerializeField] float SlopeAngleTest;
         float RayRange;
-        public Vector3 GroundDir;
+        public Vector3 GroundNormal;
         float SlopeAngle
         {
             get
@@ -56,18 +57,18 @@ namespace CLAPlus
                 {
                     if (Physics.Raycast(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z) + transform.forward * 0.5f, Vector3.down, out slopeHit2, RayRange * 2f))
                     {
-                        GroundDir = slopeHit2.point - slopeHit1.point;
+                        GroundNormal = (slopeHit2.normal + slopeHit1.normal).normalized;
                     }
                     else
                     {
-                        GroundDir = Vector3.ProjectOnPlane(transform.forward, slopeHit1.normal).normalized;
+                        GroundNormal = Vector3.ProjectOnPlane(transform.forward, slopeHit1.normal).normalized;
                     }
                 }
                 else
                 {
-                    GroundDir = Vector3.zero;
+                    GroundNormal = Vector3.zero;
                 }
-                return Vector3.Angle(transform.forward, GroundDir);
+                return Vector3.Angle(transform.forward, ((slopeHit2.normal - slopeHit1.normal) / 2).normalized);
             }
         }
         bool IsGrounded // 地面に接しているか
@@ -344,7 +345,7 @@ namespace CLAPlus
         {
             Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z) + (inputDir == Vector3.zero ? transform.forward : inputDir.normalized) * 0.5f, Vector3.down, Color.red);
             Debug.DrawRay(transform.position, moveDir.normalized * 0.5f, Color.green);
-            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z), GroundDir.normalized, Color.blue);
+            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z), GroundNormal.normalized, Color.blue);
             if (!IsOwner)
                 return;
 
@@ -402,19 +403,16 @@ namespace CLAPlus
             if (SlopeAngle > maxSlopeAngle) // 急な坂の時は登らない
             {
                 moveDir = Vector3.zero;
-                testHZ = 0;
             }
             else if (SlopeAngle < 0.5) // 平面に近い面は傾斜による調整を行わない
             {
                 moveDir = inputDir;
-                testHZ = 1;
             }
             else
             {
                 // 移動ベクトルを地面の法線ベクトルに投影
-                // moveDir = Extensions.ProjectVector(GroundDir, inputDir).normalized;
-                moveDir = Vector3.ProjectOnPlane(inputDir, GroundDir).normalized;
-                testHZ = 2;
+                // moveDir = Extensions.ProjectVector(GroundNormal, inputDir).normalized;
+                moveDir = Vector3.ProjectOnPlane(inputDir, GroundNormal).normalized;;
 
                 // if (MathF.Abs(rb.linearVelocity.y) < testHZ && (MathF.Abs(xForce) + MathF.Abs(zForce)) / 2 < testHZ)
                 // {
