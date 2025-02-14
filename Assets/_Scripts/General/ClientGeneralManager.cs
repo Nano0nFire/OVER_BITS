@@ -130,7 +130,6 @@ public class ClientGeneralManager : NetworkBehaviour
         // EntityManager
         LocalGM.emSystem.Setup(this);
 
-        GetComponent<Rigidbody>().useGravity = true;
         projectile = masterObj.GetComponent<Projectile>();
         projectile.clientID = clientID;
         projectile.nwoID = nwObject.NetworkObjectId;

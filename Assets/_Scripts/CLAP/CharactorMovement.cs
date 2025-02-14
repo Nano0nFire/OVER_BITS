@@ -14,7 +14,6 @@ namespace CLAPlus
         [SerializeField] CapsuleCollider col;
         [SerializeField] Transform CameraPos;
         [SerializeField] Transform raycastPos;
-        [SerializeField] Transform groundNormalChecker;
         [SerializeField] LayerMask GroundLayer; // 地面のレイヤー
 
         [Header("Movement Speed")]
@@ -24,7 +23,7 @@ namespace CLAPlus
         [SerializeField] float MovePowerLimiter;
         static readonly float OnGroundMovePowerLimiter = 5, InAirMovePowerLimiter = 2;
         RaycastHit slopeHit1, slopeHit2;
-        static readonly float maxSlopeAngle = 18;
+        static readonly float maxSlopeAngle = 30;
         float MaxGroundCheckDistance
         {
             get
@@ -46,7 +45,6 @@ namespace CLAPlus
 
         public float PublicGroundCheckDistance;
         [SerializeField] float testAdjust = 0.01f;
-        [SerializeField] float SlopeAngleTest;
         float RayRange;
         public Vector3 GroundNormal;
         float SlopeAngle
@@ -68,7 +66,7 @@ namespace CLAPlus
                 {
                     GroundNormal = Vector3.zero;
                 }
-                return Vector3.Angle(transform.forward, ((slopeHit2.normal - slopeHit1.normal) / 2).normalized);
+                return Vector3.Angle(Vector3.up, GroundNormal);
             }
         }
         bool IsGrounded // 地面に接しているか
@@ -205,7 +203,6 @@ namespace CLAPlus
         bool isRush;
 
         [Header("Slide")]
-
         [HideInInspector] public bool isSlide;
         public bool CanSlide
         {
@@ -325,10 +322,8 @@ namespace CLAPlus
         States KeepGState;
         public States PublicState;
         CancellationToken OnDestroyToken;
-
-        public States test;
-        public float testHZ, testV;
-
+        [SerializeField] float angle;
+        [SerializeField] bool loco;
 
         void Start()
         {
@@ -343,16 +338,17 @@ namespace CLAPlus
 
         void FixedUpdate()
         {
-            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z) + (inputDir == Vector3.zero ? transform.forward : inputDir.normalized) * 0.5f, Vector3.down, Color.red);
-            Debug.DrawRay(transform.position, moveDir.normalized * 0.5f, Color.green);
-            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z), GroundNormal.normalized, Color.blue);
+            angle = SlopeAngle;
+            Debug.DrawRay(new(transform.position.x, col.bounds.min.y + 0.1f, transform.position.z), Vector3.down, Color.red);
+            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z) + transform.forward * 0.5f, Vector3.down, Color.red);
+            Debug.DrawRay(slopeHit1.point, slopeHit2.point, Color.green);
+            Debug.DrawRay(transform.position, GroundNormal * 2, Color.blue);
+
+            loco = false;
             if (!IsOwner)
                 return;
 
             CameraUpdate();
-
-            test = State;
-            SlopeAngleTest = SlopeAngle;
 
             if (xForce == 0 && yForce == 0 && zForce == 0 && HzInput == 0 && VInput == 0 && State != States.wallRun && State != States.climb || State == States.dodge)
                 return;
@@ -412,12 +408,9 @@ namespace CLAPlus
             {
                 // 移動ベクトルを地面の法線ベクトルに投影
                 // moveDir = Extensions.ProjectVector(GroundNormal, inputDir).normalized;
-                moveDir = Vector3.ProjectOnPlane(inputDir, GroundNormal).normalized;;
-
-                // if (MathF.Abs(rb.linearVelocity.y) < testHZ && (MathF.Abs(xForce) + MathF.Abs(zForce)) / 2 < testHZ)
-                // {
-                //     rb.AddForce(-testV * Mathf.Sin(SlopeAngle * Mathf.Deg2Rad) * rb.mass * Vector3.ProjectOnPlane(Vector3.down, slopeHit1.normal), ForceMode.Force);
-                // }
+                moveDir = Vector3.ProjectOnPlane(inputDir, GroundNormal).normalized;
+                rb.AddForce(new Vector3(0, 9.81f, 0) * rb.mass - GroundNormal * 9.81f, ForceMode.Force);
+                loco = true;
             }
         }
 
@@ -606,63 +599,63 @@ namespace CLAPlus
             switch (State)
             {
                 case States.falling:
-                    // rb.useGravity = true;
+                    rb.useGravity = true;
                     MovePowerLimiter = InAirMovePowerLimiter;
                     break;
 
                 case States.walk:
-                    // rb.useGravity = true;
+                    rb.useGravity = true;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefWalkSpeed + ExWalkSpeed;
                     break;
 
                 case States.dash:
-                    // rb.useGravity = true;
+                    rb.useGravity = true;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefDashSpeed + ExDashSpeed;
                     break;
 
                 case States.crouch:
-                    // rb.useGravity = true;
+                    rb.useGravity = true;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefCrouchSpeed + ExCrouchSpeed;
                     break;
 
                 case States.Jump:
-                    // rb.useGravity = true;
+                    rb.useGravity = true;
                     MovePowerLimiter = InAirMovePowerLimiter;
                     break;
 
                 case States.AirJump:
-                    // rb.useGravity = true;
+                    rb.useGravity = true;
                     MovePowerLimiter = InAirMovePowerLimiter;
                     break;
 
                 case States.climb:
-                    // rb.useGravity = false;
+                    rb.useGravity = false;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefWalkSpeed + ExWalkSpeed;
                     break;
 
                 case States.wallRun:
-                    // rb.useGravity = false;
+                    rb.useGravity = false;
                     MovePowerLimiter = OnGroundMovePowerLimiter;
                     Speed = DefDashSpeed + ExDashSpeed;
                     break;
 
                 case States.dodge:
-                    // rb.useGravity = true;
+                    rb.useGravity = true;
                     Speed = dodgeSpeed;
                     break;
 
                 case States.rush:
-                    // rb.useGravity = true;
+                    rb.useGravity = true;
                     MovePowerLimiter = 10; // 移動制限緩和
                     Speed = rushSpeed;
                     break;
 
                 case States.slide:
-                    // rb.useGravity = true;
+                    rb.useGravity = true;
                     MovePowerLimiter = InAirMovePowerLimiter;
                     Speed = DefDashSpeed + ExDashSpeed;
                     break;
