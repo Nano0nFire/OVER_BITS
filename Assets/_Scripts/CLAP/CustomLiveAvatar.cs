@@ -26,7 +26,7 @@ namespace CLAPlus
     public class CustomLifeAvatar : NetworkBehaviour
     {
         public bool IsFailure{ get; private set; }
-        [SerializeField] ItemDataBase modelDataList; // モデルデータ
+        [SerializeField] ItemDataBase itemDataBase; // モデルデータ
         public List<int> ModelListIndexs = new(); // 各装備品のリストの番号
         public List<int> ModelIDs = new(); // 各装備品のID
         // NetworkList<int> syncedModelIDs = new();
@@ -34,7 +34,7 @@ namespace CLAPlus
         [SerializeField] GameObject RootBone;
         [SerializeField] SpringSystem SpringSystem;
         [SerializeField] Transform skins;
-        [SerializeField] List<string>partsType = new(); // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
+        [SerializeField] string[] PartsType = {"Base", "Face", "Tops", "Bottoms", "Shoes", "Hair"}; // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
         readonly List<GameObject> partsList = new(); // 装備するモデルデータ
         /// <summary>
         /// ベースモデルのボーンと装備するモデルのボーンを足したもの<br />
@@ -42,6 +42,7 @@ namespace CLAPlus
         /// </summary>
         /// <returns></returns>
         readonly List<Transform> bonesList = new();
+        public Material[] materials = new Material[6];
         int SpringSystemIndex = -1;
 
         public override async void OnNetworkSpawn()
@@ -143,7 +144,8 @@ namespace CLAPlus
 
                     for (int i = 0; i < partsBonesArray.Length; i++)
                     {
-                        if (partsBonesArray[i] == null) continue;
+                        if (partsBonesArray[i] == null)
+                            continue;
                         newBones[i] = FindBone(bonesList, partsBonesArray[i]);
                     }
 
@@ -202,23 +204,33 @@ namespace CLAPlus
         {
             foreach (GameObject part in partsList)
             {
+                string name = "empty";
+                int index = 0;
+                foreach (string key in  PartsType)
+                {
+                    if (part.name.Contains(key))
+                    {
+                        name = key;
+                        break;
+                    }
+                    index ++;
+                }
+
                 foreach (SkinnedMeshRenderer smr in part.GetComponentsInChildren<SkinnedMeshRenderer>())
                 {
-                    foreach (string key in partsType)
-                        if (smr.gameObject.transform.parent.name.Contains(key))
-                            smr.gameObject.name = key;
-
+                    smr.gameObject.name = name;
+                    smr.materials[0] = new(smr.materials[0]);
+                    materials[index] = smr.materials[0];
                     var obj = smr.gameObject;
                     obj.transform.parent = skins;
-
-                    Destroy(part);
                 }
+                Destroy(part);
             }
         }
 
         void SpawnModel(int ListIndex)
         {
-            var obj = modelDataList.GetItem(ModelListIndexs[ListIndex], ModelIDs[ListIndex]).ItemModel;
+            var obj = itemDataBase.GetItem(ModelListIndexs[ListIndex], ModelIDs[ListIndex]).ItemModel;
             if (obj == null)
                 return;
 

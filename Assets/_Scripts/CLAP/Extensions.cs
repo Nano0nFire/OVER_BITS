@@ -24,5 +24,27 @@ namespace CLAPlus.Extension
         {
             return Vector3.Dot(B, A) / Vector3.Dot(A, A) * A;
         }
+
+        public static string ColorToHexString(Color color)
+        {
+            int r = Mathf.RoundToInt(color.r * 255);
+            int g = Mathf.RoundToInt(color.g * 255);
+            int b = Mathf.RoundToInt(color.b * 255);
+
+            return $"#{r:X2}{g:X2}{b:X2}";
+        }
+
+        public static Color HexToColorConverter(string hex)
+        {
+            if (hex.StartsWith("#")) hex = hex.Substring(1);
+
+            byte r = 255, g = 255, b = 255, a = 255;
+
+            r = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+            g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+            b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+
+            return new Color(r / 255f, g / 255f, b / 255f, a / 255f);
+        }
     }
 }

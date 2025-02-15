@@ -23,6 +23,7 @@ public class UIGeneral : MonoBehaviour
     bool[] InventoryIsUpdated;
     List<Transform> SlotXforms = new();
     int activatedSlotIndex = 0;
+    public static ItemData SelectedItem;
     public static int ActivePanelIndex;
     public static UIType ActiveUIType
     {
@@ -75,7 +76,7 @@ public class UIGeneral : MonoBehaviour
             component.panelID = i;
             i ++;
         }
-        foreach (var component in GetComponentsInChildren<UI_SlotLoader>())
+        foreach (var component in GetComponentsInChildren<UI_SlotLoader>(true))
             component.Setup();
         InventoryIsUpdated = new bool[max];
         for (i = 0; i < max; i ++)
@@ -111,10 +112,10 @@ public class UIGeneral : MonoBehaviour
     /// </summary>
     /// <param name="amount"></param>
     /// <returns></returns>
-    public List<Transform> GetSlots(int amount)
+    public ReadOnlySpan<Transform> GetSlots(int amount)
     {
         if (0 >= amount)
-            return null;
+            return new();
 
         if (SlotXforms.Count < amount) // 生成済みのSlotが必要量に達しているか確認して、足りない場合は不足分を生成
         {
@@ -127,7 +128,7 @@ public class UIGeneral : MonoBehaviour
             }
         }
         activatedSlotIndex = amount-1;
-        return SlotXforms.GetRange(0, amount);
+        return SlotXforms.GetRange(0, amount).ToArray();
     }
 
     /// <summary>
@@ -172,7 +173,7 @@ public class UIGeneral : MonoBehaviour
     {
         if (!InventoryParents[index].enabled) // 非アクティブ状態なら更新はしない
             return;
-        InventoryParents[index].LoadSlot(InventorySystem.GetInventoryData(index)); // スロットを更新
+        InventoryParents[index].LoadSlot(InventorySystem.GetInventoryData(index).ToArray()); // スロットを更新
     }
 
     public void CLACombine()

@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public class UI_SlotLoader : MonoBehaviour
 {
     [SerializeField] RectTransform rectTransform;
     [SerializeField] int GridSideMax, SlotSize;
-    [HideInInspector] public UIGeneral uiGeneral;
+    public UIGeneral uiGeneral;
     [SerializeField] ItemDataBase itemDataBase;
     //[SerializeField] UIType uiType = UIType.Null;
     [SerializeField] int IndexToReference;
@@ -20,9 +22,9 @@ public class UI_SlotLoader : MonoBehaviour
         uiGeneral.Load(IndexToReference);
     }
 
-    public void LoadSlot(List<ItemData> InvData) // UIGeneralがデータの更新またはこのUIが有効化されたときに呼び出す
+    public void LoadSlot(ReadOnlySpan<ItemData> InvData) // UIGeneralがデータの更新またはこのUIが有効化されたときに呼び出す
     {
-        Transform[] slots = uiGeneral.GetSlots(InvData.Count).ToArray();
+        ReadOnlySpan<Transform> slots = uiGeneral.GetSlots(InvData.Length);
         rectTransform.sizeDelta = new Vector2(0, SlotSize * (slots.Length / GridSideMax));
 
         int i = 0;

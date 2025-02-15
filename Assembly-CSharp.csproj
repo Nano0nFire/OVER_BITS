@@ -104,6 +104,7 @@
     <Compile Include="Assets\_Scripts\DACS\CustomAction\CA_Adminis.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_PlayerSettings.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_ColorSelecter.cs" />
     <Compile Include="Assets\_Scripts\General\CommonEntityStatus.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\_Scripts\Old\TestComponent.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Assets\_Scripts\UI\SubPanelSwitcher.cs" />
     <Compile Include="Assets\_Scripts\DACS\EnemyComponent.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_ItemEquip.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CustomLiveAvatar.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_Component.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem_ParentComponent.cs" />

@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 243907195
+  GlobalObjectIdHash: 3774752910
   InScenePlacedSourceGlobalObjectIdHash: 239926996
   DeferredDespawnTick: 0
   Ownership: 1
@@ -256,18 +256,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  modelDataList: {fileID: 11400000, guid: 9a9c66c6c84e94b4cbd3d92b0571c662, type: 2}
+  itemDataBase: {fileID: 11400000, guid: 9a9c66c6c84e94b4cbd3d92b0571c662, type: 2}
   ModelListIndexs: 130000001400000015000000160000001700000018000000
   ModelIDs: 000000000000000000000000000000000000000000000000
   PlayerObj: {fileID: 2484901941998419147}
   RootBone: {fileID: 6325707875351798503}
   SpringSystem: {fileID: 1179463608799573339}
   skins: {fileID: 5282346313961453120}
-  partsType:
+  PartsType:
   - Base
+  - Face
   - Tops
   - Bottoms
   - Shoes
+  - Hair
+  materials:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &2334364849733573655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,8 +304,7 @@ MonoBehaviour:
   MovePowerLimiter: 0
   PublicGroundCheckDistance: 0
   testAdjust: 0.12
-  SlopeAngleTest: 0
-  GroundDir: {x: 0, y: 0, z: 0}
+  GroundNormal: {x: 0, y: 0, z: 0}
   _isGrounded: 0
   _onSlope: 0
   ExJumpPower: 0
@@ -355,9 +363,8 @@ MonoBehaviour:
   _Astate: 0
   _Gstate: 0
   PublicState: 0
-  test: 0
-  testHZ: 1.5
-  testV: 15
+  angle: 0
+  loco: 0
 --- !u!114 &2140513028944923830
 MonoBehaviour:
   m_ObjectHideFlags: 0

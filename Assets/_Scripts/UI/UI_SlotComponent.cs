@@ -13,6 +13,7 @@ public class UI_SlotComponent : MonoBehaviour
     public void OnClick()
     {
         uiInfo.LoadInfoPanel(itemData);
+        UIGeneral.SelectedItem = itemData;
     }
 
     public void Setup(ItemDataConfigs data)
