@@ -169,8 +169,23 @@ public class PlayerDataManager : NetworkBehaviour
             Debug.LogError("Request failed: " + ex.Message);
         }
     }
+
+    public static async UniTask<bool> HasData(string Key)
+    {
+        try
+        {
+           await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string>{Key});
+           return true;
+        }
+        catch (KeyNotFoundException) // データがない場合
+        {
+            return false;
+        }
+    }
+
     public static async UniTask SaveData<T>(T SaveData, string CustomKey = null)
     {
+        Debug.Log("StartSave : " + CustomKey);
         string jsonData = JsonConvert.SerializeObject(SaveData); // データをJsonに変換
 
         string Key;
@@ -207,6 +222,7 @@ public class PlayerDataManager : NetworkBehaviour
     {
         try
         {
+            Debug.Log("StartLoad : " + CustomKey);
             string Key;
             if (CustomKey != null)
             {
@@ -230,7 +246,6 @@ public class PlayerDataManager : NetworkBehaviour
         }
         catch (KeyNotFoundException) // データがない場合
         {
-            Debug.Log("Create New Data");
             await CreateAndSaveNewData<T>(CustomKey); // 新しいデータを作成し保存
             return await LoadData<T>(CustomKey); // 作成後のデータをロード
         }
@@ -238,6 +253,7 @@ public class PlayerDataManager : NetworkBehaviour
 
     public static async UniTask CreateAndSaveNewData<T>(string CustomKey) where T : new() // 初期値の設定はここで行う
     {
+        Debug.Log("CreateNewData : " + CustomKey);
         if (typeof(T) == typeof(SettingsData))
         {
             SettingsData data = new()
@@ -274,6 +290,8 @@ public class PlayerDataManager : NetworkBehaviour
             var data = new T();
             await SaveData(data, CustomKey); // 新規データの作成
         }
+
+        Debug.Log("CreatedNewData : " + CustomKey);
     }
     #region AddItemData
     public void AddItem(ItemData itemData, ulong clientID, int amount = 0)

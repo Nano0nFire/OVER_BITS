@@ -25,17 +25,38 @@ namespace DACS.Inventory
 
         public async UniTask Setup()
         {
+            if (await PlayerDataManager.HasData("LoginLog"))
+            {
+                HotbarData = await PlayerDataManager.LoadData<List<ItemData>>("HotbarData");
+                List<UniTask> tasks = new();
+                for (int i = 0; i < InventoryCount; i ++) // インベントリのロード
+                {
+                    tasks.Add(LoadInventory(i));
+                }
+                await UniTask.WhenAll(tasks);
+            }
+            else
+            {
+                await CreateProfile();
+            }
+
+            string log = "LastLogin : " + DateTime.Now.ToString();
+
+            PlayerDataManager.SaveData(log, "LoginLog").Forget();
+        }
+
+        async UniTask CreateProfile()
+        {
             HotbarData = await PlayerDataManager.LoadData<List<ItemData>>("HotbarData");
-            List<UniTask> tasks = new();
             for (int i = 0; i < InventoryCount; i ++) // インベントリのロード
             {
-                tasks.Add(LoadInventory(i));
+                await LoadInventory(i);
             }
-            await UniTask.WhenAll(tasks);
         }
 
         async UniTask LoadInventory(int index)
         {
+            Debug.Log("LoadInventory : " + GetListName(index));
             GetInventoryData(index).AddRange(await PlayerDataManager.LoadData<List<ItemData>>(GetListName(index)));
         }
 
