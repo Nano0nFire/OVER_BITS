@@ -1,8 +1,8 @@
 ---
 name: Fix Order
-about: teset
+about: バグの修正を要請
 title: "[Fix Order]"
-labels: Fix Order
+labels: Fix
 assignees: ''
 
 ---
