@@ -12,6 +12,7 @@ using DACS.Projectile;
 using DACS.Inventory;
 using CLAPlus.Face2Face;
 using CLAPlus.ClapChat;
+using CLAPlus.Extension;
 using System.Collections.Generic;
 using Unity.Netcode.Components;
 
@@ -98,8 +99,6 @@ public class ClientGeneralManager : NetworkBehaviour
 
         isOwner = nwObject.IsOwner;
 
-        var masterObj = GameObject.Find("Master");
-
         Debug.Log("ClientGeneralManager : Setting Up");
 
         // データ系
@@ -113,7 +112,7 @@ public class ClientGeneralManager : NetworkBehaviour
         clientID = nwObject.OwnerClientId;
         nwID = nwObject.NetworkObjectId;
 
-        var LocalGM = masterObj.GetComponent<LocalGeneralManager>();
+        var LocalGM = LocalGeneralManager.Instance;
         // UI
         MainMenu = LocalGM.MainMenu;
         uiGeneral = MainMenu.GetComponent<UIGeneral>();
@@ -131,20 +130,24 @@ public class ClientGeneralManager : NetworkBehaviour
         // EntityManager
         LocalGM.emSystem.Setup(this);
 
-        projectile = masterObj.GetComponent<Projectile>();
+        projectile = LocalGM.GetComponent<Projectile>();
         projectile.clientID = clientID;
         projectile.nwoID = nwObject.NetworkObjectId;
         projectile.CameraPos = CameraPos;
         projectile.Setup();
         hotbarSystem.ChangeActionPoint += (xform) => projectile.ShotPos = xform;
-        var paControl = masterObj.GetComponent<PlayerActionControl>();
+        var paControl = LocalGM.GetComponent<PlayerActionControl>();
         paControl.invSystem = invSystem;
         paControl.handControl = GetComponentInChildren<HandControl>();
-        InputSetUp(masterObj.GetComponent<PlayerInput>());
+        InputSetUp(LocalGM.GetComponent<PlayerInput>());
         clap_a.isOwner = isOwner;
-        faceSync.tracker = masterObj.GetComponent<Face2Face>();
+        faceSync.tracker = LocalGM.GetComponent<Face2Face>();
         ClapChat.Setup();
         customLifeAvatar = GetComponent<CustomLifeAvatar>();
+        customLifeAvatar.ModelIDs = await PlayerDataManager.LoadData<List<int>>("CustomLifeAvatarParts");
+        var tempcolors = await PlayerDataManager.LoadData<List<SerializableColor>>("CustomLifeAvatarColors");
+        SerializableColor.ToColors(tempcolors.ToArray(), out customLifeAvatar.colors);
+        customLifeAvatar.Combiner(true);
 
         // 設定
         LoadSettings();
@@ -153,7 +156,7 @@ public class ClientGeneralManager : NetworkBehaviour
         UI_Hotbar.Instance.LoadHotbar();
 
         // プレイヤーの初期位置にテレポート
-        GetComponent<NetworkTransform>().Teleport(masterObj.transform.position, masterObj.transform.rotation, transform.localScale);
+        GetComponent<NetworkTransform>().Teleport(LocalGM.transform.position, LocalGM.transform.rotation, transform.localScale);
 
         IsLoaded = true;
 

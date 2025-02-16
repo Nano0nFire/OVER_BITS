@@ -57,6 +57,7 @@ public class UI_ColorSelecter : MonoBehaviour
     void OnApply()
     {
         ClientGeneralManager.customLifeAvatar.colors[UIGeneral.SelectedItem.FirstIndex - 19] = newColor; // 19はItemDataBase上のBaseBodyのインデックスを示している
+        ClientGeneralManager.customLifeAvatar.ModelIDs[UIGeneral.SelectedItem.FirstIndex - 19] = UIGeneral.SelectedItem.SecondIndex;
         ClientGeneralManager.customLifeAvatar.Combiner();
     }
 

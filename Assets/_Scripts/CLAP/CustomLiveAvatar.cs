@@ -47,22 +47,22 @@ namespace CLAPlus
         public List<Color> colors = new(6);
         int SpringSystemIndex = -1;
 
-        public override async void OnNetworkSpawn()
+        public override async void OnNetworkSpawn() // 他のクライアント側のシーンでスポーンした時を想定
         {
             await UniTask.WaitUntil(() => ClientGeneralManager.IsLoaded);
-            ModelIDs = await PlayerDataManager.LoadData<List<int>>("CustomLifeAvatarParts");
-            var tempcolors = await PlayerDataManager.LoadData<List<SerializableColor>>("CustomLifeAvatarColors");
-            SerializableColor.ToColors(tempcolors.ToArray(), out colors);
             CombineServerRpc((long)ClientGeneralManager.clientID);
         }
 
-        public async void Combiner()
+        public async void Combiner(bool SimplifyMode = false)
         {
             if (IsOwner)
             {
-                await PlayerDataManager.SaveData(ModelIDs, "CustomLifeAvatarParts");
-                SerializableColor.ToSerializableColors(colors.ToArray(), out var output);
-                await PlayerDataManager.SaveData(output, "CustomLifeAvatarColors");
+                if (!SimplifyMode)
+                {
+                    await PlayerDataManager.SaveData(ModelIDs, "CustomLifeAvatarParts");
+                    SerializableColor.ToSerializableColors(colors.ToArray(), out var output);
+                    await PlayerDataManager.SaveData(output, "CustomLifeAvatarColors");
+                }
                 UpdateDataServerRpc(ModelIDs.ToArray(), colors.ToArray());
                 CombineServerRpc();
             }
@@ -271,7 +271,7 @@ namespace CLAPlus
         {
             if (clientID == -1)
             {
-                CombineClientRpc(ModelIDs.ToArray());
+                CombineClientRpc(ModelIDs.ToArray(), colors.ToArray());
                 return;
             }
 
@@ -279,7 +279,7 @@ namespace CLAPlus
             {
                 Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { (ulong)clientID } }
             };
-            CombineClientRpc(ModelIDs.ToArray(), rpcParams);
+            CombineClientRpc(ModelIDs.ToArray(), colors.ToArray(), rpcParams);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -293,10 +293,13 @@ namespace CLAPlus
         }
 
         [ClientRpc]
-        public void CombineClientRpc(int[] IDs, ClientRpcParams rpcParams = default)
+        public void CombineClientRpc(int[] IDs, Color[] Colors, ClientRpcParams rpcParams = default)
         {
             if (!IsOwner)
+            {
                 ModelIDs = new(IDs);
+                colors = new(Colors);
+            }
 
             StartCombine(true);
         }
