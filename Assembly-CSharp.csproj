@@ -99,6 +99,7 @@
     <Compile Include="Assets\_Scripts\Test\CMTest.cs" />
     <Compile Include="Assets\_Scripts\DACS\AdjacentController.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_InfomationPanel.cs" />
+    <Compile Include="Assets\_Scripts\General\ChatCommand.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\_Scripts\DACS\CustomAction\CA_Adminis.cs" />

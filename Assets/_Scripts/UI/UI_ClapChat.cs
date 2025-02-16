@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Unity.Services.Vivox;
+using CLAPlus.ClapTalk;
 
 namespace CLAPlus.ClapChat
 {
@@ -44,7 +45,10 @@ namespace CLAPlus.ClapChat
 
         public void SendTextMessage(string text)
         {
-            ClapChat.Instance.SendMessageToChannel(text);
+            if (ChatCommand.TryRunCommand(text, out string log)) // コマンド実行を試みる
+                ClapChat.Instance.AddMessageToChat(log);
+            else
+                ClapChat.Instance.SendMessageToChannel(text);
             ScrollToBottom();
 
             CloseChatSpace();
