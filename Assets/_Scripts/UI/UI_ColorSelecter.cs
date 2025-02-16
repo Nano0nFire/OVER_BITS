@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using CLAPlus.Extension;
 using TMPro;
+using DACS.Inventory;
 
 public class UI_ColorSelecter : MonoBehaviour
 {
@@ -27,7 +28,8 @@ public class UI_ColorSelecter : MonoBehaviour
         hueSlider.onValueChanged.AddListener(delegate { OnHueValueChanged(hueSlider.value); });
         saturationSlider.onValueChanged.AddListener(delegate { OnColorChanged(); });
         valueSlider.onValueChanged.AddListener(delegate { OnColorChanged(); });
-        codeField.onValueChanged.AddListener(delegate { OnColorCodeChanged(codeField.text); });
+        codeField.onEndEdit.AddListener(delegate { OnColorCodeChanged(codeField.text); });
+        ApplyChangesBtn.onClick.AddListener(delegate { OnApply(); });
     }
 
     void OnHueValueChanged(float hue)
@@ -40,6 +42,7 @@ public class UI_ColorSelecter : MonoBehaviour
     {
         newColor = Color.HSVToRGB(hueSlider.value, saturationSlider.value, valueSlider.value);
         SampleImg.color = newColor;
+        codeField.text = Extensions.ColorToHexString(newColor);
     }
 
     void OnColorCodeChanged(string Value)
@@ -49,6 +52,12 @@ public class UI_ColorSelecter : MonoBehaviour
         SetSlider(hue, saturation, value);
         OnColorChanged();
 
+    }
+
+    void OnApply()
+    {
+        ClientGeneralManager.customLifeAvatar.colors[UIGeneral.SelectedItem.FirstIndex - 19] = newColor; // 19はItemDataBase上のBaseBodyのインデックスを示している
+        ClientGeneralManager.customLifeAvatar.Combiner();
     }
 
     void UpdateHueSliderBackground()

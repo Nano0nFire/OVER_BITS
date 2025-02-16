@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using DACS.Inventory;
 using CLAPlus.ClapTalk;
+using CLAPlus.Extension;
 
 /// <summary>
 /// LocalOnly(DontDestory)
@@ -283,6 +284,11 @@ public class PlayerDataManager : NetworkBehaviour
         else if (CustomKey == "CustomLifeAvatarParts")
         {
             List<int> data = new int[6]{0,0,0,0,0,0}.ToList();
+            await SaveData(data, CustomKey); // 新規データの作成
+        }
+        else if (CustomKey == "CustomLifeAvatarColors")
+        {
+            List<SerializableColor> data = new SerializableColor[6]{new(1,1,1,1), new(1,1,1,1), new(true), new(true), new(true), new(true)}.ToList();
             await SaveData(data, CustomKey); // 新規データの作成
         }
         else

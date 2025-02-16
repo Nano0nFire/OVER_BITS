@@ -51,7 +51,7 @@ public class UIGeneral : MonoBehaviour
         }
     }
 
-    public void Setup(ClientGeneralManager cgManager)
+    public void Setup()
     {
         if (instance == null)
         {
@@ -62,9 +62,9 @@ public class UIGeneral : MonoBehaviour
             Destroy(gameObject); // 重複するインスタンスを破棄
         }
 
-        this.cgManager = cgManager;
+        this.cgManager = ClientGeneralManager.Instance;
         PlayerDataManager.OnItemAdded += Load;
-        cla = cgManager.GetComponent<CustomLifeAvatar>();
+        cla = ClientGeneralManager.customLifeAvatar;
 
         UIComponents = FindObjectsByType<UI_Component>(FindObjectsSortMode.None);
         int max = itemDataBase.ItemListCount;

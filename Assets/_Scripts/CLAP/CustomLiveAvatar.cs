@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using CLAPlus;
+using CLAPlus.Extension;
 using Cysharp.Threading.Tasks;
+using System.Linq;
 
 /****************************************************************************
 
@@ -42,14 +44,16 @@ namespace CLAPlus
         /// </summary>
         /// <returns></returns>
         readonly List<Transform> bonesList = new();
-        public Material[] materials = new Material[6];
+        public List<Color> colors = new(6);
         int SpringSystemIndex = -1;
 
         public override async void OnNetworkSpawn()
         {
             await UniTask.WaitUntil(() => ClientGeneralManager.IsLoaded);
+            ModelIDs = await PlayerDataManager.LoadData<List<int>>("CustomLifeAvatarParts");
+            var tempcolors = await PlayerDataManager.LoadData<List<SerializableColor>>("CustomLifeAvatarColors");
+            SerializableColor.ToColors(tempcolors.ToArray(), out colors);
             CombineServerRpc((long)ClientGeneralManager.clientID);
-
         }
 
         public async void Combiner()
@@ -57,7 +61,9 @@ namespace CLAPlus
             if (IsOwner)
             {
                 await PlayerDataManager.SaveData(ModelIDs, "CustomLifeAvatarParts");
-                UpdateDataServerRpc(ModelIDs.ToArray());
+                SerializableColor.ToSerializableColors(colors.ToArray(), out var output);
+                await PlayerDataManager.SaveData(output, "CustomLifeAvatarColors");
+                UpdateDataServerRpc(ModelIDs.ToArray(), colors.ToArray());
                 CombineServerRpc();
             }
         }
@@ -220,7 +226,7 @@ namespace CLAPlus
                 {
                     smr.gameObject.name = name;
                     smr.materials[0] = new(smr.materials[0]);
-                    materials[index] = smr.materials[0];
+                    smr.materials[0].color = colors[index];
                     var obj = smr.gameObject;
                     obj.transform.parent = skins;
                 }
@@ -277,10 +283,13 @@ namespace CLAPlus
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void UpdateDataServerRpc(int[] IDs)
+        public void UpdateDataServerRpc(int[] IDs, Color[] Colors)
         {
-            if (IsServer)
-                ModelIDs = new(IDs);
+            if (!IsServer)
+                return;
+
+            ModelIDs = new(IDs);
+            colors = new(Colors);
         }
 
         [ClientRpc]

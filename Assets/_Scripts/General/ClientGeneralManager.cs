@@ -31,6 +31,7 @@ public class ClientGeneralManager : NetworkBehaviour
     Projectile projectile;
     public static ulong clientID{get; private set;}
     public ulong nwID{get; private set;}
+    public static CustomLifeAvatar customLifeAvatar;
     States KeepState;
     public bool UseInput
     {
@@ -117,7 +118,7 @@ public class ClientGeneralManager : NetworkBehaviour
         MainMenu = LocalGM.MainMenu;
         uiGeneral = MainMenu.GetComponent<UIGeneral>();
         uiGeneral.invSystem = invSystem;
-        uiGeneral.Setup(this);
+        uiGeneral.Setup();
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
         UI_Hotbar.Instance.hotbarSystem = hotbarSystem;
         var PlayerName = PlayerDataManager.LoadedPlayerProfileData.PlayerName;
@@ -143,7 +144,7 @@ public class ClientGeneralManager : NetworkBehaviour
         clap_a.isOwner = isOwner;
         faceSync.tracker = masterObj.GetComponent<Face2Face>();
         ClapChat.Setup();
-        GetComponent<CustomLifeAvatar>().ModelIDs = await PlayerDataManager.LoadData<List<int>>("CustomLifeAvatarParts");
+        customLifeAvatar = GetComponent<CustomLifeAvatar>();
 
         // 設定
         LoadSettings();

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -45,6 +47,72 @@ namespace CLAPlus.Extension
             b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
 
             return new Color(r / 255f, g / 255f, b / 255f, a / 255f);
+        }
+    }
+
+    [System.Serializable]
+    public class SerializableColor
+    {
+        public float r, g, b, a;
+
+        public SerializableColor() { }
+
+        public SerializableColor(float r, float g, float b, float a)
+        {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+            this.a = a;
+        }
+        public SerializableColor(Color color)
+        {
+            r = color.r;
+            g = color.g;
+            b = color.b;
+            a = color.a;
+        }
+
+        public SerializableColor(bool UseRandom = false)
+        {
+            if (UseRandom)
+            {
+                System.Random random = new();
+                r = (float)random.NextDouble();
+                g = (float)random.NextDouble();
+                b = (float)random.NextDouble();
+                a = 1f;
+            }
+            else
+            {
+                r = 0;
+                g = 0;
+                b = 0;
+                a = 1f;
+            }
+        }
+
+        public Color ToColor()
+        {
+            return new Color(r, g, b, a);
+        }
+
+        public static void ToColors(ReadOnlySpan<SerializableColor> input, out List<Color> output)
+        {
+            int i = 0;
+            output = new(input.Length);
+            foreach (var sColor in input)
+            {
+                output.Add(sColor.ToColor()); // Add() を使って要素を追加
+            }
+        }
+        public static void ToSerializableColors(ReadOnlySpan<Color> input, out List<SerializableColor> output)
+        {
+            int i = 0;
+            output = new(input.Length);
+            foreach (var sColor in input)
+            {
+                output.Add(new(sColor)); // Add() を使って要素を追加
+            }
         }
     }
 }
