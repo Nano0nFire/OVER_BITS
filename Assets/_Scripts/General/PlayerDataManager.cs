@@ -101,7 +101,7 @@ public class PlayerDataManager : NetworkBehaviour
         }
         catch (Exception ex)
         {
-            Debug.Log(ex.Message);
+            //Debug.Log(ex.Message);
         }
     }
 
@@ -113,11 +113,11 @@ public class PlayerDataManager : NetworkBehaviour
         }
         catch (AuthenticationException ex)
         {
-            Debug.LogException(ex);
+            //Debug.LogException(ex);
         }
         catch (RequestFailedException ex)
         {
-            Debug.LogException(ex);
+            //Debug.LogException(ex);
         }
     }
 
@@ -126,25 +126,25 @@ public class PlayerDataManager : NetworkBehaviour
     //     try
     //     {
     //         await AuthenticationService.Instance.LinkWithUnityAsync(accessToken);
-    //         Debug.Log("Link is successful.");
+    //         //Debug.Log("Link is successful.");
     //     }
     //     catch (AuthenticationException ex) when (ex.ErrorCode == AuthenticationErrorCodes.AccountAlreadyLinked)
     //     {
     //         // Prompt the player with an error message.
-    //         Debug.LogError("This user is already linked with another account. Log in instead.");
+    //         //Debug.LogError("This user is already linked with another account. Log in instead.");
     //     }
 
     //     catch (AuthenticationException ex)
     //     {
     //         // Compare error code to AuthenticationErrorCodes
     //         // Notify the player with the proper error message
-    //         Debug.LogException(ex);
+    //         //Debug.LogException(ex);
     //     }
     //     catch (RequestFailedException ex)
     //     {
     //         // Compare error code to CommonErrorCodes
     //         // Notify the player with the proper error message
-    //         Debug.LogException(ex);
+    //         //Debug.LogException(ex);
     //     }
     // }
 
@@ -159,15 +159,15 @@ public class PlayerDataManager : NetworkBehaviour
         try
         {
             await AuthenticationService.Instance.UpdatePlayerNameAsync(newName);
-            Debug.Log("Player name has been updated to: " + newName);
+            //Debug.Log("Player name has been updated to: " + newName);
         }
         catch (AuthenticationException ex)
         {
-            Debug.LogError("Failed to set player name: " + ex.Message);
+            //Debug.LogError("Failed to set player name: " + ex.Message);
         }
         catch (RequestFailedException ex)
         {
-            Debug.LogError("Request failed: " + ex.Message);
+            //Debug.LogError("Request failed: " + ex.Message);
         }
     }
 
@@ -186,7 +186,7 @@ public class PlayerDataManager : NetworkBehaviour
 
     public static async UniTask SaveData<T>(T SaveData, string CustomKey = null)
     {
-        Debug.Log("StartSave : " + CustomKey);
+        //Debug.Log("StartSave : " + CustomKey);
         string jsonData = JsonConvert.SerializeObject(SaveData); // データをJsonに変換
 
         string Key;
@@ -209,7 +209,7 @@ public class PlayerDataManager : NetworkBehaviour
 
         await CloudSaveService.Instance.Data.Player.SaveAsync(data);
 
-        Debug.Log($"{Key} : Save done");
+        //Debug.Log($"{Key} : Save done");
     }
 
     /// <summary>
@@ -223,7 +223,7 @@ public class PlayerDataManager : NetworkBehaviour
     {
         try
         {
-            Debug.Log("StartLoad : " + CustomKey);
+            //Debug.Log("StartLoad : " + CustomKey);
             string Key;
             if (CustomKey != null)
             {
@@ -254,7 +254,7 @@ public class PlayerDataManager : NetworkBehaviour
 
     public static async UniTask CreateAndSaveNewData<T>(string CustomKey) where T : new() // 初期値の設定はここで行う
     {
-        Debug.Log("CreateNewData : " + CustomKey);
+        //Debug.Log("CreateNewData : " + CustomKey);
         if (typeof(T) == typeof(SettingsData))
         {
             SettingsData data = new()
@@ -297,7 +297,7 @@ public class PlayerDataManager : NetworkBehaviour
             await SaveData(data, CustomKey); // 新規データの作成
         }
 
-        Debug.Log("CreatedNewData : " + CustomKey);
+        //Debug.Log("CreatedNewData : " + CustomKey);
     }
     #region AddItemData
     public void AddItem(ItemData itemData, ulong clientID, int amount = 0)
@@ -312,7 +312,7 @@ public class PlayerDataManager : NetworkBehaviour
     {
         // if (!IsClient)
         //     return;
-
+        Debug.Log("Add Item");
         var itemData = JsonConvert.DeserializeObject<ItemData>(data); // Jsonから変換
         string key = InventorySystem.GetListName(itemData.FirstIndex); // 変換したデータからFirstIndexを取得しKeyを取得
         var PlayerInventoryData = await LoadData<List<ItemData>>(key); // Keyを元にインベントリデータを取得

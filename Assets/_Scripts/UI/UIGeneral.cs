@@ -7,6 +7,8 @@ using CLAPlus;
 using DACS.Inventory;
 using CLAPlus.ClapChat;
 using System;
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 public class UIGeneral : MonoBehaviour
 {
@@ -18,6 +20,10 @@ public class UIGeneral : MonoBehaviour
     [SerializeField] UI_InfomationPanel infomationPanelController;
     [HideInInspector] public InventorySystem invSystem; // ClientGeneralManagerが設定
     [SerializeField] GameObject SlotPrefab;
+    [SerializeField] Transform _NameTagArea;
+    static Transform NameTagArea;
+    [SerializeField] GameObject _NameTagPrefab;
+    static GameObject NameTagPrefab;
     static UI_Component[] UIComponents;
     public UI_SlotLoader[] InventoryParents;
     bool[] InventoryIsUpdated;
@@ -53,6 +59,8 @@ public class UIGeneral : MonoBehaviour
 
     public void Setup()
     {
+        NameTagPrefab = _NameTagPrefab;
+        NameTagArea = _NameTagArea;
         if (instance == null)
         {
             instance = this;
@@ -146,6 +154,14 @@ public class UIGeneral : MonoBehaviour
             SlotXforms.Add(newSlot);
         }
         return SlotXforms[activatedSlotIndex+1];
+    }
+
+    public static async UniTask<RectTransform> CreateAndGetNameTag()
+    {
+        await UniTask.WaitUntil(() => NameTagPrefab);
+        var tag = Instantiate(NameTagPrefab).GetComponent<RectTransform>();
+        tag.SetParent(NameTagArea);
+        return tag;
     }
 
     public void SaveData() => Save(); // UIからの呼び出し用

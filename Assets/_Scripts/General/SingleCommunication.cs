@@ -15,6 +15,7 @@ public class SingleCommunication : NetworkBehaviour
             Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { clientID } }
         };
         AddItemOrderClientRpc(data, amount, rpcParams);
+        Debug.Log("AddItemOrder");
     }
 
     [ClientRpc]

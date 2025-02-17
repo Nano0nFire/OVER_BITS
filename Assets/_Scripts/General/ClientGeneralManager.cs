@@ -18,14 +18,14 @@ using Unity.Netcode.Components;
 
 public class ClientGeneralManager : NetworkBehaviour
 {
-    [HideInInspector] public GameObject MainMenu;
-    [SerializeField] UIGeneral uiGeneral;
+    public static GameObject MainMenu;
+    public static UIGeneral uiGeneral;
     [SerializeField] CharactorMovement clap_m;
     [SerializeField] AnimationControl clap_a;
     [SerializeField] FaceSync faceSync;
     [SerializeField] GameObject avatar;
     [SerializeField] PlayerStatus playerStatus;
-    [SerializeField] Transform CameraPos;
+    public Transform CameraPos;
     [SerializeField] NetworkObject nwObject;
     public InventorySystem invSystem;
     public HotbarSystem hotbarSystem;
@@ -60,6 +60,7 @@ public class ClientGeneralManager : NetworkBehaviour
     [Header("Movement Settings")]
     public bool ToggleDash = false; //ダッシュ切り替え or 長押しダッシュ
     public bool ToggleCrouch = false; //しゃがみ切り替え or 長押ししゃがみ
+    public States SelectedActionSkill;
 
     [Header("Aim Settings")]
     CinemachineVirtualCamera CVCamera;
@@ -147,10 +148,15 @@ public class ClientGeneralManager : NetworkBehaviour
         customLifeAvatar.ModelIDs = await PlayerDataManager.LoadData<List<int>>("CustomLifeAvatarParts");
         var tempcolors = await PlayerDataManager.LoadData<List<SerializableColor>>("CustomLifeAvatarColors");
         SerializableColor.ToColors(tempcolors.ToArray(), out customLifeAvatar.colors);
-        customLifeAvatar.Combiner(true);
+        customLifeAvatar.Combiner();
 
         // 設定
         LoadSettings();
+
+        // クライアント間で共有されるデータの設定
+        playerStatus.SetPlayerName(PlayerDataManager.LoadedPlayerProfileData.PlayerName);
+        Debug.LogWarning(PlayerDataManager.LoadedPlayerProfileData.PlayerName);
+        playerStatus.IsLoaded = true;
 
         // ホットバーの同期
         UI_Hotbar.Instance.LoadHotbar();
@@ -380,7 +386,7 @@ public class ClientGeneralManager : NetworkBehaviour
         {
             clap_mCTSource.Cancel();
 
-            switch (playerStatus.SelectedActionSkill)
+            switch (SelectedActionSkill)
             {
                 case States.dodge:
                     clap_m.Dodge();

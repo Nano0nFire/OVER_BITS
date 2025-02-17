@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
+    <Compile Include="Assets\_Scripts\CLAP\NameTag.cs" />
     <Compile Include="Assets\_Scripts\CLAP\HandControl.cs" />
     <Compile Include="Assets\_Scripts\Old\DACSObjectPooler.cs" />
     <Compile Include="Assets\CameraPathController.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\_Scripts\btntest.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
+    <Compile Include="Assets\_Scripts\Test\SMRendererChecker.cs" />
     <Compile Include="Assets\_Scripts\General\PlayerStatus.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_DACS_InventorySystem.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />

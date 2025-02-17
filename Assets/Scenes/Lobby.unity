@@ -5818,7 +5818,7 @@ MonoBehaviour:
   AddressField: {fileID: 1465375749}
   PortField: {fileID: 171014055}
   AllowRemote: 0
-  UseRelay: 0
+  ListenAny: 0
   WorldNames:
   - TerrainTest
   - TestWorld
@@ -7081,7 +7081,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1411047757}
-    PlayerPrefab: {fileID: 3288742083618601568, guid: 88177b9d949e3e94590fdadc4fd8d09b,
+    PlayerPrefab: {fileID: 3288742083618601568, guid: 57ac6332f9030fe489694f29eab0ed38,
       type: 3}
     Prefabs:
       NetworkPrefabsLists:

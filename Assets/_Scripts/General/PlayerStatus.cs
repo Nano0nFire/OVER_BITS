@@ -1,53 +1,60 @@
-using CLAPlus;
-using UnityEngine;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using Unity.Netcode;
 
-public class PlayerStatus : CommonEntityStatus
+public class PlayerStatus : NetworkBehaviour // プレイヤーオブジェクト直下
 {
-    [SerializeField] CharactorMovement clap_m;
-    public States SelectedActionSkill;
-    public float ExWalkSpeed
+    public string PlayerName;
+    public bool IsLoaded = false;
+    public void SetPlayerName(string name) => SetPlayerNameServerRpc(name);
+
+    public override async void OnNetworkSpawn() // 他のクライアント側のシーンでスポーンした時を想定
     {
-        get
-        {
-            return clap_m.ExWalkSpeed;
-        }
-        set
-        {
-            clap_m.ExWalkSpeed = value;
-        }
-    }
-    public float ExDashSpeed
-    {
-        get
-        {
-            return clap_m.ExDashSpeed;
-        }
-        set
-        {
-            clap_m.ExDashSpeed = value;
-        }
-    }
-    public float ExCrouchSpeed
-    {
-        get
-        {
-            return clap_m.ExCrouchSpeed;
-        }
-        set
-        {
-            clap_m.ExCrouchSpeed = value;
-        }
-    }
-    public float ExJumpPower
-    {
-        get
-        {
-            return clap_m.ExJumpPower;
-        }
-        set
-        {
-            clap_m.ExJumpPower = value;
-        }
+        if (IsOwner)
+            return;
+
+        await UniTask.WaitUntil(() => ClientGeneralManager.IsLoaded);
+        PullDataServerRpc(ClientGeneralManager.clientID);
     }
 
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PullDataServerRpc(ulong clientID)
+    {
+        WaitPushing(clientID);
+    }
+
+    async void WaitPushing(ulong clientID)
+    {
+        if (!IsServer)
+            return;
+
+        ClientRpcParams rpcParams = new() // ClientRPCを送る対象を選択
+        {
+            Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { clientID } }
+        };
+        await UniTask.WaitUntil(() => IsLoaded);
+        SetPlayerNameClientRpc(PlayerName, rpcParams);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PushDataServerRpc(string name)
+    {
+        PlayerName = name;
+        IsLoaded = true;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetPlayerNameServerRpc(string name)
+    {
+        SetPlayerNameClientRpc(name);
+        IsLoaded = true;
+    }
+
+    [ClientRpc]
+    public void SetPlayerNameClientRpc(string name, ClientRpcParams rpcParams = default)
+    {
+        PlayerName = name;
+        IsLoaded = true;
+    }
 }

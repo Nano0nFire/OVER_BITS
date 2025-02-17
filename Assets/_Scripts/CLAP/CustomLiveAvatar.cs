@@ -27,6 +27,7 @@ namespace CLAPlus
 {
     public class CustomLifeAvatar : NetworkBehaviour
     {
+        [SerializeField] bool A,B,C,D,E,F,G;
         public bool IsFailure{ get; private set; }
         [SerializeField] ItemDataBase itemDataBase; // モデルデータ
         public List<int> ModelListIndexs = new(); // 各装備品のリストの番号
@@ -36,40 +37,46 @@ namespace CLAPlus
         [SerializeField] GameObject RootBone;
         [SerializeField] SpringSystem SpringSystem;
         [SerializeField] Transform skins;
-        [SerializeField] string[] PartsType = {"Base", "Face", "Tops", "Bottoms", "Shoes", "Hair"}; // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
-        readonly List<GameObject> partsList = new(); // 装備するモデルデータ
+        [SerializeField] List<string> PartsType = new() { "Base", "Face", "Tops", "Bottoms", "Shoes", "Hair"}; // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
+        [SerializeField]  List<GameObject> partsList = new(); // 装備するモデルデータ
         /// <summary>
         /// ベースモデルのボーンと装備するモデルのボーンを足したもの<br />
         /// 順番はrootボーンから階層順になっている
         /// </summary>
         /// <returns></returns>
-        readonly List<Transform> bonesList = new();
+        [SerializeField]  List<Transform> bonesList = new();
         public List<Color> colors = new(6);
         int SpringSystemIndex = -1;
+        [SerializeField] bool IsLoaded = false;
+        [SerializeField] bool IsCombining = false;
 
         public override async void OnNetworkSpawn() // 他のクライアント側のシーンでスポーンした時を想定
         {
+            if (IsOwner)
+                return;
+
             await UniTask.WaitUntil(() => ClientGeneralManager.IsLoaded);
             CombineServerRpc((long)ClientGeneralManager.clientID);
         }
 
-        public async void Combiner(bool SimplifyMode = false)
+        public async void Combiner()
         {
             if (IsOwner)
             {
-                if (!SimplifyMode)
-                {
-                    await PlayerDataManager.SaveData(ModelIDs, "CustomLifeAvatarParts");
-                    SerializableColor.ToSerializableColors(colors.ToArray(), out var output);
-                    await PlayerDataManager.SaveData(output, "CustomLifeAvatarColors");
-                }
+                await PlayerDataManager.SaveData(ModelIDs, "CustomLifeAvatarParts");
+                SerializableColor.ToSerializableColors(colors.ToArray(), out var output);
+                await PlayerDataManager.SaveData(output, "CustomLifeAvatarColors");
                 UpdateDataServerRpc(ModelIDs.ToArray(), colors.ToArray());
-                CombineServerRpc();
+                if (ClientGeneralManager.IsLoaded)
+                    CombineServerRpc();
             }
         }
 
         void StartCombine(bool UseSpringSystem = false)
         {
+            if (IsCombining) // 処理を混同させないために、アバター作成中には合成を開始させない
+                return;
+            IsCombining = true;
             Reset();
             SetModels();
             SetBones();
@@ -79,6 +86,8 @@ namespace CLAPlus
                 SpringSystemSetup();
 
             Clear(); // 使用したListをリセット
+
+            IsCombining = false;
         }
 
         void Reset()
@@ -114,7 +123,6 @@ namespace CLAPlus
                 if (b.name.Contains("Sec_Hair"))
                 {
                     OnHairProcessing = true;
-                    Debug.Log(b.name);
                 }
                 else
                     OnHairProcessing = false;
@@ -146,7 +154,7 @@ namespace CLAPlus
                 foreach (SkinnedMeshRenderer smRenderer in Parts.GetComponentsInChildren<SkinnedMeshRenderer>())
                 {
                     Transform[] partsBonesArray = smRenderer.bones;
-                    Transform[] newBones = new Transform[bonesList.Count];
+                    Transform[] newBones = new Transform[smRenderer.bones.Length];
 
                     for (int i = 0; i < partsBonesArray.Length; i++)
                     {
@@ -217,9 +225,10 @@ namespace CLAPlus
                     if (part.name.Contains(key))
                     {
                         name = key;
+                        index = PartsType.IndexOf(name);
+                        Debug.Log(name + PartsType.IndexOf(name));
                         break;
                     }
-                    index ++;
                 }
 
                 foreach (SkinnedMeshRenderer smr in part.GetComponentsInChildren<SkinnedMeshRenderer>())
@@ -227,8 +236,7 @@ namespace CLAPlus
                     smr.gameObject.name = name;
                     smr.materials[0] = new(smr.materials[0]);
                     smr.materials[0].color = colors[index];
-                    var obj = smr.gameObject;
-                    obj.transform.parent = skins;
+                    smr.transform.parent = skins;
                 }
                 Destroy(part);
             }
@@ -250,6 +258,8 @@ namespace CLAPlus
             transform.localRotation = Quaternion.identity;
 
             partsList.Add(instantiatedObj);
+
+            Debug.LogWarning(instantiatedObj.name);
         }
 
         void SpringSystemSetup()
@@ -269,6 +279,29 @@ namespace CLAPlus
         [ServerRpc(RequireOwnership = false)]
         public void CombineServerRpc(long clientID = -1)
         {
+            if (!IsLoaded)
+            {
+                WaitLoading();
+                return;
+            }
+            if (clientID == -1)
+            {
+                CombineClientRpc(ModelIDs.ToArray(), colors.ToArray());
+                return;
+            }
+
+            ClientRpcParams rpcParams = new() // ClientRPCを送る対象を選択
+            {
+                Send = new ClientRpcSendParams { TargetClientIds = new ulong[] { (ulong)clientID } }
+            };
+            CombineClientRpc(ModelIDs.ToArray(), colors.ToArray(), rpcParams);
+        }
+
+        async void WaitLoading(long clientID = -1)
+        {
+            if (!IsServer)
+                return;
+            await UniTask.WaitUntil(()=>IsLoaded); // ロード待ち
             if (clientID == -1)
             {
                 CombineClientRpc(ModelIDs.ToArray(), colors.ToArray());
@@ -290,6 +323,7 @@ namespace CLAPlus
 
             ModelIDs = new(IDs);
             colors = new(Colors);
+            IsLoaded = true;
         }
 
         [ClientRpc]
@@ -300,7 +334,7 @@ namespace CLAPlus
                 ModelIDs = new(IDs);
                 colors = new(Colors);
             }
-
+            IsLoaded = true;
             StartCombine(true);
         }
     }

@@ -15,7 +15,7 @@ namespace DACS.Inventory
         [SerializeField] Transform LeftHandPoint;
         GameObject[] hotbarItemObjects = new GameObject[5];
 
-        ItemComponent[] objInfos = new ItemComponent[5];
+        [SerializeField] ItemComponent[] objInfos = new ItemComponent[5];
         [HideInInspector] public Action<Transform> ChangeActionPoint;
 
         public void SelectedHotbarSlot(int index)

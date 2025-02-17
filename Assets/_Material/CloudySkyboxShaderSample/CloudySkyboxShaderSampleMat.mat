@@ -88,6 +88,6 @@ Material:
     - Color_f1112aa55e154f27a169975fdf019b84: {r: 0.01960784, g: 0.08627448, b: 0.21568623,
         a: 1}
     - Vector2_adcabd6bfbf6401a8c5590c994e73cfb: {r: 3, g: 3, b: 0, a: 0}
-    - _CloudsOffset: {r: 664.39233, g: 664.39233, b: 0, a: 0}
+    - _CloudsOffset: {r: 669.3804, g: 669.3804, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

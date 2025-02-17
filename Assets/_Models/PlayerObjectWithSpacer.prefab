@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: -7599055933827522201}
   - component: {fileID: 6296186416508094674}
   - component: {fileID: -5411646087602032303}
+  - component: {fileID: 7610207155368458852}
   m_Layer: 0
   m_Name: PlayerObjectWithSpacer
   m_TagString: Player
@@ -187,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3774752910
+  GlobalObjectIdHash: 243907195
   InScenePlacedSourceGlobalObjectIdHash: 239926996
   DeferredDespawnTick: 0
   Ownership: 1
@@ -213,8 +214,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  MainMenu: {fileID: 0}
-  uiGeneral: {fileID: 0}
   clap_m: {fileID: 2334364849733573655}
   clap_a: {fileID: 2140513028944923830}
   faceSync: {fileID: 6296186416508094674}
@@ -227,6 +226,7 @@ MonoBehaviour:
   ActionLock: 0
   ToggleDash: 1
   ToggleCrouch: 0
+  SelectedActionSkill: 0
   InvertAim: 0
   FirstPersonMode: 0
 --- !u!114 &3045930827321576095
@@ -241,8 +241,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d5f84495cdd29489b61490680bf1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clap_m: {fileID: 2334364849733573655}
-  SelectedActionSkill: 9
+  ShowTopMostFoldoutHeaderGroup: 1
+  PlayerName: 
+  IsLoaded: 0
 --- !u!114 &6599823655129006921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +257,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  A: 0
+  B: 0
+  C: 0
+  D: 0
+  E: 0
+  F: 0
+  G: 0
   itemDataBase: {fileID: 11400000, guid: 9a9c66c6c84e94b4cbd3d92b0571c662, type: 2}
   ModelListIndexs: 130000001400000015000000160000001700000018000000
   ModelIDs: 000000000000000000000000000000000000000000000000
@@ -270,13 +278,11 @@ MonoBehaviour:
   - Bottoms
   - Shoes
   - Hair
-  materials:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  partsList: []
+  bonesList: []
+  colors: []
+  IsLoaded: 0
+  IsCombining: 0
 --- !u!114 &2334364849733573655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,6 +598,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &7610207155368458852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3288742083618601568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5e5bf99770957f47854624b542fdd5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStatus: {fileID: 3045930827321576095}
+  _targetUI: {fileID: 0}
+  _worldOffset: {x: 0, y: 1.7, z: 0}
 --- !u!1 &3759549174565842990
 GameObject:
   m_ObjectHideFlags: 0

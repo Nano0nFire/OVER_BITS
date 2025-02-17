@@ -47,7 +47,7 @@ namespace CLAPlus.ClapTalk
             ulong clientID = ulong.Parse(options[0]);
             //{\"FirstIndex\":0,\"SecondIndex\":1,\"Amount\":0,\"Mods\":[],\"Enchants\":[],\"PriAddon\":0,\"SecAddon\":0,\"Attributes\":[]}
             Debug.Log(options);
-            Debug.Log(int.Parse(options[1]));
+            Debug.Log(int.Parse(options[1]) + " : " + int.Parse(options[2]));
 
             ItemData itemData = new()
             {
@@ -97,6 +97,7 @@ namespace CLAPlus.ClapTalk
                 }
             }
             PlayerDataManager.Instance.AddItem(itemData, clientID);
+            Debug.Log("Command End");
         }
     }
 }
