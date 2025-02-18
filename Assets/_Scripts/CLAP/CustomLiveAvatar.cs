@@ -27,7 +27,6 @@ namespace CLAPlus
 {
     public class CustomLifeAvatar : NetworkBehaviour
     {
-        [SerializeField] bool A,B,C,D,E,F,G;
         public bool IsFailure{ get; private set; }
         [SerializeField] ItemDataBase itemDataBase; // モデルデータ
         public List<int> ModelListIndexs = new(); // 各装備品のリストの番号
@@ -37,19 +36,30 @@ namespace CLAPlus
         [SerializeField] GameObject RootBone;
         [SerializeField] SpringSystem SpringSystem;
         [SerializeField] Transform skins;
-        [SerializeField] List<string> PartsType = new() { "Base", "Face", "Tops", "Bottoms", "Shoes", "Hair"}; // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
-        [SerializeField]  List<GameObject> partsList = new(); // 装備するモデルデータ
+        static readonly List<string> PartsType = new() { "Base", "Face", "Tops", "Bottoms", "Shoes", "Hair"}; // 最終的にメッシュをavatarObjと同じ階層に置くときにつける名前の一覧
+
+        public List<Color> colors = new(6);
+        int SpringSystemIndex = -1;
+
+        [Space(1),Header("Ex Options")]
+        [SerializeField] SkinnedMeshRenderer headback;
+
+        [Space(1),Header("Debug")]
         /// <summary>
         /// ベースモデルのボーンと装備するモデルのボーンを足したもの<br />
         /// 順番はrootボーンから階層順になっている
         /// </summary>
         /// <returns></returns>
-        [SerializeField]  List<Transform> bonesList = new();
-        public List<Color> colors = new(6);
-        int SpringSystemIndex = -1;
-        [SerializeField] bool IsLoaded = false;
-        [SerializeField] bool IsCombining = false;
+        [SerializeField] List<Transform> bonesList = new();
+        [SerializeField] List<GameObject> partsList = new(); // 装備するモデルデータ
+        bool IsLoaded = false;
+        bool IsCombining = false;
 
+        void Start()
+        {
+            if (headback != null)
+                headback.materials[0] = new Material(headback.materials[0]);
+        }
         public override async void OnNetworkSpawn() // 他のクライアント側のシーンでスポーンした時を想定
         {
             if (IsOwner)
@@ -85,6 +95,9 @@ namespace CLAPlus
             if (UseSpringSystem)
                 SpringSystemSetup();
 
+            if (headback != null)
+                headback.materials[0].color = colors[5];
+
             Clear(); // 使用したListをリセット
 
             IsCombining = false;
@@ -98,6 +111,7 @@ namespace CLAPlus
             for (int i = 0; i < skins.childCount; i++)
                 Destroy(skins.GetChild(i).gameObject);
         }
+
         void Clear()
         {
             partsList.Clear();

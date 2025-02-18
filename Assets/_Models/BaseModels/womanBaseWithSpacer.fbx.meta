@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: N00_000_00_HairBack_00_HAIR (Instance)
+    second: {fileID: 2100000, guid: f174408d8346ac84ba54e9df035b9cc3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: material_atlas_00004_1
     second: {fileID: 2100000, guid: b5e381c6f265e4b4888628255721f403, type: 2}
   - first:

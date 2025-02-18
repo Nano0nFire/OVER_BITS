@@ -257,13 +257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  A: 0
-  B: 0
-  C: 0
-  D: 0
-  E: 0
-  F: 0
-  G: 0
   itemDataBase: {fileID: 11400000, guid: 9a9c66c6c84e94b4cbd3d92b0571c662, type: 2}
   ModelListIndexs: 130000001400000015000000160000001700000018000000
   ModelIDs: 000000000000000000000000000000000000000000000000
@@ -271,18 +264,10 @@ MonoBehaviour:
   RootBone: {fileID: 6325707875351798503}
   SpringSystem: {fileID: 1179463608799573339}
   skins: {fileID: 5282346313961453120}
-  PartsType:
-  - Base
-  - Face
-  - Tops
-  - Bottoms
-  - Shoes
-  - Hair
-  partsList: []
-  bonesList: []
   colors: []
-  IsLoaded: 0
-  IsCombining: 0
+  headback: {fileID: 8317220392860967054}
+  bonesList: []
+  partsList: []
 --- !u!114 &2334364849733573655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,6 +529,12 @@ MonoBehaviour:
   ItemPos: {fileID: 1979131881482438479}
   RightHandPoint: {fileID: 6161641065738187864}
   LeftHandPoint: {fileID: 3588168714446980596}
+  objInfos:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &2974271652213683632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1244,6 +1235,12 @@ Transform:
 --- !u!4 &8135066506746695826 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1470821424701336081, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1977951419301627261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &8317220392860967054 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7502904308458382835, guid: 0d83415ec0edad74494d5bf6f8c1b66c,
     type: 3}
   m_PrefabInstance: {fileID: 1977951419301627261}
   m_PrefabAsset: {fileID: 0}
