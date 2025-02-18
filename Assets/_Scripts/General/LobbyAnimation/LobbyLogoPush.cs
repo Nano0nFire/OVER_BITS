@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 using Unity.Jobs;
 using Unity.Burst;
 using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 public class LobbyLogoPush : MonoBehaviour
 {
@@ -23,14 +24,20 @@ public class LobbyLogoPush : MonoBehaviour
     void OnDestroy()
       => _buffer.Dispose();
 
-    public void Play(float target)
-      => _buffer.Push(target);
+    public async UniTask Play(float target)
+    {
+        await _buffer.Push(target);
+    }
 
-    public void Spread()
-      => _buffer.Spread();
+    public async UniTask Spread()
+    {
+        await _buffer.Spread();
+    }
 
-    public void Reset()
-      => _buffer.Reset();
+    public async UniTask LogoReset()
+    {
+        await _buffer.Reset();
+    }
 
     void Update()
     {
@@ -141,7 +148,7 @@ public class LobbyLogoPush : MonoBehaviour
             if (RandomVectors.IsCreated) RandomVectors.Dispose();
         }
 
-        public async void Push(float target)
+        public async UniTask Push(float target)
         {
             for (float i = 0; i < 1; i += Time.deltaTime)
             {
@@ -160,7 +167,7 @@ public class LobbyLogoPush : MonoBehaviour
             CurrentPushAmount = target;
         }
 
-        public async void Spread()
+        public async UniTask Spread()
         {
             // ランダムな移動ベクトルを設定
             var handle = new RandomJob
@@ -184,7 +191,7 @@ public class LobbyLogoPush : MonoBehaviour
             }
         }
 
-        public async void Reset()
+        public async UniTask Reset()
         {
             CurrentPushAmount = 0;
             for(int i = 1; i <= 380; i++)

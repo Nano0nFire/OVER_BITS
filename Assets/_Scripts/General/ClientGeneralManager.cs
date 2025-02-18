@@ -20,7 +20,7 @@ public class ClientGeneralManager : NetworkBehaviour
 {
     public static GameObject MainMenu;
     public static UIGeneral uiGeneral;
-    [SerializeField] CharactorMovement clap_m;
+    public CharactorMovement clap_m;
     [SerializeField] AnimationControl clap_a;
     [SerializeField] FaceSync faceSync;
     [SerializeField] GameObject avatar;
@@ -93,6 +93,7 @@ public class ClientGeneralManager : NetworkBehaviour
                     Destroy(obj);
             }
         }
+        LoadingUI.UpdateLoadPanel("On Network Spawn", 10);
 
         UseInput = true;
 
@@ -101,13 +102,16 @@ public class ClientGeneralManager : NetworkBehaviour
         isOwner = nwObject.IsOwner;
 
         Debug.Log("ClientGeneralManager : Setting Up");
+        LoadingUI.UpdateLoadPanel("ClientManager : Start Loading", 15);
 
         // データ系
 
         PlayerDataManager.PlayerSettingsData = await PlayerDataManager.LoadData<SettingsData>();
         Debug.Log("ClientGeneralManager : PlayerDataManager Loaded");
+        LoadingUI.UpdateLoadPanel("ClientManager : Player Settings Loaded", 30);
         await invSystem.Setup();
         Debug.Log("ClientGeneralManager : InventorySystem Loaded");
+        LoadingUI.UpdateLoadPanel("ClientManager : InventorySystem Loaded", 35);
 
         // Network
         clientID = nwObject.OwnerClientId;
@@ -115,18 +119,21 @@ public class ClientGeneralManager : NetworkBehaviour
 
         var LocalGM = LocalGeneralManager.Instance;
         // UI
+        LoadingUI.UpdateLoadPanel("UI System : Start Loading", 40);
         MainMenu = LocalGM.MainMenu;
         uiGeneral = MainMenu.GetComponent<UIGeneral>();
         uiGeneral.invSystem = invSystem;
         uiGeneral.Setup();
         uiGeneral.uI_PlayerSettings = LocalGM.UI_playerSettings;
         UI_Hotbar.Instance.hotbarSystem = hotbarSystem;
+        LoadingUI.UpdateLoadPanel("UI System : Loaded", 40);
         var PlayerName = PlayerDataManager.LoadedPlayerProfileData.PlayerName;
         var lastDot = PlayerName.LastIndexOf('#');
 
         // カメラ
         CVCamera = LocalGM.CVCamera;
         CVCamera.Follow = CameraPos;
+        LoadingUI.UpdateLoadPanel("Player Camera System : Loaded", 45);
 
         // EntityManager
         LocalGM.emSystem.Setup(this);
@@ -136,37 +143,65 @@ public class ClientGeneralManager : NetworkBehaviour
         projectile.nwoID = nwObject.NetworkObjectId;
         projectile.CameraPos = CameraPos;
         projectile.Setup();
+        LoadingUI.UpdateLoadPanel("Projectile System : Loaded", 60);
         hotbarSystem.ChangeActionPoint += (xform) => projectile.ShotPos = xform;
         var paControl = LocalGM.GetComponent<PlayerActionControl>();
         paControl.invSystem = invSystem;
         paControl.handControl = GetComponentInChildren<HandControl>();
         InputSetUp(LocalGM.GetComponent<PlayerInput>());
+        LoadingUI.UpdateLoadPanel("Input System : Loaded", 70);
         clap_a.isOwner = isOwner;
         faceSync.tracker = LocalGM.GetComponent<Face2Face>();
         ClapChat.Setup();
+        LoadingUI.UpdateLoadPanel("Clap Chat : Loaded", 75);
+        LoadingUI.UpdateLoadPanel("CustomLifeAvatar : Start Loading", 76);
         customLifeAvatar = GetComponent<CustomLifeAvatar>();
+        LoadingUI.UpdateLoadPanel("CustomLifeAvatar : Avatar Data is Loaded", 80);
         customLifeAvatar.ModelIDs = await PlayerDataManager.LoadData<List<int>>("CustomLifeAvatarParts");
         var tempcolors = await PlayerDataManager.LoadData<List<SerializableColor>>("CustomLifeAvatarColors");
         SerializableColor.ToColors(tempcolors.ToArray(), out customLifeAvatar.colors);
+        LoadingUI.UpdateLoadPanel("CustomLifeAvatar : Start Combiner", 82);
         customLifeAvatar.Combiner();
+        LoadingUI.UpdateLoadPanel("CustomLifeAvatar : End Combiner", 85);
 
         // 設定
         LoadSettings();
+        LoadingUI.UpdateLoadPanel("Sub Settings : Loaded", 90);
+        LoadingUI.UpdateLoadPanel("Player Data Manager : Start Sync", 91);
 
         // クライアント間で共有されるデータの設定
         playerStatus.SetPlayerName(PlayerDataManager.LoadedPlayerProfileData.PlayerName);
-        Debug.LogWarning(PlayerDataManager.LoadedPlayerProfileData.PlayerName);
-        playerStatus.IsLoaded = true;
+        playerStatus.SetHotbarData
+        (
+            new PlayerStatus.SimpleData[]
+            {
+                new() {f = InventorySystem.HotbarData[0].FirstIndex, s = InventorySystem.HotbarData[0].SecondIndex},
+                new() {f = InventorySystem.HotbarData[1].FirstIndex, s = InventorySystem.HotbarData[1].SecondIndex},
+                new() {f = InventorySystem.HotbarData[2].FirstIndex, s = InventorySystem.HotbarData[2].SecondIndex},
+                new() {f = InventorySystem.HotbarData[3].FirstIndex, s = InventorySystem.HotbarData[3].SecondIndex},
+                new() {f = InventorySystem.HotbarData[4].FirstIndex, s = InventorySystem.HotbarData[4].SecondIndex}
+            }
+        );
 
         // ホットバーの同期
         UI_Hotbar.Instance.LoadHotbar();
+        LoadingUI.UpdateLoadPanel("Player Data Manager : Start Sync", 94);
+        LoadingUI.UpdateLoadPanel("NetworkTransform : Teleporting...", 95);
 
         // プレイヤーの初期位置にテレポート
         GetComponent<NetworkTransform>().Teleport(LocalGM.transform.position, LocalGM.transform.rotation, transform.localScale);
 
         IsLoaded = true;
 
+        LoadingUI.UpdateLoadPanel("ClientManager : Loaded", 97);
+        LoadingUI.UpdateLoadPanel("System : Starting Game...", 98);
+        await UniTask.Delay(1000);
+
         Debug.Log("ClientGeneralManager : Complete");
+        LoadingUI.UpdateLoadPanel("System : Complete", 99);
+        LoadingUI.UpdateLoadPanel("System : Enjoy Your Life", 99);
+        await UniTask.Delay(1000);
+        LoadingUI.UpdateLoadPanel("System : Complete", 100);
     }
 
     void InputSetUp(PlayerInput inputActions)

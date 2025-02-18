@@ -26,11 +26,20 @@ namespace CLAPlus.ClapTalk
             {
                 case "give":
                     GiveCommand(parts[1..]);
-                    log = "Give Command worked fine ";
+                    log = "Give Command worked fine";
                     break;
 
                 case "test":
-                    log = "Test Command worked fine ";
+                    log = "Test Command worked fine";
+                    break;
+
+                case "cid":
+                    log = $"Your ClientID is {ClientGeneralManager.clientID}";
+                    break;
+
+                case "action":
+                    ActionSwitchCommand(parts[1..]);
+                    log = "Action Command worked fine";
                     break;
 
                 default: // コマンドとして認識できない
@@ -44,7 +53,7 @@ namespace CLAPlus.ClapTalk
 
         static void GiveCommand(string[] options)
         {
-            ulong clientID = ulong.Parse(options[0]);
+            ulong clientID = options[0] == "@" ? ClientGeneralManager.clientID : ulong.Parse(options[0]);
             //{\"FirstIndex\":0,\"SecondIndex\":1,\"Amount\":0,\"Mods\":[],\"Enchants\":[],\"PriAddon\":0,\"SecAddon\":0,\"Attributes\":[]}
             Debug.Log(options);
             Debug.Log(int.Parse(options[1]) + " : " + int.Parse(options[2]));
@@ -96,7 +105,13 @@ namespace CLAPlus.ClapTalk
 
                 }
             }
-            PlayerDataManager.Instance.AddItem(itemData, clientID);
+            PlayerDataManager.Instance.AddItem(itemData, clientID, Force : true);
+            Debug.Log("Command End");
+        }
+
+        static void ActionSwitchCommand(string[] options)
+        {
+            ClientGeneralManager.Instance.SelectedActionSkill = options[0] == "dodge" ? States.dodge : options[0] == "rush" ? States.rush : States.walk;
             Debug.Log("Command End");
         }
     }

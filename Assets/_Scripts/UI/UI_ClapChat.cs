@@ -10,6 +10,7 @@ namespace CLAPlus.ClapChat
 {
     public class UI_ClapChat : NetworkBehaviour
     {
+        [SerializeField] GameObject ChatSpace;
         [SerializeField] ScrollRect scrollRect;
         [SerializeField] InputField chatField;
         [SerializeField] Slider slider;
@@ -17,17 +18,23 @@ namespace CLAPlus.ClapChat
         static InputField _chatField;
         static RectTransform _scrollRectTransform;
         static ScrollRect _scrollRect;
+        static GameObject _ChatSpace;
+        public static bool AlwaysOnDisplay = false;
 
         void Awake()
         {
             _scrollRectTransform = scrollRect.GetComponent<RectTransform>();
             _scrollRect = scrollRect;
             _chatField = chatField;
+            _ChatSpace = ChatSpace;
         }
+
         public void ShowChatSpace(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
+                if (!AlwaysOnDisplay)
+                    ChatSpace.SetActive(true);
                 chatField.gameObject.SetActive(true);
                 ClientGeneralManager.Instance.UseInput = false;
                 ClientGeneralManager.Instance.ClearInput();
@@ -41,6 +48,8 @@ namespace CLAPlus.ClapChat
             _chatField.gameObject.SetActive(false);
             _scrollRectTransform.sizeDelta = new Vector2(_scrollRectTransform.sizeDelta.x, 300); // デフォルトの大きさに戻す
             ScrollToBottom();
+            if (!AlwaysOnDisplay)
+                _ChatSpace.SetActive(false);
         }
 
         public void SendTextMessage(string text)
@@ -59,6 +68,12 @@ namespace CLAPlus.ClapChat
         {
             Canvas.ForceUpdateCanvases(); // レイアウトを更新して位置を確定
             _scrollRect.verticalNormalizedPosition = 0f; // 一番下に設定
+        }
+
+        public void OnChangeShowMode(bool value)
+        {
+            ChatSpace.SetActive(true);
+            AlwaysOnDisplay = value;
         }
 
         public void Clear()

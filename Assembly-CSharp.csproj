@@ -145,6 +145,7 @@
     <Compile Include="Assets\_Scripts\DACS\PlayerActionControl.cs" />
     <Compile Include="Assets\_Scripts\particletest.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_SlotComponent.cs" />
+    <Compile Include="Assets\_Scripts\UI\UI_AudioSettings.cs" />
     <Compile Include="Assets\_Scripts\General\ClientGeneralManager.cs" />
     <Compile Include="Assets\_Scripts\CLAP\CaptureDeviceControl.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="Assets\_Scripts\DACS\EntitySpawner.cs" />
     <Compile Include="Assets\_Scripts\CLAP\SpringSystem.cs" />
     <Compile Include="Assets\_Scripts\DACS\EntityManagementSystem.cs" />
+    <Compile Include="Assets\LobbyAudioControl.cs" />
     <Compile Include="Assets\_Scripts\UI\UI_CLA_SlotComponent.cs" />
     <Compile Include="Assets\_Scripts\CLAP\FootControl.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />

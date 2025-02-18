@@ -263,7 +263,7 @@ namespace CLAPlus
             }
         }
         float _HzRotation, _VRotation;
-        float xForce, yForce, zForce; // x方向とz方向に加える力(小数点以下3桁)
+        [SerializeField] float xForce, yForce, zForce; // x方向とz方向に加える力(小数点以下3桁)
         Vector3 moveDir; // 動く方向(inputとSpeedから求められる)
         Vector3 inputDir { get => transform.right * HzInput + transform.forward * VInput; }
         Vector3 beforeForwardVec, beforeRightVec; // アクション時にtransformの情報を保存する
@@ -324,6 +324,9 @@ namespace CLAPlus
         CancellationToken OnDestroyToken;
         [SerializeField] float angle;
         [SerializeField] bool loco;
+        [SerializeField] Vector3 debugMoveDir;
+        [SerializeField] Vector3 debugSpeed;
+        [SerializeField] States debugState;
 
         void Start()
         {
@@ -338,13 +341,16 @@ namespace CLAPlus
 
         void FixedUpdate()
         {
-            angle = SlopeAngle;
-            Debug.DrawRay(new(transform.position.x, col.bounds.min.y + 0.1f, transform.position.z), Vector3.down, Color.red);
-            Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z) + transform.forward * 0.5f, Vector3.down, Color.red);
-            Debug.DrawRay(slopeHit1.point, slopeHit2.point, Color.green);
-            Debug.DrawRay(transform.position, GroundNormal * 2, Color.blue);
+            // angle = SlopeAngle;
+            // debugState = State;
+            // debugMoveDir =moveDir;
+            // debugSpeed=moveDir * Speed;
+            // Debug.DrawRay(new(transform.position.x, col.bounds.min.y + 0.1f, transform.position.z), Vector3.down * slopeHit1.distance, Color.red);
+            // Debug.DrawRay(new Vector3(transform.position.x, col.bounds.min.y + RayRange, transform.position.z) + transform.forward * 0.5f, Vector3.down * slopeHit2.distance, Color.red);
+            // Debug.DrawRay(slopeHit1.point, slopeHit2.point - slopeHit1.point, Color.green);
+            // Debug.DrawRay(transform.position, GroundNormal * 2, Color.blue);
 
-            loco = false;
+            // loco = false;
             if (!IsOwner)
                 return;
 
@@ -409,7 +415,7 @@ namespace CLAPlus
                 // 移動ベクトルを地面の法線ベクトルに投影
                 // moveDir = Extensions.ProjectVector(GroundNormal, inputDir).normalized;
                 moveDir = Vector3.ProjectOnPlane(inputDir, GroundNormal).normalized;
-                rb.AddForce(new Vector3(0, 9.81f, 0) * rb.mass - GroundNormal * 9.81f, ForceMode.Force);
+                rb.AddForce(new Vector3(0, 9.81f, 0) * rb.mass - GroundNormal * 2f, ForceMode.Force);
                 loco = true;
             }
         }

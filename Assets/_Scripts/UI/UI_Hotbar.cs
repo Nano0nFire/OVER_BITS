@@ -18,6 +18,7 @@ public class UI_Hotbar : MonoBehaviour
     ItemData _SelectedItem;
     [HideInInspector] public HotbarSystem hotbarSystem;
     [SerializeField] ItemDataBase itemDataBase;
+    [SerializeField] Sprite ClearHotBarSprite;
     [SerializeField] GameObject PriSelecter;
     [SerializeField] GameObject SecSelecter;
     [SerializeField] GameObject GraSelecter;
@@ -112,7 +113,6 @@ public class UI_Hotbar : MonoBehaviour
         for (int i = 0; i < 5; i ++)
         {
             SelectedItem = itemDatas[i];
-            Debug.Log(i);
             EquipItem(i);
         }
     }
@@ -120,7 +120,9 @@ public class UI_Hotbar : MonoBehaviour
     public void EquipItem(int slotNumber)
     {
         InventorySystem.ChangeHotbar(slotNumber, SelectedItem);
-        var image = SelectedItem.FirstIndex >= 0 ? itemDataBase.GetItem(SelectedItem.FirstIndex, SelectedItem.SecondIndex).ItemImage : null;
+        var image = SelectedItem.FirstIndex >= 0 ? itemDataBase.GetItem(SelectedItem.FirstIndex, SelectedItem.SecondIndex).ItemImage : ClearHotBarSprite;
+        if (image == null)
+            image = ClearHotBarSprite;
         hotbarSystem.SpawnItemObjectLocal(SelectedItem.FirstIndex, SelectedItem.SecondIndex, slotNumber);
         switch (slotNumber)
         {

@@ -11,11 +11,11 @@ public class NameTag : MonoBehaviour
     Transform _CameraPos;
     [SerializeField] RectTransform _targetUI;
     [SerializeField] private Vector3 _worldOffset;// オブジェクト位置のオフセット
-    public static float NameTagDistance = 7;
+    public static float NameTagDistance = 3;
     RectTransform _parentUI;
     bool IsLoaded = false;
 
-    async void Start()
+    async void Awake()
     {
         if (playerStatus.IsOwner)
             Destroy(this);

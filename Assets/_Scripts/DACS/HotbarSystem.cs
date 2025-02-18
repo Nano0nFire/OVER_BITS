@@ -7,6 +7,7 @@ namespace DACS.Inventory
 {
     public class HotbarSystem : NetworkBehaviour
     {
+        [SerializeField] PlayerStatus playerStatus;
         [SerializeField] ItemDataBase itemDataBase;
         [SerializeField] HandControl handControl;
         int SelectedSlotIndex = 0;
@@ -22,7 +23,7 @@ namespace DACS.Inventory
         {
             SetItemObjectLocal(index);
         }
-        public void SpawnItemObjectLocal(int FirstIndex, int SecondIndex, int index)
+        public void SpawnItemObjectLocal(int FirstIndex, int SecondIndex, int index, bool UseAutoSync = true)
         {
             if (FirstIndex < 0)
                 return;
@@ -30,7 +31,7 @@ namespace DACS.Inventory
             if (data.ItemModel == null)
                 return;
 
-            if (IsOwner)
+            if (IsOwner && UseAutoSync)
                 SpawnItemObjectServerRpc(FirstIndex, SecondIndex, index);
 
             if (hotbarItemObjects[index] != null)
@@ -51,18 +52,21 @@ namespace DACS.Inventory
         }
         void SetItemObjectLocal(int index)
         {
-            hotbarItemObjects[SelectedSlotIndex]?.SetActive(false);
-            SelectedSlotIndex = index;
+            if (IsOwner)
+                SetItemObjectServerRpc(index);
+
+            if (hotbarItemObjects[SelectedSlotIndex] != null)
+                hotbarItemObjects[SelectedSlotIndex].SetActive(false); // すでに手に持っていたオブジェクトを非表示にする
+            SelectedSlotIndex = index; // インデックスの更新
+
             if (hotbarItemObjects[index] == null)
             {
                 handControl.ChangeHandState(-1);
                 return;
             }
 
-            if (IsOwner)
-                SetItemObjectServerRpc(index);
-
-            hotbarItemObjects[index]?.SetActive(true);
+            if (hotbarItemObjects[index] != null)
+                hotbarItemObjects[index].SetActive(true);
             if (objInfos[index] != null)
             {
                 handControl.rHandIKTarget = objInfos[index].rIKPos;
@@ -79,7 +83,7 @@ namespace DACS.Inventory
             }
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         void SpawnItemObjectServerRpc(int FirstIndex, int SecondIndex, int SlotIndex)
         {
             if (!IsServer)
@@ -97,7 +101,7 @@ namespace DACS.Inventory
             SpawnItemObjectLocal(FirstIndex, SecondIndex, SlotIndex);
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         void SetItemObjectServerRpc(int SlotIndex)
         {
             if (!IsServer)

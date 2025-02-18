@@ -86,8 +86,8 @@ public class UI_PlayerDataManager : MonoBehaviour
                                          PortField.text == string.Empty ? (ushort)7777 : ushort.Parse(PortField.text)); // ポート
 
         // transport.ConnectionData.ServerListenAddress = AllowRemote ? "0.0.0.0" : "127.0.0.1";
+        LoadingUI.UpdateLoadPanel($"Start Host\nAddress : {unityTransport.ConnectionData.Address}\nPort : {unityTransport.ConnectionData.Port}\nServerListenAddress : {unityTransport.ConnectionData.ServerListenAddress}", 1);
         await UniTask.Delay(1000);
-        Debug.Log($"Start Host\nAddress : {unityTransport.ConnectionData.Address}\nPort : {unityTransport.ConnectionData.Port}\nServerListenAddress : {unityTransport.ConnectionData.ServerListenAddress}");
         nwManager.StartHost();
         nwManager.SceneManager.LoadScene(WorldNames[WorldDropdown.value], LoadSceneMode.Single);
     }
@@ -103,8 +103,8 @@ public class UI_PlayerDataManager : MonoBehaviour
                                          PortField.text == string.Empty ? (ushort)7777 : ushort.Parse(PortField.text)); // ポート
 
         // transport.ConnectionData.ServerListenAddress = AllowRemote ? "0.0.0.0" : "127.0.0.1";
+        LoadingUI.UpdateLoadPanel($"Start Client\nAddress : {unityTransport.ConnectionData.Address}\nPort : {unityTransport.ConnectionData.Port}\nServerListenAddress : {unityTransport.ConnectionData.ServerListenAddress}", 1);
         await UniTask.Delay(1000);
-        Debug.Log($"Start Client\nAddress : {unityTransport.ConnectionData.Address}\nPort : {unityTransport.ConnectionData.Port}\nServerListenAddress : {unityTransport.ConnectionData.ServerListenAddress}");
         nwManager.StartClient();
     }
 }

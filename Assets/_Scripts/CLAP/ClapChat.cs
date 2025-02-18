@@ -99,7 +99,7 @@ namespace CLAPlus.ClapChat
                 obj.SetSiblingIndex(Content.childCount - 1); // 最初の位置に移動
             }
 
-            var component = obj.GetComponentInChildren<TextMeshProUGUI>();
+            var component = obj.GetComponentInChildren<TextMeshProUGUI>(true);
             component.color = color == default ? Color.white : color;
             component.text = Sender == "" ? $"{text}" : $"{Sender} : {text}";
         }

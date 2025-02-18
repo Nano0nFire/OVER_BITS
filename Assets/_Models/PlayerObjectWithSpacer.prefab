@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 243907195
+  GlobalObjectIdHash: 3774752910
   InScenePlacedSourceGlobalObjectIdHash: 239926996
   DeferredDespawnTick: 0
   Ownership: 1
@@ -226,7 +226,7 @@ MonoBehaviour:
   ActionLock: 0
   ToggleDash: 1
   ToggleCrouch: 0
-  SelectedActionSkill: 0
+  SelectedActionSkill: 9
   InvertAim: 0
   FirstPersonMode: 0
 --- !u!114 &3045930827321576095
@@ -243,7 +243,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   PlayerName: 
-  IsLoaded: 0
+  hotbarSystem: {fileID: 8552473888624340215}
+  loadedDataAmount: 0
 --- !u!114 &6599823655129006921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,11 +352,17 @@ MonoBehaviour:
   VInput: 0
   HzCameraSens: 5
   VCameraSens: 5
+  xForce: 0
+  yForce: 0
+  zForce: 0
   _Astate: 0
   _Gstate: 0
   PublicState: 0
   angle: 0
   loco: 0
+  debugMoveDir: {x: 0, y: 0, z: 0}
+  debugSpeed: {x: 0, y: 0, z: 0}
+  debugState: 0
 --- !u!114 &2140513028944923830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,6 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  playerStatus: {fileID: 3045930827321576095}
   itemDataBase: {fileID: 11400000, guid: 9a9c66c6c84e94b4cbd3d92b0571c662, type: 2}
   handControl: {fileID: 1812685244966927382}
   ItemPos: {fileID: 1979131881482438479}
@@ -1118,6 +1126,10 @@ MonoBehaviour:
     thumb: 1
     rHintPos: {x: 0.374, y: 1.214, z: 0.269}
     lHintPos: {x: -0.374, y: 1.214, z: 0.269}
+  - finger: 1
+    thumb: 1
+    rHintPos: {x: 0.22, y: 0.962, z: -0.13}
+    lHintPos: {x: 0, y: 0, z: 0}
   R_ThumbPresets:
   - Rotations:
     - {x: 350.19138, y: 353.35602, z: 318.74463}

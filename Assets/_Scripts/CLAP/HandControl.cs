@@ -153,7 +153,7 @@ namespace CLAPlus.AnimationControl
 
         void OnAnimatorIK(int layerIndex)
         {
-            var t = Time.deltaTime;
+            var t = Time.deltaTime * Speed;
 
             if (UseRIK)
             {

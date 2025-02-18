@@ -300,9 +300,9 @@ public class PlayerDataManager : NetworkBehaviour
         //Debug.Log("CreatedNewData : " + CustomKey);
     }
     #region AddItemData
-    public void AddItem(ItemData itemData, ulong clientID, int amount = 0)
+    public void AddItem(ItemData itemData, ulong clientID, int amount = 0, bool Force = false)
     {
-        if (!IsServer)
+        if (!IsServer && !Force)
             return;
 
         singleCommunication.AddItem(JsonConvert.SerializeObject(itemData), amount, clientID);
